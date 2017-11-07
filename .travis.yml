@@ -9,3 +9,7 @@ r_github_packages:
 after_success:
   - Rscript -e 'lintr::lint_package()'
   - Rscript -e 'library(covr); codecov()'
+  
+after_failure:
+  - Rscript -e 'lintr::lint_package()'
+  - Rscript -e 'library(covr); codecov()'
