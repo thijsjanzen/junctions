@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <vector>
+#include <algorithm>
 
 struct junction {
     double pos;
