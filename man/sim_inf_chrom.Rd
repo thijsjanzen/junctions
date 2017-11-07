@@ -47,6 +47,7 @@ Thijs Janzen
 
 
 \examples{
+\dontrun{
   N = 100 #population size
   H_0 = 0.5 #initial heterozygosity
   maxT = 1000 #run time
@@ -61,7 +62,7 @@ Thijs Janzen
   lines(v$detectedJunctions, col = "blue")
   legend("bottomright", c("Real number","Number detected"),
        lty = 1, col = c("black", "blue"))      
-        
+      }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
