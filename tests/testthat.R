@@ -1,4 +1,4 @@
 library(testthat)
-library(junctions) # nolint keep package name non-all-lowercase, due to backwards compatibility
+library(junctions)
 
 test_check("junctions")

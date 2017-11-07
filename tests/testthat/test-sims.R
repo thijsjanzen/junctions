@@ -25,7 +25,8 @@ test_that("finite chromosome", {
 })
 
 test_that("infinite chromosome", {
-  N = 100 #population size 
+ 
+   N = 100 #population size 
   H_0 = 0.5 #initial heterozygosity
   C <- 1 #number of recombinations per meiosis
   maxT <- 1000
