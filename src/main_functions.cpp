@@ -168,10 +168,10 @@ List sim_fin_chrom(int pop_size,
     Rcout << "sim_fin_chrom, let's go!\n";
 
     Output O = doSimulation_fin(pop_size,
-                            R + 1,
-                            p,
-                            run_time,
-                            size_in_Morgan);
+                                R + 1,
+                                p,
+                                run_time,
+                            s   ize_in_Morgan);
     
     return List::create(Named("avgJunctions") = O.avgJunctions);
 }
