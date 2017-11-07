@@ -5,6 +5,7 @@ Version: 0.1
 Date: 2017-11-07
 Author: Thijs Janzen
 Maintainer: Thijs Janzen <thijsjanzen@gmail.com>
+URL: https//github.com/thijsjanzen/junctions
 Description: Mathematical extension of the Theory of Junctions, including code for Individual Based Simulations
 License: GPL (>= 2)
 Imports: Rcpp (>= 0.12.13)
