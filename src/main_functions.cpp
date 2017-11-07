@@ -89,13 +89,20 @@ Output doSimulation_inf(int popSize,
 }
 
 Output doSimulation_fin(int popSize,
-                    int genomeSize,
-                    double initRatio,
-                    int maxTime,
-                    double numRecombinations
+                        int genomeSize,
+                        double initRatio,
+                        int maxTime,
+                        double numRecombinations
                     )    {
     Output O;
     std::vector<Fish_fin> Pop;
+
+    Rcout << popSize << "\n";
+    Rcout << genomeSize << "\n";
+    Rcout << initRatio << "\n";
+    Rcout << maxTime << "\n";
+    Rcout << numRecombinations << "\n";
+
 
     Fish_fin parent1 = Fish_fin(0, genomeSize);
     Fish_fin parent2 = Fish_fin(1, genomeSize);
@@ -153,7 +160,9 @@ List sim_fin_chrom(int pop_size,
                    double size_in_Morgan,
                    int seed,
                    int R) {
+
     set_seed(seed);
+
     double p = 0.5 * (1 - sqrt(1 - 2 * init_heterozygosity));
 
     Rcout << "sim_fin_chrom, let's go!\n";
@@ -163,6 +172,7 @@ List sim_fin_chrom(int pop_size,
                             p,
                             run_time,
                             size_in_Morgan);
+    
     return List::create(Named("avgJunctions") = O.avgJunctions);
 }
 

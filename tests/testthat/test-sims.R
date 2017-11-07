@@ -33,12 +33,12 @@ test_that("infinite chromosome", {
   number_replicates <- 100
   v <- c();
   for(r in 1:number_replicates) {
-    v2 <- sim_fin_chrom(N, H_0, maxT, C, -1, r)
+    v2 <- sim_inf_chrom(N, H_0, maxT, C, -1, r)
     v <- rbind(v, as.numeric( v2$avgJunctions))
   }
   v <- colMeans(v)
   
-  predicted <- calculate_J(N = N, H_0 = H_0, C = C, 
+  predicted <- calculate_J(N = N, R = Inf, H_0 = H_0, C = C, 
                            0:maxT)
   
   for(i in 1:length(v)) {
