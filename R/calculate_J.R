@@ -15,6 +15,6 @@ number_of_junctions <- function(N = Inf,
   
   K <- calc_k(N, R, H_0, C)
   
-  jt <- K - K *(1-H_0*C/K)^t
+  jt <- K - K *(1 - H_0 * C / K)^t
   return(jt)
 }

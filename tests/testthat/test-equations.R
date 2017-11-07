@@ -30,6 +30,24 @@ test_that("calculate_J and error", {
   expect_silent(
     calculate_MAT(N = 100, R = 1000, H_0 = 0.5, C = 1)
   )
+  expect_silent(
+    number_of_junctions(N = Inf, R = Inf, H_0 = 0.5, C = 1, maxT)
+  )
+  
+  expect_error(
+    calculate_MAT(N = Inf, R = Inf, H_0 = 0.5, C = 1)
+  )
+  
+  expect_error(
+    time_error(N = 100, R = 1000, H_0 = 0.5, C = 1, time_estim, relative = FALSE)
+  )
+  
+  expect_error(
+    time_error(J = 100, N = Inf, R = Inf, H_0 = 0.5, C = 1, time_estim, relative = FALSE)
+  )
+  
+  
+  
 })
   
   

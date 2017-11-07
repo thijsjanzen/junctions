@@ -45,6 +45,20 @@ test_that("infinite chromosome", {
   for(i in 1:length(v)) {
     expect_equal(v[i], predicted[i], tolerance = 1)
   }
+  
+  expect_silent(
+    sim_inf_chrom(N, H_0, maxT, C, 100, r)
+  )
+  
+  expect_silent( # morgan 20 to force low values of Poisson
+    sim_inf_chrom(N, H_0, maxT, 20, -1, r)
+  )
+  
+  expect_silent( # morgan 1e-7 to force low values of Poisson
+    sim_inf_chrom(N, H_0, maxT, 1e-7, -1, r)
+  )
+  
+  
 })
 
 

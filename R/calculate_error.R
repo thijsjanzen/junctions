@@ -9,10 +9,10 @@ time_error <- function(J = NA,
   # relative to K, or in absolute generations (relative = FALSE)
   K <- calc_k(N, R, H_0, C)
   
-  u <- 1 - 1/(2*N) - C/R
+  u <- 1 - 1/(2 * N) - C / R
   
-  error <- log(u^t-1/K) / (log(u)*t) - 1
+  error <- log( u^t - 1 / K) / (log(u) * t) - 1
   
-  if(relative)  return(error)
-  if(!relative) return(t*error)
+  if (  relative )  return(  error)
+  if ( !relative )  return(t*error)
 }
