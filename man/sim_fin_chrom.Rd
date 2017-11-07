@@ -48,7 +48,6 @@ Thijs Janzen
 
 
 \examples{
-\dontrun{
   N = 100 #population size
   R = 100
   H_0 = 0.5 #initial heterozygosity
@@ -57,5 +56,4 @@ Thijs Janzen
   seed = 42
 
   v <- sim_fin_chrom(N, H_0, maxT, C, seed, R)
-  }
 }

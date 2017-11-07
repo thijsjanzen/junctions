@@ -1,5 +1,5 @@
-\name{calculate_J}
-\alias{calculate_J}
+\name{number_of_junctions}
+\alias{number_of_junctions}
 
 \title{
   Calculate the average number of junctions
@@ -8,7 +8,7 @@
   Calculate the average number of junctions after t generations, provided information on the initial heterozygosity, population size and the number of generations.
 }
 \usage{
-  calculate_J(N = Inf, R = Inf, H_0 = 0.5, C = 1, t = 100)
+  number_of_junctions(N = Inf, R = Inf, H_0 = 0.5, C = 1, t = 100)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,7 +41,7 @@ Thijs Janzen
 }
 
 \examples{
-  calculate_J(N = 100, R = 1000, H_0 = 0.5, C = 1, t = 1000)
-  calculate_J(N = 100, R = 1000, H_0 = 0.5, C = 1, t = 0:1000)
+  jt <-  number_of_junctions(N = 100, R = 1000, H_0 = 0.5, C = 1, t = 1000)
+  jt2 <- number_of_junctions(N = 100, R = 1000, H_0 = 0.5, C = 1, t = 0:1000)
 }
 

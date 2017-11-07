@@ -47,7 +47,6 @@ Thijs Janzen
 
 
 \examples{
-\dontrun{
   N = 100 #population size
   H_0 = 0.5 #initial heterozygosity
   maxT = 1000 #run time
@@ -63,8 +62,3 @@ Thijs Janzen
   legend("bottomright", c("Real number","Number detected"),
        lty = 1, col = c("black", "blue"))      
 }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

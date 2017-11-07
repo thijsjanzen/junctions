@@ -15,7 +15,7 @@ test_that("finite chromosome", {
   }
   v <- colMeans(v)
   
-  predicted <- calculate_J(N = N, R = R, 
+  predicted <- number_of_junctions(N = N, R = R, 
                            H_0 = H_0, C = C, 
                            0:maxT)
   
@@ -39,7 +39,7 @@ test_that("infinite chromosome", {
   }
   v <- colMeans(v)
   
-  predicted <- calculate_J(N = N, R = Inf, H_0 = H_0, C = C, 
+  predicted <- number_of_junctions(N = N, R = Inf, H_0 = H_0, C = C, 
                            0:maxT)
   
   for(i in 1:length(v)) {

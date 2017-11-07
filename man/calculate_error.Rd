@@ -1,5 +1,5 @@
-\name{calculate_error}
-\alias{calculate_error}
+\name{time_error}
+\alias{time_error}
 \title{
   Estimate the error in the time estimate
 }
@@ -7,7 +7,7 @@
   Calculate the error in the estimate of the onset of hybridisation, following Equations 3 & 4 in the Supplementary information of Janzen et al. 2017,. 
 }
 \usage{
-calculate_error(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1, t = 1, relative = TRUE)
+time_error(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1, t = 1, relative = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -45,5 +45,5 @@ Thijs Janzen
 }
 
 \examples{
-  calculate_time(J = 100, N = Inf, R = 1000, H_0 = 0.5, C = 1)
+  time_error(J = 100, N = Inf, R = 1000, H_0 = 0.5, C = 1)
 }

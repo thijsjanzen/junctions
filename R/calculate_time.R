@@ -1,4 +1,4 @@
-calculate_time <-
+estimate_time <-
 function(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1) {
   if(is.na(J)) {
     cat("ERROR! did you forget to provide J?")
@@ -10,7 +10,7 @@ function(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1) {
     cat("can not estimate t\n")
   }
   
-  K <- calc_K(N, R, H_0, C)
+  K <- calc_k(N, R, H_0, C)
 
   u <- 1 - 1/(2*N) - C/R
   

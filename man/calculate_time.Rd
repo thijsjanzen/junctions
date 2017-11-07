@@ -1,5 +1,5 @@
-\name{calculate_time}
-\alias{calculate_time}
+\name{estimate_time}
+\alias{estimate_time}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Estimate the time since the onset of hybridization, using the number of junctions
@@ -8,7 +8,7 @@
   Estimate the time since the onset of hybridization, following equation 14 in Janzen et al. 2017
 }
 \usage{
-calculate_time(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1)
+estimate_time(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,8 +39,8 @@ Thijs Janzen
 }
 
 \examples{
-J <- calculate_J(N = 100, R = 1000, H_0 = 0.5, C = 1, t = 200)
-calculate_time(J = J, N = 100, R = 1000, H_0 = 0.5, C = 1) #should be 200 again
+J <- number_of_junctions(N = 100, R = 1000, H_0 = 0.5, C = 1, t = 200)
+estimate_time(J = J, N = 100, R = 1000, H_0 = 0.5, C = 1) #should be 200 again
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
