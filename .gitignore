@@ -1,2 +1,10 @@
 
 *.history
+
+*.gcda
+
+*.gcno
+
+*.so
+
+*.o
