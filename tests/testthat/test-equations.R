@@ -39,14 +39,16 @@ test_that("calculate_J and error", {
   )
   
   expect_error(
-    time_error(N = 100, R = 1000, H_0 = 0.5, C = 1, time_estim, relative = FALSE)
+    estimate_time(J = NA, N = 100, R = 1000, H_0 = 0.5, C = 1)
   )
   
   expect_error(
-    time_error(J = 100, N = Inf, R = Inf, H_0 = 0.5, C = 1, time_estim, relative = FALSE)
+    estimate_time(N = 100, R = 1000, H_0 = 0.5, C = 1)
   )
   
-  
+  expect_error(
+    estimate_time(J = 100, N = Inf, R = Inf, H_0 = 0.5, C = 1)
+  )
   
 })
   

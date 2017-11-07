@@ -3,8 +3,7 @@ calculate_MAT <- function(N = Inf,
                           H_0 = 0.5, 
                           C = 1) {
   if(is.infinite(N) && is.infinite(R)) {
-    cat("both N and R are infinite\n")
-    cat("can not estimate MAT\n")
+    stop("can not estimate MAT for both N and R infinite")
   }
 
   K <- calc_k(N, R, H_0, C)

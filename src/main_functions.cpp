@@ -84,7 +84,7 @@ Output doSimulation_inf(int popSize,
             Rcout << "**";
         }
     }
-    
+    Rcout << "\n";
     return O;
 }
 
@@ -142,7 +142,7 @@ Output doSimulation_fin(int popSize,
             Rcout << "**";
         }
     }
-    
+    Rcout << "\n";
     return O;
 }
 

@@ -26,7 +26,7 @@ test_that("finite chromosome", {
 
 test_that("infinite chromosome", {
  
-   N = 100 #population size 
+  N = 50 #population size 
   H_0 = 0.5 #initial heterozygosity
   C <- 1 #number of recombinations per meiosis
   maxT <- 1000
@@ -46,19 +46,12 @@ test_that("infinite chromosome", {
     expect_equal(v[i], predicted[i], tolerance = 1)
   }
   
-  expect_silent(
-    sim_inf_chrom(N, H_0, maxT, C, 100, r)
-  )
+  v <- sim_inf_chrom(N, H_0, maxT, C, 100, r)
   
-  expect_silent( # morgan 20 to force low values of Poisson
-    sim_inf_chrom(N, H_0, maxT, 20, -1, r)
-  )
+  v <- sim_inf_chrom(10, H_0, 10, 20, -1, 42)
   
-  expect_silent( # morgan 1e-7 to force low values of Poisson
-    sim_inf_chrom(N, H_0, maxT, 1e-7, -1, r)
-  )
-  
-  
+  v <- sim_inf_chrom(100, H_0, 100, 1e-7, -1, 42)
+ 
 })
 
 

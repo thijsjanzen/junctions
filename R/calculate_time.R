@@ -4,13 +4,11 @@ estimate_time <- function(J = NA,
                           H_0 = 0.5, 
                           C = 1) {
   if (is.na(J)) {
-    cat("ERROR! did you forget to provide J?")
-    return()
+    stop("ERROR! did you forget to provide J?\n")
   }
   
   if (is.infinite(N) && is.infinite(R)) {
-    cat("both N and R are infinite\n")
-    cat("can not estimate t\n")
+    stop("can not estimate MAT for both N and R infinite")
   }
   
   K <- calc_k(N, R, H_0, C)
