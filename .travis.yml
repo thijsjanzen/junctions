@@ -2,11 +2,11 @@ language: r
 cache: packages
 warnings_are_errors: false
 
-r_github_packages:
-  - jimhester/covr
+#r_github_packages:
+#  - jimhester/covr
 
-after_success:
-  - Rscript -e 'library(covr); codecov()'
+#after_success:
+#  - Rscript -e 'library(covr); codecov()'
   
 #after_failure:
 #  - Rscript -e 'library(covr); codecov()'
