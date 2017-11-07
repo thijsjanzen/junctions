@@ -156,7 +156,7 @@ List sim_fin_chrom(int pop_size,
     set_seed(seed);
     double p = 0.5 * (1 - sqrt(1 - 2 * init_heterozygosity));
 
-    Rcout << "sim_fin_chrom, let's go!\n"
+    Rcout << "sim_fin_chrom, let's go!\n";
 
     Output O = doSimulation_fin(pop_size,
                             R + 1,
@@ -176,7 +176,7 @@ List sim_inf_chrom(int pop_size,
     set_seed(seed);
     double p = 0.5 * (1 - sqrt(1 - 2 * init_heterozygosity));
 
-    Rcout << "sim_inf_chrom, let's go!\n"
+    Rcout << "sim_inf_chrom, let's go!\n";
 
     Output O = doSimulation_inf(pop_size,
                                 p,
