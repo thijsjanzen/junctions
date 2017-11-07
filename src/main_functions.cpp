@@ -171,7 +171,7 @@ List sim_fin_chrom(int pop_size,
                                 R + 1,
                                 p,
                                 run_time,
-                            s   ize_in_Morgan);
+                                size_in_Morgan);
     
     return List::create(Named("avgJunctions") = O.avgJunctions);
 }
