@@ -58,8 +58,8 @@ struct Fish_inf {
     {}
 
     Fish_inf(int initLoc)    {
-        junction left(0.0, -1, initLoc);
-        junction right(1, initLoc, -1);
+        junction left = junction(0.0, -1, initLoc);
+        junction right = junction(1, initLoc, -1);
         chromosome1.push_back( left  );
         chromosome1.push_back( right );
         chromosome2.push_back( left  );
