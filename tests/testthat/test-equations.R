@@ -37,7 +37,7 @@ test_that("calculate_J and error", {
   )
 
   expect_silent(
-    junctions::calculate_MAT(N = 100, R = 1000,
+    junctions::calculate_mat(N = 100, R = 1000,
                              H_0 = 0.5, C = 1)
   )
 
@@ -47,7 +47,7 @@ test_that("calculate_J and error", {
   )
 
   expect_error(
-    junctions::calculate_MAT(N = Inf, R = Inf,
+    junctions::calculate_mat(N = Inf, R = Inf,
                              H_0 = 0.5, C = 1)
   )
 
