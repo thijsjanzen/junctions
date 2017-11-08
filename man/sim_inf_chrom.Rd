@@ -62,3 +62,7 @@ Thijs Janzen
   legend("bottomright", c("Real number","Number detected"),
        lty = 1, col = c("black", "blue"))      
 }
+
+\keyword{infinite chromosome}
+\keyword{simulation}
+

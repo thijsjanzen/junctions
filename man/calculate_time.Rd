@@ -45,5 +45,6 @@ estimate_time(J = J, N = 100, R = 1000, H_0 = 0.5, C = 1) #should be 200 again
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+\keyword{ time }% use one of  RShowDoc("KEYWORDS")
+\keyword{ estimate }% __ONLY ONE__ keyword per line
+\keyword{ analytic}

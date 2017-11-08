@@ -45,3 +45,5 @@ Thijs Janzen
   jt2 <- number_of_junctions(N = 100, R = 1000, H_0 = 0.5, C = 1, t = 0:1000)
 }
 
+\keyword{junctions}
+\keyword{analytic}

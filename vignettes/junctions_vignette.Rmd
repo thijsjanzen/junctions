@@ -52,7 +52,7 @@ If we are to compare the accumulation of junctions with our mathematical predict
   number_replicates <- 100
   v <- c();
   for(r in 1:number_replicates) {
-    v2 <- sim_inf_chrom(N, H_0, maxT, C, numMarkers, r)  
+    v2 <- sim_inf_chrom(N, H_0, maxT, C, numMarkers, sample(1e9,1))  
     v <- rbind(v, as.numeric(v2$avgJunctions))
   }
   v <- colMeans(v) #mean across replicates
@@ -69,7 +69,7 @@ Then, we can compare obtained mean estimates with the predicted number of juncti
   predicted <- number_of_junctions(N = N, H_0 = H_0, C = C, t = t)
   lines(predicted~t,col="blue") 
 ```
-We see that the simulations do not exactly match our prediction, but this can easily be improved by increasing the number of replicates.
+We see that the simulations do not exactly match our prediction, but this can easily be improved by increasing the number of replicates (which we haven't done here, as this would dramatically increase runtime).
 
 ### Including Random Markers
 So far, we have kept the markers flag at -1, this forces the code to ignore the effect of randomly distributed markers. Setting the flag to a positive number R makes the simulation impose R randomly distributed markers upon the chromosome and evaluate the number of junctions based on the genomic content at the locations of these markers. When markers is a positive number, the function "sim_inf_chrom" not only returns a vector "avgJunctions", but also a vector "detectedJunctions", which contains the number of junctions detected, given the provided number of markers. 
@@ -95,7 +95,7 @@ We can repeat this analysis again for a number of replicates to acquire mean dyn
 meanJ <- c()
 detectJ <- c()
 for(r in 1:number_replicates) {
-  v2 <- sim_inf_chrom(N, H_0, maxT, C, numMarkers, r)
+  v2 <- sim_inf_chrom(N, H_0, maxT, C, numMarkers, sample(1e9,1))
   meanJ <- rbind(meanJ, as.numeric(v2$avgJunctions))
   detectJ <- rbind(detectJ, as.numeric(v2$detectedJunctions))
 }
@@ -163,7 +163,7 @@ To facilitate comparison with empirical data, we might again want to take the me
 ```{r, repl_sim_fin}
 v <- c();
 for(r in 1:number_replicates) {
-  v2 <- sim_fin_chrom(N,H_0, maxT, C, r, R)
+  v2 <- sim_fin_chrom(N,H_0, maxT, C, sample(1e9,1), R)
   v <- rbind(v, as.numeric( v2$avgJunctions))
 }
 v <- colMeans(v)

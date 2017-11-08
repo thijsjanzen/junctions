@@ -39,3 +39,6 @@ calculate_mat(N = Inf, R = Inf, H_0 = 0.5, C = 1)
 \examples{
   calculate_mat(N = Inf, R = 1000, H_0 = 0.5, C = 1)
 }
+
+\keyword{analytic}
+\keyword{maximum accurate time}

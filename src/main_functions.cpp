@@ -114,8 +114,8 @@ Output doSimulation_fin(int popSize,
         Pop.push_back(mate_fin(p1,p2, numRecombinations));
     }
 
-    Rcout << "0--------25--------50--------75--------100\n";
-    Rcout << "*";
+  //  Rcout << "0--------25--------50--------75--------100\n";
+  //  Rcout << "*";
 
     int updateFreq = maxTime / 20;
     if(updateFreq < 1) updateFreq = 1;
@@ -139,10 +139,10 @@ Output doSimulation_fin(int popSize,
         newGeneration.clear();
 
         if(t % updateFreq == 0) {
-            Rcout << "**";
+    //        Rcout << "**";
         }
     }
-    Rcout << "\n";
+  //  Rcout << "\n";
     return O;
 }
 

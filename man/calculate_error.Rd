@@ -47,3 +47,7 @@ Thijs Janzen
 \examples{
   time_error(J = 100, N = Inf, R = 1000, H_0 = 0.5, C = 1)
 }
+
+\keyword{analytic}
+\keyword{time}
+\keyword{time error}

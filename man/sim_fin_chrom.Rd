@@ -57,3 +57,10 @@ Thijs Janzen
 
   v <- sim_fin_chrom(N, H_0, maxT, C, seed, R)
 }
+
+\keyword{
+  finite chromosome,
+  simulation
+}
+
+
