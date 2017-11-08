@@ -32,7 +32,7 @@ To simulate the process of junction accumulation over time, we can make use of t
 ```
 This function has a number of arguments: the population size, the initial heterozygosity, total runtime of the simulation in generations, size of the chromosome in morgan, a flag indicating the number of markers to be used (or -1 if markers are not of interest) and the random seed. The function returns an object containing "avgJunctions", which is a vector of the average number of junctions in t = [0:total_runtime].
 To demonstrate use, we choose some simple parameters:
-```{r, single_sim_inf}
+```{r, single_sim_inf, fig.width = 7, fig.height = 7}
   library(junctions)
   N = 100 #population size
   H_0 = 0.5 #initial heterozygosity
@@ -49,7 +49,7 @@ Given stochastic junction accumulation, we observe that the number of junctions,
 If we are to compare the accumulation of junctions with our mathematical predictions, we will need to average over a number of replicates.
 
 ```{r, repl_sim_inf}
-  number_replicates <- 10
+  number_replicates <- 100
   v <- c();
   for(r in 1:number_replicates) {
     v2 <- sim_inf_chrom(N, H_0, maxT, C, numMarkers, r)  
@@ -58,7 +58,7 @@ If we are to compare the accumulation of junctions with our mathematical predict
   v <- colMeans(v) #mean across replicates
 ```
 Then, we can compare obtained mean estimates with the predicted number of junctions following our mathematical prediction. We do so using the function 'number_of_junctions' (Equation 11 in Janzen et al. 2017)
-```{r, plot_sim_inf}
+```{r, plot_sim_inf, fig.width = 7, fig.height = 7}
   clarity <- seq(1, maxT, length.out = 50) #we plot not all points, for clarity
   plot(v[clarity]~clarity, lwd = 2,
        xlab = "Generations",
@@ -73,7 +73,7 @@ We see that the simulations do not exactly match our prediction, but this can ea
 
 ### Including Random Markers
 So far, we have kept the markers flag at -1, this forces the code to ignore the effect of randomly distributed markers. Setting the flag to a positive number R makes the simulation impose R randomly distributed markers upon the chromosome and evaluate the number of junctions based on the genomic content at the locations of these markers. When markers is a positive number, the function "sim_inf_chrom" not only returns a vector "avgJunctions", but also a vector "detectedJunctions", which contains the number of junctions detected, given the provided number of markers. 
-```{r, single_sim_random}
+```{r, single_sim_random, fig.width = 7, fig.height = 7}
 N = 100 #population size
 H_0 = 0.5 #initial heterozygosity
 maxT = 1000 #run time
@@ -103,7 +103,7 @@ meanJ <- colMeans(meanJ)
 detectJ <- colMeans(detectJ)
 ```
 We can now plot the true number of junctions, the number detected, and the number predicted on the mathematical analysis. Furthermore, we can substitute K by the maximum number of junctions at the end of the simulation, and use this empirical value of K to predict the number of junctions instead. 
-```{r, plot_sim_random}
+```{r, plot_sim_random, fig.width = 7, fig.height = 7}
 clarity <- seq(1,maxT,length.out=50) #we plot not all points, for clarity
 plot(meanJ[clarity]~clarity, xlab = "Generations",
      ylab = "Number of Junctions",
@@ -141,7 +141,7 @@ sim_fin_chrom(pop_size,
               R)
 ```
 Arguments for the function 'sim_fin_chrom' are identical to 'sim_inf_chrom', excluding the markers flag, but including parameter R, indicating the number of genetic markers used. Usage is identical too, and we can obtain a single run as follows:
-```{r, single_sim_fin}
+```{r, single_sim_fin, fig.width = 7, fig.height = 7}
   R = 100 #chromosome size
   N = 100 #population size 
   H_0 = 0.5 #initial heterozygosity
@@ -169,7 +169,7 @@ for(r in 1:number_replicates) {
 v <- colMeans(v)
 ```
 Then, using the function 'number_of_junctions', but this time providing the argument R, we can compare our findings with our mathematical predictions again:
-```{r, plot_sim_fin}
+```{r, plot_sim_fin, fig.width = 7, fig.height = 7}
 clarity <- seq(1, 1000, length.out=50) #we plot not all points, for clarity
 plot(v[clarity]~clarity, lwd = 2, 
      xlab = "Generations", 
@@ -214,7 +214,7 @@ Which seems like a reasonably low error. To get more insight in the estimated er
 calculate_mat(N = 100, R = 1000, H_0 = 0.5, C = 1)
 ```
 Which shows us that for this specific population, with this specific number of markers, junction information can reliably infer the onset of hybridization up to about 700 generations after the hybridization event. Nevertheless, we should keep in the back of our minds that as the onset of hybridization gets close to 700 generations, the error already starts becoming increasingly large, and the reliable upper limit might therefore be much lower. We can explore this by plotting the number of junctions, and the error in the estimate in a joint plot.
-```{r}
+```{r, fig.width = 7, fig.height = 7}
 maxT <- 1000
 t <- 0:maxT
 J <- number_of_junctions(N = 100, 
@@ -222,7 +222,7 @@ J <- number_of_junctions(N = 100,
                          H_0 = 0.5,
                          C = 1,
                          t = 0:maxT)
-
+par(mar=c(4,5,2,3))
 plot(J~t, 
      type = "l",
      xlab = "Generations",
@@ -231,6 +231,7 @@ plot(J~t,
 #vertical line that indicates the upper limit
 abline(v = calculate_mat(N = 100, R = 1000, H_0 = 0.5, C = 1), lty = 2)
 par(new = T)
+
 v <- time_error(J = J, 
                      N = 100, 
                      R = 1000, 
@@ -245,7 +246,7 @@ plot(v,
      xaxt = "n", yaxt = "n",
      xlab = "", ylab = "")
 axis(4)
-mtext("Relative error",side=4,line=3)
+mtext("Relative error",side=4, line = 2)
 legend("bottomright", 
        c("Number of junctions", "Relative Error", "t_MAX"),
        lty = c(1, 1, 2),
