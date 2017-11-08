@@ -1,4 +1,4 @@
-calculate_MAT <- function(N = Inf, 
+calculate_mat <- function(N = Inf, 
                           R = Inf, 
                           H_0 = 0.5, 
                           C = 1) {

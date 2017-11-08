@@ -1,5 +1,5 @@
-\name{calculate_MAT}
-\alias{calculate_MAT}
+\name{calculate_mat}
+\alias{calculate_mat}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Function to calculate the maximum accurate time
@@ -8,7 +8,7 @@
   Function that calculates the maximum time after hybridization after which the number of junctions can still be reliably used to estimate the onset of hybridization. This is following equation 15 in Janzen et al. 2017.
 }
 \usage{
-calculate_MAT(N = Inf, R = Inf, H_0 = 0.5, C = 1)
+calculate_mat(N = Inf, R = Inf, H_0 = 0.5, C = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -37,5 +37,5 @@ calculate_MAT(N = Inf, R = Inf, H_0 = 0.5, C = 1)
 
 
 \examples{
-  calculate_MAT(N = Inf, R = 1000, H_0 = 0.5, C = 1)
+  calculate_mat(N = Inf, R = 1000, H_0 = 0.5, C = 1)
 }
