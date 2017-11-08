@@ -12,3 +12,4 @@ Imports: Rcpp (>= 0.12.13)
 LinkingTo: Rcpp
 SystemRequirements: C++11
 Suggests: testit, testthat
+VignetteBuilder: knitr
