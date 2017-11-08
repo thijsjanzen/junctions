@@ -7,7 +7,7 @@ time_error <- function(J = NA,
                        relative = TRUE) {
   # the flag relative determines whether we want the error
   # relative to K, or in absolute generations (relative = FALSE)
-  K <- calc_k(N, R, H_0, C)
+  K <- junctions::calc_k(N, R, H_0, C)
   
   u <- 1 - 1/(2 * N) - C / R
   

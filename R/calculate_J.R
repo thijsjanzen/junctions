@@ -4,7 +4,7 @@ number_of_junctions <- function(N = Inf,
                                 C = 1,
                                 t = 100) {
  
-  if(is.infinite(N) && is.infinite(R)) {
+  if (is.infinite(N) && is.infinite(R)) {
     # If both N and R are infinite, R gives 
     # numerical problems using equation 12 
     # to calculate K, so instead we use
@@ -13,7 +13,7 @@ number_of_junctions <- function(N = Inf,
     return(jt)
   }
   
-  K <- calc_k(N, R, H_0, C)
+  K <- junctions::calc_k(N, R, H_0, C)
   
   jt <- K - K *(1 - H_0 * C / K)^t
   return(jt)

@@ -15,15 +15,12 @@
 
 struct junction {
     double pos;
-    int left;
-    int right;
+    int left, right;
 
-    junction()  {}
+    junction()  {
+    }
 
-    junction(double loc, int A, int B)  {
-        pos = loc;
-        left = A;
-        right = B;
+    junction(double loc, int A, int B) : pos(loc), left(A), right(B) {
     }
 
     junction(const junction& other) {
