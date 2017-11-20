@@ -227,7 +227,7 @@ plot(J ~ t,
      type = "l",
      xlab = "Generations",
      ylab = "Number of Junctions",
-     xlim = c(0, maxT))
+     xlim = c(0, maximum_time))
 #vertical line that indicates the upper limit
 abline(v = calculate_mat(N = 100, R = 1000, H_0 = 0.5, C = 1), lty = 2)
 par(new = T)
