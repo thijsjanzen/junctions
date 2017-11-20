@@ -97,7 +97,7 @@ detected_junctions <- c()
 for(r in 1:number_replicates) {
   v2 <- sim_inf_chrom(N, H_0, maximum_time, C, number_of_markers, sample(1e9,1))
   mean_junctions <- rbind(mean_junctions, as.numeric(v2$avgJunctions))
-  detected_junctions <- rbind(detected_junctions, as.numeric(v2$detected_junctions))
+  detected_junctions <- rbind(detected_junctions, as.numeric(v2$detectedJunctions))
 }
 mean_junctions <- colMeans(mean_junctions)
 detected_junctions <- colMeans(detected_junctions)
