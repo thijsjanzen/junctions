@@ -5,7 +5,7 @@
   Individual Based Simulation of the accumulation of junctions
 }
 \description{
-  Individual based simulation of the accumulation of junctions for a chromosome with an infinite number of recombination sites. 
+  Individual based simulation of the accumulation of junctions for a chromosome with an infinite number of recombination sites.
 }
 \usage{
 sim_inf_chrom(pop_size, initial_heterozygosity, total_runtime, morgan, markers, seed)
@@ -37,14 +37,9 @@ sim_inf_chrom(pop_size, initial_heterozygosity, total_runtime, morgan, markers, 
   \item{detectedJunctions}{vector of the detected number of junctions at time = [0, total_runtime]}
 
 }
-\references{
-Janzen, Thijs, Arne W. Nolte, and Arne Traulsen. "Haplotype block dynamics in hybrid populations." bioRxiv (2016): 058107.
-}
 \author{
 Thijs Janzen
 }
-
-
 
 \examples{
   N = 100 #population size
@@ -60,7 +55,7 @@ Thijs Janzen
         ylab = "Number of Junctions", main = "Example Infinite Chromosome")
   lines(v$detectedJunctions, col = "blue")
   legend("bottomright", c("Real number","Number detected"),
-       lty = 1, col = c("black", "blue"))      
+       lty = 1, col = c("black", "blue"))
 }
 
 \keyword{infinite chromosome}

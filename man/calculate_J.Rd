@@ -32,9 +32,6 @@
 \value{
   The number of junctions for at time = t
 }
-\references{
- Janzen, Thijs, Arne W. Nolte, and Arne Traulsen. "Haplotype block dynamics in hybrid populations." bioRxiv (2016): 058107.
-}
 
 \author{
 Thijs Janzen

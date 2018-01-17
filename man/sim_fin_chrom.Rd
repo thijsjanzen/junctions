@@ -5,7 +5,7 @@
   Individual Based Simulation of the accumulation of junctions
 }
 \description{
-  Individual based simulation of the accumulation of junctions for a chromosome with an finite number of recombination sites. 
+  Individual based simulation of the accumulation of junctions for a chromosome with an finite number of recombination sites.
 }
 \usage{
 sim_fin_chrom(pop_size, initial_heterozygosity, total_runtime, morgan, seed, R)
@@ -15,7 +15,7 @@ sim_fin_chrom(pop_size, initial_heterozygosity, total_runtime, morgan, seed, R)
   \item{pop_size}{
     Population Size
   }
-  
+
   \item{initial_heterozygosity}{
     Initial frequency of heterozygosity (e.g. in Hardy-Weinberg this equates to 2pq)
   }
@@ -25,11 +25,11 @@ sim_fin_chrom(pop_size, initial_heterozygosity, total_runtime, morgan, seed, R)
   \item{morgan}{
     Size of the chromosome in Morgan
   }
-  
+
   \item{seed}{
     Seed of the pseudo-random number generator
   }
-  
+
   \item{R}{
     Number of genetic markers
   }
@@ -38,14 +38,9 @@ sim_fin_chrom(pop_size, initial_heterozygosity, total_runtime, morgan, seed, R)
 \value{
   \item{avgJunctions}{vector of the average number of junctions at time = [0, total_runtime]}
 }
-\references{
-Janzen, Thijs, Arne W. Nolte, and Arne Traulsen. "Haplotype block dynamics in hybrid populations." bioRxiv (2016): 058107.
-}
 \author{
 Thijs Janzen
 }
-
-
 
 \examples{
   N = 100 #population size
@@ -58,9 +53,5 @@ Thijs Janzen
   v <- sim_fin_chrom(N, H_0, maxT, C, seed, R)
 }
 
-\keyword{
-  finite chromosome,
-  simulation
-}
-
-
+\keyword{finite chromosome}
+\keyword{simulation}

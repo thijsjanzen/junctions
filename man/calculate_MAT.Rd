@@ -28,9 +28,6 @@ calculate_mat(N = Inf, R = Inf, H_0 = 0.5, C = 1)
 \value{
   The maximum accurate time
 }
-\references{
- Janzen, Thijs, Arne W. Nolte, and Arne Traulsen. "Haplotype block dynamics in hybrid populations." bioRxiv (2016): 058107.
-}
 \author{
   Thijs Janzen
 }

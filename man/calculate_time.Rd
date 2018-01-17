@@ -31,9 +31,6 @@ estimate_time(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1)
 \value{
   The number of generations passed since the onset of hybridization
 }
-\references{
- Janzen, Thijs, Arne W. Nolte, and Arne Traulsen. "Haplotype block dynamics in hybrid populations." bioRxiv (2016): 058107.
-}
 \author{
 Thijs Janzen
 }

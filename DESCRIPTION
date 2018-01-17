@@ -1,12 +1,12 @@
 Package: junctions
 Type: Package
-Title: Extend the Theory of Junctions
-Version: 0.1
-Date: 2017-11-07
-Author: Thijs Janzen
-Maintainer: Thijs Janzen <thijsjanzen@gmail.com>
+Title: The Breakdown of Genomic Ancestry Blocks in Hybrid Lineages
+Version: 1.0
+Date: 2018-01-16
+Authors@R: c(person("Thijs","Janzen", email = "thijsjanzen@gmail.com", role=c("aut","cre")),
+             person("Agner","Fog",email="agner@agner.org", role=c("ctb")))
 URL: https//github.com/thijsjanzen/junctions
-Description: Individual based simulations of hybridizating populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes.
+Description: Individual based simulations of hybridizing populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes. Both simulations and mathematical equations are based on Janzen, T., Nolte, A.W., and Traulsen, T. (2018) <doi:https://doi.org/10.1101/058107>
 License: GPL (>= 2)
 Imports: Rcpp (>= 0.12.13)
 LinkingTo: Rcpp
