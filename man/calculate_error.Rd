@@ -4,7 +4,7 @@
   Estimate the error in the time estimate
 }
 \description{
-  Calculate the error in the estimate of the onset of hybridisation, following Equations 3 & 4 in the Supplementary information of Janzen et al. 2017,.
+  Calculate the error in the estimate of the onset of hybridisation, following Equations 3 & 4 in the Supplementary information of Janzen et al. 2018.
 }
 \usage{
 time_error(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1, t = 1, relative = TRUE)

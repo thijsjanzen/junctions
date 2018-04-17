@@ -5,7 +5,7 @@
   Function to calculate the maximum accurate time
 }
 \description{
-  Function that calculates the maximum time after hybridization after which the number of junctions can still be reliably used to estimate the onset of hybridization. This is following equation 15 in Janzen et al. 2017.
+  Function that calculates the maximum time after hybridization after which the number of junctions can still be reliably used to estimate the onset of hybridization. This is following equation 15 in Janzen et al. 2018.
 }
 \usage{
 calculate_mat(N = Inf, R = Inf, H_0 = 0.5, C = 1)

@@ -5,7 +5,7 @@
   Estimate the time since the onset of hybridization, using the number of junctions
 }
 \description{
-  Estimate the time since the onset of hybridization, following equation 14 in Janzen et al. 2017
+  Estimate the time since the onset of hybridization, following equation 14 in Janzen et al. 2018
 }
 \usage{
 estimate_time(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1)

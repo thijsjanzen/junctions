@@ -25,7 +25,7 @@
     Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)
 }
   \item{t}{
-    The number of junctions will be calculated for this timepoint.
+    A single time point or a vector of time points for which the number of junctions is estimated.
 }
 }
 
