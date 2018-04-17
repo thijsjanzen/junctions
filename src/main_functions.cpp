@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "Output.h"
 #include "Fish.h"
-#include "randomc.h"
+#include "random_functions.h"
 
 #include <Rcpp.h>
 using namespace Rcpp;
@@ -154,8 +154,6 @@ List sim_fin_chrom(int pop_size,
                    int seed,
                    int R) {
 
-    set_seed(seed);
-
     double p = 0.5 * (1 - sqrt(1 - 2 * init_heterozygosity));
 
     //Rcout << "sim_fin_chrom, let's go!\n";
@@ -176,7 +174,6 @@ List sim_inf_chrom(int pop_size,
                    double size_in_Morgan,
                    int markers,
                    int seed) {
-    set_seed(seed);
     double p = 0.5 * (1 - sqrt(1 - 2 * init_heterozygosity));
 
     //Rcout << "sim_inf_chrom, let's go!\n";

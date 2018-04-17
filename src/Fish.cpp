@@ -7,14 +7,11 @@
 //
 
 #include "Fish.h"
-#include "randomc.h"
+#include "random_functions.h"
 
 double getRecomPos() {
     double pos = uniform();
-    while(pos == 0 || pos == 1.0) {
-        pos = uniform(); //code to avoid drawing exactly the borders of the chromosome
-    }
-
+    
     return pos;
 }
 
@@ -42,26 +39,6 @@ void Recombine_inf(std::vector<junction>& offspring,
                          chromosome1.begin(),
                          chromosome1.end());
 
-        return;
-    }
-
-    if (numRecombinations == 1) {
-        double pos = getRecomPos();
-        for(auto i = chromosome1.begin(); i != chromosome1.end(); ++i)  {
-            if((*i).pos > pos) break;
-            offspring.push_back((*i));
-        }
-        bool added = false;
-        for(auto j = chromosome2.begin(); j != chromosome2.end(); ++j) {
-            if((*j).pos > pos) {
-                if(!added) {
-                    added = true;
-                    junction toAdd(pos,offspring.back().right , (*j).left);
-                    if(toAdd.left != toAdd.right) offspring.push_back(toAdd);
-                }
-                offspring.push_back((*j));
-            }
-        }
         return;
     }
 

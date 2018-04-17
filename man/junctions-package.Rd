@@ -15,7 +15,7 @@
 Maintainer: Thijs Janzen <thijsjanzen@gmail.com>
 }
 \references{
-  Janzen, Thijs, Arne W. Nolte, and Arne Traulsen. "The breakdown of genomic ancestry bocks in hybrid lineages given a finite number of recombination sites" Evolution (2018) in press.
+  Janzen, T. , Nolte, A. W. and Traulsen, A. (2018), The breakdown of genomic ancestry blocks in hybrid lineages given a finite number of recombination sites. Evolution, 72: 735-750. doi:10.1111/evo.13436
 }
 \keyword{ junctions }
 
