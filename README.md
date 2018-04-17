@@ -8,4 +8,4 @@ Individual based simulations of hybridizing populations, where the accumulation 
 [![](http://cranlogs.r-pkg.org/badges/junctions)](https://cran.r-project.org/package=junctions)
 
 ## references
-Janzen, T., Nolte, A.W., Traulsen, A. (2018). The breakdown of genomic ancestry blocks in hybrid lineages given a finite number of recombination sites. Evolution. https://doi.org/10.1111/evo.13436
+Janzen, T. , Nolte, A. W. and Traulsen, A. (2018), The breakdown of genomic ancestry blocks in hybrid lineages given a finite number of recombination sites. Evolution, 72: 735-750. https://doi.org/10.1111/evo.13436
