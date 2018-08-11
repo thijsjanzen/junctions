@@ -9,11 +9,8 @@
 #include "Fish.h"
 #include "random_functions.h"
 
-long double getRecomPos() {
-    long double pos = long_uniform();
-    
-    return pos;
-}
+#include <Rcpp.h>
+using namespace Rcpp;
 
 int getRecomPos(int L) {
     int pos = -100;
@@ -199,6 +196,28 @@ bool do_recombination(std::vector<junction>& offspring,
         }
     }
     return true;
+}
+
+std::vector<long double> generate_recomPos(int number_of_recombinations) {
+
+    std::vector<long double> recomPos(number_of_recombinations, 0);
+    for(int i = 0; i < number_of_recombinations; ++i) {
+        recomPos[i] = long_uniform();
+    }
+    std::sort(recomPos.begin(), recomPos.end() );
+    recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
+
+    while (recomPos.size() < number_of_recombinations) {
+        long double pos = long_uniform();
+        recomPos.push_back(pos);
+        // sort them, in case they are not sorted yet
+        // we need this to remove duplicates, and later
+        // to apply crossover
+        std::sort(recomPos.begin(), recomPos.end() );
+        // remove duplicate recombination sites
+        recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
+    }
+    return recomPos;
 }
 
 void Recombine_inf(std::vector<junction>& offspring,
