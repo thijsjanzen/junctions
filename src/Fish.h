@@ -14,13 +14,13 @@
 #include <algorithm>
 
 struct junction {
-    double pos;
+    long double pos;
     int left, right;
 
     junction()  {
     }
 
-    junction(double loc, int A, int B) : pos(loc), left(A), right(B) {
+    junction(long double loc, int A, int B) : pos(loc), left(A), right(B) {
     }
 
     junction(const junction& other) {
@@ -99,7 +99,7 @@ Fish_fin mate_fin(const Fish_fin& A, const Fish_fin& B,
 Fish_inf mate_inf(const Fish_inf& A, const Fish_inf& B,
                   double numRecombinations);
 
-double getRecomPos();
+long double getRecomPos();
 int getRecomPos(int L);
 
 

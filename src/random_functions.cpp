@@ -13,13 +13,19 @@ using namespace Rcpp;
 double uniform()
 {
     return R::runif(0.0, 1.0);
-    //return Rcpp::as<double>Rcpp::runif(1, 0.0, 1.0);
+}
+
+long double long_uniform() {
+    long double base = 1e9;
+    long double a = R::runif(0, 1) * base;
+    long double b = R::runif(0, 1);
+    long double output = (a+b) / base;
+    return(output);
 }
 
 int random_number(int n)
 {
     return (int)(R::runif(0.0, 1.0 * n));
-   // return Rcpp::as<int>(Rcpp::runif(1, 0.0, 1.0 * n));
 }
 
 double poisson(double lambda)

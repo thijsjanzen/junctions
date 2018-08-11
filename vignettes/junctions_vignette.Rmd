@@ -14,8 +14,6 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-
 # junctions vignette
 In this vignette we will take you through the different functions provided in the R package 'junctions', and show how the functions interrelate to each other.
 In the package junctions we have bundled functions and simulation code to study how ancestry blocks after hybridization decay due to recombination. We assume populations of a constant population size, random mating, and a uniform recombination rate across the chromosome (see the Supplementary material of the paper for scenario's in which we relax some of these assumptions). Furthermore, we assume that no secondary introgression takes place, and we ignore the effect of selection (see the Discussion section of the main paper for a full discussion of the scenario's that are not covered in the model). 

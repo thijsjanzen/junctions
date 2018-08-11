@@ -10,6 +10,8 @@
 }
 \details{
   This package provides individual based simulations in order to simulate the accumulation of junctions over time, both for chromosomes with a finite and an infinite number of recombination sites. Furthermore, the package provides mathetematical tools to verify the outcomes of the individual based simulations.
+
+  Update version 1.1: updated underlying random number generator for picking recombination sites. The previous generator had limited precision, which could generate duplicate recombination sites. This update fixes that \cr
 }
 \author{
 Maintainer: Thijs Janzen <thijsjanzen@gmail.com>

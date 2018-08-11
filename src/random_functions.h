@@ -11,6 +11,7 @@
 
 
 double uniform();
+long double long_uniform();
 int random_number(int n);
 double poisson(double lambda);
 
