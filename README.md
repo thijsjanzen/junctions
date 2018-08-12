@@ -9,3 +9,6 @@ Individual based simulations of hybridizing populations, where the accumulation 
 
 ## references
 Janzen, T. , Nolte, A. W. and Traulsen, A. (2018), The breakdown of genomic ancestry blocks in hybrid lineages given a finite number of recombination sites. Evolution, 72: 735-750. https://doi.org/10.1111/evo.13436
+
+## Updates
+Version 1.1: Updated random number generation for picking recombination sites. Previous implementation was limited to 6 digit precision, current precision is at least double that, minimizing the probability of recombination occur twice in the same location for an infinite chromosome.
