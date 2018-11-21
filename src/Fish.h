@@ -21,9 +21,9 @@ struct junction {
     junction(long double loc, int A, int B);
     junction(const junction& other);
 
-    bool operator ==(const junction& other);
-    bool operator <(const junction& other);
-    bool operator !=(const junction& other);
+    bool operator ==(const junction& other) const;
+    bool operator <(const junction& other) const;
+    bool operator !=(const junction& other) const;
 };
 
 
@@ -49,7 +49,7 @@ struct Fish_fin  {
 
     // copy constructor
     Fish_fin(const std::vector<bool>& A,
-             const std::vector<bool>& B)
+             const std::vector<bool>& B);
 };
 
 
