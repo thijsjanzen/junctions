@@ -19,6 +19,10 @@ test_that("calculate_J and error", {
 
   found_obs <- c()
   found_exp <- c()
+
+  focal_time <- 500
+  time_est <- c()
+
   for(r in seq_len(num_repl)) {
     sim_results <- sim_inf_chrom(pop_size = N,
                                  initial_heterozygosity = 0.5,
@@ -38,6 +42,10 @@ test_that("calculate_J and error", {
                                   marker_distribution = sim_markers)
 
     found_exp <- rbind(found_exp, expected_junctions)
+
+    ers)
+    time_est <- c(time_est, estimated_time)
+
     cat(r,"\n")
   }
 
@@ -47,4 +55,29 @@ test_that("calculate_J and error", {
   for(i in seq_along(found_obs)) {
     testthat::expect_equal(found_obs[i], found_exp[i], tolerance = 1)
   }
+
+  testthat::expect_equal(mean(time_est), focal_time, tolerance = 1)
+})
+
+test_that("estimate time", {
+
+  N <- 1e3
+  total_runtime = 100
+
+
+  sim_results <- sim_inf_chrom(pop_size = N,
+                               initial_heterozygosity = 0.5,
+                               total_runtime = total_runtime,
+                               morgan = 1,
+                               markers = R,
+                               seed = 444)
+
+  focal_j <- tail(sim_results$avgJunctions,1 )
+  estimated_time <- estimate_time_markers(J = focal_j,
+                                          N = N,
+                                          H_0 = 0.5,
+                                          C = 1,
+                                          marker_distribution = sim_markers)
+
+  testthat::expect_equal(estimated_time, total_runtime, tolerance = 1)
 })
