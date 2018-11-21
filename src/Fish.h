@@ -21,9 +21,7 @@ struct junction {
     junction(long double loc, int A, int B);
     junction(const junction& other);
 
-    bool operator ==(const junction& other) const;
     bool operator <(const junction& other) const;
-    bool operator !=(const junction& other) const;
 };
 
 
@@ -34,9 +32,6 @@ struct Fish_inf {
     Fish_inf();
 
     Fish_inf(int initLoc);
-
-    Fish_inf(const std::vector<junction>& A,
-             const std::vector<junction>& B);
 };
 
 struct Fish_fin  {
@@ -46,10 +41,6 @@ struct Fish_fin  {
     Fish_fin();
 
     Fish_fin(const bool initLoc, const int genomeSize);
-
-    // copy constructor
-    Fish_fin(const std::vector<bool>& A,
-             const std::vector<bool>& B);
 };
 
 

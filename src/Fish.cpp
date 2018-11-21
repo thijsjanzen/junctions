@@ -96,20 +96,6 @@ bool do_recombination(std::vector<junction>& offspring,
     for(int i = 0; i < toAdd.size(); ++i) {
         if(toAdd[i].right == -1 && toAdd[i].pos < 1) {
             Rcout << "This break point was not addressed!\n";
-
-            Rcout << "Chromosome 1\n";
-            for(int j = 0; j < chromosome1.size(); ++j) {
-                Rcout << chromosome1[j].pos << "\t" << chromosome1[j].right << "\n";
-            }
-
-            Rcout << "Chromosome 2\n";
-            for(int j = 0; j < chromosome2.size(); ++j) {
-                Rcout << chromosome2[j].pos << "\t" << chromosome2[j].right << "\n";
-            }
-            Rcout << "To add\n";
-            for(int j = 0; j < toAdd.size(); ++j) {
-                Rcout << toAdd[j].pos << "\t" << toAdd[j].right << "\n";
-            }
             stop("Error in toAdd\n");
         }
         offspring.push_back(toAdd[i]);
@@ -173,20 +159,6 @@ bool do_recombination(std::vector<junction>& offspring,
             if(temp_offspring[i].pos < 1.0) {
                 Rcout << "Error introduced in recombine\n";
                 Rcout << "Recombining " << recomPos.size() << "\t crossovers\n";
-                bool parent1 = false;
-                bool parent2 = false;
-                for(int j = 0; j < chromosome1.size(); ++j) {
-                    if(chromosome1[j].right == -1 && chromosome1[j].pos < 1.0) {
-                        parent1 = true;
-                    }
-                }
-                for(int j = 0; j < chromosome2.size(); ++j) {
-                    if(chromosome2[j].right == -1 && chromosome2[j].pos < 1.0) {
-                        parent2 = true;
-                    }
-                }
-                Rcout << "Do the parents have a -1 as well? (1 = yes, 0 is no)\n";
-                Rcout << "Parent1: " << parent1 << "\t" << "Parent2: " << parent2 << "\n";
                 stop("Error in total chromosome\n");
             }
         }
@@ -402,7 +374,6 @@ Fish_fin mate_fin(const Fish_fin& A,
 
 
 junction::junction() {
-
 }
 
 junction::junction(long double loc, int A, int B) : pos(loc), left(A), right(B) {
@@ -414,20 +385,8 @@ junction::junction(const junction& other) {
     right = other.right;
 }
 
-bool junction::operator ==(const junction& other) const {
-    if(pos != other.pos) return false;
-    if(left != other.left) return false;
-    if(right != other.right) return false;
-
-    return true;
-}
-
 bool junction::operator <(const junction& other) const {
     return(pos < other.pos);
-}
-
-bool junction::operator !=(const junction& other) const {
-    return( !( (*this) == other) );
 }
 
 Fish_inf::Fish_inf(){
@@ -443,12 +402,6 @@ Fish_inf::Fish_inf(int initLoc)    {
     chromosome2.push_back( right );
 }
 
-Fish_inf::Fish_inf(const std::vector<junction>& A,
-                   const std::vector<junction>& B)    {
-    chromosome1 = A;
-    chromosome2 = B;
-}
-
 Fish_fin::Fish_fin() {
 }
 
@@ -459,12 +412,3 @@ Fish_fin::Fish_fin(const bool initLoc, const int genomeSize) {
         chromosome2.push_back(initLoc);
     }
 }
-
-Fish_fin::Fish_fin(const std::vector<bool>& A,
-                   const std::vector<bool>& B) {
-    chromosome1 = A;
-    chromosome2 = B;
-}
-
-
-
