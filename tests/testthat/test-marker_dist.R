@@ -21,10 +21,11 @@ test_that("calculate_J and error", {
   found_exp <- c()
   for(r in seq_len(num_repl)) {
     sim_results <- sim_inf_chrom(pop_size = N,
-                                 init_heterozygosity = 0.5,
-                                 run_time = total_runtime,
-                                 size_in_Morgan = 1,
-                                 markers = R)
+                                 initial_heterozygosity = 0.5,
+                                 total_runtime = total_runtime,
+                                 morgan = 1,
+                                 markers = R,
+                                 seed = r)
 
     found_obs <- rbind(found_obs, sim_results$detectedJunctions)
 
@@ -33,16 +34,17 @@ test_that("calculate_J and error", {
       number_of_junctions_markers(N = N,
                                   H_0 = 0.5,
                                   C = 1,
-                                  t = total_runtime,
+                                  t = 0:total_runtime,
                                   marker_distribution = sim_markers)
 
     found_exp <- rbind(found_exp, expected_junctions)
+    cat(r,"\n")
   }
 
   found_obs <- colMeans(found_obs)
   found_exp <- colMeans(found_exp)
 
   for(i in seq_along(found_obs)) {
-    testthat::expect_equal(found_obs[i], found_exp[i])
+    testthat::expect_equal(found_obs[i], found_exp[i], tolerance = 1)
   }
 })
