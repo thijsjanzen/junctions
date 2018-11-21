@@ -1,3 +1,4 @@
 useDynLib(junctions)
 exportPattern("^[[:alpha:]]+")
 importFrom(Rcpp, evalCpp)
+importFrom("stats", "optimize")
