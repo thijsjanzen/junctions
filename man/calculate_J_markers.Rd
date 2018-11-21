@@ -8,7 +8,8 @@
   Calculate the expected number of junctions after t generations, provided information on the initial heterozygosity, population size, the number of generations since the onset of admixture and the distribution of markers.
 }
 \usage{
-  number_of_junctions_markers(N = Inf, H_0 = 0.5, C = 1, t = 100, marker_distribution = NA)
+  number_of_junctions_markers(N = Inf, H_0 = 0.5,
+                              C = 1, t = 100, marker_distribution = NA)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,16 +40,16 @@ Thijs Janzen
 
 \examples{
   markers <- seq(from = 0, to = 1, length.out = 1000)
-  jt <-  number_of_junctions_markers(N = 100, 
-                                     H_0 = 0.5, 
-                                     C = 1, 
-                                     t = 1000, 
+  jt <-  number_of_junctions_markers(N = 100,
+                                     H_0 = 0.5,
+                                     C = 1,
+                                     t = 1000,
                                      marker_distribution = markers)
   random_markers <- sort(runif(1000, 0, 1))
-  jt2 <- number_of_junctions_markers(N = 100, 
-                                     H_0 = 0.5, 
-                                     C = 1, 
-                                     t = 1000, 
+  jt2 <- number_of_junctions_markers(N = 100,
+                                     H_0 = 0.5,
+                                     C = 1,
+                                     t = 1000,
                                      marker_distribution = random_markers)
 }
 
