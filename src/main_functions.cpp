@@ -37,7 +37,7 @@ Output doSimulation_inf(int popSize,
         std::sort(markers.begin(), markers.end());
     }
 
-    Output.markers = markers;
+    O.markers = markers;
 
     Fish_inf parent1 = Fish_inf(0);
     Fish_inf parent2 = Fish_inf(1);

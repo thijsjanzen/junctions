@@ -22,11 +22,11 @@ estimate_time <- function(J = NA,
 }
 
 
-estimate_time_markers(J = NA,
-                      N = Inf,
-                      H_0 = 0.5,
-                      C = 1,
-                      marker_distribution) {
+estimate_time_markers <- function(J = NA,
+                                  N = Inf,
+                                  H_0 = 0.5,
+                                  C = 1,
+                                  marker_distribution = NA) {
 
   normalized_marker_distribution <- marker_distribution / C
 
@@ -42,6 +42,6 @@ estimate_time_markers(J = NA,
     return(abs(expected_j - J))
   }
 
-  fitted <- optimize(to_fit, interval = c(2,100000))
+  fitted <- optimize(to_fit, interval = c(2, 100000) )
   return(fitted$minimum)
 }
