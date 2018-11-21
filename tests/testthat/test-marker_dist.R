@@ -42,8 +42,6 @@ test_that("calculate_J and error", {
                                   marker_distribution = sim_markers)
 
     found_exp <- rbind(found_exp, expected_junctions)
-
-    ers)
     time_est <- c(time_est, estimated_time)
 
     cat(r,"\n")
