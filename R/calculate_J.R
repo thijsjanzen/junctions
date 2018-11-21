@@ -9,7 +9,7 @@ number_of_junctions <- function(N = Inf,
     # numerical problems using equation 12
     # to calculate K, so instead we use
     # equation 1
-    jt <- H_0 * C * t;
+    jt <- H_0 * C * t
     return(jt)
   }
 
@@ -44,8 +44,8 @@ number_of_junctions_markers <- function(N = Inf,
 
   number_of_junctions <- 0
   for(i in 2:length(marker_distribution)) {
-    di = marker_distribution[i] - marker_distribution[i-1]
-    expected_junctions = number_of_junctions_di(N, H_0, C, t, di)
+    di <- marker_distribution[i] - marker_distribution[i-1]
+    expected_junctions <- number_of_junctions_di(N, H_0, C, t, di)
     number_of_junctions <- number_of_junctions + expected_junctions
   }
   return(number_of_junctions)

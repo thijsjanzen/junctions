@@ -15,7 +15,7 @@ test_that("markers, use", {
 
   N <- 1e3
   R <- 1000
-  total_runtime = 50
+  total_runtime <- 50
 
   found_obs <- c()
   found_exp <- c()
@@ -62,7 +62,7 @@ test_that("estimate time", {
 
   N <- 1e3
   R <- 1000
-  total_runtime = 50
+  total_runtime <- 50
   num_repl <- 100
   all_times <- c()
   for(r in seq_len(num_repl)) {
