@@ -16,6 +16,7 @@
 struct Output {
     std::vector<double> avgJunctions;
     std::vector<double> avg_detected_Junctions;
+    std::vector<double> markers;
     void update_inf(const std::vector< Fish_inf >& Pop);
     void update_fin(const std::vector< Fish_fin >& Pop);
 

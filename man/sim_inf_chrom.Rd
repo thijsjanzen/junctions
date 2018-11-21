@@ -35,6 +35,7 @@ sim_inf_chrom(pop_size, initial_heterozygosity, total_runtime, morgan, markers, 
 \value{
   \item{avgJunctions}{vector of the average number of junctions at time = [0, total_runtime]}
   \item{detectedJunctions}{vector of the detected number of junctions at time = [0, total_runtime]}
+  \item{markers}{vector of the distribution of markers, indicating the relative position of each (randomly) generated marker along the chromosome in [0, 1]}
 
 }
 \author{

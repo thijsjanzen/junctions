@@ -37,6 +37,7 @@ Output doSimulation_inf(int popSize,
         std::sort(markers.begin(), markers.end());
     }
 
+    Output.markers = markers;
 
     Fish_inf parent1 = Fish_inf(0);
     Fish_inf parent2 = Fish_inf(1);
@@ -184,7 +185,8 @@ List sim_inf_chrom(int pop_size,
                                 size_in_Morgan,
                                 markers);
     return List::create(Named("avgJunctions") = O.avgJunctions,
-                        Named("detectedJunctions") = O.avg_detected_Junctions);
+                        Named("detectedJunctions") = O.avg_detected_Junctions,
+                        Named("markers") = O.markers);
 }
 
 
