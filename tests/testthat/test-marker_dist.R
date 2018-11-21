@@ -1,5 +1,5 @@
 context("marker_distribution")
-test_that("calculate_J and error", {
+test_that("markers, use", {
 
   R <- 1000
   e_j <- number_of_junctions(R = R,
@@ -49,6 +49,13 @@ test_that("calculate_J and error", {
   for(i in seq_along(found_obs)) {
     testthat::expect_equal(found_obs[i], found_exp[i], tolerance = 0.1)
   }
+})
+
+test_that("markers, abuse", {
+  testthat::expect_error(
+    number_of_junctions_markers(marker_distribution = 0.5)
+  )
+
 })
 
 test_that("estimate time", {
