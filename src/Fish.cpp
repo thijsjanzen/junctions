@@ -396,3 +396,75 @@ Fish_fin mate_fin(const Fish_fin& A,
     }
     return offspring;
 }
+/////////////////////////////////////////////
+////////////// Member functions
+/////////////////////////////////////////////
+
+
+junction::junction() {
+
+}
+
+junction::junction(long double loc, int A, int B) : pos(loc), left(A), right(B) {
+}
+
+junction::junction(const junction& other) {
+    pos = other.pos;
+    left = other.left;
+    right = other.right;
+}
+
+bool junction::operator ==(const junction& other) const {
+    if(pos != other.pos) return false;
+    if(left != other.left) return false;
+    if(right != other.right) return false;
+
+    return true;
+}
+
+bool junction::operator <(const junction& other) const {
+    return(pos < other.pos);
+}
+
+bool junction::operator !=(const junction& other) const {
+    return( !( (*this) == other) );
+}
+
+Fish_inf::Fish_inf(){
+
+}
+
+Fish_inf::Fish_inf(int initLoc)    {
+    junction left = junction(0.0, -1, initLoc);
+    junction right = junction(1, initLoc, -1);
+    chromosome1.push_back( left  );
+    chromosome1.push_back( right );
+    chromosome2.push_back( left  );
+    chromosome2.push_back( right );
+}
+
+Fish_inf::Fish_inf(const std::vector<junction>& A,
+                   const std::vector<junction>& B)    {
+    chromosome1 = A;
+    chromosome2 = B;
+}
+
+Fish_fin::Fish_fin() {
+}
+
+// constructor that sets all genome elements to "initLoc"
+Fish_fin::Fish_fin(const bool initLoc, const int genomeSize) {
+    for ( int i = 0; i < genomeSize; ++i ) {
+        chromosome1.push_back(initLoc);
+        chromosome2.push_back(initLoc);
+    }
+}
+
+Fish_fin::Fish_fin(const std::vector<bool>& A,
+                   const std::vector<bool>& B) {
+    chromosome1 = A;
+    chromosome2 = B;
+}
+
+
+
