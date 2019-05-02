@@ -34,7 +34,6 @@ test_that("markers, use", {
     expected_junctions <-
       number_of_junctions_markers(N = N,
                                   H_0 = 0.5,
-                                  C = 1,
                                   t = 0:total_runtime,
                                   marker_distribution = sim_markers)
 
@@ -79,7 +78,6 @@ test_that("estimate time", {
     estimated_time <- estimate_time_markers(J = focal_j,
                                           N = N,
                                           H_0 = 0.5,
-                                          C = 1,
                                           marker_distribution = sim_markers)
     all_times <- c(all_times, estimated_time)
     cat(r,"\n")
