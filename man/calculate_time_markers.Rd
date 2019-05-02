@@ -21,11 +21,8 @@ estimate_time_markers(J = NA, N = Inf, H_0 = 0.5, C = 1, marker_distribution = N
    \item{H_0}{
     Initial frequency of heterozygosity (e.g. in Hardy-Weinberg this equates to 2pq)
 }
-  \item{C}{
-    Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)
-}
   \item{marker_distribution}{
-    A vector containing the relative position (e.g. in [0, 1]) of all markers. Please note that this is NOT the distribution in Morgans!
+    A vector containing location of each marker in Morgan.
 }
 
 }
@@ -38,11 +35,10 @@ Thijs Janzen
 
 \examples{
 markers <- seq(from = 0, to = 1, length.out = 100)
-J <- number_of_junctions_markers(N = 100, H_0 = 0.5, C = 1, t = 200, marker_distribution = markers)
-estimate_time_markers(J = J, 
-                      N = 100, 
-                      H_0 = 0.5, 
-                      C = 1, 
+J <- number_of_junctions_markers(N = 100, H_0 = 0.5, t = 200, marker_distribution = markers)
+estimate_time_markers(J = J,
+                      N = 100,
+                      H_0 = 0.5,
                       marker_distribution = markers) #should be 200 again
 
 }

@@ -188,13 +188,3 @@ List sim_inf_chrom(int pop_size,
                         Named("detectedJunctions") = O.avg_detected_Junctions,
                         Named("markers") = O.markers);
 }
-
-
-
-
-
-
-
-
-
-
