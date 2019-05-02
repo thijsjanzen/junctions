@@ -8,7 +8,7 @@
   Estimate the time since the onset of hybridization, following equation 1 in Janzen et al. unpublished
 }
 \usage{
-estimate_time_markers(J = NA, N = Inf, H_0 = 0.5, C = 1, marker_distribution = NA)
+estimate_time_markers(J = NA, N = Inf, H_0 = 0.5, marker_distribution = NA)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

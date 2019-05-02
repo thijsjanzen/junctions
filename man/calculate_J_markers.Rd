@@ -9,7 +9,7 @@
 }
 \usage{
   number_of_junctions_markers(N = Inf, H_0 = 0.5,
-                              C = 1, t = 100, marker_distribution = NA)
+                              t = 100, marker_distribution = NA)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,14 +19,11 @@
   \item{H_0}{
     Initial frequency of heterozygosity (e.g. in Hardy-Weinberg this equates to 2pq)
 }
-  \item{C}{
-    Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)
-}
   \item{t}{
     A single time point or a vector of time points for which the number of junctions is estimated.
 }
   \item{marker_distribution}{
-    A vector containing the relative position (e.g. in [0, 1]) of all markers. Please note that this is NOT the distribution in Morgans!
+    A vector containing the position of all markers in Morgan.
 }
 }
 
@@ -42,13 +39,11 @@ Thijs Janzen
   markers <- seq(from = 0, to = 1, length.out = 1000)
   jt <-  number_of_junctions_markers(N = 100,
                                      H_0 = 0.5,
-                                     C = 1,
                                      t = 1000,
                                      marker_distribution = markers)
   random_markers <- sort(runif(1000, 0, 1))
   jt2 <- number_of_junctions_markers(N = 100,
                                      H_0 = 0.5,
-                                     C = 1,
                                      t = 1000,
                                      marker_distribution = random_markers)
 }
