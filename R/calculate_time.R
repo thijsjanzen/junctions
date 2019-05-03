@@ -25,16 +25,14 @@ estimate_time <- function(J = NA,
 estimate_time_markers <- function(J = NA,
                                   N = Inf,
                                   H_0 = 0.5,
-                                  C = 1,
                                   marker_distribution = NA) {
 
-  normalized_marker_distribution <- marker_distribution / C
+  normalized_marker_distribution <- marker_distribution
 
   to_fit <- function(params) {
     expected_j <-
       number_of_junctions_markers(N = N,
                                   H_0 = H_0,
-                                  C = C,
                                   t = params[[1]],
                                   marker_distribution =
                                         normalized_marker_distribution
@@ -42,6 +40,11 @@ estimate_time_markers <- function(J = NA,
     return(abs(expected_j - J))
   }
 
-  fitted <- optimize(to_fit, interval = c(2, 100000) )
+  upper_lim = 1e5
+  if(J > 1e4) {
+    upper_lim = J * 20
+  }
+
+  fitted <- optimize(to_fit, interval = c(2, upper_lim) )
   return(fitted$minimum)
 }
