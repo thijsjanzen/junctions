@@ -412,3 +412,11 @@ Fish_fin::Fish_fin(const bool initLoc, const int genomeSize) {
         chromosome2.push_back(initLoc);
     }
 }
+
+bool is_in_time_points(int t,
+                       const Rcpp::NumericVector & time_points) {
+    for(auto it = time_points.begin(); it != time_points.end(); ++it) {
+        if((*it) == t) return true;
+    }
+    return false;
+}

@@ -11,6 +11,8 @@ sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 \arguments{
 \item{pop_size}{Population Size}
 
+\item{freq_ancestor_1}{Frequency of ancestor 1 at t = 0}
+
 \item{total_runtime}{Maximum time after which the simulation is to be stopped}
 
 \item{size_in_morgan}{Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)}
@@ -20,8 +22,6 @@ sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 \item{time_points}{vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).}
 
 \item{seed}{Seed of the pseudo-random number generator}
-
-\item{init_heterozygosity}{Frequency of heterozygosity at t = 0}
 }
 \value{
 matrix with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
@@ -31,5 +31,7 @@ Individual based simulation of the accumulation of junctions, returning phased a
 }
 \examples{
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
-total_runtime = 10, size_in_morgan = 1, number_of_markers = 10, time_points = c(0, 5, 10), seed = 42)
+                    total_runtime = 10, size_in_morgan = 1,
+                    number_of_markers = 10, time_points = c(0, 5, 10),
+                    seed = 42)
 }

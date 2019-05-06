@@ -6,15 +6,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-bool is_in_time_points(int t,
-                       const NumericVector& time_points) {
-  for(auto it = time_points.begin(); it != time_points.end(); ++it) {
-    if((*it) == t) return true;
-  }
-  return false;
-}
-
-
 Output simulation_phased_nonphased(int popSize,
                     double initRatio,
                     int maxTime,
@@ -25,23 +16,7 @@ Output simulation_phased_nonphased(int popSize,
 
   Output O;
   std::vector< Fish_inf > Pop;
-  std::vector<double> markers;
-  for(int i = 0; i < numberOfMarkers; ) {
-    double pos = uniform();
-    if(pos > 0 && pos < 1.0) {
-      ++i;
-      markers.push_back(pos);
-    }
-  }
-
-  std::sort(markers.begin(), markers.end());
-  markers.erase( std::unique(markers.begin(), markers.end()), markers.end());
-  while(markers.size() < numberOfMarkers) {
-    long double pos = uniform();
-    markers.push_back(pos);
-    std::sort(markers.begin(), markers.end());
-    markers.erase( std::unique(markers.begin(), markers.end()), markers.end());
-  }
+  std::vector<double> markers = generate_random_markers(numberOfMarkers);
 
   O.markers = markers;
 

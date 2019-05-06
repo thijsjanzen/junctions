@@ -132,3 +132,70 @@ void Output::update_unphased(const std::vector< Fish_inf >& Pop,
 }
 
 
+int detect_junctions(const Fish_inf& indiv,
+                     const std::vector<double> &markers,
+                     double& avg_heterozygosity) {
+
+    // we need to find if at specific markers, they are homozygous or heterozygous
+    std::vector<bool> chrom1 = detectJunctions(indiv.chromosome1, markers);
+    std::vector<bool> chrom2 = detectJunctions(indiv.chromosome2, markers);
+
+
+    std::vector<int> genotypes(chrom1.size(), -1);
+    for(int i = 0; i < chrom1.size(); ++i) {
+        // 0 = homozygous parent 0
+        // 1 = heterozygous
+        // 2 = homozygous parent 1
+        if(chrom1[i] == 0 && chrom2[i] == 0) {
+            genotypes[i] = 0;
+        }
+        if(chrom1[i] == 0 && chrom2[i] == 1) {
+            genotypes[i] = 1;
+        }
+        if(chrom1[i] == 1 && chrom2[i] == 0) {
+            genotypes[i] = 1;
+        }
+        if(chrom1[i] == 1 && chrom2[i] == 1) {
+            genotypes[i] = 2;
+        }
+    }
+
+    int number_of_junctions = 0;
+    int number_heterozygous = 0;
+
+    // zero entry is not included in the loop
+    if(genotypes[0] == 1) number_heterozygous++;
+
+    for(int i = 1; i < genotypes.size(); ++i) {
+        if(genotypes[i] != -1 && genotypes[i-1] != -1) {
+            if(genotypes[i] != genotypes[i-1]) number_of_junctions++;
+        }
+        if(genotypes[i] == 1) number_heterozygous++;
+    }
+    avg_heterozygosity += 1.0 * number_heterozygous / markers.size();
+
+    return number_of_junctions;
+}
+
+
+void Output::detect_junctions_backcross(const std::vector< Fish_inf > &Pop,
+                                        const std::vector<double> &markers) {
+
+    double average_detected_junctions = 0;
+
+    std::vector<int> J;
+    double avg_heterozygosity = 0.0;
+    for(std::vector< Fish_inf >::const_iterator i = Pop.begin(); i != Pop.end(); ++i) {
+        int dJ = detect_junctions((*i), markers, avg_heterozygosity);
+        average_detected_junctions += dJ;
+        J.push_back(dJ);
+    }
+    junction_dist.push_back(J);
+
+    average_detected_junctions = 1.0 * average_detected_junctions / (2 * Pop.size()); //diploid
+    avg_detected_Junctions.push_back(average_detected_junctions);
+    avg_hetero.push_back(avg_heterozygosity / Pop.size());
+    return;
+}
+
+

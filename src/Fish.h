@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <vector>
 #include <algorithm>
+#include <Rcpp.h>
 
 struct junction {
     double pos;
@@ -52,4 +53,8 @@ Fish_inf mate_inf(const Fish_inf& A, const Fish_inf& B,
 
 long double getRecomPos();
 int getRecomPos(int L);
+
+bool is_in_time_points(int t,
+                       const Rcpp::NumericVector & time_points);
+
 #endif /* Fish_hpp */

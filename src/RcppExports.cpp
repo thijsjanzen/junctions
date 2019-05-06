@@ -5,6 +5,22 @@
 
 using namespace Rcpp;
 
+// simulate_backcrossing_cpp
+List simulate_backcrossing_cpp(int population_size, int maximum_time, double size_in_morgan, int markers, int seed, NumericVector time_points);
+RcppExport SEXP _junctions_simulate_backcrossing_cpp(SEXP population_sizeSEXP, SEXP maximum_timeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP seedSEXP, SEXP time_pointsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type population_size(population_sizeSEXP);
+    Rcpp::traits::input_parameter< int >::type maximum_time(maximum_timeSEXP);
+    Rcpp::traits::input_parameter< double >::type size_in_morgan(size_in_morganSEXP);
+    Rcpp::traits::input_parameter< int >::type markers(markersSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type time_points(time_pointsSEXP);
+    rcpp_result_gen = Rcpp::wrap(simulate_backcrossing_cpp(population_size, maximum_time, size_in_morgan, markers, seed, time_points));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sim_fin_chrom
 List sim_fin_chrom(int pop_size, double freq_ancestor_1, int run_time, double size_in_Morgan, int seed, int R);
 RcppExport SEXP _junctions_sim_fin_chrom(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP run_timeSEXP, SEXP size_in_MorganSEXP, SEXP seedSEXP, SEXP RSEXP) {
@@ -56,6 +72,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 6},
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
     {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 7},
