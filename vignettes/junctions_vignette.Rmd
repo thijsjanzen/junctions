@@ -11,6 +11,8 @@ vignette: >
 
 
 ```{r setup, include=FALSE}
+library(junctions)
+library(Rcpp)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -31,7 +33,6 @@ To simulate the process of junction accumulation over time, we can make use of t
 This function has a number of arguments: the population size, the initial heterozygosity, total runtime of the simulation in generations, size of the chromosome in morgan, a flag indicating the number of markers to be used (or -1 if markers are not of interest) and the random seed. The function returns an object containing "avgJunctions", which is a vector of the average number of junctions in t = [0:total_runtime].
 To demonstrate use, we choose some simple parameters:
 ```{r, single_sim_inf, fig.width = 7, fig.height = 7}
-  library(junctions)
   N <- 100 #population size
   H_0 <- 0.5 #initial heterozygosity
   maximum_time <- 1000 #run time
@@ -142,13 +143,13 @@ Arguments for the function 'sim_fin_chrom' are identical to 'sim_inf_chrom', exc
 ```{r, single_sim_fin, fig.width = 7, fig.height = 7}
   R <- 100 #chromosome size
   N <- 100 #population size 
-  H_0 <- 0.5 #initial heterozygosity
+  freq_ancestor_1 <- 0.5 # frequency of ancestor 1 at t = 0
   C <- 1 #number of recombinations per meiosis
   maximum_time <- 1000
 
   #single example run
   v <- sim_fin_chrom(pop_size = N, 
-                     initial_heterozygosity = H_0, 
+                     freq_ancestor_1 = freq_ancestor_1, 
                      total_runtime = maximum_time, 
                      morgan = C, 
                      seed = 42,

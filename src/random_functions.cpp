@@ -1,6 +1,6 @@
 //
 //  random_functions.cpp
-//  
+//
 //
 //  Created by Thijs Janzen on 05/03/2018.
 //
@@ -8,28 +8,25 @@
 
 #include "random_functions.h"
 #include <Rcpp.h>
+#include <random>
 using namespace Rcpp;
 
-double uniform()
-{
-    return R::runif(0.0, 1.0);
+std::random_device rd;
+std::mt19937 rndgen(rd());  //< The one and only random number generator
+
+int random_number(int n)    {
+    return std::uniform_int_distribution<> (0, n-1)(rndgen);
 }
 
-long double long_uniform() {
-    long double base = 1e9;
-    long double a = R::runif(0, 1) * base;
-    long double b = R::runif(0, 1);
-    long double output = (a+b) / base;
-    return(output);
+double uniform()    {
+    return std::uniform_real_distribution<>(0, 1.0)(rndgen);
 }
 
-int random_number(int n)
-{
-    return (int)(R::runif(0.0, 1.0 * n));
+int poisson(double lambda)    {
+    return std::poisson_distribution<int>(lambda)(rndgen);
 }
 
-double poisson(double lambda)
-{
-    return R::rpois(lambda);
+void set_seed(unsigned seed)    {
+    std::mt19937 new_randomizer(seed);
+    rndgen = new_randomizer;
 }
-

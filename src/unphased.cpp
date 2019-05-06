@@ -1,0 +1,126 @@
+#include <stdio.h>
+#include "Output.h"
+#include "Fish.h"
+#include "random_functions.h"
+
+#include <Rcpp.h>
+using namespace Rcpp;
+
+bool is_in_time_points(int t,
+                       const NumericVector& time_points) {
+  for(auto it = time_points.begin(); it != time_points.end(); ++it) {
+    if((*it) == t) return true;
+  }
+  return false;
+}
+
+
+Output simulation_phased_nonphased(int popSize,
+                    double initRatio,
+                    int maxTime,
+                    double numRecombinations,
+                    int numberOfMarkers,
+                    const NumericVector& time_points
+)    {
+
+  Output O;
+  std::vector< Fish_inf > Pop;
+  std::vector<double> markers;
+  for(int i = 0; i < numberOfMarkers; ) {
+    double pos = uniform();
+    if(pos > 0 && pos < 1.0) {
+      ++i;
+      markers.push_back(pos);
+    }
+  }
+
+  std::sort(markers.begin(), markers.end());
+  markers.erase( std::unique(markers.begin(), markers.end()), markers.end());
+  while(markers.size() < numberOfMarkers) {
+    long double pos = uniform();
+    markers.push_back(pos);
+    std::sort(markers.begin(), markers.end());
+    markers.erase( std::unique(markers.begin(), markers.end()), markers.end());
+  }
+
+  O.markers = markers;
+
+  Fish_inf parent1 = Fish_inf(0);
+  Fish_inf parent2 = Fish_inf(1);
+
+  for(int i = 0; i < popSize; ++i) {
+    Fish_inf p1 = parent1;
+    Fish_inf p2 = parent1;
+
+    if(uniform() < initRatio) {
+      p1 = parent2;
+    }
+    if(uniform() < initRatio) {
+      p2 = parent2;
+    }
+
+    Pop.push_back( mate_inf(p1,p2, numRecombinations));
+  }
+
+  //Rcout << "0--------25--------50--------75--------100\n";
+  //Rcout << "*";
+  int updateFreq = maxTime / 20;
+  if(updateFreq < 1) updateFreq = 1;
+
+  for(int t = 0; t < maxTime; ++t) {
+    if(is_in_time_points(t, time_points)) {
+      O.update_unphased(Pop, t);
+    }
+
+    std::vector< Fish_inf > newGeneration;
+
+    for(int i = 0; i < popSize; ++i)  {
+      int index1 = random_number(popSize);
+      int index2 = random_number(popSize);
+      while(index2 == index1) index2 = random_number(popSize);
+
+      Fish_inf kid = mate_inf(Pop[index1], Pop[index2], numRecombinations);
+
+      newGeneration.push_back(kid);
+    }
+
+    Pop = newGeneration;
+    newGeneration.clear();
+    if(t % updateFreq == 0) {
+   //   Rcout << "**";
+    }
+
+    Rcpp::checkUserInterrupt();
+  }
+ // Rcout << "\n";
+  return O;
+}
+
+// [[Rcpp::export]]
+List sim_phased_unphased_cpp(int pop_size,
+                         double freq_ancestor_1,
+                         int total_runtime,
+                         double size_in_morgan,
+                         int number_of_markers,
+                         NumericVector time_points,
+                         int seed) {
+
+  set_seed(seed);
+
+    Output O = simulation_phased_nonphased(pop_size, freq_ancestor_1,
+                                           total_runtime,
+                                           size_in_morgan, number_of_markers,
+                                           time_points);
+
+  int num_rows = O.results.size();
+  int num_cols = O.results[0].size();
+
+  NumericMatrix output_matrix(num_rows, num_cols);
+  for(int i = 0; i < num_rows; ++i) {
+    for(int j = 0; j < num_cols; ++j) {
+      output_matrix(i,j) = O.results[i][j];
+    }
+  }
+
+  return List::create(Named("results") = output_matrix);
+}

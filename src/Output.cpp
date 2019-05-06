@@ -1,6 +1,6 @@
 //
 //  Output.cpp
-//  
+//
 //
 //  Created by Thijs Janzen on 07/11/2017.
 //
@@ -49,7 +49,7 @@ void Output::update_fin(const std::vector<Fish_fin>& Pop) {
     averageNumJunctions = 1.0 * averageNumJunctions / (2*Pop.size());
 
     avgJunctions.push_back(averageNumJunctions);
-    
+
     return;
 }
 
@@ -89,3 +89,46 @@ void Output::detectNumJunctions(const std::vector<Fish_inf> &Pop,
     avg_detected_Junctions.push_back(averageNumJunctions);
     return;
 }
+
+std::vector<int> detect_ancestry(const std::vector< junction >& G,
+                                 const std::vector< double >& markers) {
+    std::vector<int> output(markers.size());
+
+    int j = 0;
+    for(int i = 0; i < markers.size(); ++i) {
+        double focalPos = markers[i];
+        for(; j <= (G.size()-1); ++j) {
+            double left = G[j].pos;
+            double right = G[j+1].pos;
+            if(left <= focalPos && right >= focalPos) {
+                output[i] = ((int)G[j].right);
+                break;
+            }
+        }
+        j-=5; //just in case
+        if(j < 0) j = 0;
+    }
+    return output;
+}
+
+void Output::update_unphased(const std::vector< Fish_inf >& Pop,
+                    int t) {
+
+    for(int i = 0; i < 10; ++i) {
+        std::vector<int> chrom1 = detect_ancestry(Pop[i].chromosome1, markers);
+        std::vector<int> chrom2 = detect_ancestry(Pop[i].chromosome2, markers);
+
+        for(int j = 0; j < markers.size(); ++j) {
+            std::vector<double> to_add(5); // = {t, i, markers[j], chrom1[j], chrom2[j]};
+            to_add[0] = t;
+            to_add[1] = i; //individual
+            to_add[2] = markers[j];
+            to_add[3] = chrom1[j];
+            to_add[4] = chrom2[j];
+            results.push_back(to_add);
+        }
+    }
+    return;
+}
+
+

@@ -22,7 +22,7 @@ test_that("markers, use", {
 
   for(r in seq_len(num_repl)) {
     sim_results <- sim_inf_chrom(pop_size = N,
-                                 initial_heterozygosity = 0.5,
+                                 freq_ancestor_1 = 0.5,
                                  total_runtime = total_runtime,
                                  morgan = 1,
                                  markers = R,
@@ -54,11 +54,9 @@ test_that("markers, abuse", {
   testthat::expect_error(
     number_of_junctions_markers(marker_distribution = 0.5)
   )
-
 })
 
 test_that("estimate time", {
-
   N <- 1e3
   R <- 1000
   total_runtime <- 50
@@ -67,7 +65,7 @@ test_that("estimate time", {
   for(r in seq_len(num_repl)) {
 
     sim_results <- sim_inf_chrom(pop_size = N,
-                               initial_heterozygosity = 0.5,
+                                 freq_ancestor_1 = 0.5,
                                total_runtime = total_runtime,
                                morgan = 1,
                                markers = R,

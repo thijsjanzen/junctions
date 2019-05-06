@@ -1,11 +1,10 @@
 //
 //  main_functions.cpp
-//  
+//
 //
 //  Created by Thijs Janzen on 07/11/2017.
 //
 //
-
 #include <stdio.h>
 #include "Output.h"
 #include "Fish.h"
@@ -14,15 +13,11 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-
-
 Output doSimulation_inf(int popSize,
                     double initRatio,
                     int maxTime,
                     double numRecombinations,
-                    int numberOfMarkers
-                    )    {
-
+                    int numberOfMarkers)    {
     Output O;
     std::vector<Fish_inf> Pop;
     std::vector<double> markers;
@@ -53,12 +48,8 @@ Output doSimulation_inf(int popSize,
             p2 = parent2;
         }
 
-
         Pop.push_back(mate_inf(p1,p2, numRecombinations));
     }
-
-  //  Rcout << "0--------25--------50--------75--------100\n";
-  //  Rcout << "*";
 
     int updateFreq = maxTime / 20;
     if(updateFreq < 1) updateFreq = 1;
@@ -77,15 +68,10 @@ Output doSimulation_inf(int popSize,
 
             newGeneration.push_back(kid);
         }
-        
+
         Pop = newGeneration;
         newGeneration.clear();
-
-        if(t % updateFreq == 0) {
-      //      Rcout << "**";
-        }
     }
-    //Rcout << "\n";
     return O;
 }
 
@@ -93,8 +79,7 @@ Output doSimulation_fin(int popSize,
                         int genomeSize,
                         double initRatio,
                         int maxTime,
-                        double numRecombinations
-                    )    {
+                        double numRecombinations)    {
     Output O;
     std::vector<Fish_fin> Pop;
 
@@ -114,9 +99,6 @@ Output doSimulation_fin(int popSize,
 
         Pop.push_back(mate_fin(p1,p2, numRecombinations));
     }
-
-  //  Rcout << "0--------25--------50--------75--------100\n";
-  //  Rcout << "*";
 
     int updateFreq = maxTime / 20;
     if(updateFreq < 1) updateFreq = 1;
@@ -138,49 +120,43 @@ Output doSimulation_fin(int popSize,
 
         Pop = newGeneration;
         newGeneration.clear();
-
-        if(t % updateFreq == 0) {
-    //        Rcout << "**";
-        }
     }
-  //  Rcout << "\n";
+
     return O;
 }
 
 // [[Rcpp::export]]
 List sim_fin_chrom(int pop_size,
-                   double init_heterozygosity,
+                   double freq_ancestor_1,
                    int run_time,
                    double size_in_Morgan,
                    int seed,
                    int R) {
 
-    double p = 0.5 * (1 - sqrt(1 - 2 * init_heterozygosity));
+  set_seed(seed);
 
-    //Rcout << "sim_fin_chrom, let's go!\n";
+  Output O = doSimulation_fin(pop_size,
+                              R + 1,
+                              freq_ancestor_1,
+                              run_time,
+                              size_in_Morgan);
 
-    Output O = doSimulation_fin(pop_size,
-                                R + 1,
-                                p,
-                                run_time,
-                                size_in_Morgan);
-    
-    return List::create(Named("avgJunctions") = O.avgJunctions);
+  return List::create(Named("avgJunctions") = O.avgJunctions);
 }
 
 // [[Rcpp::export]]
 List sim_inf_chrom(int pop_size,
-                   double init_heterozygosity,
+                   double freq_ancestor_1,
                    int run_time,
                    double size_in_Morgan,
                    int markers,
                    int seed) {
-    double p = 0.5 * (1 - sqrt(1 - 2 * init_heterozygosity));
+    set_seed(seed);
 
     //Rcout << "sim_inf_chrom, let's go!\n";
 
     Output O = doSimulation_inf(pop_size,
-                                p,
+                                freq_ancestor_1,
                                 run_time,
                                 size_in_Morgan,
                                 markers);

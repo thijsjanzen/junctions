@@ -11,6 +11,10 @@
 \details{
   This package provides individual based simulations in order to simulate the accumulation of junctions over time, both for chromosomes with a finite and an infinite number of recombination sites. Furthermore, the package provides mathetematical tools to verify the outcomes of the individual based simulations.
 
+  Update version 1.3: added support for estimating the time since admixture using unphased data. \cr
+  Update version 1.3: added individual based simulations returning phased and unphased data. \cr
+  Update version 1.3: Updated entire package to Roxygen. \cr
+
   Update version 1.2: added support for estimating the expected number of junctions for arbitrarily distributed markers. \cr
 
   Update version 1.1: updated underlying random number generator for picking recombination sites. The previous generator had limited precision, which could generate duplicate recombination sites. This update fixes that \cr

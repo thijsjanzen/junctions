@@ -1,6 +1,6 @@
 //
 //  Fish.hpp
-//  
+//
 //
 //  Created by Thijs Janzen on 07/11/2017.
 //
@@ -14,11 +14,11 @@
 #include <algorithm>
 
 struct junction {
-    long double pos;
+    double pos;
     int left, right;
 
     junction();
-    junction(long double loc, int A, int B);
+    junction(double loc, int A, int B);
     junction(const junction& other);
 
     bool operator <(const junction& other) const;

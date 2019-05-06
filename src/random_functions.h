@@ -1,6 +1,6 @@
 //
 //  random_functions.hpp
-//  
+//
 //
 //  Created by Thijs Janzen on 05/03/2018.
 //
@@ -11,8 +11,8 @@
 
 
 double uniform();
-long double long_uniform();
 int random_number(int n);
-double poisson(double lambda);
+int poisson(double lambda);
+void set_seed(unsigned seed);
 
 #endif /* random_functions_hpp */

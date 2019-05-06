@@ -1,6 +1,6 @@
 //
 //  Fish.cpp
-//  
+//
 //
 //  Created by Thijs Janzen on 07/11/2017.
 //
@@ -27,7 +27,7 @@ int getRecomPos(int L) {
 bool do_recombination(std::vector<junction>& offspring,
                       const std::vector<junction>& chromosome1,
                       const std::vector<junction>& chromosome2,
-                      const std::vector<long double> recomPos) {
+                      const std::vector<double> recomPos) {
 
     std::vector< junction > toAdd; //first create junctions on exactly the recombination positions
     for(int i = 0; i < recomPos.size(); ++i) {
@@ -38,8 +38,8 @@ bool do_recombination(std::vector<junction>& offspring,
     }
 
     for(auto i = (chromosome1.begin()+1); i != chromosome1.end(); ++i) {
-        long double leftpos = (*(i-1)).pos;
-        long double rightpos = (*i).pos;
+        double leftpos = (*(i-1)).pos;
+        double rightpos = (*i).pos;
 
         for(int j = 0; j < recomPos.size(); ++j) {
             if(recomPos[j] == leftpos) {
@@ -66,8 +66,8 @@ bool do_recombination(std::vector<junction>& offspring,
     }
 
     for(auto i = (chromosome2.begin()+1); i != chromosome2.end(); ++i) {
-        long double leftpos = (*(i-1)).pos;
-        long double rightpos = (*i).pos;
+        double leftpos = (*(i-1)).pos;
+        double rightpos = (*i).pos;
 
         for(int j = 0; j < recomPos.size(); ++j) {
             if(recomPos[j] == leftpos) {
@@ -102,8 +102,8 @@ bool do_recombination(std::vector<junction>& offspring,
     }
 
     //now we have to add the other junctions from chrom1 and chrom2.
-    long double leftpos = 0;
-    long double rightpos = 0;
+    double leftpos = 0;
+    double rightpos = 0;
 
 
     for(int i = 0; i < (recomPos.size() + 1); ++i) {
@@ -170,17 +170,17 @@ bool do_recombination(std::vector<junction>& offspring,
     return true;
 }
 
-std::vector<long double> generate_recomPos(int number_of_recombinations) {
+std::vector<double> generate_recomPos(int number_of_recombinations) {
 
-    std::vector<long double> recomPos(number_of_recombinations, 0);
+    std::vector<double> recomPos(number_of_recombinations, 0);
     for(int i = 0; i < number_of_recombinations; ++i) {
-        recomPos[i] = long_uniform();
+        recomPos[i] = uniform();
     }
     std::sort(recomPos.begin(), recomPos.end() );
     recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
 
     while (recomPos.size() < number_of_recombinations) {
-        long double pos = long_uniform();
+        double pos = uniform();
         recomPos.push_back(pos);
         // sort them, in case they are not sorted yet
         // we need this to remove duplicates, and later
@@ -207,7 +207,7 @@ void Recombine_inf(std::vector<junction>& offspring,
         return;
     }
 
-    std::vector<long double> recomPos = generate_recomPos(numRecombinations);
+    std::vector<double> recomPos = generate_recomPos(numRecombinations);
 
     bool recomPos_is_unique = do_recombination(offspring,
                                                chromosome1,
@@ -333,7 +333,7 @@ void Recombine_fin(std::vector<bool>* offspring,
                           chromosome2.begin() + start,
                           chromosome2.end());
     }
-    
+
     return;
 }
 
@@ -376,7 +376,7 @@ Fish_fin mate_fin(const Fish_fin& A,
 junction::junction() {
 }
 
-junction::junction(long double loc, int A, int B) : pos(loc), left(A), right(B) {
+junction::junction(double loc, int A, int B) : pos(loc), left(A), right(B) {
 }
 
 junction::junction(const junction& other) {
