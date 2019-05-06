@@ -24,6 +24,9 @@ sim_backcrossing(population_size = 100, freq_ancestor_1 = 0.5,
 \item{time_points}{vector with time points at which local ancestry has to be
 recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).}
 }
+\value{
+List with five entries: average_junctions: average number of junctions over time, detected_junctions: average number of detected junctions, given the markers. markers: vector with the locations of the molecular markers, junction_distribution: distribution of junctions per time step average_heterozygosity: average heterozygosity.
+}
 \description{
 Individual based simulation of the accumulation of junctions,
 under a back crossing scheme
