@@ -36,6 +36,5 @@ sim_backcrossing <- function(population_size = 100,
                                       number_of_markers,
                                       time_points,
                                       seed)
-
   return(output)
 }

@@ -6,18 +6,19 @@
 using namespace Rcpp;
 
 // simulate_backcrossing_cpp
-List simulate_backcrossing_cpp(int population_size, int maximum_time, double size_in_morgan, int markers, int seed, NumericVector time_points);
-RcppExport SEXP _junctions_simulate_backcrossing_cpp(SEXP population_sizeSEXP, SEXP maximum_timeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP seedSEXP, SEXP time_pointsSEXP) {
+List simulate_backcrossing_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, int number_of_markers, NumericVector time_points, int seed);
+RcppExport SEXP _junctions_simulate_backcrossing_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP number_of_markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type population_size(population_sizeSEXP);
-    Rcpp::traits::input_parameter< int >::type maximum_time(maximum_timeSEXP);
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< double >::type size_in_morgan(size_in_morganSEXP);
-    Rcpp::traits::input_parameter< int >::type markers(markersSEXP);
-    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< int >::type number_of_markers(number_of_markersSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type time_points(time_pointsSEXP);
-    rcpp_result_gen = Rcpp::wrap(simulate_backcrossing_cpp(population_size, maximum_time, size_in_morgan, markers, seed, time_points));
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(simulate_backcrossing_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -72,7 +73,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 6},
+    {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 7},
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
     {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 7},

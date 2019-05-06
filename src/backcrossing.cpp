@@ -7,8 +7,9 @@
 using namespace Rcpp;
 
 Output doSimulation_backcrossing(int population_size,
-                                 int maximum_time,
-                                 double number_of_recombinations,
+                                 double freq_ancestor_1,
+                                 int total_runtime,
+                                 double size_in_morgan,
                                  int number_of_markers,
                                  const NumericVector& time_points)    {
 
@@ -32,12 +33,28 @@ Output doSimulation_backcrossing(int population_size,
   // in principle these are all identical, so this is a bit inefficient coding,
   // but shouldn't cost much time anyway.
   for(int i = 0; i < population_size; ++i) {
-    Pop.push_back(mate_inf(parent1, parent2,
-                           number_of_recombinations));
+
+    Fish_inf focal_parent1 = parent1;
+    Fish_inf focal_parent2 = parent2;
+
+    /*
+    if(uniform() < freq_ancestor_1) {
+      focal_parent1 = parent1;
+    } else {
+      focal_parent1 = parent2;
+    }
+    if(uniform() < freq_ancestor_1) {
+      focal_parent2 = parent1;
+    } else {
+      focal_parent2 = parent2;
+    }*/
+
+    Pop.push_back(mate_inf(focal_parent1, focal_parent2,
+                           size_in_morgan));
   }
 
   // because we initialize with F1, we start at t = 1
-  for(int t = 0; t < maximum_time; ++t) {
+  for(int t = 0; t < total_runtime; ++t) {
     // record all information
     if(is_in_time_points(t, time_points)) {
       O.update_inf(Pop);
@@ -51,7 +68,7 @@ Output doSimulation_backcrossing(int population_size,
       int index1 = random_number(population_size);
 
       Fish_inf kid = mate_inf(Pop[index1], back_cross_parent,
-                              number_of_recombinations);
+                              size_in_morgan);
 
       next_generation.push_back(kid);
     }
@@ -68,19 +85,20 @@ Output doSimulation_backcrossing(int population_size,
 }
 
 // [[Rcpp::export]]
-List simulate_backcrossing_cpp(int population_size,
-                               int maximum_time,
+List simulate_backcrossing_cpp(int pop_size,
+                               double freq_ancestor_1,
+                               int total_runtime,
                                double size_in_morgan,
-                               int markers,
-                               int seed,
-                               NumericVector time_points) {
-
+                               int number_of_markers,
+                               NumericVector time_points,
+                               int seed) {
   set_seed(seed);
 
-  Output O = doSimulation_backcrossing(population_size,
-                                       maximum_time,
+  Output O = doSimulation_backcrossing(pop_size,
+                                       freq_ancestor_1,
+                                       total_runtime,
                                        size_in_morgan,
-                                       markers,
+                                       number_of_markers,
                                        time_points);
 
   return List::create(Named("average_junctions") = O.avgJunctions,

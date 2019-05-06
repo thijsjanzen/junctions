@@ -10,6 +10,6 @@
 number_of_junctions_backcross <- function(H_0 = 0.5,
                                           C = 1,
                                           t = 100) {
-  jt <- H_0 * t * C * 2^(-t)
+  jt <- 2 * H_0 * t * C * 2^(-t)
   return(jt)
 }

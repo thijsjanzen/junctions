@@ -32,7 +32,8 @@ Individual based simulation of the accumulation of junctions,
 under a back crossing scheme
 }
 \examples{
-vx <- sim_backcrossing(population_size = 100, maximum_time = 5,
+vx <- sim_backcrossing(population_size = 100,
+                       total_runtime = 5,
                        size_in_morgan = 1, number_of_markers = 100, seed = 6,
                        time_points = 1:5)
 }
