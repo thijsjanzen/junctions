@@ -10,7 +10,11 @@ Individual based simulations of hybridizing populations, where the accumulation 
 ## references
 Janzen, T. , Nolte, A. W. and Traulsen, A. (2018), The breakdown of genomic ancestry blocks in hybrid lineages given a finite number of recombination sites. Evolution, 72: 735-750. https://doi.org/10.1111/evo.13436
 
+Lavretsky, P, Janzen, T. and McCracken, KG.  (2019) Identifying hybrids & the genomics of hybridization: Mallards & American black ducks of Eastern North America. Ecology and Evolution 9: 3470-3490. https://doi.org/10.1002/ece3.4981
+
 ## Updates
+Version 1.4: added support for estimating the number of junctions, and simulating the number of junctions, under a backcrossing scheme, using the code supplied in Lavretsky et al. 2019.
+
 Version 1.3: Added support for estimating the time since admixture using unphased data. 
 
 Version 1.3: Added individual based simulations returning phased and unphased data. 
