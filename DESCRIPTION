@@ -1,7 +1,7 @@
 Package: junctions
 Type: Package
 Title: The Breakdown of Genomic Ancestry Blocks in Hybrid Lineages
-Version: 1.3
+Version: 1.4
 Date: 05-05-2019
 Authors@R: c(person("Thijs","Janzen", email = "thijsjanzen@gmail.com", role=c("aut","cre")))
 URL: https//github.com/thijsjanzen/junctions
@@ -9,7 +9,6 @@ Description: Individual based simulations of hybridizing populations, where the 
 License: GPL (>= 2)
 LinkingTo: Rcpp
 Imports: Rcpp, 
-         testit, 
          testthat, 
          knitr,
          expm

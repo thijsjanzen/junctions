@@ -20,7 +20,9 @@ estimate_time_unphased <- function(local_anc,
                                    pop_size,
                                    freq_ancestor_1) {
     seven_states <- single_state(local_time, N = pop_size, d = di)
-    focal_prob <- get_expectation_O_state(seven_states, p = freq_ancestor_1, state)
+    focal_prob <- get_expectation_O_state(seven_states,
+                                          p = freq_ancestor_1,
+                                          state)
     return(focal_prob)
   }
 

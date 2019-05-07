@@ -36,16 +36,16 @@ get_states <- function(local_anc_matrix) {
 
 #' @keywords internal
 single_state <- function(t, N, d) {
-  trans_matrix = matrix(0,7,7)
-  trans_matrix[1, ] = c(1 -1/(2*N) - 2*d , 2*d, 0, 0, 0, 1/(2*N), 0)
-  trans_matrix[2, ] = c(1/(2*N), 1 - 3*1/(2*N) - d, d, 2*1/(2*N), 0, 0, 0)
-  trans_matrix[3, ] = c(0, 2*1/(2*N), 1 - 4*1/(2*N), 0, 2 *1/(2*N), 0, 0)
-  trans_matrix[4, ] = c(0, 0, 0, 1 - 1/(2*N) - d, d, 1/(2*N), 0)
-  trans_matrix[5, ] = c(0, 0, 0, 2 * 1/(2*N), 1 - 3*1/(2*N), 0, 1/(2*N))
-  trans_matrix[6, ] = c(0, 0, 0, 0, 0, 1 - d, d)
-  trans_matrix[7, ] = c(0 ,0, 0, 0, 0, 1/(2*N), 1 - 1/(2*N))
+  trans_matrix <- matrix(0,7,7)
+  trans_matrix[1, ] <- c(1 -1/(2*N) - 2*d , 2*d, 0, 0, 0, 1/(2*N), 0)
+  trans_matrix[2, ] <- c(1/(2*N), 1 - 3*1/(2*N) - d, d, 2*1/(2*N), 0, 0, 0)
+  trans_matrix[3, ] <- c(0, 2*1/(2*N), 1 - 4*1/(2*N), 0, 2 *1/(2*N), 0, 0)
+  trans_matrix[4, ] <- c(0, 0, 0, 1 - 1/(2*N) - d, d, 1/(2*N), 0)
+  trans_matrix[5, ] <- c(0, 0, 0, 2 * 1/(2*N), 1 - 3*1/(2*N), 0, 1/(2*N))
+  trans_matrix[6, ] <- c(0, 0, 0, 0, 0, 1 - d, d)
+  trans_matrix[7, ] <- c(0 ,0, 0, 0, 0, 1/(2*N), 1 - 1/(2*N))
 
-  initial_state = c(1, 0, 0, 0, 0, 0, 0)
+  initial_state <- c(1, 0, 0, 0, 0, 0, 0)
 
   output_state <- initial_state %*% expm::`%^%`(trans_matrix, t)
   return(output_state)
@@ -56,33 +56,33 @@ get_expectation_O_state <- function(P, p, focal_state) {
   q <- 1-p
   cond_prob <- 1
 
-  if(focal_state == 1) cond_prob = p*q*(p*q*P[3] + q*P[5] + P[7])
+  if(focal_state == 1) cond_prob <- p*q*(p*q*P[3] + q*P[5] + P[7])
 
-  if(focal_state == 2) cond_prob = p*q*(p*q*P[,3] + q*P[5] + P[7])
+  if(focal_state == 2) cond_prob <- p*q*(p*q*P[,3] + q*P[5] + P[7])
 
-  if(focal_state == 3) cond_prob = (q^2)*( P[1] + P[4] + P[7]) +
-                                   (q^3)*(P[2] + P[5]) +
-                                   (q^4)*P[,3] + q*P[,6]
+  if(focal_state == 3) cond_prob <- (q^2)*( P[1] + P[4] + P[7]) +
+                                    (q^3)*(P[2] + P[5]) +
+                                    (q^4)*P[,3] + q*P[,6]
 
 
-  if(focal_state == 4) cond_prob = (p^2)*( P[1] + P[,4] + P[,7]) +
-                                   (p^3)*(P[2] + P[5]) +
-                                   (p^4)*P[,3] + p*P[,6]
+  if(focal_state == 4) cond_prob <- (p^2)*( P[1] + P[,4] + P[,7]) +
+                                    (p^3)*(P[2] + P[5]) +
+                                    (p^4)*P[,3] + p*P[,6]
 
-  if(focal_state == 5) cond_prob = p*q*(p*P[2] +
-                                   2*(p^2)*P[3] +
-                                   (1/2)*P[4] + p*P[5])
+  if(focal_state == 5) cond_prob <- p*q*(p*P[2] +
+                                    2*(p^2)*P[3] +
+                                    (1/2)*P[4] + p*P[5])
 
-  if(focal_state == 6) cond_prob = p*q*(q*P[2] + 2*(q^2)*P[3] +
-                                   (1/2)*P[4] + q*P[5])
+  if(focal_state == 6) cond_prob <- p*q*(q*P[2] + 2*(q^2)*P[3] +
+                                    (1/2)*P[4] + q*P[5])
 
-  if(focal_state == 7) cond_prob = p*q*(q*P[2] + 2*(q^2)*P[3] +
-                                   (1/2)*P[4] + q*P[5])
+  if(focal_state == 7) cond_prob <- p*q*(q*P[2] + 2*(q^2)*P[3] +
+                                    (1/2)*P[4] + q*P[5])
 
-  if(focal_state == 8) cond_prob = p*q*(p*P[2] + 2*(p^2)*P[3] +
-                                   (1/2)*P[4] + p*P[5])
+  if(focal_state == 8) cond_prob <- p*q*(p*P[2] + 2*(p^2)*P[3] +
+                                    (1/2)*P[4] + p*P[5])
 
-  if(focal_state == 9) cond_prob = p*q*(2*P[1] + P[2] + 2*p*q*P[3])
+  if(focal_state == 9) cond_prob <- p*q*(2*P[1] + P[2] + 2*p*q*P[3])
 
   return(log(cond_prob))
 }

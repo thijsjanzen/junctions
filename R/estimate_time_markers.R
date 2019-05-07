@@ -27,9 +27,9 @@ estimate_time_markers <- function(J = NA,
     return(abs(expected_j - J))
   }
 
-  upper_lim = 1e5
+  upper_lim <- 1e5
   if(J > 1e4) {
-    upper_lim = J * 20
+    upper_lim <- J * 20
   }
 
   fitted <- stats::optimize(to_fit, interval = c(2, upper_lim) )
