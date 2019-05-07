@@ -25,9 +25,9 @@
 Maintainer: Thijs Janzen <thijsjanzen@gmail.com>
 }
 \references{
-  Janzen, T. , Nolte, A. W. and Traulsen, A. (2018), The breakdown of genomic ancestry blocks in hybrid lineages given a finite number of recombination sites. Evolution, 72: 735-750. doi:10.1111/evo.13436
+  Janzen, T. , Nolte, A. W. and Traulsen, A. (2018), The breakdown of genomic ancestry blocks in hybrid lineages given a finite number of recombination sites. Evolution, 72: 735-750. doi:10.1111/evo.13436 \cr
 
-  Lavretsky, P, Janzen, T, McCracken, KG. Identifying hybrids & the genomics of hybridization: Mallards & American black ducks of Eastern North America. Ecol Evol. 2019; 9: 3470– 3490. doi:10.1002/ece3.4981
+  Lavretsky, P, Janzen, T. and McCracken, KG.  (2019) Identifying hybrids & the genomics of hybridization: Mallards & American black ducks of Eastern North America. Ecology and Evolution 9: 3470-3490. doi:10.1002/ece3.4981 \cr
 
 }
 \keyword{ junctions }
