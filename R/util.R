@@ -8,14 +8,22 @@ get_states <- function(local_anc_matrix) {
   # 1 = (1, 1), homozygous for ancestor 1
   # 2 = (1, 2) or (2, 1), heterozygous
 
-  local_anc <- rep(2, length(local_anc_matrix[,1]))
-  homo_0 <- which(local_anc_matrix[,1] == 0 &
-                    (local_anc_matrix[,1] == local_anc_matrix[,2]))
-  homo_1 <- which(local_anc_matrix[,1] == 1 &
-                    (local_anc_matrix[,1] == local_anc_matrix[,2]))
-  local_anc[homo_0] <- 0
-  local_anc[homo_1] <- 1
+  local_anc <- local_anc_matrix
+  if(is.matrix(local_anc_matrix)) {
+    local_anc <- rep(2, length(local_anc_matrix[,1]))
+    homo_0 <- which(local_anc_matrix[,1] == 0 &
+                      (local_anc_matrix[,1] == local_anc_matrix[,2]))
+    homo_1 <- which(local_anc_matrix[,1] == 1 &
+                      (local_anc_matrix[,1] == local_anc_matrix[,2]))
+    local_anc[homo_0] <- 0
+    local_anc[homo_1] <- 1
+  }
 
+  return( get_states_vector(local_anc))
+}
+
+#' @keywords internal
+get_states_vector <- function(local_anc) {
   all_states <- rep(NA, length(local_anc) - 1)
   for(i in 2:length(local_anc)) {
     left <- local_anc[i-1]
@@ -33,6 +41,7 @@ get_states <- function(local_anc_matrix) {
   }
   return(all_states)
 }
+
 
 #' @keywords internal
 single_state <- function(t, N, d) {

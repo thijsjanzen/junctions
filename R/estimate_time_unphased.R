@@ -1,18 +1,21 @@
 #' estimates the time since admixture, given unphased ancestry data.
 #' @description Calculates the time since admixture, given unphased ancestry data.
-#' @param local_anc matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor.
+#' @param local_anc Local_anc can be provided as either matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor. Alternatively, the user can provide a vector indicating whether at the specific marker, the focal individual is homozygous for the first ancestor (0), homozygous for the second ancestor (1) or heterozygous (2).
 #' @param locations locations of the used markers (in Morgan)
 #' @param pop_size population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
 #' @param max_t maximum time to be considered for maximum likelihood optimization. Too large values might cause the maximum likelihood algorithm to deviate from the global maximum.
+#' @param verbose display intermediate output? Default = FALSE
 #' @export
 estimate_time_unphased <- function(local_anc,
                                    locations,
                                    pop_size,
                                    freq_ancestor_1,
-                                   max_t) {
+                                   max_t,
+                                   verbose = FALSE) {
 
   distances <- diff(locations)
+
   local_states <- get_states(local_anc)
 
   calc_ll_single_state <- function(state, di,
@@ -31,7 +34,7 @@ estimate_time_unphased <- function(local_anc,
                           local_states, distances,
                           local_time = t,
                           pop_size, freq_ancestor_1)
-    #cat(t, -sum(local_probs), "\n")
+    if(verbose) cat(t, -sum(local_probs), "\n")
     return(-sum(local_probs))
   }
   a1 <- stats::optimize(f = to_optim, interval = c(2, max_t))

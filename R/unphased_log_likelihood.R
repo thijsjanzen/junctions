@@ -1,6 +1,6 @@
 #' calculate the log likelihood of observing the data
 #' @description Calculates the log likelihood of observing the unphased data, given the population size, initial heterozygosity and time since admixture
-#' @param local_anc matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor.
+#' @param local_anc Local_anc can be provided as either matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor. Alternatively, the user can provide a vector indicating whether at the specific marker, the focal individual is homozygous for the first ancestor (0), homozygous for the second ancestor (1) or heterozygous (2).
 #' @param locations locations of the used markers (in Morgan)
 #' @param pop_size population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
@@ -14,7 +14,12 @@ unphased_log_likelihood <- function(local_anc,
                                     t) {
 
   distances <- diff(locations)
-  local_states <- get_states(local_anc)
+
+  local_states <- local_anc
+  if(is.matrix(local_anc)) {
+    cat("found local ancestry matrix, converting to local ancestry vector\n")
+    local_states <- get_states(local_anc)
+  }
 
   calc_ll_single_state <- function(state, di,
                                    local_time,
@@ -27,12 +32,28 @@ unphased_log_likelihood <- function(local_anc,
     return(focal_prob)
   }
 
-  local_probs <- mapply(calc_ll_single_state,
-                        local_states,
-                        distances,
-                        t,
-                        pop_size,
-                        freq_ancestor_1)
+  if(length(t) == 1) {
+    local_probs <- mapply(calc_ll_single_state,
+                          local_states,
+                          distances,
+                          t,
+                          pop_size,
+                          freq_ancestor_1)
 
-  return(sum(local_probs))
+    return(sum(local_probs))
+  }
+
+  if(length(t) > 1) {
+    output <- c()
+    for(i in seq_along(t)) {
+      local_probs <- mapply(calc_ll_single_state,
+                          local_states,
+                          distances,
+                          t[i],
+                          pop_size,
+                          freq_ancestor_1)
+      output[i] <- sum(local_probs)
+    }
+    return(output)
+  }
 }
