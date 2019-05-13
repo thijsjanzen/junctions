@@ -8,26 +8,26 @@
 #' @param optim_pop_size If TRUE, population size is also optimized. Starting point of the optimizaton will then be on the given population size, and half the maximum time.
 #' @param verbose display intermediate output? Default = FALSE
 #' @export
-estimate_time_unphased <- function(local_anc,
-                                   locations,
-                                   pop_size,
-                                   freq_ancestor_1,
-                                   max_t,
-                                   optim_pop_size = FALSE,
-                                   verbose = FALSE) {
+estimate_time_phased <- function(local_anc,
+                                 locations,
+                                 pop_size,
+                                 freq_ancestor_1,
+                                 max_t,
+                                 optim_pop_size = FALSE,
+                                 verbose = FALSE) {
 
   distances <- diff(locations)
 
-  local_states <- get_states(local_anc)
+  local_states <- get_states_phased(local_anc)
 
   calc_ll_single_state <- function(state, di,
                                    local_time,
                                    pop_size,
                                    freq_ancestor_1) {
     seven_states <- single_state(local_time, N = pop_size, d = di)
-    focal_prob <- get_expectation_O_state(seven_states,
-                                          p = freq_ancestor_1,
-                                          state)
+    focal_prob <- get_expectation_O_state_phased(seven_states,
+                                                 p = freq_ancestor_1,
+                                                 state)
     return(focal_prob)
   }
 
