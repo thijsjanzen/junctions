@@ -15,11 +15,7 @@ unphased_log_likelihood <- function(local_anc,
 
   distances <- diff(locations)
 
-  local_states <- local_anc
-  if(is.matrix(local_anc)) {
-    cat("found local ancestry matrix, converting to local ancestry vector\n")
-    local_states <- get_states(local_anc)
-  }
+  local_states <- get_states(local_anc)
 
   calc_ll_single_state <- function(state, di,
                                    local_time,
