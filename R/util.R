@@ -147,7 +147,7 @@ get_expectation_O_state_phased <- function(P, p, focal_state) {
   }
 
   if(focal_state == 10) {
-    cond_prob <- 2*p*q*P[1] + P*q*P[2] + 2*(p^2)*(q^2)*P[3]
+    cond_prob <- 2*p*q*P[1] + p*q*P[2] + 2*(p^2)*(q^2)*P[3]
     cond_prob <- log(cond_prob)
   }
   if(focal_state == 11) {
