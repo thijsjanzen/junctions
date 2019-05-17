@@ -11,7 +11,8 @@ LinkingTo: Rcpp
 Imports: Rcpp, 
          testthat, 
          knitr,
-         expm
+         expm,
+         tibble
 SystemRequirements: C++11
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

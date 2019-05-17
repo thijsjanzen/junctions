@@ -6,7 +6,7 @@
 \usage{
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
   total_runtime = 100, size_in_morgan = 1, number_of_markers = 100,
-  time_points = -1, seed = 42)
+  time_points = -1, seed = 42, verbose = TRUE)
 }
 \arguments{
 \item{pop_size}{Population Size}
@@ -22,9 +22,11 @@ sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 \item{time_points}{vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).}
 
 \item{seed}{Seed of the pseudo-random number generator}
+
+\item{verbose}{displays a progress bar}
 }
 \value{
-matrix with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
+a tibble with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
 }
 \description{
 Individual based simulation of the accumulation of junctions, returning phased and unphased data. Ancestry on both chromosomes of 10 randomly sampled individuals per generations is returned.
