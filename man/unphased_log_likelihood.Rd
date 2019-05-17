@@ -4,11 +4,11 @@
 \alias{unphased_log_likelihood}
 \title{calculate the log likelihood of observing the data}
 \usage{
-unphased_log_likelihood(local_anc, locations, pop_size,
+unphased_log_likelihood(local_anc_matrix, locations, pop_size,
   freq_ancestor_1 = 0.5, t)
 }
 \arguments{
-\item{local_anc}{Local_anc can be provided as either matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor. Alternatively, the user can provide a vector indicating whether at the specific marker, the focal individual is homozygous for the first ancestor (0), homozygous for the second ancestor (1) or heterozygous (2).}
+\item{local_anc_matrix}{Local_anc can be provided as either matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor. Alternatively, the user can provide a vector indicating whether at the specific marker, the focal individual is homozygous for the first ancestor (0), homozygous for the second ancestor (1) or heterozygous (2).}
 
 \item{locations}{locations of the used markers (in Morgan)}
 

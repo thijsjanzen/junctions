@@ -109,16 +109,16 @@ get_expectation_O_state <- function(P, p, focal_state) {
 
   if(focal_state == 1) cond_prob <- p*q*(p*q*P[3] + q*P[5] + P[7])
 
-  if(focal_state == 2) cond_prob <- p*q*(p*q*P[,3] + q*P[5] + P[7])
+  if(focal_state == 2) cond_prob <- p*q*(p*q*P[3] + q*P[5] + P[7])
 
   if(focal_state == 3) cond_prob <- (q^2)*( P[1] + P[4] + P[7]) +
                                     (q^3)*(P[2] + P[5]) +
-                                    (q^4)*P[,3] + q*P[,6]
+                                    (q^4)*P[3] + q*P[,6]
 
 
   if(focal_state == 4) cond_prob <- (p^2)*( P[1] + P[,4] + P[,7]) +
                                     (p^3)*(P[2] + P[5]) +
-                                    (p^4)*P[,3] + p*P[,6]
+                                    (p^4)*P[3] + p*P[,6]
 
   if(focal_state == 5) cond_prob <- p*q*(p*P[2] +
                                     2*(p^2)*P[3] +
