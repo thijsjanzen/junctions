@@ -138,6 +138,9 @@ get_expectation_O_state <- function(P, p, focal_state) {
   return(log(cond_prob))
 }
 
+
+
+
 get_expectation_O_state_phased <- function(P, p, focal_state) {
   q <- 1-p
   cond_prob <- 1

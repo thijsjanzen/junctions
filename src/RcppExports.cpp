@@ -55,8 +55,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // sim_phased_unphased_cpp
-List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, int number_of_markers, NumericVector time_points, int seed);
-RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP number_of_markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP) {
+List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, int number_of_markers, NumericVector time_points, int seed, bool verbose);
+RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP number_of_markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -67,7 +67,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type number_of_markers(number_of_markersSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type time_points(time_pointsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed));
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -76,7 +77,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 7},
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
-    {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 7},
+    {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 8},
     {NULL, NULL, 0}
 };
 

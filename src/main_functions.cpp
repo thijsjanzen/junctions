@@ -87,14 +87,14 @@ Output doSimulation_fin(int popSize,
     Fish_fin parent2 = Fish_fin(1, genomeSize);
 
     for(int i = 0; i < popSize; ++i) {
-        Fish_fin p1 = parent1;
-        Fish_fin p2 = parent1;
+        Fish_fin p1 = parent2;
+        Fish_fin p2 = parent2;
 
         if(uniform() < initRatio) {
-            p1 = parent2;
+            p1 = parent1;
         }
         if(uniform() < initRatio) {
-            p2 = parent2;
+            p2 = parent1;
         }
 
         Pop.push_back(mate_fin(p1,p2, numRecombinations));

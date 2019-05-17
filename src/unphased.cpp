@@ -11,7 +11,8 @@ Output simulation_phased_nonphased(int popSize,
                     int maxTime,
                     double numRecombinations,
                     int numberOfMarkers,
-                    const NumericVector& time_points
+                    const NumericVector& time_points,
+                    bool verbose
 )    {
 
   Output O;
@@ -37,8 +38,8 @@ Output simulation_phased_nonphased(int popSize,
     Pop.push_back( mate_inf(p1,p2, numRecombinations));
   }
 
-  //Rcout << "0--------25--------50--------75--------100\n";
-  //Rcout << "*";
+  if(verbose) Rcout << "0--------25--------50--------75--------100\n";
+  if(verbose) Rcout << "*";
   int updateFreq = maxTime / 20;
   if(updateFreq < 1) updateFreq = 1;
 
@@ -61,13 +62,15 @@ Output simulation_phased_nonphased(int popSize,
 
     Pop = newGeneration;
     newGeneration.clear();
-    if(t % updateFreq == 0) {
-   //   Rcout << "**";
+    if(verbose) {
+      if(t % updateFreq == 0) {
+        Rcout << "**";
+      }
     }
 
     Rcpp::checkUserInterrupt();
   }
- // Rcout << "\n";
+  if(verbose) Rcout << "\n";
   return O;
 }
 
@@ -78,14 +81,16 @@ List sim_phased_unphased_cpp(int pop_size,
                          double size_in_morgan,
                          int number_of_markers,
                          NumericVector time_points,
-                         int seed) {
+                         int seed,
+                         bool verbose) {
 
   set_seed(seed);
 
     Output O = simulation_phased_nonphased(pop_size, freq_ancestor_1,
                                            total_runtime,
                                            size_in_morgan, number_of_markers,
-                                           time_points);
+                                           time_points,
+                                           verbose);
 
   int num_rows = O.results.size();
   int num_cols = O.results[0].size();

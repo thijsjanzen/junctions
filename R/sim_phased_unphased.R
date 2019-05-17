@@ -7,7 +7,8 @@
 #' @param number_of_markers The number of genetic markers superimposed on the chromosome.
 #' @param time_points vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
-#' @return matrix with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
+#' @param verbose displays a progress bar
+#' @return a tibble with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
 #' @examples
 #' sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 #'                     total_runtime = 10, size_in_morgan = 1,
@@ -20,7 +21,8 @@ sim_phased_unphased <- function(pop_size = 100,
                                 size_in_morgan = 1,
                                 number_of_markers = 100,
                                 time_points = -1,
-                                seed = 42) {
+                                seed = 42,
+                                verbose = TRUE) {
   if(length(time_points) == 1) {
     if(time_points == -1) {
       time_points <- seq(0, total_runtime, by = 1)
@@ -33,6 +35,10 @@ sim_phased_unphased <- function(pop_size = 100,
                                     size_in_morgan,
                                     number_of_markers,
                                     time_points,
-                                    seed)
-  return(output)
+                                    seed,
+                                    verbose)
+
+  colnames(output$results) <- c("time", "individual", "location", "anc_chrom_1", "anc_chrom_2")
+
+  return(tibble::as_tibble(output$results))
 }
