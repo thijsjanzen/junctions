@@ -56,18 +56,31 @@ get_cond_prob_vector <- function(info_vector,
 
   seven_states <- single_state(local_time, N = pop_size, d = di)
 
-  log_probs <- c()
+  probs <- c()
   for(j in 1:3) {
-    log_probs[j] <- get_prob_from_matrix(left = left,
+    probs[j] <- get_prob_from_matrix(left = left,
                                          right = j,
                                          p = freq_ancestor_1,
                                          P = seven_states)
   }
 
-  focal_prob <- log_probs[right]
+  if(1 == 2) {
+    prob_matrix <- matrix(NA, nrow = 3, ncol = 3)
+    for(i in 1:3) {
+      for(j in 1:3) {
+        prob_matrix[i,j] <- get_prob_from_matrix(left = i,
+                                                right = j,
+                                                p = freq_ancestor_1,
+                                                P = seven_states)
+      }
+    }
+  }
+
+
+  focal_prob <- probs[right]
 
   if(condition == TRUE) {
-    final_prob <- log( focal_prob / sum(log_probs) )
+    final_prob <- log( focal_prob / sum(probs) )
     return(final_prob)
   }
   return( log(focal_prob))
@@ -76,7 +89,7 @@ get_cond_prob_vector <- function(info_vector,
 
 #' estimates the time since admixture, given unphased ancestry data.
 #' @description Calculates the time since admixture, given unphased ancestry data.
-#' @param local_anc Local_anc can be provided as either matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor. Alternatively, the user can provide a vector indicating whether at the specific marker, the focal individual is homozygous for the first ancestor (0), homozygous for the second ancestor (1) or heterozygous (2).
+#' @param local_anc_matrix Local_anc can be provided as either matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor. Alternatively, the user can provide a vector indicating whether at the specific marker, the focal individual is homozygous for the first ancestor (0), homozygous for the second ancestor (1) or heterozygous (2).
 #' @param locations locations of the used markers (in Morgan)
 #' @param pop_size population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
