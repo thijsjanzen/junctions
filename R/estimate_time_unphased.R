@@ -106,7 +106,7 @@ get_cond_prob_vector <- function(info_vector,
 
 #' estimates the time since admixture, given unphased ancestry data.
 #' @description Calculates the time since admixture, given unphased ancestry data.
-#' @param local_anc_matrix Local_anc can be provided as either matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor. Alternatively, the user can provide a vector indicating whether at the specific marker, the focal individual is homozygous for the first ancestor (0), homozygous for the second ancestor (1) or heterozygous (2).
+#' @param local_anc_matrix Local_anc can be provided as either matrix with two columns, where the first column represents ancestry on chromosome 1, and the second column represents ancestry on chromosome 2. Ancestry labels used should be [0, 1], where 0 indicates the first ancestor, and 1 indicates the second ancestor. Alternatively, the user can provide a vector containing lables indicating whether at the specific marker, the focal individual is homozygous for the first ancestor (label = 1), homozygous for the second ancestor (label = 2) or heterozygous (label = 3).
 #' @param locations locations of the used markers (in Morgan)
 #' @param pop_size population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
@@ -167,15 +167,6 @@ estimate_time_unphased <- function(local_anc_matrix,
       return(-sum(local_probs))
     }
 
-    if(1 == 2) {
-    found <- c()
-      for(t in seq(0, 500, by = 10)) {
-        local_ll <- calc_ll(t)
-        cat(t, local_ll, "\n")
-        found <- rbind(found, c(t, local_ll))
-      }
-      plot(-found[,2]~found[,1])
-      }
     a1 <- stats::optimize(f = calc_ll, interval = c(2, max_t))
     return(a1)
   }
