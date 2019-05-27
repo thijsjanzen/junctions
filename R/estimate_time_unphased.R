@@ -110,15 +110,17 @@ get_cond_prob_vector <- function(info_vector,
 #' @param locations locations of the used markers (in Morgan)
 #' @param pop_size population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
-#' @param max_t maximum time to be considered for maximum likelihood optimization. Too large values might cause the maximum likelihood algorithm to deviate from the global maximum.
-#' @param optim_pop_size If TRUE, population size is also optimized. Starting point of the optimizaton will then be on the given population size, and half the maximum time.
+#' @param lower_lim lower limit of the optimization algorithm. Increase if the expected admixture time is relatively ancient
+#' @param upper_lim upper limit of hte optimization algorithm. If set too large, recent admixture events can be overlooked - best to set as low as possible.
+#' @param optim_pop_size If TRUE, population size is also optimized. Starting point of the optimizaton will then be on the given population size, and half upper_lim.
 #' @param verbose display intermediate output? Default = FALSE
 #' @export
 estimate_time_unphased <- function(local_anc_matrix,
                                    locations,
                                    pop_size,
                                    freq_ancestor_1,
-                                   max_t,
+                                   lower_lim = 2,
+                                   upper_lim = 1000,
                                    optim_pop_size = FALSE,
                                    verbose = FALSE) {
 
@@ -167,7 +169,7 @@ estimate_time_unphased <- function(local_anc_matrix,
       return(-sum(local_probs))
     }
 
-    a1 <- stats::optimize(f = calc_ll, interval = c(2, max_t))
+    a1 <- stats::optimize(f = calc_ll, interval = c(lower_lim, upper_lim))
     return(a1)
   }
   if(optim_pop_size == TRUE) {
@@ -190,7 +192,7 @@ estimate_time_unphased <- function(local_anc_matrix,
     }
 
 
-    a1 <- stats::optim(par = c(max_t, pop_size), fn = calc_ll)
+    a1 <- stats::optim(par = c(0.5 * upper_lim, pop_size), fn = calc_ll)
     return(a1)
   }
 }

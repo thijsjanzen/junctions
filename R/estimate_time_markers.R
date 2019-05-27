@@ -4,6 +4,8 @@
 #' @param N Population Size
 #' @param H_0 Frequency of heterozygosity at t = 0
 #' @param marker_distribution A vector containing the position of all markers in Morgan.
+#' @param lower_lim lower limit of the optimization algorithm. Increase if the expected admixture time is relatively ancient
+#' @param upper_lim upper limit of hte optimization algorithm. If set too large, recent admixture events can be overlooked - best to set as low as possible.
 #' @return The number of generations passed since the onset of hybridization
 #' @examples
 #' markers <- seq(from = 0, to = 1, length.out = 100)
@@ -16,7 +18,9 @@
 estimate_time_markers <- function(J = NA,
                                   N = Inf,
                                   H_0 = 0.5,
-                                  marker_distribution = NA) {
+                                  marker_distribution = NA,
+                                  lower_lim = 2,
+                                  upper_lim = 1000) {
 
  to_fit <- function(params) {
     expected_j <-
@@ -27,11 +31,10 @@ estimate_time_markers <- function(J = NA,
     return(abs(expected_j - J))
   }
 
-  upper_lim <- 1e5
-  if(J > 1e4) {
-    upper_lim <- J * 20
+  fitted <- stats::optimize(to_fit, interval = c(lower_lim, upper_lim) )
+  if(fitted$minimum >= 0.9 * upper_lim) {
+    cat("estimated time is close to the upper limit of time inference\n")
+    cat("consider adjusting the upper limit to improve accuracy")
   }
-
-  fitted <- stats::optimize(to_fit, interval = c(2, upper_lim) )
   return(fitted$minimum)
 }
