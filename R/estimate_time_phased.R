@@ -111,10 +111,10 @@ get_cond_prob_vector_phased <- function(info_vector,
 
   probs <- c()
   for(j in 1:4) {
-    probs[j] <- get_prob_from_matrix(left = left,
-                                     right = j,
-                                     p = freq_ancestor_1,
-                                     P = seven_states)
+    probs[j] <- get_prob_from_matrix_phased(left = left,
+                                            right = j,
+                                            p = freq_ancestor_1,
+                                            P = seven_states)
   }
 
 
@@ -164,7 +164,7 @@ estimate_time_phased <- function(local_anc_matrix,
 
   local_anc <- local_anc_matrix
   if(is.matrix(local_anc_matrix)) {
-    local_anc <- rep(3, length(local_anc_matrix[,1]))
+    local_anc <- rep(-1, length(local_anc_matrix[,1]))
     homo_1 <- which(local_anc_matrix[, 1] == 0 &
                       local_anc_matrix[, 2] == 0)
     homo_2 <- which(local_anc_matrix[, 1] == 1 &
@@ -237,3 +237,4 @@ estimate_time_phased <- function(local_anc_matrix,
     return(a1)
   }
 }
+

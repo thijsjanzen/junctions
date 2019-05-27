@@ -5,7 +5,7 @@
 \title{Estimate the time since the onset of hybridization, using the observed number of junctions, taking into account the distribution of markers}
 \usage{
 estimate_time_markers(J = NA, N = Inf, H_0 = 0.5,
-  marker_distribution = NA)
+  marker_distribution = NA, lower_lim = 2, upper_lim = 1000)
 }
 \arguments{
 \item{J}{The observed number of junctions}
@@ -15,6 +15,10 @@ estimate_time_markers(J = NA, N = Inf, H_0 = 0.5,
 \item{H_0}{Frequency of heterozygosity at t = 0}
 
 \item{marker_distribution}{A vector containing the position of all markers in Morgan.}
+
+\item{lower_lim}{lower limit of the optimization algorithm. Increase if the expected admixture time is relatively ancient}
+
+\item{upper_lim}{upper limit of hte optimization algorithm. If set too large, recent admixture events can be overlooked - best to set as low as possible.}
 }
 \value{
 The number of generations passed since the onset of hybridization
