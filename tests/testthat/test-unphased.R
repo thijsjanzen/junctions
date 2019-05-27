@@ -23,7 +23,7 @@ test_that("unphased, use", {
     estim_time <- estimate_time_unphased(cbind(local_data$anc_chrom_1, local_data$anc_chrom_2),
                                          local_data$location,
                                          pop_size = 100, freq_ancestor_1 = 0.5,
-                                         max_t = 200)
+                                         upper_lim = 200)
     found[indiv+1] <- estim_time$minimum
   }
 
