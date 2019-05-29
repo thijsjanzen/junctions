@@ -103,7 +103,7 @@ Output doSimulation_fin(int popSize,
     int updateFreq = maxTime / 20;
     if(updateFreq < 1) updateFreq = 1;
 
-    for(int t = 0; t < maxTime; ++t) {
+    for(int t = 0; t <= maxTime; ++t) {
         O.update_fin(Pop);
         std::vector<Fish_fin> newGeneration;
 

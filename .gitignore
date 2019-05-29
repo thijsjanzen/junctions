@@ -9,3 +9,4 @@
 
 *.o
 .Rproj.user
+*.tmp
