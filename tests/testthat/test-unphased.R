@@ -29,6 +29,8 @@ test_that("unphased, use", {
 
   testthat::expect_equal(mean(found), focal_time, tolerance = 10)
 
+
+
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 100)
   ll_100 <- unphased_log_likelihood(cbind(local_data$anc_chrom_1, local_data$anc_chrom_2),
@@ -44,4 +46,35 @@ test_that("unphased, use", {
                                     t = 200)
 
   testthat::expect_gte(ll_100, ll_200)
+
+  vx <- sim_phased_unphased(pop_size = 1000,
+                            freq_ancestor_1 = 0.1,
+                            total_runtime = 30,
+                            size_in_morgan = 1,
+                            number_of_markers = 1000,
+                            time_points = c(30),
+                            seed = 421)
+
+  local_data <- subset(vx, vx$individual == 0 &
+                         vx$time == 30)
+
+  ll_30 <- unphased_log_likelihood(cbind(local_data$anc_chrom_1, local_data$anc_chrom_2),
+                                    local_data$location,
+                                    pop_size = 1000,
+                                    freq_ancestor_1 = 0.1,
+                                    t = 30)
+
+  ll_60 <- unphased_log_likelihood(cbind(local_data$anc_chrom_1, local_data$anc_chrom_2),
+                                    local_data$location,
+                                    pop_size = 1000,
+                                    freq_ancestor_1 = 0.1,
+                                    t = 60)
+  testthat::expect_gte(ll_30, ll_60)
+
+  ll_inf <- unphased_log_likelihood(cbind(local_data$anc_chrom_1, local_data$anc_chrom_2),
+                                    local_data$location,
+                                    pop_size = 1000,
+                                    freq_ancestor_1 = 0.1,
+                                    t = 0)
+  testthat::expect_true(is.infinite(ll_inf))
 })

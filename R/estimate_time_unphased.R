@@ -99,8 +99,9 @@ get_cond_prob_vector <- function(info_vector,
     rel_prob <- focal_prob / sum(probs)
     final_prob <- log( rel_prob )
     return(final_prob)
+  } else {
+    return( log(focal_prob))
   }
-  return( log(focal_prob))
 }
 
 

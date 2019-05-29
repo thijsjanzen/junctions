@@ -53,7 +53,7 @@ unphased_log_likelihood <- function(local_anc_matrix,
                                            local_time = params[[1]],
                                            condition = FALSE)
 
-    return(-sum(local_probs))
+    return(sum(local_probs))
   }
 
   if(test == TRUE) {
@@ -64,7 +64,7 @@ unphased_log_likelihood <- function(local_anc_matrix,
                            pop_size,
                            local_time = params[[1]],
                            condition = FALSE)
-      return(-sum(local_probs))
+      return(sum(local_probs))
     }
     if(length(t) == 1) {
       focal_ll <- calc_ll(t)
