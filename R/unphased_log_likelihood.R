@@ -5,6 +5,7 @@
 #' @param pop_size population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
 #' @param t time since admixture
+#' @param test using testing likelihood?
 #' @return log likelihood
 #' @export
 unphased_log_likelihood <- function(local_anc_matrix,

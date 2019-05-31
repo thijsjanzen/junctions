@@ -17,6 +17,8 @@ unphased_log_likelihood(local_anc_matrix, locations, pop_size,
 \item{freq_ancestor_1}{Frequency of ancestor 1 at t = 0}
 
 \item{t}{time since admixture}
+
+\item{test}{using testing likelihood?}
 }
 \value{
 log likelihood
