@@ -126,6 +126,7 @@ get_cond_prob_vector <- function(info_vector,
 #' @param upper_lim upper limit of hte optimization algorithm. If set too large, recent admixture events can be overlooked - best to set as low as possible.
 #' @param optim_pop_size If TRUE, population size is also optimized. Starting point of the optimizaton will then be on the given population size, and half upper_lim.
 #' @param verbose display intermediate output? Default = FALSE
+#' @param test use old likelihood function?
 #' @export
 estimate_time_unphased <- function(local_anc_matrix,
                                    locations,
@@ -134,7 +135,8 @@ estimate_time_unphased <- function(local_anc_matrix,
                                    lower_lim = 2,
                                    upper_lim = 1000,
                                    optim_pop_size = FALSE,
-                                   verbose = FALSE) {
+                                   verbose = FALSE,
+                                   test = FALSE) {
 
   distances <- diff(locations)
 
@@ -168,11 +170,19 @@ estimate_time_unphased <- function(local_anc_matrix,
         return(Inf)
       }
 
-      local_probs <- apply(to_analyze, 1, get_cond_prob_vector,
+      local_probs <- c()
+      if(!test) local_probs <- apply(to_analyze, 1, get_cond_prob_vector,
                            freq_ancestor_1,
                            pop_size,
                            local_time = params[[1]],
                            condition = TRUE)
+
+      if(test) local_probs <- apply(to_analyze, 1, get_cond_prob_vector,
+                                    freq_ancestor_1,
+                                    pop_size,
+                                    local_time = params[[1]],
+                                    condition = FALSE)
+
 
       local_probs[1] <- get_cond_prob_vector(to_analyze[1,],
                                              freq_ancestor_1,
