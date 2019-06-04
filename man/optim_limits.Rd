@@ -14,8 +14,9 @@ optim_limits(lower = 1, upper = 10000, calc_func, iterations = 10)
 \item{calc_func}{function to calculate the time, should accept two arguments: upper, lower and should return a stats::optimize object with two properties: $minimum and $objective}
 
 \item{iterations}{number of times the boundaries should be adjusted to obtain an estimate that is not close to the boundaries. After this number of iterations is exceeded, NA is returned}
-
-\item{return}{final estimate}
+}
+\value{
+final estimate
 }
 \description{
 Optimizes the lower and upper limit for estimation of time
