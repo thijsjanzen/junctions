@@ -30,8 +30,7 @@ sim_phased_unphased <- function(pop_size = 100,
   }
 
   if(is.null(seed)) {
-    cat("warning! you did not provide a seed\n")
-    cat("will use the time as a seed\n")
+    warning("warning! you did not provide a seed\nwill use the time as a seed\n")
     seed = Sys.time()
   }
 

@@ -11,8 +11,7 @@ phased_log_likelihood <- function(local_anc_matrix,
                                     locations,
                                     pop_size,
                                     freq_ancestor_1 = 0.5,
-                                    t,
-                                    test = FALSE) {
+                                    t) {
 
   distances <- diff(locations)
 
@@ -59,7 +58,6 @@ phased_log_likelihood <- function(local_anc_matrix,
                                                   local_time = params[[1]],
                                                   condition = FALSE)
 
-    if(verbose) cat(params[[1]], sum(local_probs), "\n")
     return(sum(local_probs))
   }
 
