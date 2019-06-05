@@ -6,7 +6,7 @@
 \usage{
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
   total_runtime = 100, size_in_morgan = 1, number_of_markers = 100,
-  time_points = -1, seed = 42, verbose = TRUE)
+  time_points = -1, seed = NULL, verbose = TRUE)
 }
 \arguments{
 \item{pop_size}{Population Size}

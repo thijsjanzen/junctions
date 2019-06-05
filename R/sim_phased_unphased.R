@@ -21,12 +21,18 @@ sim_phased_unphased <- function(pop_size = 100,
                                 size_in_morgan = 1,
                                 number_of_markers = 100,
                                 time_points = -1,
-                                seed = 42,
+                                seed = NULL,
                                 verbose = TRUE) {
   if(length(time_points) == 1) {
     if(time_points == -1) {
       time_points <- seq(0, total_runtime, by = 1)
     }
+  }
+
+  if(is.null(seed)) {
+    cat("warning! you did not provide a seed\n")
+    cat("will use the time as a seed\n")
+    seed = Sys.time()
   }
 
   output <- sim_phased_unphased_cpp(pop_size,
