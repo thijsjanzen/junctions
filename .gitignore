@@ -10,3 +10,4 @@
 *.o
 .Rproj.user
 *.tmp
+*.txt
