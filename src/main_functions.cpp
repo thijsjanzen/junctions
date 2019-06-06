@@ -38,14 +38,14 @@ Output doSimulation_inf(int popSize,
     Fish_inf parent2 = Fish_inf(1);
 
     for(int i = 0; i < popSize; ++i) {
-        Fish_inf p1 = parent1;
-        Fish_inf p2 = parent1;
+        Fish_inf p1 = parent2;
+        Fish_inf p2 = parent2;
 
         if(uniform() < initRatio) {
-            p1 = parent2;
+            p1 = parent1;
         }
         if(uniform() < initRatio) {
-            p2 = parent2;
+            p2 = parent1;
         }
 
         Pop.push_back(mate_inf(p1,p2, numRecombinations));
