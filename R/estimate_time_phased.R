@@ -1,100 +1,101 @@
 #' @keywords internal
 get_prob_from_matrix_phased <- function(left, right, p, P) {
   q <- 1-p
-  cond_prob <- 0
+
+  prob <- 0
+
   if(left == 1 && right == 1) {
-    cond_prob <- (p^2)*( P[1] + P[4] + P[7] ) +
+    prob <- (p^2)*( P[1] + P[4] + P[7] ) +
       (p^3)*(P[2] + P[5]) +
       (p^4)*P[3] +
       p*P[6]
   }
   if(left == 1 && right == 2) {
-    cond_prob <- p*q*( p*q*P[3] +
-                         (1/2)*P[5] +
-                         P[7])
+    prob <- p*q*( p*q*P[3] +
+                    (1/2)*P[5] +
+                    P[7])
   }
   if(left == 1 && right == 3) {
-    cond_prob <- (1/2) * (p*q)*(p*P[2] +
-                                  2*(p^2)*P[3] +
-                                  (1/2)*P[4] +
-                                  p*P[5])
+    prob <- (1/2) * (p*q)*(p*P[2] +
+                             2*(p^2)*P[3] +
+                             (1/2)*P[4] +
+                             p*P[5])
   }
   if(left == 1 && right == 4) {
-    cond_prob <- (1/2) * (p*q)*(p*P[2] +
-                                  2*(p^2)*P[3] +
-                                  (1/2)*P[4] +
-                                  p*P[5])
+    prob <- (1/2) * (p*q)*(p*P[2] +
+                             2*(p^2)*P[3] +
+                             (1/2)*P[4] +
+                             p*P[5])
   }
 
 
   if(left == 2 && right == 1) {
-    cond_prob <- p*q*(p*q*P[3] +
-                        (1/2)*P[5] +
-                        P[7])
+    prob <- p*q*(p*q*P[3] +
+                   (1/2)*P[5] +
+                   P[7])
   }
   if(left == 2 && right == 2) {
-    cond_prob <- (q^2)*( P[1] + P[4] + P[7]) +
+    prob <- (q^2)*( P[1] + P[4] + P[7]) +
       (q^3)*(P[2] + P[5]) +
       (q^4)*P[3] +
       q*P[6]
   }
   if(left == 2 && right == 3) {
-    cond_prob <- (1/2) * p*q*(q*P[2] +
-                                2*(q^2)*P[3] +
-                                (1/2)*P[4] +
-                                q*P[5])
+    prob <- (1/2) * p*q*(q*P[2] +
+                           2*(q^2)*P[3] +
+                           (1/2)*P[4] +
+                           q*P[5])
   }
   if(left == 2 && right == 4) {
-    cond_prob <- (1/2) * p*q*(q*P[2] +
-                                2*(q^2)*P[3] +
-                                (1/2)*P[4] +
-                                q*P[5])
+    prob <- (1/2) * p*q*(q*P[2] +
+                           2*(q^2)*P[3] +
+                           (1/2)*P[4] +
+                           q*P[5])
   }
 
 
   if(left == 3 && right == 1) {
-    cond_prob <- (1/2) * p*q*(p*P[2] +
-                        2*(p^2)*P[3] +
-                        (1/2)*P[4] +
-                        p*P[5])
+    prob <- (1/2) * p*q*(p*P[2] +
+                           2*(p^2)*P[3] +
+                           (1/2)*P[4] +
+                           p*P[5])
   }
   if(left == 3 && right == 2) {
-    cond_prob <- (1/2) * p*q*(q*P[2] +
-                        2*(q^2)*P[3] +
-                        (1/2)*P[4] +
-                        q*P[5])
+    prob <- (1/2) * p*q*(q*P[2] +
+                           2*(q^2)*P[3] +
+                           (1/2)*P[4] +
+                           q*P[5])
   }
   if(left == 3 && right == 3) {
-    cond_prob <- (1/2) * p*q*(2*P[1] +
-                        P[2] +
-                        2*p*q*P[3])
+     prob <- p*q*(P[1] +
+                  (1/2)*P[2] +
+                  p*q*P[3])
   }
   if(left == 3 && right == 4) {
-    cond_prob <- (1/2) * p*q*P[3]
+    prob <- (p^2)*(q^2)*P[3]
   }
 
   if(left == 4 && right == 1) {
-    cond_prob <- (1/2) * p*q*(p*P[2] +
-                                2*(p^2)*P[3] +
-                                (1/2)*P[4] +
-                                p*P[5])
+    prob <- (1/2) * p*q*(p*P[2] +
+                           2*(p^2)*P[3] +
+                           (1/2)*P[4] +
+                           p*P[5])
   }
   if(left == 4 && right == 2) {
-    cond_prob <- (1/2) * p*q*(q*P[2] +
-                                2*(q^2)*P[3] +
-                                (1/2)*P[4] +
-                                q*P[5])
+    prob <- (1/2) * p*q*(q*P[2] +
+                           2*(q^2)*P[3] +
+                           (1/2)*P[4] +
+                           q*P[5])
   }
   if(left == 4 && right == 3) {
-    cond_prob <- (1/2) * p*q*(2*P[1] +
-                                P[2] +
-                                2*p*q*P[3])
+    prob <- (p^2)*(q^2)*P[3]
   }
   if(left == 4 && right == 4) {
-    cond_prob <- (1/2) * p*q*P[3]
+    prob <- (1/2) * p*q*(2*P[1] +
+                           P[2] +
+                           2*p*q*P[3])
   }
-
-  return(cond_prob)
+  return(prob)
 }
 
 #' @keywords internal
