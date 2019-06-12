@@ -121,7 +121,7 @@ get_expectation_O_state <- function(P, p, focal_state) {
 
   if (focal_state == 4) cond_prob <- (p ^ 2) * ( P[1] + P[4] + P[7]) +
                                     (p ^ 3) * (P[2] + P[5]) +
-                                    (p ^ 4) * P[3] + p*P[6]
+                                    (p ^ 4) * P[3] + p * P[6]
 
   if (focal_state == 5) cond_prob <- p * q * (p * P[2] +
                                     2 * (p ^ 2) * P[3] +
@@ -144,7 +144,7 @@ get_expectation_O_state <- function(P, p, focal_state) {
 
 
 get_expectation_O_state_phased <- function(P, p, focal_state) {
-  q <- 1-p
+  q <- 1 - p
   cond_prob <- 1
 
   if (focal_state < 10) {
@@ -152,7 +152,7 @@ get_expectation_O_state_phased <- function(P, p, focal_state) {
   }
 
   if (focal_state == 10) {
-    cond_prob <- 2 * p * q * P[1] + p * q * P[2] +2 * (p ^ 2) * (q ^ 2) * P[3]
+    cond_prob <- 2 * p * q * P[1] + p * q * P[2] + 2 * (p ^ 2) * (q ^ 2) * P[3]
     cond_prob <- log(cond_prob)
   }
   if (focal_state == 11) {
