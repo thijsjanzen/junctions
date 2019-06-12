@@ -28,5 +28,5 @@ time_error <- function(J = NA,
   error <- log(u ^ t - 1 / K) / (log(u) * t) - 1
 
   if ( relative) return(  error)
-  if (!relative) return(t*error)
+  if (!relative) return(t * error)
 }

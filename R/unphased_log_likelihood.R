@@ -18,8 +18,8 @@ unphased_log_likelihood <- function(local_anc_matrix,
   distances <- diff(locations)
 
   local_anc <- local_anc_matrix
-  if(is.matrix(local_anc_matrix)) {
-    local_anc <- rep(3, length(local_anc_matrix[,1]))
+  if (is.matrix(local_anc_matrix)) {
+    local_anc <- rep(3, length(local_anc_matrix[, 1]))
     homo_1 <- which(local_anc_matrix[, 1] == 0 &
                       local_anc_matrix[, 2] == 0)
     homo_2 <- which(local_anc_matrix[, 1] == 1 &
@@ -31,12 +31,13 @@ unphased_log_likelihood <- function(local_anc_matrix,
 
 
   labels <- (unique(local_anc))
-  if(sum( labels %in% 1:3) != length(labels)) {
-    stop("local ancestry labels should be [1, 2, 3] for homozygous anc 1, homozygous anc 2 and heterozygous\n")
+  if (sum( labels %in% 1:3) != length(labels)) {
+    stop("local ancestry labels should be [1, 2, 3] for homozygous anc 1,
+         homozygous anc 2 and heterozygous\n")
   }
 
   to_analyze <- cbind(distances,
-                      local_anc[1:(length(local_anc)-1)],
+                      local_anc[1:(length(local_anc) - 1)],
                       local_anc[2:length(local_anc)]      )
 
 
@@ -48,7 +49,7 @@ unphased_log_likelihood <- function(local_anc_matrix,
                          local_time = params[[1]],
                          condition = TRUE)
 
-    local_probs[1] <- get_cond_prob_vector(to_analyze[1,],
+    local_probs[1] <- get_cond_prob_vector(to_analyze[1, ],
                                            freq_ancestor_1,
                                            pop_size,
                                            local_time = params[[1]],
@@ -57,7 +58,7 @@ unphased_log_likelihood <- function(local_anc_matrix,
     return(sum(local_probs))
   }
 
-  if(test == TRUE) {
+  if (test == TRUE) {
     calc_ll <- function(params) {
 
       local_probs <- apply(to_analyze, 1, get_cond_prob_vector,
@@ -67,29 +68,29 @@ unphased_log_likelihood <- function(local_anc_matrix,
                            condition = FALSE)
       return(sum(local_probs))
     }
-    if(length(t) == 1) {
+    if (length(t) == 1) {
       focal_ll <- calc_ll(t)
 
       return(focal_ll)
     }
-    if(length(t) > 1) {
+    if (length(t) > 1) {
       output <- c()
-      for(i in seq_along(t)) {
+      for (i in seq_along(t)) {
         focal_ll[i] <- calc_ll(t)
       }
       return(output)
     }
   }
 
-  if(length(t) == 1) {
+  if (length(t) == 1) {
     focal_ll <- calc_ll(t)
 
     return(focal_ll)
   }
 
-  if(length(t) > 1) {
+  if (length(t) > 1) {
     output <- c()
-    for(i in seq_along(t)) {
+    for (i in seq_along(t)) {
       focal_ll[i] <- calc_ll(t)
     }
     return(output)

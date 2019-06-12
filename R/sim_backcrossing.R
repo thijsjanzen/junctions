@@ -23,8 +23,8 @@ sim_backcrossing <- function(population_size = 100,
                              number_of_markers = 100,
                              seed = 6,
                              time_points = -1) {
-  if(length(time_points) == 1) {
-    if(time_points == -1) {
+  if (length(time_points) == 1) {
+    if (time_points == -1) {
       time_points <- seq(0, total_runtime, by = 1)
     }
   }

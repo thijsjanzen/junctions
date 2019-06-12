@@ -7,7 +7,7 @@ test_that("backcross, use", {
                            time_points = 1:10,
                            seed = 42)
   t <- 1:9
-  expected_heterozygosity <-  2^(-t)
+  expected_heterozygosity <-  2 ^ (-t)
 
 
 

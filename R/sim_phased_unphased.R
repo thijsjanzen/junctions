@@ -23,15 +23,16 @@ sim_phased_unphased <- function(pop_size = 100,
                                 time_points = -1,
                                 seed = NULL,
                                 verbose = TRUE) {
-  if(length(time_points) == 1) {
-    if(time_points == -1) {
+  if (length(time_points) == 1) {
+    if (time_points == -1) {
       time_points <- seq(0, total_runtime, by = 1)
     }
   }
 
-  if(is.null(seed)) {
-    warning("warning! you did not provide a seed\nwill use the time as a seed\n")
-    seed = Sys.time()
+  if (is.null(seed)) {
+    warning("warning! you did not provide a seed\n
+            will use the time as a seed\n")
+    seed <- Sys.time()
   }
 
   output <- sim_phased_unphased_cpp(pop_size,
@@ -43,7 +44,8 @@ sim_phased_unphased <- function(pop_size = 100,
                                     seed,
                                     verbose)
 
-  colnames(output$results) <- c("time", "individual", "location", "anc_chrom_1", "anc_chrom_2")
+  colnames(output$results) <- c("time", "individual", "location",
+                                "anc_chrom_1", "anc_chrom_2")
 
   return(tibble::as_tibble(output$results))
 }

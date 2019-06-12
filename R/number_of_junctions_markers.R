@@ -22,13 +22,13 @@ number_of_junctions_markers <- function(N = Inf,
                                         t = 100,
                                         marker_distribution = NA) {
 
-  if(length(marker_distribution) < 2) {
+  if (length(marker_distribution) < 2) {
     stop("not provided a vector containing sufficient marker locations")
   }
 
   number_of_junctions <- 0
-  for(i in 2:length(marker_distribution)) {
-    di <- marker_distribution[i] - marker_distribution[i-1]
+  for (i in 2:length(marker_distribution)) {
+    di <- marker_distribution[i] - marker_distribution[i - 1]
     expected_junctions <- number_of_junctions_di(N, H_0, t, di)
     number_of_junctions <- number_of_junctions + expected_junctions
   }

@@ -14,14 +14,14 @@ test_that("calc_K", {
 
 test_that("calculate_J and error", {
 
-  maxT <- 200
-  J <- junctions::number_of_junctions(N = 100, R = 1000, 
-                                      H_0 = 0.5, C = 1, maxT)
+  max_time <- 200
+  J <- junctions::number_of_junctions(N = 100, R = 1000,
+                                      H_0 = 0.5, C = 1, max_time)
 
-  time_estim <- junctions::estimate_time(J = J, N = 100, 
-                                         R = 1000, H_0 = 0.5, 
+  time_estim <- junctions::estimate_time(J = J, N = 100,
+                                         R = 1000, H_0 = 0.5,
                                          C = 1)
-  expect_equal(time_estim, maxT)
+  expect_equal(time_estim, max_time)
 
   expect_silent(
     junctions::time_error(J = J, N = 100, R = 1000,
@@ -43,7 +43,7 @@ test_that("calculate_J and error", {
 
   expect_silent(
     junctions::number_of_junctions(N = Inf, R = Inf,
-                                   H_0 = 0.5, C = 1, maxT)
+                                   H_0 = 0.5, C = 1, max_time)
   )
 
   expect_error(

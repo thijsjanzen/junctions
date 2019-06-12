@@ -14,8 +14,8 @@ number_of_junctions_di <- function(N = Inf,
                                    t = 100,
                                    di = 1e-6) {
   local_k <- 2 * N  * H_0 / (2 * N  + 1 / di)
-  if(is.infinite(N)) local_k <- H_0
+  if (is.infinite(N)) local_k <- H_0
 
-  local_j <- local_k - local_k * (1 - 1 / (2*N) - di)^t
+  local_j <- local_k - local_k * (1 - 1 / (2 * N) - di) ^ t
   return(local_j)
 }
