@@ -84,7 +84,7 @@ get_states_phased <- function(local_anc_matrix) {
   return(all_states)
 }
 
-# no lint start
+# nolint start
 #' @keywords internal
 single_state <- function(t, N, d) {
 
@@ -102,7 +102,7 @@ single_state <- function(t, N, d) {
   output_state <- initial_state %*% expm::`%^%`(trans_matrix, t)
   return(output_state)
 }
-# no lint end
+# nolint end
 
 #' @keywords internal
 get_expectation_O_state <- function(P, p, focal_state) {
@@ -116,15 +116,15 @@ get_expectation_O_state <- function(P, p, focal_state) {
   if (focal_state == 3) cond_prob <- (q ^ 2) * ( P[1] + P[4] + P[7]) +
                                     (q ^ 3) * (P[2] + P[5]) +
                                     (q ^ 4) * P[3] +
-                                     q * P[,6]
+                                     q * P[6]
 
 
-  if (focal_state == 4) cond_prob <- (p ^ 2) * ( P[1] + P[,4] + P[,7]) +
+  if (focal_state == 4) cond_prob <- (p ^ 2) * ( P[1] + P[4] + P[7]) +
                                     (p ^ 3) * (P[2] + P[5]) +
-                                    (p ^ 4) * P[3] + p*P[,6]
+                                    (p ^ 4) * P[3] + p*P[6]
 
   if (focal_state == 5) cond_prob <- p * q * (p * P[2] +
-                                    2*(p ^ 2) * P[3] +
+                                    2 * (p ^ 2) * P[3] +
                                     (1 / 2) * P[4] + p * P[5])
 
   if (focal_state == 6) cond_prob <- p * q * (q * P[2] + 2 * (q ^ 2) * P[3] +
@@ -147,15 +147,15 @@ get_expectation_O_state_phased <- function(P, p, focal_state) {
   q <- 1-p
   cond_prob <- 1
 
-  if(focal_state < 10) {
+  if (focal_state < 10) {
     cond_prob <- get_expectation_O_state(P, p, focal_state)
   }
 
-  if(focal_state == 10) {
+  if (focal_state == 10) {
     cond_prob <- 2 * p * q * P[1] + p * q * P[2] +2 * (p ^ 2) * (q ^ 2) * P[3]
     cond_prob <- log(cond_prob)
   }
-  if(focal_state == 11) {
+  if (focal_state == 11) {
     cond_prob <- (p ^ 2) * (q ^ 2) * P[3]
     cond_prob <- log(cond_prob)
   }
