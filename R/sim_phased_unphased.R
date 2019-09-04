@@ -8,6 +8,7 @@
 #' @param time_points vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
 #' @param verbose displays a progress bar
+#' @param num_threads if larger than one, multithreading is used.
 #' @return a tibble with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
 #' @examples
 #' sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
@@ -22,7 +23,8 @@ sim_phased_unphased <- function(pop_size = 100,
                                 number_of_markers = 100,
                                 time_points = -1,
                                 seed = NULL,
-                                verbose = TRUE) {
+                                verbose = TRUE,
+                                num_threads = 1) {
   if (length(time_points) == 1) {
     if (time_points == -1) {
       time_points <- seq(0, total_runtime, by = 1)
@@ -35,6 +37,9 @@ sim_phased_unphased <- function(pop_size = 100,
     seed <- Sys.time()
   }
 
+  output <- c()
+
+  if(num_threads == 1) {
   output <- sim_phased_unphased_cpp(pop_size,
                                     freq_ancestor_1,
                                     total_runtime,
@@ -43,6 +48,17 @@ sim_phased_unphased <- function(pop_size = 100,
                                     time_points,
                                     seed,
                                     verbose)
+  } else {
+    output <- sim_phased_unphased_threaded_cpp(pop_size,
+                                      freq_ancestor_1,
+                                      total_runtime,
+                                      size_in_morgan,
+                                      number_of_markers,
+                                      time_points,
+                                      seed,
+                                      verbose,
+                                      num_threads)
+  }
 
   colnames(output$results) <- c("time", "individual", "location",
                                 "anc_chrom_1", "anc_chrom_2")

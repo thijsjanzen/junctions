@@ -6,7 +6,7 @@
 \usage{
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
   total_runtime = 100, size_in_morgan = 1, number_of_markers = 100,
-  time_points = -1, seed = NULL, verbose = TRUE)
+  time_points = -1, seed = NULL, verbose = TRUE, num_threads = 1)
 }
 \arguments{
 \item{pop_size}{Population Size}
@@ -24,6 +24,8 @@ sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 \item{seed}{Seed of the pseudo-random number generator}
 
 \item{verbose}{displays a progress bar}
+
+\item{num_threads}{if larger than one, multithreading is used.}
 }
 \value{
 a tibble with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
