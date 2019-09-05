@@ -37,19 +37,7 @@ sim_phased_unphased <- function(pop_size = 100,
     seed <- Sys.time()
   }
 
-  output <- c()
-
-  if(num_threads == 1) {
   output <- sim_phased_unphased_cpp(pop_size,
-                                    freq_ancestor_1,
-                                    total_runtime,
-                                    size_in_morgan,
-                                    number_of_markers,
-                                    time_points,
-                                    seed,
-                                    verbose)
-  } else {
-    output <- sim_phased_unphased_threaded_cpp(pop_size,
                                       freq_ancestor_1,
                                       total_runtime,
                                       size_in_morgan,
@@ -58,7 +46,6 @@ sim_phased_unphased <- function(pop_size = 100,
                                       seed,
                                       verbose,
                                       num_threads)
-  }
 
   colnames(output$results) <- c("time", "individual", "location",
                                 "anc_chrom_1", "anc_chrom_2")

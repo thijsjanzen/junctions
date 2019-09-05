@@ -22,24 +22,9 @@ sim_inf_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, m
 #' @param time_points vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
 #' @param verbose displays a progress bar
-#' @param num_threads if larger than one, multithreading is used.
-#' @export
-sim_phased_unphased_threaded_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose, num_threads) {
-    .Call('_junctions_sim_phased_unphased_threaded_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose, num_threads)
-}
-
-#' simulate junctions
-#' @param pop_size Population Size
-#' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
-#' @param total_runtime Maximum time after which the simulation is to be stopped
-#' @param size_in_morgan Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)
-#' @param number_of_markers The number of genetic markers superimposed on the chromosome.
-#' @param time_points vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).
-#' @param seed Seed of the pseudo-random number generator
-#' @param verbose displays a progress bar
 #' @export
 #' @export
-sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose) {
-    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose)
+sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose, num_threads) {
+    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose, num_threads)
 }
 
