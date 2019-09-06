@@ -21,7 +21,7 @@ optim_limits <- function(lower = 1,
   while (is_close_to_lower) {
 
     lower <- max(0.5 * lower, 1)
-    upper <- upper * 0.5
+    upper <- max(upper * 0.5, 2)
     estim <- calc_func(lower, upper)
     is_close_to_lower <- lower / estim$minimum > 0.9
     lower_cnt <- lower_cnt + 1
