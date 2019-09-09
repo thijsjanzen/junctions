@@ -100,6 +100,7 @@ Output simulation_phased_nonphased(int popSize,
 //' @param time_points vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).
 //' @param seed Seed of the pseudo-random number generator
 //' @param verbose displays a progress bar
+//' @param num_threads the number of threads to be used, default is 1
 //' @export
 //' @export
 // [[Rcpp::export]]
