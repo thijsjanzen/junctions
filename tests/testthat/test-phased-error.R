@@ -59,7 +59,13 @@ test_that("phased, use", {
     a1 <- sum(a$anc_chrom_1 != b$anc_chrom_1)
     a2 <- sum(a$anc_chrom_2 != b$anc_chrom_2)
 
-    testthat::expect_equal(a1, errorrr * expected_heterozygosity * length(a$location), tolerance = 10)
-    testthat::expect_equal(a2, errorrr * expected_heterozygosity * length(a$location), tolerance = 10)
+    testthat::expect_equal(a1,
+                           errorrr *
+                             expected_heterozygosity * length(a$location),
+                           tolerance = 10)
+    testthat::expect_equal(a2,
+                           errorrr *
+                             expected_heterozygosity * length(a$location),
+                           tolerance = 10)
   }
 })
