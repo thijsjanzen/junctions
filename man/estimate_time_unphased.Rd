@@ -6,7 +6,7 @@
 \usage{
 estimate_time_unphased(local_anc_matrix, locations, pop_size,
   freq_ancestor_1, lower_lim = 2, upper_lim = 1000,
-  optim_pop_size = FALSE, verbose = FALSE, test = FALSE)
+  optim_pop_size = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{local_anc_matrix}{Local_anc can be provided as either matrix\
@@ -37,8 +37,6 @@ Starting point of the optimizaton will then be on the given population
 size, and half upper_lim.}
 
 \item{verbose}{display intermediate output? Default = FALSE}
-
-\item{test}{use old likelihood function?}
 }
 \description{
 Calculates the time since admixture, given unphased

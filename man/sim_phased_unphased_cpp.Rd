@@ -24,6 +24,8 @@ sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime,
 \item{seed}{Seed of the pseudo-random number generator}
 
 \item{verbose}{displays a progress bar}
+
+\item{num_threads}{the number of threads to be used, default is 1}
 }
 \description{
 simulate junctions
