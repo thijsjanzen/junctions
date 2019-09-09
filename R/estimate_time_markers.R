@@ -34,7 +34,7 @@ estimate_time_markers <- function(J = NA,
   fitted <- stats::optimize(to_fit, interval = c(lower_lim, upper_lim) )
   if (fitted$minimum >= 0.9 * upper_lim) {
     cat("estimated time is close to the upper limit of time inference\n")
-    cat("consider adjusting the upper limit to improve accuracy")
+    cat("consider adjusting the upper limit to improve accuracy\n")
   }
   return(fitted$minimum)
 }

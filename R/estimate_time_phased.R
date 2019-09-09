@@ -115,19 +115,6 @@ get_cond_prob_vector_phased <- function(info_vector,
                                             P = seven_states)
   }
 
-
-  if (1 == 2) {
-    prob_matrix <- matrix(NA, nrow = 3, ncol = 3)
-    for (i in 1:4) {
-      for (j in 1:4) {
-        prob_matrix[i, j] <- get_prob_from_matrix(left = i,
-                                                 right = j,
-                                                 p = freq_ancestor_1,
-                                                 P = seven_states)
-      }
-    }
-  }
-
   focal_prob <- probs[right]
 
   if (condition == TRUE) {

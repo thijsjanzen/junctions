@@ -95,19 +95,6 @@ get_cond_prob_vector <- function(info_vector,
                                      P = seven_states)
   }
 
-
-  if (1 == 2) {
-    prob_matrix <- matrix(NA, nrow = 3, ncol = 3)
-    for (i in 1:3) {
-      for (j in 1:3) {
-        prob_matrix[i, j] <- get_prob_from_matrix(left = i,
-                                                 right = j,
-                                                 p = freq_ancestor_1,
-                                                 P = seven_states)
-      }
-    }
-  }
-
   focal_prob <- probs[right]
 
   if (condition == TRUE) {
@@ -144,7 +131,6 @@ get_cond_prob_vector <- function(info_vector,
 #' Starting point of the optimizaton will then be on the given population
 #' size, and half upper_lim.
 #' @param verbose display intermediate output? Default = FALSE
-#' @param test use old likelihood function?
 #' @export
 estimate_time_unphased <- function(local_anc_matrix,
                                    locations,
@@ -153,8 +139,7 @@ estimate_time_unphased <- function(local_anc_matrix,
                                    lower_lim = 2,
                                    upper_lim = 1000,
                                    optim_pop_size = FALSE,
-                                   verbose = FALSE,
-                                   test = FALSE) {
+                                   verbose = FALSE) {
 
   distances <- diff(locations)
 
@@ -190,18 +175,11 @@ estimate_time_unphased <- function(local_anc_matrix,
       }
 
       local_probs <- c()
-      if (!test) local_probs <- apply(to_analyze, 1, get_cond_prob_vector,
+      local_probs <- apply(to_analyze, 1, get_cond_prob_vector,
                            freq_ancestor_1,
                            pop_size,
                            local_time = params[[1]],
                            condition = TRUE)
-
-      if (test) local_probs <- apply(to_analyze, 1, get_cond_prob_vector,
-                                    freq_ancestor_1,
-                                    pop_size,
-                                    local_time = params[[1]],
-                                    condition = FALSE)
-
 
       local_probs[1] <- get_cond_prob_vector(to_analyze[1, ],
                                              freq_ancestor_1,
