@@ -3,7 +3,7 @@ cache: packages
 
 os: 
   - osx
-    env: EXTRA_BUILD_FLAGS="-DSTIR_OPENMP:BOOL=OFF" CC=gcc CXX=g++
+ #   env: EXTRA_BUILD_FLAGS="-DSTIR_OPENMP:BOOL=OFF" CC=gcc CXX=g++
   - linux
 
 r_github_packages:
@@ -14,4 +14,4 @@ r_github_packages:
 after_success:
   - Rscript -e 'lintr::lint_package()'
 #  - Rscript -e 'library(goodpractice); gp()'  #commented for faster Travis support, main issues are resolved
-#  - travis_wait 40 Rscript -e "covr::codecov()"; # this takes too long
+  - travis_wait 40 Rscript -e "covr::codecov()"; # this takes too long
