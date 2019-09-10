@@ -66,15 +66,13 @@ sim_phased_with_error <- function(pop_size = 100,
 
   phased_data <- true_data[true_data$location %in% selected_markers, ]
 
-#  testit::assert(all.equal(unique(phased_data$location), selected_markers))
-
-  for(i in unique(phased_data$individual)) {
+  for (i in unique(phased_data$individual)) {
     focal_indices <- which(phased_data$individual == i)
     # select which ones to flip:
     to_flip <- sample(focal_indices,
                       size = error_rate * length(focal_indices),
                       replace = F)
-    if(length(to_flip) > 0) {
+    if (length(to_flip) > 0) {
       temp <- phased_data$anc_chrom_1[to_flip]
       phased_data$anc_chrom_1[to_flip] <- phased_data$anc_chrom_2[to_flip]
       phased_data$anc_chrom_2[to_flip] <- temp

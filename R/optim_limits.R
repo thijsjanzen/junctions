@@ -19,7 +19,7 @@ optim_limits <- function(lower = 1,
 
 
   lower_cnt <- 1
-  if(verbose) cat(lower, upper, estim$minimum, "\n")
+  if (verbose) cat(lower, upper, estim$minimum, "\n")
   while (is_close_to_lower) {
 
     lower <- max(0.5 * lower, 1)
@@ -27,7 +27,7 @@ optim_limits <- function(lower = 1,
     estim <- calc_func(lower, upper)
     is_close_to_lower <- lower / estim$minimum > 0.9
     lower_cnt <- lower_cnt + 1
-    if(verbose) cat(lower, upper, estim$minimum, "\n")
+    if (verbose) cat(lower, upper, estim$minimum, "\n")
     if (lower_cnt >= iterations) break
   }
 
@@ -40,7 +40,7 @@ optim_limits <- function(lower = 1,
     estim <- calc_func(lower, upper)
     is_close_to_upper <- estim$minimum / upper > 0.9
     upper_cnt <- upper_cnt + 1
-    if(verbose)  cat(lower, upper, estim$minimum, "\n")
+    if (verbose)  cat(lower, upper, estim$minimum, "\n")
     if (upper_cnt >= iterations) break
   }
 

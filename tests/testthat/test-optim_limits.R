@@ -45,7 +45,7 @@ test_that("optim_limits, use", {
   estim_time4 <- optim_limits(lower = 500, upper = 1000, calc_func = estim)
 
 
-  estim_time <- optim_limits(lower = 500, upper = 1000, calc_func = estim
+  estim_time <- optim_limits(lower = 500, upper = 1000, calc_func = estim,
                              verbose = TRUE)
 
   estim_time4 <- optim_limits(lower = 500, upper = 1000, calc_func = estim,

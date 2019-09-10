@@ -50,9 +50,9 @@ test_that("phased, use", {
 
   true_data <- vx$true_data
   phased_data <- vx$phased_data
-  expected_heterozygosity <- 2*0.5*0.5 * (1 - 1 / (2*100) )^200
+  expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * 100) ) ^ 200
 
-  for(i in unique(true_data$individual)) {
+  for (i in unique(true_data$individual)) {
     a <- subset(true_data, true_data$individual == i)
     b <- subset(phased_data, phased_data$individual == i)
 
@@ -87,5 +87,4 @@ test_that("unphased, exceptions", {
                               number_of_markers = 1000,
                               time_points = c(100, 200))
   )
-})_
-
+})

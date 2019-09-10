@@ -110,7 +110,4 @@ test_that("unphased, exceptions", {
                               number_of_markers = 1000,
                               time_points = c(100, 200))
   )
-})_
-
-
-
+})
