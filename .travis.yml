@@ -3,13 +3,13 @@ cache: packages
 
 os: 
   - osx
-    env: EXTRA_BUILD_FLAGS="-DSTIR_OPENMP:BOOL=OFF"
+    env: EXTRA_BUILD_FLAGS="-DSTIR_OPENMP:BOOL=OFF" CC=gcc CXX=g++
   - linux
 
 r_github_packages:
   - jimhester/lintr
   - jimhester/covr
-#  - MangoTheCat/goodpractice
+  - MangoTheCat/goodpractice
 
 after_success:
   - Rscript -e 'lintr::lint_package()'
