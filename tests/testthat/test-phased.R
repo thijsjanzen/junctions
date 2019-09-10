@@ -84,4 +84,20 @@ test_that("phased, use", {
                                     freq_ancestor_1 = 0.1,
                                     t = 0)
   testthat::expect_true(is.infinite(ll_inf))
+
+
+  multi_ll <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
+                                          local_data$anc_chrom_2),
+                                        local_data$location,
+                                        pop_size = 1000,
+                                        freq_ancestor_1 = 0.1,
+                                        t = c(0, 10, 20))
+
+  multi_ll <- unphased_log_likelihood(cbind(local_data$anc_chrom_1,
+                                          local_data$anc_chrom_2),
+                                    local_data$location,
+                                    pop_size = 1000,
+                                    freq_ancestor_1 = 0.1,
+                                    t = c(0, 10, 20))
+
 })

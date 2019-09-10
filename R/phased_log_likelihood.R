@@ -71,7 +71,7 @@ phased_log_likelihood <- function(local_anc_matrix,
   if (length(t) > 1) {
     output <- c()
     for (i in seq_along(t)) {
-      focal_ll[i] <- calc_ll(t)
+      output[i] <- calc_ll(t)
     }
     return(output)
   }

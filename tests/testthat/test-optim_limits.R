@@ -38,9 +38,19 @@ test_that("optim_limits, use", {
 
   # test scaling up upper limit:
   estim_time3 <- optim_limits(lower = 2, upper = 20, calc_func = estim)
+  estim_time3 <- optim_limits(lower = 2, upper = 20, calc_func = estim,
+                              iterations = 1)
 
   # test scaling down lower limit:
   estim_time4 <- optim_limits(lower = 500, upper = 1000, calc_func = estim)
+
+
+  estim_time <- optim_limits(lower = 500, upper = 1000, calc_func = estim
+                             verbose = TRUE)
+
+  estim_time4 <- optim_limits(lower = 500, upper = 1000, calc_func = estim,
+                              iterations = 1)
+
 
 
 })
