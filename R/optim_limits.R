@@ -48,8 +48,7 @@ optim_limits <- function(lower = 1,
   is_close_to_upper <- estim$minimum / upper > 0.9
 
   if (is_close_to_lower || is_close_to_upper) {
-    estim$minimum <- NA
-    estim$objective <- NA
+    warning("still close to limits, caution with the result!\n")
   }
   return(estim)
 }

@@ -16,10 +16,10 @@
 
 struct junction {
     double pos;
-    int left, right;
+    int right;
 
     junction();
-    junction(double loc, int A, int B);
+    junction(double loc, int A);
     junction(const junction& other);
 
     bool operator <(const junction& other) const;

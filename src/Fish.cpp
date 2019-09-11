@@ -376,12 +376,11 @@ Fish_fin mate_fin(const Fish_fin& A,
 junction::junction() {
 }
 
-junction::junction(double loc, int A, int B) : pos(loc), left(A), right(B) {
+junction::junction(double loc, int A) : pos(loc), right(A) {
 }
 
 junction::junction(const junction& other) {
     pos = other.pos;
-    left = other.left;
     right = other.right;
 }
 
@@ -394,8 +393,8 @@ Fish_inf::Fish_inf(){
 }
 
 Fish_inf::Fish_inf(int initLoc)    {
-    junction left = junction(0.0, -1, initLoc);
-    junction right = junction(1, initLoc, -1);
+    junction left = junction(0.0, initLoc);
+    junction right = junction(1, -1);
     chromosome1.push_back( left  );
     chromosome1.push_back( right );
     chromosome2.push_back( left  );
@@ -407,7 +406,7 @@ Fish_fin::Fish_fin() {
 
 // constructor that sets all genome elements to "initLoc"
 Fish_fin::Fish_fin(const bool initLoc, const int genomeSize) {
-    for ( int i = 0; i < genomeSize; ++i ) {
+    for (int i = 0; i < genomeSize; ++i ) {
         chromosome1.push_back(initLoc);
         chromosome2.push_back(initLoc);
     }
@@ -415,7 +414,7 @@ Fish_fin::Fish_fin(const bool initLoc, const int genomeSize) {
 
 bool is_in_time_points(int t,
                        const Rcpp::NumericVector & time_points) {
-    for(auto it = time_points.begin(); it != time_points.end(); ++it) {
+    for (auto it = time_points.begin(); it != time_points.end(); ++it) {
         if((*it) == t) return true;
     }
     return false;
