@@ -32,6 +32,18 @@ void set_seed(unsigned seed)    {
 }
 
 std::vector<double> generate_random_markers(int number_of_markers) {
+    if(number_of_markers < 0) {
+        // regularly spaced markers
+        std::vector<double> markers;
+        double di = 1.0 / (1 + (-1 * number_of_markers));
+        double marker_pos = di;
+        while(marker_pos < 1.f) {
+            markers.push_back(marker_pos);
+            marker_pos += di;
+        }
+        return(markers);
+    }
+
     std::vector<double> markers;
     for(int i = 0; i < number_of_markers; ++i) {
         double marker_pos = uniform();
