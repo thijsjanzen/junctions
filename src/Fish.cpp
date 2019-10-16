@@ -197,7 +197,7 @@ void Recombine_inf(std::vector<junction>& offspring,
                std::vector<junction> chromosome2,
                double MORGAN)  {
 
-    int numRecombinations = poisson(MORGAN);
+    int numRecombinations = poisson_preset(); //poisson(MORGAN);
 
     if (numRecombinations == 0) {
         offspring.insert(offspring.end(),
@@ -246,7 +246,6 @@ Fish_inf mate_inf(const Fish_inf& A, const Fish_inf& B, double numRecombinations
             break;
         }
     }
-
 
     //then the mother chromosome
     event = random_number(2);
@@ -406,10 +405,10 @@ Fish_fin::Fish_fin() {
 
 // constructor that sets all genome elements to "initLoc"
 Fish_fin::Fish_fin(const bool initLoc, const int genomeSize) {
-    for (int i = 0; i < genomeSize; ++i ) {
-        chromosome1.push_back(initLoc);
-        chromosome2.push_back(initLoc);
-    }
+    chromosome1.clear();
+    chromosome2.clear();
+    chromosome1.resize(genomeSize, initLoc);
+    chromosome2.resize(genomeSize, initLoc);
 }
 
 bool is_in_time_points(int t,

@@ -268,7 +268,6 @@ estimate_time_phased_inf <- function(local_anc_matrix,
                                  freq_ancestor_1,
                                  lower_lim = 2,
                                  upper_lim = 1000,
-                                 optim_pop_size = FALSE,
                                  verbose = FALSE) {
 
   distances <- diff(locations)

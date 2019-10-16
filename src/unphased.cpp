@@ -17,7 +17,7 @@ Output simulation_phased_nonphased(int popSize,
                                    double initRatio,
                                    int maxTime,
                                    double numRecombinations,
-                                   int numberOfMarkers,
+                                   int number_of_markers,
                                    const NumericVector& time_points,
                                    bool verbose,
                                    int num_threads
@@ -25,7 +25,7 @@ Output simulation_phased_nonphased(int popSize,
 
   Output O;
   std::vector< Fish_inf > Pop(popSize);
-  std::vector<double> markers = generate_random_markers(numberOfMarkers);
+  std::vector<double> markers = generate_random_markers(number_of_markers);
 
   O.markers = markers;
 
@@ -68,7 +68,7 @@ Output simulation_phased_nonphased(int popSize,
 
       int index1 = random_number(popSize);
       int index2 = random_number(popSize);
-      while(index2 == index1) index2 = random_number(popSize);
+      while(index2 == index1) index2 = random_number_popsize();
 
       Fish_inf kid = mate_inf(Pop[index1], Pop[index2], numRecombinations);
 
@@ -115,6 +115,8 @@ List sim_phased_unphased_cpp(int pop_size,
                              int num_threads) {
 
   set_seed(seed);
+  set_poisson(size_in_morgan);
+  set_random_number_popsize(pop_size);
 
   Output O = simulation_phased_nonphased(pop_size, freq_ancestor_1,
                                          total_runtime,

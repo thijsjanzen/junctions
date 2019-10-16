@@ -44,7 +44,7 @@ sim_phased_with_error <- function(pop_size = 100,
     seed <- Sys.time()
   }
 
-  sim_output <- sim_phased_unphased_cpp(pop_size,
+  sim_output <- junctions::sim_phased_unphased_cpp(pop_size,
                                         freq_ancestor_1,
                                         total_runtime,
                                         size_in_morgan,
@@ -69,9 +69,15 @@ sim_phased_with_error <- function(pop_size = 100,
   for (i in unique(phased_data$individual)) {
     focal_indices <- which(phased_data$individual == i)
     # select which ones to flip:
+
+    sample_size <- stats::rbinom(size = length(focal_indices),
+                          n = 1,
+                          prob = error_rate)
+
     to_flip <- sample(focal_indices,
-                      size = error_rate * length(focal_indices),
+                      size = sample_size,
                       replace = F)
+
     if (length(to_flip) > 0) {
       temp <- phased_data$anc_chrom_1[to_flip]
       phased_data$anc_chrom_1[to_flip] <- phased_data$anc_chrom_2[to_flip]
