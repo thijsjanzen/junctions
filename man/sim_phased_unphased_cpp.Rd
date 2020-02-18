@@ -4,9 +4,17 @@
 \alias{sim_phased_unphased_cpp}
 \title{simulate junctions}
 \usage{
-sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime,
-  size_in_morgan, number_of_markers, time_points, seed, verbose,
-  num_threads)
+sim_phased_unphased_cpp(
+  pop_size,
+  freq_ancestor_1,
+  total_runtime,
+  size_in_morgan,
+  number_of_markers,
+  time_points,
+  seed,
+  verbose,
+  num_threads
+)
 }
 \arguments{
 \item{pop_size}{Population Size}

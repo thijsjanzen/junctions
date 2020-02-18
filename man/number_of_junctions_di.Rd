@@ -2,7 +2,8 @@
 % Please edit documentation in R/number_of_junctions_di.R
 \name{number_of_junctions_di}
 \alias{number_of_junctions_di}
-\title{Calculate the expected number of junctions between two markers separated by a given amount of recombination}
+\title{Calculate the expected number of junctions between two markers separated by
+a given amount of recombination}
 \usage{
 number_of_junctions_di(N = Inf, H_0 = 0.5, t = 100, di = 1e-06)
 }
@@ -19,7 +20,10 @@ number_of_junctions_di(N = Inf, H_0 = 0.5, t = 100, di = 1e-06)
 Estimated number of junctions at time t
 }
 \description{
-Calculate the expected number of junctions after t generations, provided information on the initial heterozygosity, population size, the number of generations since the onset of admixture and the distance between two markers.
+Calculate the expected number of junctions after t generations,
+ provided information on the initial heterozygosity, population size, the
+ number of generations since the onset of admixture and the distance between
+ two markers.
 }
 \examples{
 number_of_junctions_di(N = 100, H_0 = 0.5, t = 1000, di = 0.01)+

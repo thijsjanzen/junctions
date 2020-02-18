@@ -2,10 +2,15 @@
 % Please edit documentation in R/number_of_junctions_markers.R
 \name{number_of_junctions_markers}
 \alias{number_of_junctions_markers}
-\title{Calculate the expected total number of junctions in a chromosome, given the distribution of markers}
+\title{Calculate the expected total number of junctions in a chromosome, given the
+distribution of markers}
 \usage{
-number_of_junctions_markers(N = Inf, H_0 = 0.5, t = 100,
-  marker_distribution = NA)
+number_of_junctions_markers(
+  N = Inf,
+  H_0 = 0.5,
+  t = 100,
+  marker_distribution = NA
+)
 }
 \arguments{
 \item{N}{Population Size}
@@ -14,13 +19,17 @@ number_of_junctions_markers(N = Inf, H_0 = 0.5, t = 100,
 
 \item{t}{Time since admixture}
 
-\item{marker_distribution}{A vector containing the position of all markers in Morgan.}
+\item{marker_distribution}{A vector containing the position of all markers
+in Morgan.}
 }
 \value{
 Estimated number of observed junctions at time t
 }
 \description{
-Calculate the expected number of junctions after t generations, provided information on the initial heterozygosity, population size, the number of generations since the onset of admixture and the distribution of markers.
+Calculate the expected number of junctions after t generations,
+provided information on the initial heterozygosity, population size, the
+number of generations since the onset of admixture and the distribution of
+markers.
 }
 \examples{
 markers <- seq(from = 0, to = 1, length.out = 1000)

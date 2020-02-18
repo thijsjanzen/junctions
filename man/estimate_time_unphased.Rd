@@ -4,9 +4,16 @@
 \alias{estimate_time_unphased}
 \title{estimates the time since admixture, given unphased ancestry data.}
 \usage{
-estimate_time_unphased(local_anc_matrix, locations, pop_size,
-  freq_ancestor_1, lower_lim = 2, upper_lim = 1000,
-  optim_pop_size = FALSE, verbose = FALSE)
+estimate_time_unphased(
+  local_anc_matrix,
+  locations,
+  pop_size,
+  freq_ancestor_1,
+  lower_lim = 2,
+  upper_lim = 1000,
+  optim_pop_size = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{local_anc_matrix}{Local_anc can be provided as either matrix\

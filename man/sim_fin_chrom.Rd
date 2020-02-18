@@ -4,8 +4,14 @@
 \alias{sim_fin_chrom}
 \title{Individual Based Simulation of the accumulation of junctions}
 \usage{
-sim_fin_chrom(pop_size = 100, freq_ancestor_1 = 0.5,
-  total_runtime = 100, morgan = 1, seed = 42, R = 100)
+sim_fin_chrom(
+  pop_size = 100,
+  freq_ancestor_1 = 0.5,
+  total_runtime = 100,
+  morgan = 1,
+  seed = 42,
+  R = 100
+)
 }
 \arguments{
 \item{pop_size}{Population Size}
@@ -14,17 +20,20 @@ sim_fin_chrom(pop_size = 100, freq_ancestor_1 = 0.5,
 
 \item{total_runtime}{Maximum time after which the simulation is to be stopped}
 
-\item{morgan}{Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)}
+\item{morgan}{Mean number of crossovers per meiosis (e.g. size in Morgan of
+the chromosome)}
 
 \item{seed}{Seed of the pseudo-random number generator}
 
 \item{R}{Number of regularly distributed markers}
 }
 \value{
-\item{avgJunctions}{vector of the average number of junctions at time = [0, total_runtime]}
+\item{avgJunctions}{vector of the average number of junctions at
+time = [0, total_runtime]}
 }
 \description{
-Individual based simulation of the accumulation of junctions for a chromosome with regularly distributed markers.
+Individual based simulation of the accumulation of junctions
+for a chromosome with regularly distributed markers.
 }
 \examples{
 v <- sim_fin_chrom(pop_size = 100, freq_ancestor_1 = 0.5,

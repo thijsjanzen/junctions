@@ -4,8 +4,14 @@
 \alias{sim_inf_chrom}
 \title{Individual Based Simulation of the accumulation of junctions}
 \usage{
-sim_inf_chrom(pop_size = 100, freq_ancestor_1 = 0.5,
-  total_runtime = 100, morgan = 1, markers = -1, seed = 42)
+sim_inf_chrom(
+  pop_size = 100,
+  freq_ancestor_1 = 0.5,
+  total_runtime = 100,
+  morgan = 1,
+  markers = -1,
+  seed = 42
+)
 }
 \arguments{
 \item{pop_size}{Population Size}
@@ -14,17 +20,21 @@ sim_inf_chrom(pop_size = 100, freq_ancestor_1 = 0.5,
 
 \item{total_runtime}{Maximum time after which the simulation is to be stopped}
 
-\item{morgan}{Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)}
+\item{morgan}{Mean number of crossovers per meiosis (e.g. size in Morgan of
+the chromosome)}
 
-\item{markers}{The number of genetic markers superimposed on the chromosome. If markers is set to -1, no markers are superimposed (faster simulation)}
+\item{markers}{The number of genetic markers superimposed on the chromosome.
+If markers is set to -1, no markers are superimposed (faster simulation)}
 
 \item{seed}{Seed of the pseudo-random number generator}
 }
 \value{
-\item{avgJunctions}{vector of the average number of junctions at time = [0, total_runtime]}
+\item{avgJunctions}{vector of the average number of junctions at
+time = [0, total_runtime]}
 }
 \description{
-Individual based simulation of the accumulation of junctions for a chromosome with an infinite number of recombination sites.
+Individual based simulation of the accumulation of junctions
+for a chromosome with an infinite number of recombination sites.
 }
 \examples{
 v <- sim_inf_chrom(pop_size = 100, freq_ancestor_1 = 0.5,

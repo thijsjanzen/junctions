@@ -1,11 +1,11 @@
 context("marker_distribution")
 test_that("markers, use", {
 
-  R <- 1000
-  e_j <- number_of_junctions(R = R,
+  num_markers <- 1000
+  e_j <- number_of_junctions(R = num_markers,
                              t = 200)
 
-  markers <- seq(0, 1, length.out = R + 1)
+  markers <- seq(0, 1, length.out = num_markers + 1)
   d_e_j <- number_of_junctions_markers(t = 200,
                                        marker_distribution = markers)
 
@@ -13,8 +13,8 @@ test_that("markers, use", {
 
   num_repl <- 100
 
-  N <- 1e3
-  R <- 1000
+  N <- 1e3   # nolint
+  num_markers <- 1000
   total_runtime <- 50
 
   found_obs <- c()
@@ -25,7 +25,7 @@ test_that("markers, use", {
                                  freq_ancestor_1 = 0.5,
                                  total_runtime = total_runtime,
                                  morgan = 1,
-                                 markers = R,
+                                 markers = num_markers,
                                  seed = r)
 
     found_obs <- rbind(found_obs, sim_results$detectedJunctions) # nolint
@@ -57,8 +57,8 @@ test_that("markers, abuse", {
 })
 
 test_that("estimate time", {
-  N <- 1e3
-  R <- 1000
+  N <- 1e3  # nolint
+  num_markers <- 1000
   total_runtime <- 50
   num_repl <- 100
   all_times <- c()
@@ -68,7 +68,7 @@ test_that("estimate time", {
                                  freq_ancestor_1 = 0.5,
                                total_runtime = total_runtime,
                                morgan = 1,
-                               markers = R,
+                               markers = num_markers,
                                seed = r + 15)
 
     sim_markers <- sim_results$markers

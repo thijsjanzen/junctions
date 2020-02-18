@@ -4,17 +4,26 @@
 \alias{optim_limits}
 \title{Optimizes the lower and upper limit for estimation of time}
 \usage{
-optim_limits(lower = 1, upper = 10000, calc_func, iterations = 10,
-  verbose = FALSE)
+optim_limits(
+  lower = 1,
+  upper = 10000,
+  calc_func,
+  iterations = 10,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{lower}{initial lower limit}
 
 \item{upper}{initial upper limit}
 
-\item{calc_func}{function to calculate the time, should accept two arguments: upper, lower and should return a stats::optimize object with two properties: $minimum and $objective}
+\item{calc_func}{function to calculate the time, should accept two arguments:
+upper, lower and should return a stats::optimize object with two properties:
+$minimum and $objective}
 
-\item{iterations}{number of times the boundaries should be adjusted to obtain an estimate that is not close to the boundaries. After this number of iterations is exceeded, NA is returned}
+\item{iterations}{number of times the boundaries should be adjusted to obtain
+an estimate that is not close to the boundaries. After this number of
+iterations is exceeded, NA is returned}
 
 \item{verbose}{display verbose output, default = FALSE}
 }

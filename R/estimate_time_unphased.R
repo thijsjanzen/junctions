@@ -1,5 +1,5 @@
 #' @keywords internal
-get_prob_from_matrix <- function(left, right, p, P) {
+get_prob_from_matrix <- function(left, right, p, P) {   # nolint
   # unphased probabilities!
   # left = marker on the left hand side [1 = PP, 2 = QQ, 3 = PQ or QP]
   # right = marker on the right hand side [1 = PP, 2 = QQ, 3 = PQ or QP]
@@ -9,13 +9,13 @@ get_prob_from_matrix <- function(left, right, p, P) {
   q <- 1 - p
   prob <- 0
   if (left == 1 && right == 1) {
-    prob <- (p ^ 2) * ( P[1] + P[4] + P[7] ) +
+    prob <- (p ^ 2) * (P[1] + P[4] + P[7]) +
       (p ^ 3) * (P[2] + P[5]) +
       (p ^ 4) * P[3] +
       p * P[6]
   }
   if (left == 1 && right == 2) {
-    prob <- p * q * ( p * q * P[3] +
+    prob <- p * q * (p * q * P[3] +
                     (1 / 2) * P[5] +
                     P[7])
   }
@@ -32,7 +32,7 @@ get_prob_from_matrix <- function(left, right, p, P) {
                    P[7])
   }
   if (left == 2 && right == 2) {
-    prob <- (q ^ 2) * ( P[1] + P[4] + P[7]) +
+    prob <- (q ^ 2) * (P[1] + P[4] + P[7]) +
       (q ^ 3) * (P[2] + P[5]) +
       (q ^ 4) * P[3] +
       q * P[6]
@@ -99,10 +99,10 @@ get_cond_prob_vector <- function(info_vector,
 
   if (condition == TRUE) {
     rel_prob <- focal_prob / sum(probs)
-    final_prob <- log( rel_prob )
+    final_prob <- log(rel_prob)
     return(final_prob)
   } else {
-    return( log(focal_prob))
+    return(log(focal_prob))
   }
 }
 
@@ -157,14 +157,14 @@ estimate_time_unphased <- function(local_anc_matrix,
 
 
   labels <- unique(local_anc)
-  if (sum( labels %in% 1:3) != length(labels)) {
+  if (sum(labels %in% 1:3) != length(labels)) {
     stop("local ancestry labels should be [1, 2, 3] for homozygous anc 1,
          homozygous anc 2 and heterozygous\n")
   }
 
   to_analyze <- cbind(distances,
                       local_anc[1:(length(local_anc) - 1)],
-                      local_anc[2:length(local_anc)]      )
+                      local_anc[2:length(local_anc)])
 
 
   if (optim_pop_size == FALSE) {

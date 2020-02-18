@@ -8,29 +8,29 @@ test_that("calc_K", {
   expect_equal(v2, 10)
 
   v3 <- junctions::calc_k()
-  A <- is.infinite(v3)
-  expect_equal(A, TRUE)
+  a <- is.infinite(v3)
+  expect_equal(a, TRUE)
 })
 
 test_that("calculate_J and error", {
 
   max_time <- 200
-  J <- junctions::number_of_junctions(N = 100, R = 1000,
+  junc <- junctions::number_of_junctions(N = 100, R = 1000,
                                       H_0 = 0.5, C = 1, max_time)
 
-  time_estim <- junctions::estimate_time(J = J, N = 100,
+  time_estim <- junctions::estimate_time(J = junc, N = 100,
                                          R = 1000, H_0 = 0.5,
                                          C = 1)
   expect_equal(time_estim, max_time)
 
   expect_silent(
-    junctions::time_error(J = J, N = 100, R = 1000,
+    junctions::time_error(J = junc, N = 100, R = 1000,
                           H_0 = 0.5, C = 1, time_estim,
                           relative = TRUE)
   )
 
   expect_silent(
-    junctions::time_error(J = J, N = 100,
+    junctions::time_error(J = junc, N = 100,
                           R = 1000, H_0 = 0.5,
                           C = 1, time_estim,
                           relative = FALSE)

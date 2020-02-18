@@ -9,7 +9,8 @@ number_of_junctions_backcross(H_0 = 0.5, C = 1, t = 100)
 \arguments{
 \item{H_0}{Frequency of heterozygosity at t = 0}
 
-\item{C}{Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)}
+\item{C}{Mean number of crossovers per meiosis (e.g. size in Morgan of the
+chromosome)}
 
 \item{t}{Time since admixture}
 }
@@ -17,7 +18,8 @@ number_of_junctions_backcross(H_0 = 0.5, C = 1, t = 100)
 Estimated number of junctions at time t
 }
 \description{
-Calculate the expected number of junctions after t generations, in a backcrossing mating scheme.
+Calculate the expected number of junctions after t
+generations, in a backcrossing mating scheme.
 }
 \examples{
 jt <-  number_of_junctions_backcross(H_0 = 0.1, C = 1, t = 5)

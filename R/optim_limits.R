@@ -2,8 +2,12 @@
 #' @description Optimizes the lower and upper limit for estimation of time
 #' @param lower initial lower limit
 #' @param upper initial upper limit
-#' @param calc_func function to calculate the time, should accept two arguments: upper, lower and should return a stats::optimize object with two properties: $minimum and $objective
-#' @param iterations number of times the boundaries should be adjusted to obtain an estimate that is not close to the boundaries. After this number of iterations is exceeded, NA is returned
+#' @param calc_func function to calculate the time, should accept two arguments:
+#' upper, lower and should return a stats::optimize object with two properties:
+#' $minimum and $objective
+#' @param iterations number of times the boundaries should be adjusted to obtain
+#' an estimate that is not close to the boundaries. After this number of
+#' iterations is exceeded, NA is returned
 #' @param verbose display verbose output, default = FALSE
 #' @return final estimate
 #' @export

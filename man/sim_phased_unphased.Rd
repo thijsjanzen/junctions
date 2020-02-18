@@ -4,9 +4,17 @@
 \alias{sim_phased_unphased}
 \title{Individual Based Simulation of the accumulation of junctions}
 \usage{
-sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
-  total_runtime = 100, size_in_morgan = 1, number_of_markers = 100,
-  time_points = -1, seed = NULL, verbose = TRUE, num_threads = 1)
+sim_phased_unphased(
+  pop_size = 100,
+  freq_ancestor_1 = 0.5,
+  total_runtime = 100,
+  size_in_morgan = 1,
+  number_of_markers = 100,
+  time_points = -1,
+  seed = NULL,
+  verbose = TRUE,
+  num_threads = 1
+)
 }
 \arguments{
 \item{pop_size}{Population Size}
@@ -15,11 +23,15 @@ sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 
 \item{total_runtime}{Maximum time after which the simulation is to be stopped}
 
-\item{size_in_morgan}{Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)}
+\item{size_in_morgan}{Mean number of crossovers per meiosis (e.g. size in
+Morgan of the chromosome)}
 
-\item{number_of_markers}{The number of genetic markers superimposed on the chromosome.}
+\item{number_of_markers}{The number of genetic markers superimposed on the
+chromosome.}
 
-\item{time_points}{vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).}
+\item{time_points}{vector with time points at which local ancestry has to be
+recorded to be returned at the end of the simulation. If left at -1,
+ancestry is recorded at every generation (computationally heavy).}
 
 \item{seed}{Seed of the pseudo-random number generator}
 
@@ -28,10 +40,13 @@ sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 \item{num_threads}{if larger than one, multithreading is used.}
 }
 \value{
-a tibble with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
+a tibble with five columns: [time, individual, marker location,
+                            ancestry chromosome 1, ancestry chromosome 2]
 }
 \description{
-Individual based simulation of the accumulation of junctions, returning phased and unphased data. Ancestry on both chromosomes of 10 randomly sampled individuals per generations is returned.
+Individual based simulation of the accumulation of junctions,
+returning phased and unphased data. Ancestry on both chromosomes of 10
+randomly sampled individuals per generations is returned.
 }
 \examples{
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,

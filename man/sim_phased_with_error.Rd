@@ -2,12 +2,22 @@
 % Please edit documentation in R/sim_phased_with_error.R
 \name{sim_phased_with_error}
 \alias{sim_phased_with_error}
-\title{Individual Based Simulation of the accumulation of junctions, given phasing error}
+\title{Individual Based Simulation of the accumulation of junctions, given phasing
+error}
 \usage{
-sim_phased_with_error(pop_size = 100, freq_ancestor_1 = 0.5,
-  total_runtime = 100, size_in_morgan = 1, number_of_markers = 100,
-  time_points = -1, seed = NULL, verbose = TRUE, num_threads = 1,
-  coverage = 1, error_rate = 0)
+sim_phased_with_error(
+  pop_size = 100,
+  freq_ancestor_1 = 0.5,
+  total_runtime = 100,
+  size_in_morgan = 1,
+  number_of_markers = 100,
+  time_points = -1,
+  seed = NULL,
+  verbose = TRUE,
+  num_threads = 1,
+  coverage = 1,
+  error_rate = 0
+)
 }
 \arguments{
 \item{pop_size}{Population Size}
@@ -16,11 +26,15 @@ sim_phased_with_error(pop_size = 100, freq_ancestor_1 = 0.5,
 
 \item{total_runtime}{Maximum time after which the simulation is to be stopped}
 
-\item{size_in_morgan}{Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)}
+\item{size_in_morgan}{Mean number of crossovers per meiosis (e.g. size in
+Morgan of the chromosome)}
 
-\item{number_of_markers}{The number of genetic markers superimposed on the chromosome.}
+\item{number_of_markers}{The number of genetic markers superimposed on the
+chromosome.}
 
-\item{time_points}{vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).}
+\item{time_points}{vector with time points at which local ancestry has to be
+recorded to be returned at the end of the simulation. If left at -1,
+ancestry is recorded at every generation (computationally heavy).}
 
 \item{seed}{Seed of the pseudo-random number generator}
 
@@ -30,15 +44,18 @@ sim_phased_with_error(pop_size = 100, freq_ancestor_1 = 0.5,
 
 \item{coverage}{fraction of markers that can be succesfully phased}
 
-\item{error_rate}{fraction of markers that are erroneously phased (e.g. swapped)}
+\item{error_rate}{fraction of markers that are erroneously
+phased (e.g. swapped)}
 }
 \value{
-a tibble with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
+a tibble with five columns: [time, individual, marker location,
+                                ancestry chromosome 1, ancestry chromosome 2]
 }
 \description{
-Individual based simulation of the accumulation of junctions, returning phased and unphased data. Phased data is
-generated using a user-provided error rate. Ancestry on both chromosomes of 10 randomly sampled individuals per generations is
-returned.
+Individual based simulation of the accumulation of junctions,
+returning phased and unphased data. Phased data is generated using a
+user-provided error rate. Ancestry on both chromosomes of 10 randomly sampled
+individuals per generations is returned.
 }
 \examples{
 sim_phased_with_error(pop_size = 100, freq_ancestor_1 = 0.5,

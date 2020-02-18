@@ -50,7 +50,7 @@ test_that("phased, use", {
 
   true_data <- vx$true_data
   phased_data <- vx$phased_data
-  expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * 100) ) ^ 200
+  expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * 100)) ^ 200
 
   for (i in unique(true_data$individual)) {
     a <- subset(true_data, true_data$individual == i)

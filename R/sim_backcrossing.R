@@ -4,12 +4,18 @@
 #' @param population_size Population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
 #' @param total_runtime Number of generations to simulate
-#' @param size_in_morgan Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)
+#' @param size_in_morgan Mean number of crossovers per meiosis (e.g. size in
+#' Morgan of the chromosome)
 #' @param number_of_markers number of molecular markers
 #' @param seed Seed of the pseudo-random number generator
 #' @param time_points vector with time points at which local ancestry has to be
-#' recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).
-#' @return List with five entries: average_junctions: average number of junctions over time, detected_junctions: average number of detected junctions, given the markers. markers: vector with the locations of the molecular markers, junction_distribution: distribution of junctions per time step average_heterozygosity: average heterozygosity.
+#' recorded to be returned at the end of the simulation. If left at -1,
+#' ancestry is recorded at every generation (computationally heavy).
+#' @return List with five entries: average_junctions: average number of
+#' junctions over time, detected_junctions: average number of detected
+#' junctions, given the markers. markers: vector with the locations of the
+#' molecular markers, junction_distribution: distribution of junctions per
+#' time step average_heterozygosity: average heterozygosity.
 #' @examples
 #' vx <- sim_backcrossing(population_size = 100,
 #'                        total_runtime = 5,

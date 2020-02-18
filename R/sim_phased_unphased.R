@@ -1,15 +1,22 @@
 #' Individual Based Simulation of the accumulation of junctions
-#' @description Individual based simulation of the accumulation of junctions, returning phased and unphased data. Ancestry on both chromosomes of 10 randomly sampled individuals per generations is returned.
+#' @description Individual based simulation of the accumulation of junctions,
+#' returning phased and unphased data. Ancestry on both chromosomes of 10
+#' randomly sampled individuals per generations is returned.
 #' @param pop_size Population Size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
 #' @param total_runtime Maximum time after which the simulation is to be stopped
-#' @param size_in_morgan Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)
-#' @param number_of_markers The number of genetic markers superimposed on the chromosome.
-#' @param time_points vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).
+#' @param size_in_morgan Mean number of crossovers per meiosis (e.g. size in
+#' Morgan of the chromosome)
+#' @param number_of_markers The number of genetic markers superimposed on the
+#' chromosome.
+#' @param time_points vector with time points at which local ancestry has to be
+#'  recorded to be returned at the end of the simulation. If left at -1,
+#'  ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
 #' @param verbose displays a progress bar
 #' @param num_threads if larger than one, multithreading is used.
-#' @return a tibble with five columns: [time, individual, marker location, ancestry chromosome 1, ancestry chromosome 2]
+#' @return a tibble with five columns: [time, individual, marker location,
+#'                             ancestry chromosome 1, ancestry chromosome 2]
 #' @examples
 #' sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 #'                     total_runtime = 10, size_in_morgan = 1,
