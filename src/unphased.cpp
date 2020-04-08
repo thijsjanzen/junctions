@@ -12,7 +12,6 @@
 using namespace Rcpp;
 
 // [[Rcpp::plugins(openmp)]]
-
 Output simulation_phased_nonphased(int popSize,
                                    double initRatio,
                                    int maxTime,
@@ -20,7 +19,8 @@ Output simulation_phased_nonphased(int popSize,
                                    int number_of_markers,
                                    const NumericVector& time_points,
                                    bool verbose,
-                                   int num_threads
+                                   int num_threads,
+                                   bool record_true_junctions
 )    {
 
   Output O;
@@ -57,7 +57,7 @@ Output simulation_phased_nonphased(int popSize,
 
   for(int t = 0; t <= maxTime; ++t) {
     if(is_in_time_points(t, time_points)) {
-      O.update_unphased(Pop, t);
+      O.update_unphased(Pop, t, record_true_junctions);
     }
 
     std::vector< Fish_inf > newGeneration(popSize);
@@ -112,7 +112,8 @@ List sim_phased_unphased_cpp(int pop_size,
                              NumericVector time_points,
                              int seed,
                              bool verbose,
-                             int num_threads) {
+                             int num_threads,
+                             bool record_true_junctions) {
 
   set_seed(seed);
   set_poisson(size_in_morgan);
@@ -123,7 +124,8 @@ List sim_phased_unphased_cpp(int pop_size,
                                          size_in_morgan, number_of_markers,
                                          time_points,
                                          verbose,
-                                         num_threads);
+                                         num_threads,
+                                         record_true_junctions);
 
   int num_rows = O.results.size();
   int num_cols = O.results[0].size();
@@ -135,5 +137,21 @@ List sim_phased_unphased_cpp(int pop_size,
     }
   }
 
-  return List::create(Named("results") = output_matrix);
+  if(!record_true_junctions) {
+    return List::create(Named("results") = output_matrix);
+  }
+  if(record_true_junctions) {
+    int num_rows_t = O.true_results.size();
+    int num_cols_t = O.true_results[0].size();
+    NumericMatrix output_matrix_true(num_rows_t, num_cols_t);
+    for(int i = 0; i < num_rows_t; ++i) {
+      for(int j = 0; j < num_cols_t; ++j) {
+        output_matrix_true(i,j) = O.true_results[i][j];
+      }
+    }
+
+    return List::create(Named("results") = output_matrix,
+                        Named("true_results") = output_matrix_true);
+  }
+
 }

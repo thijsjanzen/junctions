@@ -13,7 +13,8 @@ sim_phased_unphased(
   time_points = -1,
   seed = NULL,
   verbose = TRUE,
-  num_threads = 1
+  num_threads = 1,
+  record_true_junctions = FALSE
 )
 }
 \arguments{
@@ -38,6 +39,8 @@ ancestry is recorded at every generation (computationally heavy).}
 \item{verbose}{displays a progress bar}
 
 \item{num_threads}{if larger than one, multithreading is used.}
+
+\item{record_true_junctions}{keep track of the true number of junctions?}
 }
 \value{
 a tibble with five columns: [time, individual, marker location,

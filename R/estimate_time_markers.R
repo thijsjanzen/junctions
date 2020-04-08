@@ -28,6 +28,11 @@ estimate_time_markers <- function(J = NA,          # nolint
                                   lower_lim = 2,
                                   upper_lim = 1000) {
 
+ if(length(marker_distribution) < 2) {
+   cat("not enough markers provided, returning NA\n")
+   return(NA)
+ }
+
  to_fit <- function(params) {
     expected_j <-
       number_of_junctions_markers(N = N,

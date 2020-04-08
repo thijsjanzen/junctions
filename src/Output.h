@@ -24,12 +24,14 @@ struct Output {
     std::vector< std::vector< int > > junction_dist;
 
     std::vector< std::vector< double > > results;
+    std::vector< std::vector< double > > true_results;
 
     void update_inf(const std::vector< Fish_inf >& Pop);
     void update_fin(const std::vector< Fish_fin >& Pop);
 
     void update_unphased(const std::vector< Fish_inf >& Pop,
-                        int t);
+                         int t,
+                         bool record_true_junctions);
 
     void detectNumJunctions(const std::vector<Fish_inf> &Pop,
                             const std::vector<double> &markers);

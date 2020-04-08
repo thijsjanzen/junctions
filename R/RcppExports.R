@@ -25,7 +25,7 @@ sim_inf_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, m
 #' @param num_threads the number of threads to be used, default is 1
 #' @export
 #' @export
-sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose, num_threads) {
-    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose, num_threads)
+sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose, num_threads, record_true_junctions) {
+    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose, num_threads, record_true_junctions)
 }
 

@@ -13,7 +13,8 @@ sim_phased_unphased_cpp(
   time_points,
   seed,
   verbose,
-  num_threads
+  num_threads,
+  record_true_junctions
 )
 }
 \arguments{

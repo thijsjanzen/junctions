@@ -11,7 +11,9 @@
 \details{
   This package provides individual based simulations in order to simulate the accumulation of junctions over time, both for chromosomes with a finite and an infinite number of recombination sites. Furthermore, the package provides mathetematical tools to verify the outcomes of the individual based simulations.
 
-  Update version 1.5: added support for inferring the time since admixture based on phased and unphased data. Also included are simulation functions to simulate appropriate data (e.g. phased and unphased).
+  Update version 1.5.1: added option to track the true number of junctions \cr
+
+  Update version 1.5: added support for inferring the time since admixture based on phased and unphased data. Also included are simulation functions to simulate appropriate data (e.g. phased and unphased). \cr
 
   Update version 1.4: added support for estimating the number of junctions, and simulating the number of junctions, under a backcrossing scheme, using the code supplied in Lavretsky et al. 2019. \cr
 
