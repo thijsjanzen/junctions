@@ -35,6 +35,8 @@ sim_phased_unphased_cpp(
 \item{verbose}{displays a progress bar}
 
 \item{num_threads}{the number of threads to be used, default is 1}
+
+\item{record_true_junctions}{record also the true number of junctions on each chromosome?}
 }
 \description{
 simulate junctions

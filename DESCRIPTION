@@ -11,7 +11,8 @@ Imports: Rcpp,
          testthat, 
          expm,
          knitr,
-         tibble
+         tibble,
+         subplex
 SystemRequirements: C++11
 VignetteBuilder: knitr
 RoxygenNote: 7.0.2.9000

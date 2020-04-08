@@ -101,6 +101,7 @@ Output simulation_phased_nonphased(int popSize,
 //' @param seed Seed of the pseudo-random number generator
 //' @param verbose displays a progress bar
 //' @param num_threads the number of threads to be used, default is 1
+//' @param record_true_junctions record also the true number of junctions on each chromosome?
 //' @export
 //' @export
 // [[Rcpp::export]]

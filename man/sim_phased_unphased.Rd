@@ -55,5 +55,5 @@ randomly sampled individuals per generations is returned.
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
                     total_runtime = 10, size_in_morgan = 1,
                     number_of_markers = 10, time_points = c(0, 5, 10),
-                    seed = 42)
+                    seed = 42, record_true_junctions = FALSE)
 }
