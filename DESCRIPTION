@@ -8,11 +8,9 @@ Description: Individual based simulations of hybridizing populations, where the 
 License: GPL (>= 2)
 LinkingTo: Rcpp
 Imports: Rcpp, 
-         testthat, 
          expm,
-         knitr,
          tibble,
          subplex
 SystemRequirements: C++11
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2.9000
+RoxygenNote: 7.1.0
