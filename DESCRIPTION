@@ -10,9 +10,9 @@ LinkingTo: Rcpp
 Imports: Rcpp, 
          expm,
          tibble,
-         subplex,
-         knitr,
-         testthat
+         subplex
+Suggests: knitr, 
+          testthat
 SystemRequirements: C++11
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0

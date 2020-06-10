@@ -32,31 +32,32 @@ Output simulation_phased_nonphased(int popSize,
   Fish_inf parent1 = Fish_inf(0);
   Fish_inf parent2 = Fish_inf(1);
 
-  for(int i = 0; i < popSize; ++i) {
+  for (int i = 0; i < popSize; ++i) {
     Fish_inf p1 = parent2;
     Fish_inf p2 = parent2;
 
-    if(uniform() < initRatio) {
+    if (uniform() < initRatio) {
       p1 = parent1;
     }
-    if(uniform() < initRatio) {
+    if (uniform() < initRatio) {
       p2 = parent1;
     }
 
     Pop[i] = mate_inf(p1,p2, numRecombinations);
   }
 
-  if(verbose) Rcout << "0--------25--------50--------75--------100\n";
-  if(verbose) Rcout << "*";
+  if (verbose) Rcout << "0--------25--------50--------75--------100\n";
+  if (verbose) Rcout << "*";
   int updateFreq = maxTime / 20;
-  if(updateFreq < 1) updateFreq = 1;
+  if (updateFreq < 1) updateFreq = 1;
 
 #ifdef _OPENMP
   omp_set_num_threads(num_threads);
+  Rcout << "using: " << num_threads << " threads\n";
 #endif
 
-  for(int t = 0; t <= maxTime; ++t) {
-    if(is_in_time_points(t, time_points)) {
+  for (int t = 0; t <= maxTime; ++t) {
+    if (is_in_time_points(t, time_points)) {
       O.update_unphased(Pop, t, record_true_junctions);
     }
 
@@ -64,7 +65,7 @@ Output simulation_phased_nonphased(int popSize,
 
 
     #pragma omp parallel for shared(newGeneration, popSize, Pop)
-    for(size_t i = 0; i < popSize; ++i)  {
+    for (size_t i = 0; i < popSize; ++i)  {
 
       int index1 = random_number(popSize);
       int index2 = random_number(popSize);
@@ -77,7 +78,7 @@ Output simulation_phased_nonphased(int popSize,
 
     Pop.swap(newGeneration);
 
-    if(verbose) {
+    if (verbose) {
       if(t % updateFreq == 0) {
         Rcout << "**";
       }
@@ -85,7 +86,7 @@ Output simulation_phased_nonphased(int popSize,
 
     Rcpp::checkUserInterrupt();
   }
-  if(verbose) Rcout << "\n";
+  if (verbose) Rcout << "\n";
   return O;
 }
 
@@ -132,16 +133,13 @@ List sim_phased_unphased_cpp(int pop_size,
   int num_cols = O.results[0].size();
 
   NumericMatrix output_matrix(num_rows, num_cols);
-  for(int i = 0; i < num_rows; ++i) {
-    for(int j = 0; j < num_cols; ++j) {
+  for (int i = 0; i < num_rows; ++i) {
+    for (int j = 0; j < num_cols; ++j) {
       output_matrix(i,j) = O.results[i][j];
     }
   }
 
-  if(!record_true_junctions) {
-    return List::create(Named("results") = output_matrix);
-  }
-  if(record_true_junctions) {
+  if (record_true_junctions) {
     int num_rows_t = O.true_results.size();
     int num_cols_t = O.true_results[0].size();
     NumericMatrix output_matrix_true(num_rows_t, num_cols_t);
@@ -154,5 +152,5 @@ List sim_phased_unphased_cpp(int pop_size,
     return List::create(Named("results") = output_matrix,
                         Named("true_results") = output_matrix_true);
   }
-
+  return List::create(Named("results") = output_matrix);
 }
