@@ -7,8 +7,7 @@
 #' @param total_runtime Maximum time after which the simulation is to be stopped
 #' @param size_in_morgan Mean number of crossovers per meiosis (e.g. size in
 #' Morgan of the chromosome)
-#' @param number_of_markers The number of genetic markers superimposed on the
-#' chromosome.
+#' @param markers Can be a number of markers superimposed on the genome (randomly drawn from a uniform distribution) or a vector of markers.
 #' @param time_points vector with time points at which local ancestry has to be
 #'  recorded to be returned at the end of the simulation. If left at -1,
 #'  ancestry is recorded at every generation (computationally heavy).
@@ -28,7 +27,7 @@ sim_phased_unphased <- function(pop_size = 100,
                                 freq_ancestor_1 = 0.5,
                                 total_runtime = 100,
                                 size_in_morgan = 1,
-                                number_of_markers = 100,
+                                markers = 100,
                                 time_points = -1,
                                 seed = NULL,
                                 verbose = TRUE,
@@ -46,24 +45,27 @@ sim_phased_unphased <- function(pop_size = 100,
     seed <- round(as.numeric(Sys.time()))
   }
 
+  markers <- get_num_markers(markers)
+
+
   output <- sim_phased_unphased_cpp(pop_size,
                                       freq_ancestor_1,
                                       total_runtime,
                                       size_in_morgan,
-                                      number_of_markers,
+                                      markers,
                                       time_points,
                                       seed,
                                       verbose,
                                       num_threads,
-                                    record_true_junctions)
+                                      record_true_junctions)
 
   colnames(output$results) <- c("time", "individual", "location",
                                 "anc_chrom_1", "anc_chrom_2")
 
-  if(!record_true_junctions)
+  if (!record_true_junctions)
     return(tibble::as_tibble(output$results))
 
-  if(record_true_junctions) {
+  if (record_true_junctions) {
     colnames(output$true_results) = c("time", "individual", "junctions_chrom_1", "junctions_chrom_2")
     output <- list("results" = tibble::as_tibble(output$results),
                    "true_results" = tibble::as_tibble(output$true_results))

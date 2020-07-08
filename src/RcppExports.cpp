@@ -55,8 +55,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // sim_phased_unphased_cpp
-List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, int number_of_markers, NumericVector time_points, int seed, bool verbose, int num_threads, bool record_true_junctions);
-RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP number_of_markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP, SEXP verboseSEXP, SEXP num_threadsSEXP, SEXP record_true_junctionsSEXP) {
+List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, NumericVector markers, NumericVector time_points, int seed, bool verbose, int num_threads, bool record_true_junctions);
+RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP, SEXP verboseSEXP, SEXP num_threadsSEXP, SEXP record_true_junctionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -64,13 +64,13 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
     Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< double >::type size_in_morgan(size_in_morganSEXP);
-    Rcpp::traits::input_parameter< int >::type number_of_markers(number_of_markersSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type markers(markersSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type time_points(time_pointsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
     Rcpp::traits::input_parameter< bool >::type record_true_junctions(record_true_junctionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed, verbose, num_threads, record_true_junctions));
+    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, num_threads, record_true_junctions));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -1,5 +1,28 @@
 # nolint start
 #' @keywords internal
+get_num_markers <- function(markers) {
+  if (length(markers) == 1) {
+    if (markers[1] < 0) { # evenly spaced markers
+      num_markers <- abs(markers[1])
+      di = 1.0 / (num_markers);
+      markers <- seq(di, 1 - di, length.out = num_markers)
+      return(markers)
+    } else {
+      markers <- runif(n = num_markers)
+      markers <- unique(markers)
+      while (length(markers) < num_markers) {
+        add <- runif(num_markers - length(markers))
+        markers <- unique(c(markers, add))
+      }
+      markers <- sort(markers)
+      return(markers)
+    }
+  } else {
+    return(markers)
+  }
+}
+
+#' @keywords internal
 single_state <- function(t, N, d) {
 
   trans_matrix <- matrix(0, 7, 7)
