@@ -5,7 +5,7 @@ test_that("phased, use", {
                             freq_ancestor_1 = 0.5,
                             total_runtime = 201,
                             size_in_morgan = 1,
-                            number_of_markers = 1000,
+                            markers = 1000,
                             time_points = c(100, 200),
                             seed = 42)
 
@@ -55,7 +55,7 @@ test_that("phased, use", {
                             freq_ancestor_1 = 0.1,
                             total_runtime = 30,
                             size_in_morgan = 1,
-                            number_of_markers = 1000,
+                            markers = 1000,
                             time_points = c(30),
                             seed = 421)
 

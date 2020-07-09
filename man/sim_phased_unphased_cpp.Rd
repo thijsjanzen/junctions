@@ -9,7 +9,7 @@ sim_phased_unphased_cpp(
   freq_ancestor_1,
   total_runtime,
   size_in_morgan,
-  number_of_markers,
+  markers,
   time_points,
   seed,
   verbose,
@@ -26,7 +26,7 @@ sim_phased_unphased_cpp(
 
 \item{size_in_morgan}{Mean number of crossovers per meiosis (e.g. size in Morgan of the chromosome)}
 
-\item{number_of_markers}{The number of genetic markers superimposed on the chromosome.}
+\item{markers}{The number of genetic markers superimposed on the chromosome.}
 
 \item{time_points}{vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).}
 

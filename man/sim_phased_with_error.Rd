@@ -10,7 +10,7 @@ sim_phased_with_error(
   freq_ancestor_1 = 0.5,
   total_runtime = 100,
   size_in_morgan = 1,
-  number_of_markers = 100,
+  markers = 100,
   time_points = -1,
   seed = NULL,
   verbose = TRUE,
@@ -29,8 +29,10 @@ sim_phased_with_error(
 \item{size_in_morgan}{Mean number of crossovers per meiosis (e.g. size in
 Morgan of the chromosome)}
 
-\item{number_of_markers}{The number of genetic markers superimposed on the
-chromosome.}
+\item{markers}{If a single number is provided, the number is used as the
+total number of markers generated either randomly, or using a regular
+distribution (a regular distribution is chosen if the number is negative). If
+a vector is provided, that vector is used.}
 
 \item{time_points}{vector with time points at which local ancestry has to be
 recorded to be returned at the end of the simulation. If left at -1,

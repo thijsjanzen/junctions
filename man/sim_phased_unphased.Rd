@@ -9,7 +9,7 @@ sim_phased_unphased(
   freq_ancestor_1 = 0.5,
   total_runtime = 100,
   size_in_morgan = 1,
-  number_of_markers = 100,
+  markers = 100,
   time_points = -1,
   seed = NULL,
   verbose = TRUE,
@@ -27,8 +27,10 @@ sim_phased_unphased(
 \item{size_in_morgan}{Mean number of crossovers per meiosis (e.g. size in
 Morgan of the chromosome)}
 
-\item{number_of_markers}{The number of genetic markers superimposed on the
-chromosome.}
+\item{markers}{If a single number is provided, the number is used as the
+total number of markers generated either randomly, or using a regular
+distribution (a regular distribution is chosen if the number is negative). If
+a vector is provided, that vector is used.}
 
 \item{time_points}{vector with time points at which local ancestry has to be
 recorded to be returned at the end of the simulation. If left at -1,
@@ -54,6 +56,6 @@ randomly sampled individuals per generations is returned.
 \examples{
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
                     total_runtime = 10, size_in_morgan = 1,
-                    number_of_markers = 10, time_points = c(0, 5, 10),
+                    markers = 10, time_points = c(0, 5, 10),
                     seed = 42, record_true_junctions = FALSE)
 }

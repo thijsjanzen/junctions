@@ -7,7 +7,10 @@
 #' @param total_runtime Maximum time after which the simulation is to be stopped
 #' @param size_in_morgan Mean number of crossovers per meiosis (e.g. size in
 #' Morgan of the chromosome)
-#' @param markers Can be a number of markers superimposed on the genome (randomly drawn from a uniform distribution) or a vector of markers.
+#' @param markers If a single number is provided, the number is used as the
+#' total number of markers generated either randomly, or using a regular
+#' distribution (a regular distribution is chosen if the number is negative). If
+#' a vector is provided, that vector is used.
 #' @param time_points vector with time points at which local ancestry has to be
 #'  recorded to be returned at the end of the simulation. If left at -1,
 #'  ancestry is recorded at every generation (computationally heavy).
@@ -20,7 +23,7 @@
 #' @examples
 #' sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 #'                     total_runtime = 10, size_in_morgan = 1,
-#'                     number_of_markers = 10, time_points = c(0, 5, 10),
+#'                     markers = 10, time_points = c(0, 5, 10),
 #'                     seed = 42, record_true_junctions = FALSE)
 #' @export
 sim_phased_unphased <- function(pop_size = 100,
