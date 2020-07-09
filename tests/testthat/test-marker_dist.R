@@ -11,7 +11,7 @@ test_that("markers, use", {
 
   testthat::expect_equal(e_j, d_e_j)
 
-  num_repl <- 100
+  num_repl <- 10
 
   N <- 1e3   # nolint
   num_markers <- 1000

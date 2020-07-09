@@ -5,7 +5,7 @@ test_that("unphased, use", {
                             freq_ancestor_1 = 0.5,
                             total_runtime = 201,
                             size_in_morgan = 1,
-                            number_of_markers = 1000,
+                            markers = 1000,
                             time_points = c(100, 200),
                             seed = 42)
 
@@ -55,7 +55,7 @@ test_that("unphased, use", {
                             freq_ancestor_1 = 0.1,
                             total_runtime = 30,
                             size_in_morgan = 1,
-                            number_of_markers = 1000,
+                            markers = 1000,
                             time_points = c(30),
                             seed = 421)
 
@@ -69,13 +69,13 @@ test_that("unphased, use", {
                                     freq_ancestor_1 = 0.1,
                                     t = 30)
 
-  ll_60 <- unphased_log_likelihood(cbind(local_data$anc_chrom_1,
+  ll_100 <- unphased_log_likelihood(cbind(local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
                                     local_data$location,
                                     pop_size = 1000,
                                     freq_ancestor_1 = 0.1,
-                                    t = 60)
-  testthat::expect_gte(ll_30, ll_60)
+                                    t = 600)
+  testthat::expect_gte(ll_30, ll_100)
 
   ll_inf <- unphased_log_likelihood(cbind(local_data$anc_chrom_1,
                                           local_data$anc_chrom_2),
@@ -99,7 +99,7 @@ test_that("unphased, exceptions", {
                             freq_ancestor_1 = 0.5,
                             total_runtime = 201,
                             size_in_morgan = 1,
-                            number_of_markers = 1000,
+                            markers = 1000,
                             seed = 42)
 
   testthat::expect_warning(
@@ -107,7 +107,7 @@ test_that("unphased, exceptions", {
                               freq_ancestor_1 = 0.5,
                               total_runtime = 201,
                               size_in_morgan = 1,
-                              number_of_markers = 1000,
+                              markers = 1000,
                               time_points = c(100, 200))
   )
 })

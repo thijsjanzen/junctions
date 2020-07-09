@@ -69,13 +69,13 @@ test_that("phased, use", {
                                    freq_ancestor_1 = 0.1,
                                    t = 30)
 
-  ll_60 <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
+  ll_90 <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
                                    local_data$location,
                                    pop_size = 1000,
                                    freq_ancestor_1 = 0.1,
-                                   t = 60)
-  testthat::expect_gte(ll_30, ll_60)
+                                   t = 90)
+  testthat::expect_gte(ll_30, ll_90)
 
   ll_inf <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
                                           local_data$anc_chrom_2),

@@ -54,17 +54,19 @@ sim_phased_with_error <- function(pop_size = 100,
     seed <- Sys.time()
   }
 
+  markers <- get_num_markers(markers)
+
   record_true_junctions <- FALSE
   sim_output <- junctions::sim_phased_unphased_cpp(pop_size,
-                                        freq_ancestor_1,
-                                        total_runtime,
-                                        size_in_morgan,
-                                        markers,
-                                        time_points,
-                                        seed,
-                                        verbose,
-                                        num_threads,
-                                        record_true_junctions)
+                                                  freq_ancestor_1,
+                                                  total_runtime,
+                                                  size_in_morgan,
+                                                  markers,
+                                                  time_points,
+                                                  seed,
+                                                  verbose,
+                                                  num_threads,
+                                                  record_true_junctions)
 
   true_data <- sim_output$results
   colnames(true_data) <- c("time", "individual", "location",

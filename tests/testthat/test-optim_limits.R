@@ -5,7 +5,7 @@ test_that("optim_limits, use", {
                             freq_ancestor_1 = 0.5,
                             total_runtime = 101,
                             size_in_morgan = 1,
-                            number_of_markers = 1000,
+                            markers = 1000,
                             time_points = c(100, 200),
                             seed = 42)
 
