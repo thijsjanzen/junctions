@@ -62,6 +62,6 @@ individuals per generations is returned.
 \examples{
 sim_phased_with_error(pop_size = 100, freq_ancestor_1 = 0.5,
                     total_runtime = 10, size_in_morgan = 1,
-                    number_of_markers = 10, time_points = c(0, 5, 10),
+                    markers = 10, time_points = c(0, 5, 10),
                     seed = 42, coverage = 0.9, error_rate = 0.01)
 }
