@@ -15,4 +15,4 @@ Suggests: knitr,
           testthat
 SystemRequirements: C++11
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

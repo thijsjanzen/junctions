@@ -22,9 +22,9 @@ chromosome)}
 Estimated number of junctions at time t
 }
 \description{
-Calculate the average number of junctions after t generations,
-provided information on the initial heterozygosity, population size and the
-number of generations.
+Calculate the average number of junctions in a single chromosome
+after t generations, provided information on the initial heterozygosity,
+population size and the number of generations.
 }
 \examples{
 jt <-  number_of_junctions(N = 100, R = 1000, H_0 = 0.5, C = 1, t = 1000)

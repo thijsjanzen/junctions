@@ -13,7 +13,6 @@ sim_phased_unphased_cpp(
   time_points,
   seed,
   verbose,
-  num_threads,
   record_true_junctions
 )
 }
@@ -33,8 +32,6 @@ sim_phased_unphased_cpp(
 \item{seed}{Seed of the pseudo-random number generator}
 
 \item{verbose}{displays a progress bar}
-
-\item{num_threads}{the number of threads to be used, default is 1}
 
 \item{record_true_junctions}{record also the true number of junctions on each chromosome?}
 }

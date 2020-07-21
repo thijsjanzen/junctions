@@ -13,7 +13,6 @@ sim_phased_unphased(
   time_points = -1,
   seed = NULL,
   verbose = TRUE,
-  num_threads = 1,
   record_true_junctions = FALSE
 )
 }
@@ -39,8 +38,6 @@ ancestry is recorded at every generation (computationally heavy).}
 \item{seed}{Seed of the pseudo-random number generator}
 
 \item{verbose}{displays a progress bar}
-
-\item{num_threads}{if larger than one, multithreading is used.}
 
 \item{record_true_junctions}{keep track of the true number of junctions?}
 }
