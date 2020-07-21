@@ -9,10 +9,10 @@ get_num_markers <- function(markers) {
       markers <- seq(di, 1 - di, length.out = num_markers)
       return(markers)
     } else {
-      markers <- runif(n = num_markers)
+      markers <- stats::runif(n = num_markers)
       markers <- unique(markers)
       while (length(markers) < num_markers) {
-        add <- runif(num_markers - length(markers))
+        add <- stats::runif(num_markers - length(markers))
         markers <- unique(c(markers, add))
       }
       markers <- sort(markers)
@@ -106,13 +106,7 @@ get_index_and_prob_phased <- function(info_vector,
 }
 
 
-#' create a matrix with the total contribution of each term to the likelihood
-#' @param local_anc_matrix local ancestry matrix
-#' @param locations locations in Morgan
-#' @param pop_size population size
-#' @param freq_ancestor_1 frequency of ancestor 1
-#' @param t time point
-#' @export
+#' @keywords internal
 matrix_of_states_unphased <- function(local_anc_matrix,
            locations,
            pop_size,
@@ -163,14 +157,7 @@ matrix_of_states_unphased <- function(local_anc_matrix,
     return(ll_matrix)
 }
 
-
-#' create a matrix with the total contribution of each term to the likelihood
-#' @param local_anc_matrix local ancestry matrix
-#' @param locations locations in Morgan
-#' @param pop_size population size
-#' @param freq_ancestor_1 frequency of ancestor 1
-#' @param t time point
-#' @export
+#' @keywords internal
 matrix_of_states_phased <- function(local_anc_matrix,
                                       locations,
                                       pop_size,
@@ -222,10 +209,7 @@ matrix_of_states_phased <- function(local_anc_matrix,
   return(ll_matrix)
 }
 
-
-#' create a matrix with the frequency of each state
-#' @param local_anc_matrix local ancestry matrix
-#' @export
+#' @keywords internal
 count_of_states_phased <- function(local_anc_matrix) {
 
   local_anc <- local_anc_matrix
@@ -258,9 +242,7 @@ count_of_states_phased <- function(local_anc_matrix) {
 }
 
 
-#' create a matrix with the frequency of each state
-#' @param local_anc_matrix local ancestry matrix
-#' @export
+#' @keywords internal
 count_of_states_unphased <- function(local_anc_matrix) {
 
   local_anc <- local_anc_matrix

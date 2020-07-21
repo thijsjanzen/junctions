@@ -14,7 +14,6 @@ sim_phased_with_error(
   time_points = -1,
   seed = NULL,
   verbose = TRUE,
-  num_threads = 1,
   coverage = 1,
   error_rate = 0
 )
@@ -41,8 +40,6 @@ ancestry is recorded at every generation (computationally heavy).}
 \item{seed}{Seed of the pseudo-random number generator}
 
 \item{verbose}{displays a progress bar}
-
-\item{num_threads}{if larger than one, multithreading is used.}
 
 \item{coverage}{fraction of markers that can be succesfully phased}
 

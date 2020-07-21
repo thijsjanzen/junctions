@@ -18,7 +18,6 @@
 #' ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
 #' @param verbose displays a progress bar
-#' @param num_threads if larger than one, multithreading is used.
 #' @param coverage fraction of markers that can be succesfully phased
 #' @param error_rate fraction of markers that are erroneously
 #' phased (e.g. swapped)
@@ -38,7 +37,6 @@ sim_phased_with_error <- function(pop_size = 100,
                                   time_points = -1,
                                   seed = NULL,
                                   verbose = TRUE,
-                                  num_threads = 1,
                                   coverage = 1,
                                   error_rate = 0) {
 
@@ -65,7 +63,6 @@ sim_phased_with_error <- function(pop_size = 100,
                                                   time_points,
                                                   seed,
                                                   verbose,
-                                                  num_threads,
                                                   record_true_junctions)
 
   true_data <- sim_output$results

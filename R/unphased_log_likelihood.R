@@ -16,10 +16,10 @@
 #' @return log likelihood
 #' @export
 loglikelihood_unphased <- function(local_anc_matrix,
-                                    locations,
-                                    pop_size,
-                                    freq_ancestor_1 = 0.5,
-                                    t) {
+                                   locations,
+                                   pop_size,
+                                   freq_ancestor_1 = 0.5,
+                                   t) {
 
   distances <- diff(locations)
 

@@ -16,10 +16,10 @@
 #' @return log likelihood
 #' @export
 loglikelihood_phased <- function(local_anc_matrix,
-                              locations,
-                              pop_size,
-                              freq_ancestor_1 = 0.5,
-                              t) {
+                                 locations,
+                                 pop_size,
+                                 freq_ancestor_1 = 0.5,
+                                 t) {
 
   distances <- diff(locations)
 
@@ -27,14 +27,14 @@ loglikelihood_phased <- function(local_anc_matrix,
   if (is.matrix(local_anc_matrix)) {
     local_anc <- rep(-1, length(local_anc_matrix[, 1]))
     homo_1 <- which(local_anc_matrix[, 1] == 0 &
-                    local_anc_matrix[, 2] == 0)
+                      local_anc_matrix[, 2] == 0)
     homo_2 <- which(local_anc_matrix[, 1] == 1 &
-                    local_anc_matrix[, 2] == 1)
+                      local_anc_matrix[, 2] == 1)
 
     het_1 <- which(local_anc_matrix[, 1] == 0 &
-                   local_anc_matrix[, 2] == 1)
+                     local_anc_matrix[, 2] == 1)
     het_2 <- which(local_anc_matrix[, 1] == 1 &
-                   local_anc_matrix[, 2] == 0)
+                     local_anc_matrix[, 2] == 0)
 
     local_anc[homo_1] <- 1
     local_anc[homo_2] <- 2

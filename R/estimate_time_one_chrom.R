@@ -17,10 +17,10 @@
 #' markers <- seq(from = 0, to = 1, length.out = 100)
 #' J <- number_of_junctions_markers(N = 100, H_0 = 0.5, t = 200,
 #' marker_distribution = markers)
-#' estimate_time_markers(J = J,
-#'                       N = 100,
-#'                       H_0 = 0.5,
-#'                       marker_distribution = markers) #should be 200 again
+#' estimate_time_one_chrom(J = J,
+#'                         N = 100,
+#'                         H_0 = 0.5,
+#'                         marker_distribution = markers) #should be 200 again
 #' @export
 estimate_time_one_chrom <- function(J = NA,          # nolint
                                     N = Inf,         # nolint

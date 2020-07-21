@@ -66,17 +66,17 @@ test_that("estimate time", {
 
     sim_results <- sim_inf_chrom(pop_size = N,
                                  freq_ancestor_1 = 0.5,
-                               total_runtime = total_runtime,
-                               morgan = 1,
-                               markers = num_markers,
-                               seed = r + 15)
+                                 total_runtime = total_runtime,
+                                 morgan = 1,
+                                 markers = num_markers,
+                                 seed = r + 15)
 
     sim_markers <- sim_results$markers
     focal_j <- tail(sim_results$avgJunctions, 1)  # nolint
-    estimated_time <- estimate_time_markers(J = focal_j,
-                                          N = N,
-                                          H_0 = 0.5,
-                                          marker_distribution = sim_markers)
+    estimated_time <- estimate_time_one_chrom(J = focal_j,
+                                              N = N,
+                                              H_0 = 0.5,
+                                              marker_distribution = sim_markers)
     all_times <- c(all_times, estimated_time)
     cat(r, "\n")
   }
