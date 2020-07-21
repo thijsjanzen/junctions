@@ -1,7 +1,7 @@
 #' Calculate the average number of junctions
-#' @description Calculate the average number of junctions after t generations,
-#' provided information on the initial heterozygosity, population size and the
-#' number of generations.
+#' @description Calculate the average number of junctions in a single chromosome
+#' after t generations, provided information on the initial heterozygosity,
+#' population size and the number of generations.
 #' @param N Population Size
 #' @param R Number of genetic markers
 #' @param H_0 Frequency of heterozygosity at t = 0

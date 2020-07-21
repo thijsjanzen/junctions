@@ -15,12 +15,10 @@ Output simulation_phased_nonphased(int popSize,
                                    std::vector< double >  markers,
                                    const NumericVector& time_points,
                                    bool verbose,
-                                   int num_threads,
                                    bool record_true_junctions)    {
 
   Output O;
   std::vector< Fish_inf > Pop(popSize);
- //  std::vector<double> markers = generate_random_markers(number_of_markers);
 
   O.markers = markers;
 
@@ -46,11 +44,6 @@ Output simulation_phased_nonphased(int popSize,
   int updateFreq = maxTime / 20;
   if (updateFreq < 1) updateFreq = 1;
 
-// #ifdef _OPENMP
-//   omp_set_num_threads(num_threads);
-//  Rcout << "using: " << num_threads << " threads\n";
-// #endif
-
   for (int t = 0; t <= maxTime; ++t) {
     if (is_in_time_points(t, time_points)) {
       O.update_unphased(Pop, t, record_true_junctions);
@@ -58,8 +51,6 @@ Output simulation_phased_nonphased(int popSize,
 
     std::vector< Fish_inf > newGeneration(popSize);
 
-
-//    #pragma omp parallel for shared(newGeneration, popSize, Pop)
     for (size_t i = 0; i < popSize; ++i)  {
 
       int index1 = random_number(popSize);
@@ -86,7 +77,6 @@ Output simulation_phased_nonphased(int popSize,
 }
 
 
-
 //' simulate junctions
 //' @param pop_size Population Size
 //' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
@@ -96,7 +86,6 @@ Output simulation_phased_nonphased(int popSize,
 //' @param time_points vector with time points at which local ancestry has to be recorded to be returned at the end of the simulation. If left at -1, ancestry is recorded at every generation (computationally heavy).
 //' @param seed Seed of the pseudo-random number generator
 //' @param verbose displays a progress bar
-//' @param num_threads the number of threads to be used, default is 1
 //' @param record_true_junctions record also the true number of junctions on each chromosome?
 //' @export
 //' @export
@@ -109,7 +98,6 @@ List sim_phased_unphased_cpp(int pop_size,
                              NumericVector time_points,
                              int seed,
                              bool verbose,
-                             int num_threads,
                              bool record_true_junctions) {
 
   set_seed(seed);
@@ -124,7 +112,6 @@ List sim_phased_unphased_cpp(int pop_size,
                                          marker_dist,
                                          time_points,
                                          verbose,
-                                         num_threads,
                                          record_true_junctions);
 
   int num_rows = O.results.size();

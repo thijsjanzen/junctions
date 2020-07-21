@@ -16,7 +16,6 @@
 #'  ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
 #' @param verbose displays a progress bar
-#' @param num_threads if larger than one, multithreading is used.
 #' @param record_true_junctions keep track of the true number of junctions?
 #' @return a tibble with five columns: [time, individual, marker location,
 #'                             ancestry chromosome 1, ancestry chromosome 2]
@@ -34,7 +33,6 @@ sim_phased_unphased <- function(pop_size = 100,
                                 time_points = -1,
                                 seed = NULL,
                                 verbose = TRUE,
-                                num_threads = 1,
                                 record_true_junctions = FALSE) {
   if (length(time_points) == 1) {
     if (time_points == -1) {
@@ -59,7 +57,6 @@ sim_phased_unphased <- function(pop_size = 100,
                                       time_points,
                                       seed,
                                       verbose,
-                                      num_threads,
                                       record_true_junctions)
 
   colnames(output$results) <- c("time", "individual", "location",
@@ -69,7 +66,10 @@ sim_phased_unphased <- function(pop_size = 100,
     return(tibble::as_tibble(output$results))
 
   if (record_true_junctions) {
-    colnames(output$true_results) = c("time", "individual", "junctions_chrom_1", "junctions_chrom_2")
+    colnames(output$true_results) <- c("time",
+                                      "individual",
+                                      "junctions_chrom_1",
+                                      "junctions_chrom_2")
     output <- list("results" = tibble::as_tibble(output$results),
                    "true_results" = tibble::as_tibble(output$true_results))
   }

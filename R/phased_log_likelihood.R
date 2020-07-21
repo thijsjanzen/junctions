@@ -15,11 +15,11 @@
 #' @param t time since admixture
 #' @return log likelihood
 #' @export
-phased_log_likelihood <- function(local_anc_matrix,
-                                    locations,
-                                    pop_size,
-                                    freq_ancestor_1 = 0.5,
-                                    t) {
+loglikelihood_phased <- function(local_anc_matrix,
+                              locations,
+                              pop_size,
+                              freq_ancestor_1 = 0.5,
+                              t) {
 
   distances <- diff(locations)
 

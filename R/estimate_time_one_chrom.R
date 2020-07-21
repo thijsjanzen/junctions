@@ -1,5 +1,6 @@
 #' Estimate the time since the onset of hybridization, using the observed
-#' number of junctions, taking into account the distribution of markers
+#' number of junctions, taking into account the distribution of markers on
+#' a single chromosome
 #' @description Estimate the time since the onset of hybridization, following
 #' equation 1 in Janzen et al. unpublished
 #' @param J The observed number of junctions
@@ -21,19 +22,19 @@
 #'                       H_0 = 0.5,
 #'                       marker_distribution = markers) #should be 200 again
 #' @export
-estimate_time_markers <- function(J = NA,          # nolint
-                                  N = Inf,         # nolint
-                                  H_0 = 0.5,       # nolint
-                                  marker_distribution = NA,
-                                  lower_lim = 2,
-                                  upper_lim = 1000) {
+estimate_time_one_chrom <- function(J = NA,          # nolint
+                                    N = Inf,         # nolint
+                                    H_0 = 0.5,       # nolint
+                                    marker_distribution = NA,
+                                    lower_lim = 2,
+                                    upper_lim = 1000) {
 
- if(length(marker_distribution) < 2) {
-   cat("not enough markers provided, returning NA\n")
-   return(NA)
- }
+  if (length(marker_distribution) < 2) {
+    cat("not enough markers provided, returning NA\n")
+    return(NA)
+  }
 
- to_fit <- function(params) {
+  to_fit <- function(params) {
     expected_j <-
       number_of_junctions_markers(N = N,
                                   H_0 = H_0,

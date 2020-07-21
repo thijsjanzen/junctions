@@ -213,11 +213,7 @@ estimate_time_unphased <- function(local_anc_matrix,
       return(-sum(local_probs))
     }
 
-
-    #a1 <- stats::optim(par = c(0.5 * upper_lim, pop_size), fn = calc_ll)
-    #a1 <- subplex::subplex(par = c(0.5 * upper_lim, pop_size), fn = calc_ll)
     a1 <- subplex::subplex(par = c(lower_lim, upper_lim), fn = calc_ll)
     return(a1)
   }
 }
-

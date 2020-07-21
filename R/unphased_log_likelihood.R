@@ -15,7 +15,7 @@
 #' @param t time since admixture
 #' @return log likelihood
 #' @export
-unphased_log_likelihood <- function(local_anc_matrix,
+loglikelihood_unphased <- function(local_anc_matrix,
                                     locations,
                                     pop_size,
                                     freq_ancestor_1 = 0.5,

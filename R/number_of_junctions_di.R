@@ -1,4 +1,3 @@
-
 #' Calculate the expected number of junctions between two markers separated by
 #' a given amount of recombination
 #' @description Calculate the expected number of junctions after t generations,

@@ -35,14 +35,14 @@ test_that("phased, use", {
 
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 100)
-  ll_100 <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
+  ll_100 <- loglikelihood_phased(cbind(local_data$anc_chrom_1,
                                           local_data$anc_chrom_2),
                                     local_data$location,
                                     pop_size = 100,
                                     freq_ancestor_1 = 0.5,
                                     t = 100)
 
-  ll_200 <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
+  ll_200 <- loglikelihood_phased(cbind(local_data$anc_chrom_1,
                                           local_data$anc_chrom_2),
                                     local_data$location,
                                     pop_size = 100,
@@ -62,14 +62,14 @@ test_that("phased, use", {
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 30)
 
-  ll_30 <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
+  ll_30 <- loglikelihood_phased(cbind(local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
                                    local_data$location,
                                    pop_size = 1000,
                                    freq_ancestor_1 = 0.1,
                                    t = 30)
 
-  ll_90 <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
+  ll_90 <- loglikelihood_phased(cbind(local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
                                    local_data$location,
                                    pop_size = 1000,
@@ -77,7 +77,7 @@ test_that("phased, use", {
                                    t = 90)
   testthat::expect_gte(ll_30, ll_90)
 
-  ll_inf <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
+  ll_inf <- loglikelihood_phased(cbind(local_data$anc_chrom_1,
                                           local_data$anc_chrom_2),
                                     local_data$location,
                                     pop_size = 1000,
@@ -86,7 +86,7 @@ test_that("phased, use", {
   testthat::expect_true(is.infinite(ll_inf))
 
 
-  multi_ll <- phased_log_likelihood(cbind(local_data$anc_chrom_1,
+  multi_ll <- loglikelihood_phased(cbind(local_data$anc_chrom_1,
                                           local_data$anc_chrom_2),
                                         local_data$location,
                                         pop_size = 1000,
