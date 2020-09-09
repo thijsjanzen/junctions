@@ -1,4 +1,4 @@
-# junctions <img src="pics/hexsticker_junctions3.png" align="right" width="120" />
+# junctions <img src="pics/junctions_sticker3.png" align="right" width="120" />
 Individual based simulations of hybridizing populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes. Both simulations and mathematical equations are based on Janzen et al. (2018) 
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/junctions)](https://cran.r-project.org/package=junctions)
