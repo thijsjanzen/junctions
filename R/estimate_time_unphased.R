@@ -134,7 +134,7 @@ get_cond_prob_vector <- function(info_vector,
 #' @export
 estimate_time_unphased <- function(local_anc_matrix,
                                    locations,
-                                   pop_size,
+                                   pop_size = 1000,
                                    freq_ancestor_1,
                                    lower_lim = 2,
                                    upper_lim = 1000,
@@ -213,7 +213,8 @@ estimate_time_unphased <- function(local_anc_matrix,
       return(-sum(local_probs))
     }
 
-    a1 <- subplex::subplex(par = c(lower_lim, upper_lim), fn = calc_ll)
+    a1 <- subplex::subplex(par = c((lower_lim + upper_lim) / 2,
+                                   pop_size), fn = calc_ll)
     return(a1)
   }
 }

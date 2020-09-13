@@ -111,3 +111,47 @@ test_that("unphased, exceptions", {
                               time_points = c(100, 200))
   )
 })
+
+test_that("unphased, pop size", {
+  vx <- sim_phased_unphased(pop_size = 100,
+                            freq_ancestor_1 = 0.5,
+                            total_runtime = 1000,
+                            size_in_morgan = 1,
+                            markers = 1000,
+                            seed = 42)
+
+  local_data <- subset(vx, vx$individual == 0 &
+                         vx$time == 1000)
+
+  ll_vals <- c()
+  n_vals <- seq(0, 500, by = 5)
+  for( n in n_vals) {
+    local_ll <- loglikelihood_unphased(cbind(local_data$anc_chrom_1,
+                                             local_data$anc_chrom_2),
+                                       local_data$location,
+                                       pop_size = n,
+                                       freq_ancestor_1 = 0.1,
+                                       t = 1000)
+    ll_vals <- c(ll_vals, local_ll)
+  }
+  a <- n_vals[which.max(ll_vals)]
+  plot(exp(ll_vals)~n_vals, type = "l")
+
+  found <- c()
+  for( a in unique(vx$individual)) {
+    local_data <- subset(vx, vx$individual == a &
+                           vx$time == 1000)
+    vy <- estimate_time_unphased(cbind(local_data$anc_chrom_1,
+                                       local_data$anc_chrom_2),
+                                 local_data$location,
+                                 freq_ancestor_1 = 0.5,
+                                 upper_lim = 2000,
+                                 optim_pop_size = TRUE,
+                                 verbose = FALSE)
+    found <- rbind(found, vy$par)
+  }
+  estimates <- colMeans(found)
+#  testthat::expect_equal(estimates[1], 1000, tolerance = 0.1, scale = 1)
+#  testthat::expect_equal(estimates[2], 100, tolerance = 0.1, scale = 1)
+
+}
