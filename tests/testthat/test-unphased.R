@@ -119,7 +119,7 @@ test_that("unphased, pop size", {
                             size_in_morgan = 1,
                             markers = 1000,
                             seed = 42)
-  local_data <- subset(vx, vx$individual == a &
+  local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 1000)
   vy <- estimate_time_unphased(cbind(local_data$anc_chrom_1,
                                      local_data$anc_chrom_2),
