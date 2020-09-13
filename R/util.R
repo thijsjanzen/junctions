@@ -42,15 +42,6 @@ single_state <- function(t, N, d) {
 }
 
 #' @keywords internal
-single_state_inf <- function(t, d) {
-
-  p1 <- (1-d)^t
-  p2 <- 2*(1-d)^t - 2*(1-2*d)^t
-  p3 <- 1 + (1-2*d)^t - (1-d)^t
-  return(  c(p1,p2,p3, 0, 0, 0, 0) )
-}
-
-#' @keywords internal
 get_index_and_prob_unphased <- function(info_vector,
                                freq_ancestor_1,
                                pop_size,

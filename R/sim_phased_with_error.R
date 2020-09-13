@@ -55,15 +55,15 @@ sim_phased_with_error <- function(pop_size = 100,
   markers <- get_num_markers(markers)
 
   record_true_junctions <- FALSE
-  sim_output <- junctions::sim_phased_unphased_cpp(pop_size,
-                                                  freq_ancestor_1,
-                                                  total_runtime,
-                                                  size_in_morgan,
-                                                  markers,
-                                                  time_points,
-                                                  seed,
-                                                  verbose,
-                                                  record_true_junctions)
+  sim_output <-  sim_phased_unphased_cpp(pop_size,
+                                         freq_ancestor_1,
+                                         total_runtime,
+                                         size_in_morgan,
+                                         markers,
+                                         time_points,
+                                         seed,
+                                         verbose,
+                                         record_true_junctions)
 
   true_data <- sim_output$results
   colnames(true_data) <- c("time", "individual", "location",
@@ -82,8 +82,8 @@ sim_phased_with_error <- function(pop_size = 100,
     # select which ones to flip:
 
     sample_size <- stats::rbinom(size = length(focal_indices),
-                          n = 1,
-                          prob = error_rate)
+                                 n = 1,
+                                 prob = error_rate)
 
     to_flip <- sample(focal_indices,
                       size = sample_size,
