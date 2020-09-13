@@ -2,9 +2,7 @@ language: r
 cache: packages
 
 os:
- # for now os_x is not supporting -fopenmp on travis, could be fixed at some point!
- # - osx
- #   env: EXTRA_BUILD_FLAGS="-DSTIR_OPENMP:BOOL=OFF" CC=gcc CXX=g++
+  - osx
   - linux
 
 r_github_packages:
