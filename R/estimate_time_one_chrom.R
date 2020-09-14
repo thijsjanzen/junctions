@@ -30,8 +30,7 @@ estimate_time_one_chrom <- function(J = NA,          # nolint
                                     upper_lim = 1000) {
 
   if (length(marker_distribution) < 2) {
-    cat("not enough markers provided, returning NA\n")
-    return(NA)
+   stop("not enough markers provided")
   }
 
   to_fit <- function(params) {
@@ -45,8 +44,8 @@ estimate_time_one_chrom <- function(J = NA,          # nolint
 
   fitted <- stats::optimize(to_fit, interval = c(lower_lim, upper_lim))
   if (fitted$minimum >= 0.9 * upper_lim) {
-    cat("estimated time is close to the upper limit of time inference\n")
-    cat("consider adjusting the upper limit to improve accuracy\n")
+    warning("estimated time is close to the upper limit of time inference\n",
+     "consider adjusting the upper limit to improve accuracy\n")
   }
   return(fitted$minimum)
 }

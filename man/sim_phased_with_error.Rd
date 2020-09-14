@@ -14,6 +14,7 @@ sim_phased_with_error(
   time_points = -1,
   seed = NULL,
   verbose = TRUE,
+  num_indiv_sampled = 10,
   coverage = 1,
   error_rate = 0
 )
@@ -40,6 +41,9 @@ ancestry is recorded at every generation (computationally heavy).}
 \item{seed}{Seed of the pseudo-random number generator}
 
 \item{verbose}{displays a progress bar}
+
+\item{num_indiv_sampled}{the number of individuals sampled at each time point
+to be genotyped}
 
 \item{coverage}{fraction of markers that can be succesfully phased}
 

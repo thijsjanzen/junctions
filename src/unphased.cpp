@@ -15,7 +15,8 @@ Output simulation_phased_nonphased(int popSize,
                                    std::vector< double >  markers,
                                    const NumericVector& time_points,
                                    bool verbose,
-                                   bool record_true_junctions)    {
+                                   bool record_true_junctions,
+                                   int num_indiv_sampled)    {
 
   Output O;
   std::vector< Fish_inf > Pop(popSize);
@@ -46,7 +47,8 @@ Output simulation_phased_nonphased(int popSize,
 
   for (int t = 0; t <= maxTime; ++t) {
     if (is_in_time_points(t, time_points)) {
-      O.update_unphased(Pop, t, record_true_junctions);
+      O.update_unphased(Pop, t, record_true_junctions, numRecombinations,
+                        num_indiv_sampled);
     }
 
     std::vector< Fish_inf > newGeneration(popSize);
@@ -85,7 +87,8 @@ List sim_phased_unphased_cpp(int pop_size,
                              NumericVector time_points,
                              int seed,
                              bool verbose,
-                             bool record_true_junctions) {
+                             bool record_true_junctions,
+                             int num_indiv_sampled) {
 
   set_seed(seed);
   set_poisson(size_in_morgan);
@@ -99,7 +102,8 @@ List sim_phased_unphased_cpp(int pop_size,
                                          marker_dist,
                                          time_points,
                                          verbose,
-                                         record_true_junctions);
+                                         record_true_junctions,
+                                         num_indiv_sampled);
 
   int num_rows = O.results.size();
   int num_cols = O.results[0].size();

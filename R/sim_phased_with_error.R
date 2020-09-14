@@ -18,6 +18,8 @@
 #' ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
 #' @param verbose displays a progress bar
+#' @param num_indiv_sampled the number of individuals sampled at each time point
+#' to be genotyped
 #' @param coverage fraction of markers that can be succesfully phased
 #' @param error_rate fraction of markers that are erroneously
 #' phased (e.g. swapped)
@@ -37,6 +39,7 @@ sim_phased_with_error <- function(pop_size = 100,
                                   time_points = -1,
                                   seed = NULL,
                                   verbose = TRUE,
+                                  num_indiv_sampled = 10,
                                   coverage = 1,
                                   error_rate = 0) {
 
@@ -63,7 +66,8 @@ sim_phased_with_error <- function(pop_size = 100,
                                          time_points,
                                          seed,
                                          verbose,
-                                         record_true_junctions)
+                                         record_true_junctions,
+                                         num_indiv_sampled)
 
   true_data <- sim_output$results
   colnames(true_data) <- c("time", "individual", "location",

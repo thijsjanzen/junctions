@@ -7,8 +7,8 @@
 estimate_time_unphased(
   local_anc_matrix,
   locations,
-  pop_size,
-  freq_ancestor_1,
+  pop_size = 1000,
+  freq_ancestor_1 = 0.5,
   lower_lim = 2,
   upper_lim = 1000,
   optim_pop_size = FALSE,

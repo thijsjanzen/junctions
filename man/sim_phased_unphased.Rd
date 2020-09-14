@@ -13,7 +13,8 @@ sim_phased_unphased(
   time_points = -1,
   seed = NULL,
   verbose = TRUE,
-  record_true_junctions = FALSE
+  record_true_junctions = FALSE,
+  num_indiv_sampled = 10
 )
 }
 \arguments{
@@ -40,6 +41,9 @@ ancestry is recorded at every generation (computationally heavy).}
 \item{verbose}{displays a progress bar}
 
 \item{record_true_junctions}{keep track of the true number of junctions?}
+
+\item{num_indiv_sampled}{the number of individuals sampled at each time point
+to be genotyped}
 }
 \value{
 a tibble with five columns: [time, individual, marker location,

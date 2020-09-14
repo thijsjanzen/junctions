@@ -1,0 +1,188 @@
+---
+title: "Phased and unphased data"
+author: "Thijs Janzen"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{junctions}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+  
+
+```{r setup, include=FALSE}
+library(junctions)
+library(Rcpp)
+knitr::opts_chunk$set(fig.width=7, echo = TRUE)
+```
+
+# Phased and unphased data
+In this vignette, we will explore how to analyze phased or unphased data, using data simulated by the junctions' package. We will go over how the input data 
+needs to be structured, and how to interpret the results.
+
+# Simulating data
+To have some example data, we will first simulate some artificial data. We can do so as follows:
+
+```{r, sim_data}
+simulated_data <- sim_phased_unphased(pop_size = 1000,
+                                      freq_ancestor_1 = 0.5,
+                                      total_runtime = 100,
+                                      size_in_morgan = 1,
+                                      time_points = 100,
+                                      markers = 1000,
+                                      seed = 42)
+
+simulated_data
+```
+
+This returns a tibble with the following columns: time, individual, location, anc_chrom_1 and anc_chrom_2. This contains ancestry on both chromosomes for 10 sampled individuals, where 0 indicates an allele from ancestor 0, and a 1 indicates an allele from ancestor 1. Locations are given in Morgan. 
+
+# Inferring the time since admixture
+To infer the time since admixture, we need to provide the junctions package with either our (in this case phased) ancestry data, or alternatively using a sequence of labels indicating if a marker is 1) homozygous ancestor 0, 2) homogzygous ancestor 1 or 3) heterozygous. This is a bit counterintuitive, because it does not classify heterozygous as intermediate of the other two. However, this matches the table in the main text best. Assuming our data is not phased, we best use this classification and first construct such a vector:
+```{r, construct unphased vector}
+focal_data <- subset(simulated_data, simulated_data$individual == 0 &
+                       simulated_data$time == 100)
+
+unphased_data <- rep(NA, length(focal_data$location))
+unphased_data[focal_data$anc_chrom_1 == 0] <- 1
+unphased_data[focal_data$anc_chrom_1 == 1] <- 2
+unphased_data[focal_data$anc_chrom_1 != focal_data$anc_chrom_2] <- 3
+```
+Just looking at the raw data, our chromosome now looks like this:
+```{r plot chrom}
+plot(unphased_data~focal_data$location, type = "s",
+     xlab = "Location (Morgan)",
+     ylab = "Ancestry")
+```
+
+
+Secondly, we need to provide a vector with the location in Morgan. This vector 
+is converted into recombination distances between markers (very similar to how Ancestry HMM treats markers as well). Simulation output already contains this information and we can use this to infer the time since admixture:
+
+```{r, infer unphased admixture time}
+admixture_time <- estimate_time_unphased(local_anc_matrix = unphased_data,
+                                         locations = focal_data$location,
+                                         pop_size = 1000,
+                                         freq_ancestor_1 = 0.5,
+                                         verbose = FALSE)
+admixture_time
+```
+
+Which returns two answers: the estimate ("minimum") and the -loglikelihood ("objective")
+
+Because the raw data is already phased (this comes easily with simulated data), 
+we can also use the phased framework. Here, we need to provide a matrix with two columns, where each column reflects ancestry in a specific chromosome. The size of the matrix (e.g. the number of rows) should correspond to the length of the locations vector, where these are locations in Morgan. Using again the simulated data, we obtain:
+
+```{r, infer phased admixture time}
+morgan_locations = focal_data$location
+phased_data = cbind(focal_data$anc_chrom_1, focal_data$anc_chrom_2)
+admixture_time_phased <- estimate_time_phased(local_anc_matrix = phased_data,
+                                              locations = morgan_locations,
+                                              pop_size = 1000,
+                                              freq_ancestor_1 = 0.5)
+
+admixture_time_phased
+```
+
+Which yields a very similar time estimate. 
+
+# Population size
+Because we are using simulated data, we know beforehand the size of the population. In reality, this is hardly ever the case. However, we can explore the impact of population size on the time estimate, by varying this systematically:
+
+```{r, infer time pop size}
+found <- c()
+for(N in c(100, 1000, 10000, 100000, 1e6, 1e7)) {
+  admixture_time_phased <- estimate_time_phased(local_anc_matrix = phased_data,
+                                              locations = morgan_locations,
+                                              pop_size = N,
+                                              freq_ancestor_1 = 0.5)
+  found <- rbind(found, c(N, admixture_time_phased$minimum, 
+                             admixture_time_phased$objective))
+}
+found
+plot(found[, 2] ~ found[,1], log = "x", 
+     xlab = "Population Size", 
+     ylab = "Admixture Time")
+plot((-1 * found[, 3]) ~ found[, 1], log = "x",
+     xlab = "Population Size",
+     ylab = "Log Likelihood")
+```
+
+Indeed we see that admixture time estimates vary only minutely, and we see that the likelihood values are extremely similar. If, instead, we don't want to manually explore values, but want to infer the population size jointly with admixture time, we can do that as well:
+```{r, pop size}
+admixture_time_phased <- estimate_time_phased(local_anc_matrix = phased_data,
+                                              locations = morgan_locations,
+                                              pop_size = 1000,
+                                              freq_ancestor_1 = 0.5,
+                                              optim_pop_size = TRUE)
+admixture_time_phased
+```
+
+The function now returns two values, \code{value}, which contains the -loglikelihood, and \code{par}, which contains a vector of c(time, population_size). Because the loglikelihood surface is typically very flat for higher populatin sizes, the population size estimate is typically not correct.
+If we want to explore the effect of population size, we can also directly calculate the likelihood (without optimization) and explore the impact. 
+
+```{r, likelihood}
+found <- c()
+for(N in 10^(seq(1, 6, length.out = 100))) {
+  ll <- junctions::loglikelihood_phased(local_anc_matrix = phased_data,
+                                        locations = morgan_locations,
+                                        pop_size = N,
+                                        freq_ancestor_1 = 0.5,
+                                        t = 100)
+  found <- rbind(found, c(N, ll))
+}
+plot(found, xlab = "Population Size", ylab = "Log Likelihood", log = "x")
+```
+
+Which again shows that the likelihood increases strongly with population size, but that past about 1000 individuals, there is no significant difference anymore between population sizes. This is a typical result, as the impact of 1/(2N) diminishes strongly with increasing N and becomes much smaller than the impact of recombination over time (see also Janzen et al. 2018). 
+
+# Simulating data with error
+To reflect phasing error, we can also simulate data with imposed phasing error, e.g. with a fixed probability, the assignment of chromosomes is swapped - for instance, if the true ancestry on chromosome 1 is 0 for marker j, and is 1 on chromosome 2, with probability m, the recording is swapped and appears as ancestry of 1 on chromosome 1 and ancestry of 0 on chromosome 2.
+To simulate such data, we can use the junctions package:
+
+```{r, phasing error}
+simulated_data <- sim_phased_with_error(pop_size = 1000,
+                                        freq_ancestor_1 = 0.5,
+                                        total_runtime = 100,
+                                        size_in_morgan = 1,
+                                        time_points = 100,
+                                        markers = 1000,
+                                        error_rate = 0.01,
+                                        seed = 42)
+
+simulated_data$true_data
+simulated_data$phased_data
+```
+
+Now, the function returns the true data, and the phased data. We can use either to infer the time since admixture (100 generations) and see what error is induced:
+```{r, compare}
+
+focal_true_data <- subset(simulated_data$true_data, 
+                          simulated_data$true_data$individual == 0)
+
+true_data <- cbind(focal_true_data$anc_chrom_1,                                                     focal_true_data$anc_chrom_2)
+
+true_loc  <- focal_true_data$location
+
+admixture_time_true <- estimate_time_phased(local_anc_matrix = true_data,
+                                            locations = true_loc,
+                                            pop_size = 1000,
+                                            freq_ancestor_1 = 0.5)
+
+focal_phased_data <- subset(simulated_data$phased_data,
+                            simulated_data$phased_data$individual == 0)
+
+phased_data <- cbind(focal_phased_data$anc_chrom_1,                                                   focal_phased_data$anc_chrom_2)
+phased_loc  <- focal_phased_data$location
+
+
+admixture_time_error <- estimate_time_phased(local_anc_matrix = phased_data,
+                                             locations = phased_loc,
+                                             pop_size = 1000,
+                                             freq_ancestor_1 = 0.5)
+admixture_time_true
+admixture_time_error
+```
+
+Thus, we find that when using data with phasing error, a considerably higher age is estimated, which is due to the introduction of "fake" junctions as a result 
+of incorrect phasing.
