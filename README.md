@@ -18,14 +18,13 @@ Janzen, T. , Nolte, A. W. and Traulsen, A. (2018), The breakdown of genomic ance
 Lavretsky, P, Janzen, T. and McCracken, KG.  (2019) Identifying hybrids & the genomics of hybridization: Mallards & American black ducks of Eastern North America. Ecology and Evolution 9: 3470-3490. https://doi.org/10.1002/ece3.4981
 
 ## Updates
-Version 1.4: added support for estimating the number of junctions, and simulating the number of junctions, under a backcrossing scheme, using the code supplied in Lavretsky et al. 2019.
-
-Version 1.3: Added support for estimating the time since admixture using unphased data. 
-
-Version 1.3: Added individual based simulations returning phased and unphased data. 
-
-Version 1.3: Updated entire package to Roxygen. 
-
-Version 1.2: Added support for estimating the expected number of junctions for arbitrarily distributed markers. 
-
-Version 1.1: Updated random number generation for picking recombination sites. Previous implementation was limited to 6 digit precision, current precision is at least double that, minimizing the probability of recombination occur twice in the same location for an infinite chromosome. 
+Version 1.6 :  Improved the recombination function run twice as fast <\br>
+Version 1.5.1: Added option to track the true number of junctions <\br>
+Version 1.5  : Added simulation functions to simulate phased an unphased data, including phasing error <\br>
+Version 1.5  : Added support for inferring the time since admixture based on phased and unphased data.
+Version 1.4  : Added support for estimating the number of junctions, and simulating the number of junctions, under a backcrossing scheme, using the code supplied in Lavretsky et al. 2019. <\br>
+Version 1.3  : Added support for estimating the time since admixture using unphased data. <\br>
+Version 1.3  : Added individual based simulations returning phased and unphased data. <\br>
+Version 1.3  : Updated entire package to Roxygen. <\br>
+Version 1.2  : Added support for estimating the expected number of junctions for arbitrarily distributed markers. <\br>
+Version 1.1  : Updated random number generation for picking recombination sites. Previous implementation was limited to 6 digit precision, current precision is at least double that, minimizing the probability of recombination occur twice in the same location for an infinite chromosome. <\br>
