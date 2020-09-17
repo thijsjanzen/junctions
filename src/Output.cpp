@@ -160,7 +160,18 @@ int detect_junctions(const Fish_inf& indiv,
         // 0 = homozygous parent 0
         // 1 = heterozygous
         // 2 = homozygous parent 1
-        if(chrom1[i] == 0 && chrom2[i] == 0) {
+
+        if (chrom1[i] != chrom2[i]) { // heterozygous, e.g. 0/1 or 1/0
+            genotypes[i] = 1;
+        } else {
+            if (chrom1[i] == 0) {  // homozygous 0 : 0/0
+                genotypes[i] = 0;
+            } else {               // homozygous 1 : 1/1
+                genotypes[i] = 2;
+            }
+        }
+
+       /* if(chrom1[i] == 0 && chrom2[i] == 0) {
             genotypes[i] = 0;
         }
         if(chrom1[i] == 0 && chrom2[i] == 1) {
@@ -171,7 +182,7 @@ int detect_junctions(const Fish_inf& indiv,
         }
         if(chrom1[i] == 1 && chrom2[i] == 1) {
             genotypes[i] = 2;
-        }
+        }*/
     }
 
     int number_of_junctions = 0;
@@ -211,5 +222,3 @@ void Output::detect_junctions_backcross(const std::vector< Fish_inf > &Pop,
     avg_hetero.push_back(avg_heterozygosity / Pop.size());
     return;
 }
-
-

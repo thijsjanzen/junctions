@@ -84,3 +84,27 @@ test_that("estimate time", {
   testthat::expect_equal(mean(all_times), total_runtime,
                          tolerance = 0.1, scale = total_runtime)
 })
+
+test_that("marker dist", {
+  vx <- sim_phased_unphased(total_runtime = 2,
+                            markers = 10, seed = 5,
+                            num_indiv_sampled = 1,
+                            time_points = 1)
+
+  testthat::expect_equal(length(vx$location), 10)
+  diff_loc <- diff(vx$location)
+  testthat::expect_false(diff_loc[1] == diff_loc[2])
+
+  vy <- sim_phased_unphased(total_runtime = 2,
+                            markers = -9, seed = 5,
+                            num_indiv_sampled = 1,
+                            time_points = 1)
+
+  testthat::expect_equal(length(vy$location), 9)
+  diff_loc <- diff(vy$location)
+  testthat::expect_true(diff_loc[1] == diff_loc[2])
+
+  a <- get_num_markers(-9)
+  b <- diff(a)
+  testthat::expect_true(all.equal(diff_loc, b))
+})

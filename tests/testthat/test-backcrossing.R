@@ -9,8 +9,6 @@ test_that("backcross, use", {
   t <- 1:9
   expected_heterozygosity <-  2 ^ (-t)
 
-
-
   testthat::expect_equal(expected_heterozygosity,
                          vx$average_heterozygosity, tolerance = 0.01)
 
@@ -23,8 +21,6 @@ test_that("backcross, use", {
 
   vx <- sim_backcrossing(population_size = 10000,
                          total_runtime = 10,
-                         freq_ancestor_1 = 0.5,
+                         freq_ancestor_1 = 0.2,
                          seed = 42)
-
-
 })

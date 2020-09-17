@@ -148,7 +148,8 @@ test_that("phased, abuse", {
   time1 <- estimate_time_unphased(local_anc_matrix = alt_data,
                                   locations = focal_data$location,
                                   pop_size = 100,
-                                  freq_ancestor_1 = 0.5)
+                                  freq_ancestor_1 = 0.5,
+                                  verbose = TRUE)
 
   phased_data <- cbind(focal_data$anc_chrom_1, focal_data$anc_chrom_2)
   time2 <- estimate_time_unphased(local_anc_matrix = phased_data,
@@ -164,6 +165,22 @@ test_that("phased, abuse", {
                          locations = focal_data$location,
                          pop_size = 100,
                          freq_ancestor_1 = 0.5)
+  )
+
+  testthat::expect_error(
+    loglikelihood_unphased(local_anc_matrix = alt_data,
+                           locations = focal_data$location,
+                           pop_size = 100,
+                           freq_ancestor_1 = 0.5,
+                           t = 10)
+  )
+
+  testthat::expect_error(
+    loglikelihood_phased(local_anc_matrix = alt_data,
+                         locations = focal_data$location,
+                         pop_size = 100,
+                         freq_ancestor_1 = 0.5,
+                         t = 10)
   )
 
 
