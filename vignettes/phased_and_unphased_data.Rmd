@@ -4,13 +4,13 @@ author: "Thijs Janzen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{phasing}
+%\VignetteIndexEntry{phasing}
   %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
----
+  ---
   
-
-```{r setup, include=FALSE}
+  
+  ```{r setup, include=FALSE}
 library(junctions)
 library(Rcpp)
 knitr::opts_chunk$set(fig.width=7, echo = TRUE)
@@ -91,13 +91,13 @@ Because we are using simulated data, we know beforehand the size of the populati
 
 ```{r, infer time pop size}
 found <- c()
-for(N in c(100, 1000, 10000, 100000, 1e6, 1e7)) {
+for (N in c(100, 1000, 10000, 100000, 1e6, 1e7)) {
   admixture_time_phased <- estimate_time_phased(local_anc_matrix = phased_data,
-                                              locations = morgan_locations,
-                                              pop_size = N,
-                                              freq_ancestor_1 = 0.5)
+                                                locations = morgan_locations,
+                                                pop_size = N,
+                                                freq_ancestor_1 = 0.5)
   found <- rbind(found, c(N, admixture_time_phased$minimum, 
-                             admixture_time_phased$objective))
+                          admixture_time_phased$objective))
 }
 found
 plot(found[, 2] ~ found[,1], log = "x", 
@@ -123,7 +123,7 @@ If we want to explore the effect of population size, we can also directly calcul
 
 ```{r, likelihood}
 found <- c()
-for(N in 10^(seq(1, 6, length.out = 100))) {
+for (N in 10^(seq(1, 6, length.out = 100))) {
   ll <- junctions::loglikelihood_phased(local_anc_matrix = phased_data,
                                         locations = morgan_locations,
                                         pop_size = N,
