@@ -9,7 +9,9 @@
   The theory of junctions is extended by this package by including the effect of a finite number of recombination sites along the chromosome. The package provides functions to calculate the estimated number of junctions, depending on the time since the onset of hybridization, population size, number of recombination sites, initial heterozygosity and the number of crossovers per meiosis.
 }
 \details{
-  This package provides individual based simulations in order to simulate the accumulation of junctions over time, both for chromosomes with a finite and an infinite number of recombination sites. Furthermore, the package provides mathetematical tools to verify the outcomes of the individual based simulations.
+  This package provides individual based simulations in order to simulate the accumulation of junctions over time, both for chromosomes with a finite and an infinite number of recombination sites. Furthermore, the package provides mathematical tools to verify the outcomes of the individual based simulations.
+
+  Update version 1.6  : improved the recombination function to run twice as fast \cr
 
   Update version 1.5.1: added option to track the true number of junctions \cr
 
