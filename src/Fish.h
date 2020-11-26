@@ -31,7 +31,6 @@ struct Fish_inf {
     std::vector< junction > chromosome2;
 
     Fish_inf();
-
     Fish_inf(int initLoc);
 };
 
@@ -40,7 +39,6 @@ struct Fish_fin  {
     std::vector<bool> chromosome2;
 
     Fish_fin();
-
     Fish_fin(const bool initLoc, const int genomeSize);
 };
 

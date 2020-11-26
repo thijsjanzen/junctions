@@ -22,6 +22,38 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// estimate_time_unphased_cpp
+double estimate_time_unphased_cpp(const NumericMatrix& local_anc_matrix, const NumericVector& locations, int pop_size, double freq_ancestor_1, int lower_lim, int upper_lim, bool verbose);
+RcppExport SEXP _junctions_estimate_time_unphased_cpp(SEXP local_anc_matrixSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP lower_limSEXP, SEXP upper_limSEXP, SEXP verboseSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type local_anc_matrix(local_anc_matrixSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type locations(locationsSEXP);
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
+    Rcpp::traits::input_parameter< int >::type lower_lim(lower_limSEXP);
+    Rcpp::traits::input_parameter< int >::type upper_lim(upper_limSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    rcpp_result_gen = Rcpp::wrap(estimate_time_unphased_cpp(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose));
+    return rcpp_result_gen;
+END_RCPP
+}
+// loglikelihood_unphased_cpp
+double loglikelihood_unphased_cpp(const NumericMatrix& local_anc_matrix, const NumericVector& locations, int pop_size, double freq_ancestor_1, double t);
+RcppExport SEXP _junctions_loglikelihood_unphased_cpp(SEXP local_anc_matrixSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP tSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type local_anc_matrix(local_anc_matrixSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type locations(locationsSEXP);
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
+    Rcpp::traits::input_parameter< double >::type t(tSEXP);
+    rcpp_result_gen = Rcpp::wrap(loglikelihood_unphased_cpp(local_anc_matrix, locations, pop_size, freq_ancestor_1, t));
+    return rcpp_result_gen;
+END_RCPP
+}
 // sim_fin_chrom
 List sim_fin_chrom(int pop_size, double freq_ancestor_1, int run_time, double size_in_Morgan, int seed, int R);
 RcppExport SEXP _junctions_sim_fin_chrom(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP run_timeSEXP, SEXP size_in_MorganSEXP, SEXP seedSEXP, SEXP RSEXP) {
@@ -77,6 +109,8 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 7},
+    {"_junctions_estimate_time_unphased_cpp", (DL_FUNC) &_junctions_estimate_time_unphased_cpp, 7},
+    {"_junctions_loglikelihood_unphased_cpp", (DL_FUNC) &_junctions_loglikelihood_unphased_cpp, 5},
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
     {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 10},

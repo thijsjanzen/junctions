@@ -55,7 +55,6 @@ plot(unphased_data~focal_data$location, type = "s",
      ylab = "Ancestry")
 ```
 
-
 Secondly, we need to provide a vector with the location in Morgan. This vector 
 is converted into recombination distances between markers (very similar to how Ancestry HMM treats markers as well). Simulation output already contains this information and we can use this to infer the time since admixture:
 
