@@ -62,8 +62,8 @@ public:
       return d;
   }
 
-  std::vector<double> operator()() {
-    std::vector<double> output(MSize);
+  std::vector< double > operator()() {
+    std::vector< double> output(MSize);
     for(int i = 0; i < MSize; ++i) {
       output[i] = static_cast<double>(a[0][i]);
     }

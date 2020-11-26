@@ -96,63 +96,6 @@ double loglikelihood_unphased_cpp(const NumericMatrix& local_anc_matrix,
 
 
 
-void mul(std::vector< std::vector< double > >& a,
-         const std::vector< std::vector< double > >& b)
-{
-  std::vector< double > filler(a[0].size());
-  std::vector< std::vector< double > > res(a.size(), filler);
-
-  for (int i = 0; i < a.size(); i++) {
-    for (int j = 0; j < a.size(); j++) {
-      for (int k = 0; k < a.size(); k++)
-      {
-        res[i][j] += a[i][k] * b[k][j];
-      }
-    }
-  }
-
-  a = res;
-  return;
-}
-
-void matrix_pow(std::vector< std::vector< double > >& trans_matrix,
-                int t) {
-
-
-  std::vector< double > filler(0, trans_matrix[0].size());
-  std::vector< std::vector< double > > res(trans_matrix[0].size(), filler);
-  // diagonal matrix
-  for(int i = 0; i < trans_matrix[0].size(); ++i) {
-    for(int j = 0; j < trans_matrix[0].size(); ++j) {
-      res[i][j] = (i == j);
-    }
-  }
-
-  while (t > 0) {
-    if (t % 2 == 0)
-    {
-      mul(trans_matrix, trans_matrix);
-      t /= 2;
-    }
-    else {
-      mul(res, trans_matrix);
-      t--;
-    }
-  }
-}
-
-
-std::vector< double > calc_mult_matrix(const std::vector< std::vector< double > >& trans_matrix,
-                                       int t) {
-
-  std::vector< std::vector< double > > out_matrix = trans_matrix;
-  matrix_pow(out_matrix, t);
-  return(out_matrix[0]);  // same as multiplying with {1, 0, 0, 0, 0, 0, 0}
-}
-
-
-
-
 //' function to calculate 7 states
 //' @param t time
 //' @param N pop size
@@ -168,7 +111,7 @@ std::vector< double > single_state_cpp(int t, int N, double d) {
   // single_state(t = 100, N = 1000, d = 1e-05) 19.094 20.4415 22.72457 21.1695 21.9395 104.379   100   b
   // single_state_cpp(t = 100, N = 1000, d = 1e-05)  3.236  3.7970  4.32687  4.0560  4.3925  14.303   100  a
 
-  double trans_matrix[7][7] =
+   double trans_matrix[7][7] =
     {{1.0 - 1.0 / (2*N) - 2 * d , 2 * d, 0, 0, 0, 1.0 / (2*N), 0},
     {1.0 / (2*N), 1 - 3 * 1.0 / (2*N) - d, d, 2 * 1.0 / (2*N), 0, 0, 0},
     {0, 2 * 1.0 / (2*N), 1 - 4 * 1.0 / (2*N), 0, 2 * 1.0 /(2*N), 0, 0},
@@ -211,54 +154,57 @@ double get_prob_from_matrix_cpp(int left,
   std::vector<double> P(1, 0);
   P.insert(P.end(), P_.begin(), P_.end());
 
+  // 0,0  0,1  0,2
+  // 1,1  1,2  1,3
+
   double q  = 1 - p;
   double prob = 0;
   if (left == 1 && right == 1) {
     prob = (p * p) * (P[1] + P[4] + P[7]) +
-      (p * p * p) * (P[2] + P[5]) +
-      (p * p * p * p) * P[3] +
+      pow(p, 3) * (P[2] + P[5]) +
+      pow(p, 4) * P[3] +
       p * P[6];
   }
   if (left == 1 && right == 2) {
     prob = p * q * (p * q * P[3] +
-      (1 / 2) * P[5] +
+      (1.0 / 2) * P[5] +
       P[7]);
   }
   if (left == 1 && right == 3) {
     prob = p * q * (p * P[2] +
       2 * (p * p) * P[3] +
-      (1 / 2) * P[4] +
+      (1.0 / 2) * P[4] +
       p * P[5]);
   }
 
   if (left == 2 && right == 1) {
     prob = p * q * (p * q * P[3] +
-      (1 / 2) * P[5] +
+      (1.0 / 2) * P[5] +
       P[7]);
   }
   if (left == 2 && right == 2) {
     prob = (q * q) * (P[1] + P[4] + P[7]) +
-      (q * q * q) * (P[2] + P[5]) +
+      pow(q, 3) * (P[2] + P[5]) +
       (q * q) * P[3] +
       q * P[6];
   }
   if (left == 2 && right == 3) {
     prob = p * q * (q * P[2] +
       2 * (q * q) * P[3] +
-      (1 / 2) * P[4] +
+      (1.0 / 2) * P[4] +
       q * P[5]);
   }
 
   if (left == 3 && right == 1) {
     prob = p * q * (p * P[2] +
       2 * (p * p) * P[3] +
-      (1 / 2) * P[4] +
+      (1.0 / 2) * P[4] +
       p * P[5]);
   }
   if (left == 3 && right == 2) {
     prob = p * q * (q * P[2] +
       2 * (q * q) * P[3] +
-      (1 / 2) * P[4] +
+      (1.0 / 2) * P[4] +
       q * P[5]);
   }
   if (left == 3 && right == 3) {
@@ -291,13 +237,13 @@ double calc_ll(double di,
   if (di < 0)
     return(-1e20);
 
-  std::vector< double > seven_states = single_state_cpp(t, pop_size, di);
+  std::vector<  double > seven_states = single_state_cpp(t, pop_size, di);
   for(int i = 0; i < seven_states.size(); ++i) {
     Rcout << seven_states[i] << " ";
   }
   Rcout << "\n";
 
-  std::vector< double > probs(3);
+  std::vector<  double > probs(3);
   double sum_prob = 0.0;
   for(int i = 0; i < 3; ++i) {
     probs[i] = get_prob_from_matrix_cpp(l,
@@ -318,7 +264,9 @@ double calc_ll(double di,
   return(log(focal_prob));
 }
 
-double chromosome::calculate_likelihood(double t, int pop_size, double freq_ancestor_1) {
+double chromosome::calculate_likelihood(double t,
+                                        int pop_size,
+                                        double freq_ancestor_1) {
 
   if (t < 1)
     return(-1e20);
@@ -336,7 +284,7 @@ double chromosome::calculate_likelihood(double t, int pop_size, double freq_ance
 
   //  double ll = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, false);
 
-  std::vector<double> ll(distances.size());
+  std::vector< double> ll(distances.size());
   ll[0] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, false);
   for(int i = 1; i < distances.size(); ++i) {
     //  Rcout << i << "\n"; force_output();
@@ -344,7 +292,7 @@ double chromosome::calculate_likelihood(double t, int pop_size, double freq_ance
     l = states[i - 1];
     r = states[i];
     ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true);
-   // std::cout << di << " " << l << " " << r << " " << ll[i] << "\n";
+    // std::cout << di << " " << l << " " << r << " " << ll[i] << "\n";
   }
 
   return(std::accumulate(ll.begin(), ll.end(), 0.0));
