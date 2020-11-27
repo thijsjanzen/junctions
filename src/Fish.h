@@ -53,6 +53,6 @@ long double getRecomPos();
 int getRecomPos(int L);
 
 bool is_in_time_points(int t,
-                       const Rcpp::NumericVector & time_points);
+                       const Rcpp::NumericVector& time_points);
 
 #endif /* Fish_hpp */

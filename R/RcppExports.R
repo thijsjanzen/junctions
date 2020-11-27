@@ -5,6 +5,14 @@ simulate_backcrossing_cpp <- function(pop_size, freq_ancestor_1, total_runtime, 
     .Call('_junctions_simulate_backcrossing_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed)
 }
 
+#' function to calculate log likelihood using cpp
+#' @param local_anc_matrix local ancestry matrix
+#' @param locations locations of markers
+#' @param pop_size population size
+#' @param freq_ancestor_1 frequency of the most common ancestor
+#' @param lower_lim lower limit
+#' @param upper_lim upper limit
+#' @export
 estimate_time_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose) {
     .Call('_junctions_estimate_time_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose)
 }
@@ -35,8 +43,8 @@ single_state_cpp <- function(t, N, d) {
 #' @param p freq
 #' @param P seven states output
 #' @export
-get_prob_from_matrix_cpp <- function(left, right, p, P_) {
-    .Call('_junctions_get_prob_from_matrix_cpp', PACKAGE = 'junctions', left, right, p, P_)
+get_prob_from_matrix_cpp <- function(left, right, p, P) {
+    .Call('_junctions_get_prob_from_matrix_cpp', PACKAGE = 'junctions', left, right, p, P)
 }
 
 #' function to calculate ll

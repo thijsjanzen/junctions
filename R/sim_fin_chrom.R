@@ -15,8 +15,6 @@
 #'                    total_runtime = 1000, morgan = 1, seed = 42,
 #'                    R = 100)
 #' @export
-#' @rawNamespace useDynLib(junctions)
-#' @rawNamespace import(Rcpp)
 sim_fin_chrom <- function(pop_size = 100,
                            freq_ancestor_1 = 0.5,
                            total_runtime = 100,

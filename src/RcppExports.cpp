@@ -23,13 +23,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // estimate_time_unphased_cpp
-double estimate_time_unphased_cpp(const NumericMatrix& local_anc_matrix, const NumericVector& locations, int pop_size, double freq_ancestor_1, int lower_lim, int upper_lim, bool verbose);
+std::vector<double> estimate_time_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix, const Rcpp::NumericVector& locations, int pop_size, double freq_ancestor_1, int lower_lim, int upper_lim, bool verbose);
 RcppExport SEXP _junctions_estimate_time_unphased_cpp(SEXP local_anc_matrixSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP lower_limSEXP, SEXP upper_limSEXP, SEXP verboseSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type local_anc_matrix(local_anc_matrixSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type locations(locationsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type local_anc_matrix(local_anc_matrixSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type locations(locationsSEXP);
     Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
     Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
     Rcpp::traits::input_parameter< int >::type lower_lim(lower_limSEXP);
@@ -40,13 +40,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // loglikelihood_unphased_cpp
-double loglikelihood_unphased_cpp(const NumericMatrix& local_anc_matrix, const NumericVector& locations, int pop_size, double freq_ancestor_1, double t);
+double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix, const Rcpp::NumericVector& locations, int pop_size, double freq_ancestor_1, double t);
 RcppExport SEXP _junctions_loglikelihood_unphased_cpp(SEXP local_anc_matrixSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP tSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type local_anc_matrix(local_anc_matrixSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type locations(locationsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type local_anc_matrix(local_anc_matrixSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type locations(locationsSEXP);
     Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
     Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
     Rcpp::traits::input_parameter< double >::type t(tSEXP);
@@ -68,16 +68,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // get_prob_from_matrix_cpp
-double get_prob_from_matrix_cpp(int left, int right, double p, const std::vector<double>& P_);
-RcppExport SEXP _junctions_get_prob_from_matrix_cpp(SEXP leftSEXP, SEXP rightSEXP, SEXP pSEXP, SEXP P_SEXP) {
+double get_prob_from_matrix_cpp(int left, int right, double p, const std::vector<double>& P);
+RcppExport SEXP _junctions_get_prob_from_matrix_cpp(SEXP leftSEXP, SEXP rightSEXP, SEXP pSEXP, SEXP PSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type left(leftSEXP);
     Rcpp::traits::input_parameter< int >::type right(rightSEXP);
     Rcpp::traits::input_parameter< double >::type p(pSEXP);
-    Rcpp::traits::input_parameter< const std::vector<double>& >::type P_(P_SEXP);
-    rcpp_result_gen = Rcpp::wrap(get_prob_from_matrix_cpp(left, right, p, P_));
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type P(PSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_prob_from_matrix_cpp(left, right, p, P));
     return rcpp_result_gen;
 END_RCPP
 }
