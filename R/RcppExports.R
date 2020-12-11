@@ -13,6 +13,7 @@ simulate_backcrossing_cpp <- function(pop_size, freq_ancestor_1, total_runtime, 
 #' @param lower_lim lower limit
 #' @param upper_lim upper limit
 #' @param verbose
+#' @param num_threads, default is all threads. 5 threads is recommended.
 #' @export
 estimate_time_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads = -1L) {
     .Call('_junctions_estimate_time_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads)

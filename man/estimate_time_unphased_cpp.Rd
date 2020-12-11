@@ -11,7 +11,8 @@ estimate_time_unphased_cpp(
   freq_ancestor_1,
   lower_lim,
   upper_lim,
-  verbose
+  verbose,
+  num_threads = -1L
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ estimate_time_unphased_cpp(
 \item{lower_lim}{lower limit}
 
 \item{upper_lim}{upper limit}
+
+\item{num_threads, }{default is all threads. 5 threads is recommended.}
 }
 \description{
 function to calculate log likelihood using cpp
