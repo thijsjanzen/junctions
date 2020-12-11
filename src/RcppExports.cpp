@@ -23,8 +23,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // estimate_time_unphased_cpp
-std::vector<double> estimate_time_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix, const Rcpp::NumericVector& locations, int pop_size, double freq_ancestor_1, int lower_lim, int upper_lim, bool verbose);
-RcppExport SEXP _junctions_estimate_time_unphased_cpp(SEXP local_anc_matrixSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP lower_limSEXP, SEXP upper_limSEXP, SEXP verboseSEXP) {
+std::vector<double> estimate_time_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix, const Rcpp::NumericVector& locations, int pop_size, double freq_ancestor_1, int lower_lim, int upper_lim, bool verbose, int num_threads);
+RcppExport SEXP _junctions_estimate_time_unphased_cpp(SEXP local_anc_matrixSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP lower_limSEXP, SEXP upper_limSEXP, SEXP verboseSEXP, SEXP num_threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -35,7 +35,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type lower_lim(lower_limSEXP);
     Rcpp::traits::input_parameter< int >::type upper_lim(upper_limSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
-    rcpp_result_gen = Rcpp::wrap(estimate_time_unphased_cpp(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose));
+    Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(estimate_time_unphased_cpp(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -153,7 +154,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 7},
-    {"_junctions_estimate_time_unphased_cpp", (DL_FUNC) &_junctions_estimate_time_unphased_cpp, 7},
+    {"_junctions_estimate_time_unphased_cpp", (DL_FUNC) &_junctions_estimate_time_unphased_cpp, 8},
     {"_junctions_loglikelihood_unphased_cpp", (DL_FUNC) &_junctions_loglikelihood_unphased_cpp, 5},
     {"_junctions_single_state_cpp", (DL_FUNC) &_junctions_single_state_cpp, 3},
     {"_junctions_get_prob_from_matrix_cpp", (DL_FUNC) &_junctions_get_prob_from_matrix_cpp, 4},

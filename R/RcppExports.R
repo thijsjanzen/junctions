@@ -14,8 +14,8 @@ simulate_backcrossing_cpp <- function(pop_size, freq_ancestor_1, total_runtime, 
 #' @param upper_lim upper limit
 #' @param verbose
 #' @export
-estimate_time_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose) {
-    .Call('_junctions_estimate_time_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose)
+estimate_time_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads = -1L) {
+    .Call('_junctions_estimate_time_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads)
 }
 
 #' function to calculate log likelihood using cpp

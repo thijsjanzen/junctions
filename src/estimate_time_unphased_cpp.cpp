@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <vector>
 
 #include <cmath>
@@ -5,6 +6,8 @@
 
 #include <Rcpp.h>
 #include <nloptrAPI.h>
+
+#include <tbb/tbb.h>
 
 #include "estimate_time_unphased_cpp.h"
 
@@ -14,6 +17,11 @@ void force_output() {
   R_FlushConsole();
   R_ProcessEvents();
   R_CheckUserInterrupt();
+ // ::sleep(1);
+}
+
+namespace detail {
+   int num_threads = -1;
 }
 
 
@@ -23,6 +31,7 @@ struct chromosome {
 
   chromosome(const Rcpp::NumericMatrix& anc_matrix,
              const Rcpp::NumericVector& loc) {
+
     states = std::vector<int>(loc.size(), 2);
 
     for(int i = 0; i < loc.size(); ++i) {
@@ -35,10 +44,12 @@ struct chromosome {
 
   chromosome(const std::vector< std::vector< int > >& anc_matrix,
              const Rcpp::NumericVector& loc) {
+
     states = std::vector<int>(loc.size(), 2);
 
     for(int i = 0; i < loc.size(); ++i) {
       if (i > 0) distances.push_back(loc[i] - loc[i - 1]);
+    //  assert(anc_matrix[i].size() == 2);
       if (anc_matrix[i][0] == anc_matrix[i][1]) {
         states[i] = anc_matrix[i][0];
       }
@@ -46,7 +57,9 @@ struct chromosome {
     }
   }
 
-  double calculate_likelihood(double t, int pop_size, double freq_ancestor_1) const;
+  double calculate_likelihood(double t,
+                              int pop_size,
+                              double freq_ancestor_1) const;
 };
 
 struct nlopt_f_data {
@@ -76,20 +89,30 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
                                              const Rcpp::NumericVector& locations) {
 
   std::vector< chromosome > output;
-  int current_chrom = 0;
+  int current_chrom = local_anc_matrix(0, 0);
+  assert(local_anc_matrix.ncol() == 3);
   std::vector< std::vector< int > > chrom_matrix;
+  std::vector< double > positions(locations.begin(), locations.end());
+  std::sort(positions.begin(), positions.end());
+  positions.erase(std::unique(positions.begin(), positions.end()), positions.end());
+
+
   for(int i = 0; i < local_anc_matrix.nrow(); ++i) {
     if (local_anc_matrix(i, 0) != current_chrom) {
       current_chrom = local_anc_matrix(i, 0);
+    //  Rcpp::Rcout << "creating new chrom\n"; force_output();
       chromosome new_chrom(chrom_matrix, locations);
+    //  Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
       output.push_back(new_chrom);
       chrom_matrix.clear();
     }
     std::vector<int> add = {static_cast<int>(local_anc_matrix(i, 1)),
                             static_cast<int>(local_anc_matrix(i, 2))};
+    //Rcpp::Rcout << i << " " << add[0] << " " << add[1] << "\n";
     chrom_matrix.push_back(add);
   }
   chromosome new_chrom(chrom_matrix, locations);
+ // Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
   output.push_back(new_chrom);
 
   return output;
@@ -112,10 +135,15 @@ std::vector<double> estimate_time_unphased_cpp(const Rcpp::NumericMatrix& local_
                                                double freq_ancestor_1,
                                                int lower_lim,
                                                int upper_lim,
-                                               bool verbose) {
+                                               bool verbose,
+                                               int num_threads = -1) {
 
+  detail::num_threads = num_threads;
+
+//  Rcpp::Rcout << "reading chromosomes into memory\n"; force_output();
   std::vector< chromosome > chromosomes = create_chromosomes(local_anc_matrix, locations);
-  Rcpp::Rcout << chromosomes.size() << "\n"; force_output();
+//  Rcpp::Rcout << chromosomes.size() << "\n"; force_output();
+//  Rcpp::Rcout << "chromosomes read into memory\n"; force_output();
 
   nlopt_f_data optim_data(chromosomes, pop_size, freq_ancestor_1);
 
@@ -162,12 +190,12 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   double freq_ancestor_1,
                                   double t) {
 
-  Rcpp::Rcout << "loading chromosome\n"; //force_output();
+ // Rcpp::Rcout << "loading chromosome\n"; //force_output();
 
   chromosome focal_chrom(local_anc_matrix,
                          locations);
 
-  Rcpp::Rcout << "starting likelihood calculation\n"; force_output();
+//  Rcpp::Rcout << "starting likelihood calculation\n"; force_output();
 
   double ll = focal_chrom.calculate_likelihood(t, pop_size, freq_ancestor_1);
   return ll;
@@ -351,19 +379,26 @@ double chromosome::calculate_likelihood(double t,
     return(-1e20);
   }
 
-  double di = distances[0];
-  double l  = states[0];
-  double r  = states[1];
-
   std::vector< double> ll(distances.size());
-  ll[0] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, false);
+  ll[0] = calc_ll(distances[0],
+                  states[0],
+                  states[1], t, pop_size, freq_ancestor_1, false);
 
-  for(int i = 1; i < distances.size(); ++i) {
-    di = distances[i];
-    l = states[i];
-    r = states[i + 1];
-    ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true);
-  }
+
+  tbb::task_scheduler_init _tbb((detail::num_threads > 0) ? detail::num_threads : tbb::task_scheduler_init::automatic);
+
+  tbb::parallel_for(
+    tbb::blocked_range<unsigned>(0, distances.size()),
+    [&](const tbb::blocked_range<unsigned>& r) {
+      for (unsigned i = r.begin(); i < r.end(); ++i) {
+
+        double di = distances[i];
+        double l = states[i];
+        double r = states[i + 1];
+        ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true);
+      }
+    }
+  );
 
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
   return(answer);
