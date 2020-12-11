@@ -15,6 +15,7 @@
 #'  recorded to be returned at the end of the simulation. If left at -1,
 #'  ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
+#' @param num_threads default is -1, which takes all available threads.
 #' @param verbose displays a progress bar
 #' @param record_true_junctions keep track of the true number of junctions?
 #' @param num_indiv_sampled the number of individuals sampled at each time point
@@ -25,7 +26,8 @@
 #' sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 #'                     total_runtime = 10, size_in_morgan = 1,
 #'                     markers = 10, time_points = c(0, 5, 10),
-#'                     seed = 42, record_true_junctions = FALSE)
+#'                     seed = 42, num_threads = 1,
+#'                     record_true_junctions = FALSE)
 #' @export
 sim_phased_unphased <- function(pop_size = 100,
                                 freq_ancestor_1 = 0.5,
@@ -34,6 +36,7 @@ sim_phased_unphased <- function(pop_size = 100,
                                 markers = 100,
                                 time_points = -1,
                                 seed = NULL,
+                                num_threads = -1,
                                 verbose = TRUE,
                                 record_true_junctions = FALSE,
                                 num_indiv_sampled = 10) {
@@ -61,7 +64,8 @@ sim_phased_unphased <- function(pop_size = 100,
                                       seed,
                                       verbose,
                                       record_true_junctions,
-                                      num_indiv_sampled)
+                                      num_indiv_sampled,
+                                      num_threads)
 
   colnames(output$results) <- c("time", "individual", "location",
                                 "anc_chrom_1", "anc_chrom_2")

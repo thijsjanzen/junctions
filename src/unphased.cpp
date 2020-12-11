@@ -4,6 +4,7 @@
 #include "Fish.h"
 #include "random_functions.h"
 
+#include <tbb/tbb.h>
 
 #include <Rcpp.h>
 using namespace Rcpp;
@@ -16,7 +17,8 @@ Output simulation_phased_nonphased(int popSize,
                                    const NumericVector& time_points,
                                    bool verbose,
                                    bool record_true_junctions,
-                                   int num_indiv_sampled)    {
+                                   int num_indiv_sampled,
+                                   int num_threads)    {
 
   Output O;
   std::vector< Fish_inf > Pop(popSize);
@@ -25,6 +27,8 @@ Output simulation_phased_nonphased(int popSize,
 
   Fish_inf parent1 = Fish_inf(0);
   Fish_inf parent2 = Fish_inf(1);
+
+  tbb::task_scheduler_init _tbb((num_threads > 0) ? num_threads : tbb::task_scheduler_init::automatic);
 
   for (int i = 0; i < popSize; ++i) {
     Fish_inf p1 = parent2;
@@ -53,16 +57,22 @@ Output simulation_phased_nonphased(int popSize,
 
     std::vector< Fish_inf > newGeneration(popSize);
 
-    for (size_t i = 0; i < popSize; ++i)  {
 
-      int index1 = random_number(popSize);
-      int index2 = random_number(popSize);
-      while(index2 == index1) index2 = random_number_popsize();
+    tbb::parallel_for(
+      tbb::blocked_range<unsigned>(0, popSize),
+      [&](const tbb::blocked_range<unsigned>& r) {
+        for (unsigned i = r.begin(); i < r.end(); ++i) {
 
-      Fish_inf kid = mate_inf(Pop[index1], Pop[index2], numRecombinations);
+          int index1 = random_number(popSize);
+          int index2 = random_number(popSize);
+          while(index2 == index1) index2 = random_number_popsize();
 
-      newGeneration[i] = kid;
-    }
+          Fish_inf kid = mate_inf(Pop[index1], Pop[index2], numRecombinations);
+
+          newGeneration[i] = kid;
+        }
+      }
+    );
 
     Pop.swap(newGeneration);
 
@@ -88,7 +98,8 @@ List sim_phased_unphased_cpp(int pop_size,
                              int seed,
                              bool verbose,
                              bool record_true_junctions,
-                             int num_indiv_sampled) {
+                             int num_indiv_sampled,
+                             int num_threads) {
 
   set_seed(seed);
   set_poisson(size_in_morgan);
@@ -103,7 +114,8 @@ List sim_phased_unphased_cpp(int pop_size,
                                          time_points,
                                          verbose,
                                          record_true_junctions,
-                                         num_indiv_sampled);
+                                         num_indiv_sampled,
+                                         num_threads);
 
   int num_rows = O.results.size();
   int num_cols = O.results[0].size();

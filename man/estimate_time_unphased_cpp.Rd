@@ -28,6 +28,8 @@ estimate_time_unphased_cpp(
 
 \item{upper_lim}{upper limit}
 
+\item{verbose}{use verbose output}
+
 \item{num_threads, }{default is all threads. 5 threads is recommended.}
 }
 \description{

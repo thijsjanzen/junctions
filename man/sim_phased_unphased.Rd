@@ -12,6 +12,7 @@ sim_phased_unphased(
   markers = 100,
   time_points = -1,
   seed = NULL,
+  num_threads = -1,
   verbose = TRUE,
   record_true_junctions = FALSE,
   num_indiv_sampled = 10
@@ -38,6 +39,8 @@ ancestry is recorded at every generation (computationally heavy).}
 
 \item{seed}{Seed of the pseudo-random number generator}
 
+\item{num_threads}{default is -1, which takes all available threads.}
+
 \item{verbose}{displays a progress bar}
 
 \item{record_true_junctions}{keep track of the true number of junctions?}
@@ -58,5 +61,6 @@ randomly sampled individuals per generations is returned.
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
                     total_runtime = 10, size_in_morgan = 1,
                     markers = 10, time_points = c(0, 5, 10),
-                    seed = 42, record_true_junctions = FALSE)
+                    seed = 42, num_threads = 1,
+                    record_true_junctions = FALSE)
 }

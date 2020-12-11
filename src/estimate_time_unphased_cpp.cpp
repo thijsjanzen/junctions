@@ -126,7 +126,7 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
 //' @param freq_ancestor_1 frequency of the most common ancestor
 //' @param lower_lim lower limit
 //' @param upper_lim upper limit
-//' @param verbose
+//' @param verbose use verbose output
 //' @param num_threads, default is all threads. 5 threads is recommended.
 //' @export
 // [[Rcpp::export]]

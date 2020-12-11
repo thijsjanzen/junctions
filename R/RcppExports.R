@@ -12,7 +12,7 @@ simulate_backcrossing_cpp <- function(pop_size, freq_ancestor_1, total_runtime, 
 #' @param freq_ancestor_1 frequency of the most common ancestor
 #' @param lower_lim lower limit
 #' @param upper_lim upper limit
-#' @param verbose
+#' @param verbose use verbose output
 #' @param num_threads, default is all threads. 5 threads is recommended.
 #' @export
 estimate_time_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads = -1L) {
@@ -70,7 +70,7 @@ sim_inf_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, m
     .Call('_junctions_sim_inf_chrom', PACKAGE = 'junctions', pop_size, freq_ancestor_1, run_time, size_in_Morgan, markers, seed)
 }
 
-sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled) {
-    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled)
+sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled, num_threads) {
+    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled, num_threads)
 }
 
