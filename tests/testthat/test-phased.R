@@ -107,7 +107,7 @@ test_that("phased, pop size", {
   phased_data <- cbind(focal_data$anc_chrom_1, focal_data$anc_chrom_2)
   time2 <- estimate_time_unphased(local_anc_matrix = phased_data,
                                   locations = focal_data$location,
-                                  pop_size = 500,
+                                  pop_size = 100,
                                   freq_ancestor_1 = 0.5,
                                   optim_pop_size = TRUE,
                                   verbose = TRUE)
@@ -117,7 +117,7 @@ test_that("phased, pop size", {
 
   time3 <- estimate_time_phased(local_anc_matrix = phased_data,
                                 locations = focal_data$location,
-                                pop_size = 500,
+                                pop_size = 1000,
                                 freq_ancestor_1 = 0.5,
                                 optim_pop_size = TRUE,
                                 verbose = TRUE)

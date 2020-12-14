@@ -193,7 +193,9 @@ estimate_time_phased <- function(local_anc_matrix,
   if (optim_pop_size == FALSE) {
 
     calc_ll <- function(params) {
-
+      if (params[[1]] < 1) {
+        return(Inf)
+      }
       local_probs <- apply(to_analyze, 1, get_cond_prob_vector_phased,
                            freq_ancestor_1,
                            pop_size,
@@ -216,6 +218,10 @@ estimate_time_phased <- function(local_anc_matrix,
   if (optim_pop_size == TRUE) {
     calc_ll <- function(params) {
 
+      if (params[[2]] < 2) {
+        return(Inf)
+      }
+
       local_probs <- apply(to_analyze, 1, get_cond_prob_vector_phased,
                            freq_ancestor_1,
                            params[[2]],
@@ -228,7 +234,7 @@ estimate_time_phased <- function(local_anc_matrix,
                                                     local_time = params[[1]],
                                                     condition = FALSE)
 
-      if (verbose) cat(params[[1]], -sum(local_probs), "\n")
+      if (verbose) cat(params[[1]], params[[2]], -sum(local_probs), "\n")
       return(-sum(local_probs))
     }
 
