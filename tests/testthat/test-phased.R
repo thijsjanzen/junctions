@@ -216,5 +216,5 @@ test_that("phased, expectation", {
 
   expected_j <- number_of_junctions(N = 10000, t = 20)
 
-  testthat::expect_true( abs(a - expected_j) / expected_j < 0.1)
+  testthat::expect_true( abs(a - expected_j) / expected_j < 0.5)
 })
