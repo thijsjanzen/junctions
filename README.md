@@ -4,6 +4,7 @@ Individual based simulations of hybridizing populations, where the accumulation 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/junctions)](https://cran.r-project.org/package=junctions)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/junctions)](https://cran.r-project.org/package=junctions)
 [![](http://cranlogs.r-pkg.org/badges/junctions)](https://cran.r-project.org/package=junctions)
+[![R-CMD-check](https://github.com/thijsjanzen/junctions/workflows/R-CMD-check/badge.svg)](https://github.com/thijsjanzen/junctions/actions)
 
 Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![AppVeyor logo](pics/AppVeyor.png)](https://www.appveyor.com)|[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
 ---|---|---|---
