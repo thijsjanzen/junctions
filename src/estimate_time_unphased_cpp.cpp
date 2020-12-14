@@ -202,14 +202,6 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
   return ll;
 }
 
-
-
-//' function to calculate 7 states
-//' @param t time
-//' @param N pop size
-//' @param d distance
-//' @export
-// [[Rcpp::export]]
 std::vector< double > single_state_cpp(int t, int N, double d) {
 
   // I verified this with the synonymous R code, and it generates
@@ -236,13 +228,7 @@ std::vector< double > single_state_cpp(int t, int N, double d) {
   return(output);
 }
 
-//' function to calculate prob
-//' @param l left
-//' @param r right
-//' @param p freq
-//' @param P seven states output
-//' @export
-// [[Rcpp::export]]
+
 double get_prob_from_matrix_cpp(int left,
                                 int right,
                                 double p,
@@ -316,17 +302,6 @@ double get_prob_from_matrix_cpp(int left,
   return prob;
 }
 
-
-//' function to calculate ll
-//' @param di distance
-//' @param l left
-//' @param r right
-//' @param t time
-//' @param pop_size population size
-//' @param freq_ancestor_1 freq ancestor
-//' @param condition conditioning
-//' @export
-// [[Rcpp::export]]
 double calc_ll(double di,
                double l,
                double r,

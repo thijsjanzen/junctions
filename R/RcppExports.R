@@ -30,38 +30,6 @@ loglikelihood_unphased_cpp <- function(local_anc_matrix, locations, pop_size, fr
     .Call('_junctions_loglikelihood_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, t)
 }
 
-#' function to calculate 7 states
-#' @param t time
-#' @param N pop size
-#' @param d distance
-#' @export
-single_state_cpp <- function(t, N, d) {
-    .Call('_junctions_single_state_cpp', PACKAGE = 'junctions', t, N, d)
-}
-
-#' function to calculate prob
-#' @param l left
-#' @param r right
-#' @param p freq
-#' @param P seven states output
-#' @export
-get_prob_from_matrix_cpp <- function(left, right, p, P) {
-    .Call('_junctions_get_prob_from_matrix_cpp', PACKAGE = 'junctions', left, right, p, P)
-}
-
-#' function to calculate ll
-#' @param di distance
-#' @param l left
-#' @param r right
-#' @param t time
-#' @param pop_size population size
-#' @param freq_ancestor_1 freq ancestor
-#' @param condition conditioning
-#' @export
-calc_ll <- function(di, l, r, t, pop_size, freq_ancestor_1, condition) {
-    .Call('_junctions_calc_ll', PACKAGE = 'junctions', di, l, r, t, pop_size, freq_ancestor_1, condition)
-}
-
 sim_fin_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, seed, R) {
     .Call('_junctions_sim_fin_chrom', PACKAGE = 'junctions', pop_size, freq_ancestor_1, run_time, size_in_Morgan, seed, R)
 }

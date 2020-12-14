@@ -17,7 +17,6 @@ calc_k <- function(N = Inf,   # nolint
                    C = 1) {   # nolint
 
   # variable names are consistent with Janzen et al. 2018, thus nolint
-
   K <- H_0 * C * 2 * N * R / (2 * N * C + R)  # nolint
 
   if (is.infinite(N)) {

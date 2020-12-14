@@ -55,50 +55,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// single_state_cpp
-std::vector< double > single_state_cpp(int t, int N, double d);
-RcppExport SEXP _junctions_single_state_cpp(SEXP tSEXP, SEXP NSEXP, SEXP dSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type t(tSEXP);
-    Rcpp::traits::input_parameter< int >::type N(NSEXP);
-    Rcpp::traits::input_parameter< double >::type d(dSEXP);
-    rcpp_result_gen = Rcpp::wrap(single_state_cpp(t, N, d));
-    return rcpp_result_gen;
-END_RCPP
-}
-// get_prob_from_matrix_cpp
-double get_prob_from_matrix_cpp(int left, int right, double p, const std::vector<double>& P);
-RcppExport SEXP _junctions_get_prob_from_matrix_cpp(SEXP leftSEXP, SEXP rightSEXP, SEXP pSEXP, SEXP PSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type left(leftSEXP);
-    Rcpp::traits::input_parameter< int >::type right(rightSEXP);
-    Rcpp::traits::input_parameter< double >::type p(pSEXP);
-    Rcpp::traits::input_parameter< const std::vector<double>& >::type P(PSEXP);
-    rcpp_result_gen = Rcpp::wrap(get_prob_from_matrix_cpp(left, right, p, P));
-    return rcpp_result_gen;
-END_RCPP
-}
-// calc_ll
-double calc_ll(double di, double l, double r, double t, int pop_size, double freq_ancestor_1, bool condition);
-RcppExport SEXP _junctions_calc_ll(SEXP diSEXP, SEXP lSEXP, SEXP rSEXP, SEXP tSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP conditionSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type di(diSEXP);
-    Rcpp::traits::input_parameter< double >::type l(lSEXP);
-    Rcpp::traits::input_parameter< double >::type r(rSEXP);
-    Rcpp::traits::input_parameter< double >::type t(tSEXP);
-    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
-    Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
-    Rcpp::traits::input_parameter< bool >::type condition(conditionSEXP);
-    rcpp_result_gen = Rcpp::wrap(calc_ll(di, l, r, t, pop_size, freq_ancestor_1, condition));
-    return rcpp_result_gen;
-END_RCPP
-}
 // sim_fin_chrom
 List sim_fin_chrom(int pop_size, double freq_ancestor_1, int run_time, double size_in_Morgan, int seed, int R);
 RcppExport SEXP _junctions_sim_fin_chrom(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP run_timeSEXP, SEXP size_in_MorganSEXP, SEXP seedSEXP, SEXP RSEXP) {
@@ -157,9 +113,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 7},
     {"_junctions_estimate_time_unphased_cpp", (DL_FUNC) &_junctions_estimate_time_unphased_cpp, 8},
     {"_junctions_loglikelihood_unphased_cpp", (DL_FUNC) &_junctions_loglikelihood_unphased_cpp, 5},
-    {"_junctions_single_state_cpp", (DL_FUNC) &_junctions_single_state_cpp, 3},
-    {"_junctions_get_prob_from_matrix_cpp", (DL_FUNC) &_junctions_get_prob_from_matrix_cpp, 4},
-    {"_junctions_calc_ll", (DL_FUNC) &_junctions_calc_ll, 7},
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
     {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 11},
