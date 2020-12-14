@@ -3,7 +3,8 @@ test_that("one chrom, use", {
 
   vx <- sim_phased_unphased(pop_size = 1000,
                             total_runtime = 100,
-                            markers = 1000, seed = 1,
+                            markers = 1000,
+                            seed = 42,
                             time_points = 100)
   focal_data <- subset(vx, vx$time == 100 & vx$individual == 0)
   time1 <- estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_1))),
