@@ -13,6 +13,7 @@ sim_phased_with_error(
   markers = 100,
   time_points = -1,
   seed = NULL,
+  num_threads = -1,
   verbose = TRUE,
   num_indiv_sampled = 10,
   coverage = 1,
@@ -39,6 +40,8 @@ recorded to be returned at the end of the simulation. If left at -1,
 ancestry is recorded at every generation (computationally heavy).}
 
 \item{seed}{Seed of the pseudo-random number generator}
+
+\item{num_threads}{number of threads}
 
 \item{verbose}{displays a progress bar}
 

@@ -1,5 +1,8 @@
 # nolint start
 #' @keywords internal
+#' @rawNamespace useDynLib(junctions)
+#' @rawNamespace import(Rcpp)
+#' @rawNamespace import(nloptr)
 get_num_markers <- function(markers) {
   if (length(markers) == 1) {
     num_markers <- abs(markers[1])

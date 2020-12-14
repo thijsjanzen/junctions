@@ -5,6 +5,63 @@ simulate_backcrossing_cpp <- function(pop_size, freq_ancestor_1, total_runtime, 
     .Call('_junctions_simulate_backcrossing_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed)
 }
 
+#' function to calculate log likelihood using cpp
+#' @param local_anc_matrix local ancestry matrix
+#' @param locations locations of markers
+#' @param pop_size population size
+#' @param freq_ancestor_1 frequency of the most common ancestor
+#' @param lower_lim lower limit
+#' @param upper_lim upper limit
+#' @param verbose use verbose output
+#' @param num_threads, default is all threads. 5 threads is recommended.
+#' @export
+estimate_time_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads = -1L) {
+    .Call('_junctions_estimate_time_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads)
+}
+
+#' function to calculate log likelihood using cpp
+#' @param local_anc_matrix local ancestry matrix
+#' @param locations locations of markers
+#' @param pop_size population size
+#' @param freq_ancestor_1 frequency of the most common ancestor
+#' @param t time
+#' @export
+loglikelihood_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, t) {
+    .Call('_junctions_loglikelihood_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, t)
+}
+
+#' function to calculate 7 states
+#' @param t time
+#' @param N pop size
+#' @param d distance
+#' @export
+single_state_cpp <- function(t, N, d) {
+    .Call('_junctions_single_state_cpp', PACKAGE = 'junctions', t, N, d)
+}
+
+#' function to calculate prob
+#' @param l left
+#' @param r right
+#' @param p freq
+#' @param P seven states output
+#' @export
+get_prob_from_matrix_cpp <- function(left, right, p, P) {
+    .Call('_junctions_get_prob_from_matrix_cpp', PACKAGE = 'junctions', left, right, p, P)
+}
+
+#' function to calculate ll
+#' @param di distance
+#' @param l left
+#' @param r right
+#' @param t time
+#' @param pop_size population size
+#' @param freq_ancestor_1 freq ancestor
+#' @param condition conditioning
+#' @export
+calc_ll <- function(di, l, r, t, pop_size, freq_ancestor_1, condition) {
+    .Call('_junctions_calc_ll', PACKAGE = 'junctions', di, l, r, t, pop_size, freq_ancestor_1, condition)
+}
+
 sim_fin_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, seed, R) {
     .Call('_junctions_sim_fin_chrom', PACKAGE = 'junctions', pop_size, freq_ancestor_1, run_time, size_in_Morgan, seed, R)
 }
@@ -13,7 +70,7 @@ sim_inf_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, m
     .Call('_junctions_sim_inf_chrom', PACKAGE = 'junctions', pop_size, freq_ancestor_1, run_time, size_in_Morgan, markers, seed)
 }
 
-sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled) {
-    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled)
+sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled, num_threads) {
+    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled, num_threads)
 }
 

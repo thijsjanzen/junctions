@@ -17,6 +17,7 @@
 #' recorded to be returned at the end of the simulation. If left at -1,
 #' ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
+#' @param num_threads number of threads
 #' @param verbose displays a progress bar
 #' @param num_indiv_sampled the number of individuals sampled at each time point
 #' to be genotyped
@@ -38,6 +39,7 @@ sim_phased_with_error <- function(pop_size = 100,
                                   markers = 100,
                                   time_points = -1,
                                   seed = NULL,
+                                  num_threads = -1,
                                   verbose = TRUE,
                                   num_indiv_sampled = 10,
                                   coverage = 1,
@@ -67,7 +69,8 @@ sim_phased_with_error <- function(pop_size = 100,
                                          seed,
                                          verbose,
                                          record_true_junctions,
-                                         num_indiv_sampled)
+                                         num_indiv_sampled,
+                                         num_threads)
 
   true_data <- sim_output$results
   colnames(true_data) <- c("time", "individual", "location",

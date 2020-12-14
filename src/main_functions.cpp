@@ -153,8 +153,6 @@ List sim_inf_chrom(int pop_size,
                    int seed) {
     set_seed(seed);
 
-    //Rcout << "sim_inf_chrom, let's go!\n";
-
     Output O = doSimulation_inf(pop_size,
                                 freq_ancestor_1,
                                 run_time,
