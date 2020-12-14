@@ -9,7 +9,7 @@
 #' the chromosome)
 #' @return The number of junctions for at time = infinity
 #' @examples k <-  calc_k(N = 100, R = 1000, H_0 = 0.5, C = 1)
-#' @keywords junctions, analytic
+#' @keywords junctions
 #' @export
 calc_k <- function(N = Inf,   # nolint
                    R = Inf,   # nolint
