@@ -86,7 +86,7 @@ bool do_recombination(std::vector<junction>& offspring,
     return true;
 }
 
-std::vector<double> generate_recomPos(int number_of_recombinations) {
+std::vector<double> generate_recomPos(size_t number_of_recombinations) {
 
     std::vector<double> recomPos(number_of_recombinations, 0);
     for(int i = 0; i < number_of_recombinations; ++i) {

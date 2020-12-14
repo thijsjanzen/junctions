@@ -58,8 +58,8 @@ std::vector<bool> detectJunctions(const std::vector<junction>& G,
                                   const std::vector<double>& markers) {
     std::vector<bool> output(markers.size());
 
-    int j = 0;
-    for(int i = 0; i < markers.size(); ++i) {
+    size_t j = 0;
+    for(size_t i = 0; i < markers.size(); ++i) {
         double focalPos = markers[i];
         for(; j <= (G.size()-1); ++j) {
             double left = G[j].pos;
@@ -94,8 +94,8 @@ std::vector<int> detect_ancestry(const std::vector< junction >& G,
                                  const std::vector< double >& markers) {
     std::vector<int> output(markers.size());
 
-    int j = 0;
-    for(int i = 0; i < markers.size(); ++i) {
+    size_t j = 0;
+    for(size_t i = 0; i < markers.size(); ++i) {
         double focalPos = markers[i];
         for(; j <= (G.size()-1); ++j) {
             double left = G[j].pos;
@@ -112,16 +112,16 @@ std::vector<int> detect_ancestry(const std::vector< junction >& G,
 }
 
 void Output::update_unphased(const std::vector< Fish_inf >& Pop,
-                    int t,
+                    size_t t,
                     bool record_true_junctions,
                     double morgan,
-                    int num_indiv) {
+                    size_t num_indiv) {
 
-    for(int i = 0; i < num_indiv; ++i) {
+    for(size_t i = 0; i < num_indiv; ++i) {
         std::vector<int> chrom1 = detect_ancestry(Pop[i].chromosome1, markers);
         std::vector<int> chrom2 = detect_ancestry(Pop[i].chromosome2, markers);
 
-        for(int j = 0; j < markers.size(); ++j) {
+        for(size_t j = 0; j < markers.size(); ++j) {
             std::vector<double> to_add(5); // = {t, i, markers[j], chrom1[j], chrom2[j]};
             to_add[0] = t;
             to_add[1] = i; //individual
@@ -156,7 +156,7 @@ int detect_junctions(const Fish_inf& indiv,
 
 
     std::vector<int> genotypes(chrom1.size(), -1);
-    for(int i = 0; i < chrom1.size(); ++i) {
+    for(size_t i = 0; i < chrom1.size(); ++i) {
         // 0 = homozygous parent 0
         // 1 = heterozygous
         // 2 = homozygous parent 1
@@ -191,7 +191,7 @@ int detect_junctions(const Fish_inf& indiv,
     // zero entry is not included in the loop
     if(genotypes[0] == 1) number_heterozygous++;
 
-    for(int i = 1; i < genotypes.size(); ++i) {
+    for(size_t i = 1; i < genotypes.size(); ++i) {
         if(genotypes[i] != -1 && genotypes[i-1] != -1) {
             if(genotypes[i] != genotypes[i-1]) number_of_junctions++;
         }
