@@ -218,9 +218,10 @@ estimate_time_phased <- function(local_anc_matrix,
   if (optim_pop_size == TRUE) {
     calc_ll <- function(params) {
 
-      if (params[[2]] < 2) {
+      if (params[[2]] < 2 || params[[1]] < 1) {
         return(Inf)
       }
+
 
       local_probs <- apply(to_analyze, 1, get_cond_prob_vector_phased,
                            freq_ancestor_1,
