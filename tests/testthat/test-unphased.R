@@ -34,9 +34,7 @@ test_that("unphased, use", {
     found[indiv + 1] <- estim_time$minimum
   }
 
-  testthat::expect_equal(mean(found), focal_time, tolerance = 10)
-
-
+  testthat::expect_equal(mean(found), focal_time, tolerance = 5)
 
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 100)

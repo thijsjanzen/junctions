@@ -3,9 +3,10 @@ test_that("one chrom, use", {
 
   vx <- sim_phased_unphased(pop_size = 1000,
                             total_runtime = 100,
-                            markers = 1000,
+                            markers = 10000,
                             seed = 42,
                             time_points = 100)
+
   focal_data <- subset(vx, vx$time == 100 & vx$individual == 0)
   time1 <- estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_1))),
                                    N = 1000,
@@ -15,7 +16,7 @@ test_that("one chrom, use", {
                                    N = 1000,
                                    H_0 = 0.5,
                                    marker_distribution = focal_data$location)
-
+  cat(time1, time2, "\n")
   testthat::expect_true( (time1 + time2) / 2 - 100 < 10)
 
   # induce marker error
