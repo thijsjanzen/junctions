@@ -41,13 +41,14 @@ public:
 
   Mx operator*(const Mx &b) {
     Mx d;
-    for (int r = 0; r < MSize; r++)
+    for (int r = 0; r < MSize; r++) {
       for (int c = 0; c < MSize; c++) {
         d.a[r][c] = 0;
         for (int k = 0; k < MSize; k++)
           d.a[r][c] += a[r][k] * b.a[k][c];
       }
-      return d;
+    }
+    return d;
   }
 
   Mx operator^(int n) {
@@ -55,10 +56,12 @@ public:
       throw "Negative exponent not implemented";
 
     Mx d = identity();
-    for (Mx sq = *this; n > 0; sq = sq * sq, n /= 2)
-      if (n % 2 != 0)
+    for (Mx sq = *this; n > 0; sq = sq * sq, n /= 2) {
+      if (n % 2 != 0) {
         d = d * sq;
-      return d;
+      }
+    }
+    return d;
   }
 
   std::vector< double > operator()() {
