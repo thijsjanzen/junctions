@@ -6,14 +6,11 @@ test_that("unphased, use", {
                             total_runtime = 100,
                             size_in_morgan = 1,
                             markers = 1000,
-                            time_points = c(100),
+                            time_points = c(50, 100),
                             seed = 43)
 
   a1 <- sum(vx$anc_chrom_1 != vx$anc_chrom_2) / length(vx$anc_chrom_1)
   expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * 100)) ^ 100
-  expected_j <- junctions::number_of_junctions(N = 100,
-                                               H_0 = 0.5,
-                                               t = 100)
 
   testthat::expect_equal(a1, expected_heterozygosity, scale = 1, tolerance = 0.1)
 
