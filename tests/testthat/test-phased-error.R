@@ -38,15 +38,16 @@ test_that("phased, use", {
 
   # now we introduce error
   errorrr <- 0.5
-  vx <- sim_phased_with_error(pop_size = 100,
+  vx <- sim_phased_with_error(pop_size = 10000,
                               freq_ancestor_1 = 0.5,
-                              total_runtime = 201,
+                              total_runtime = 200,
                               size_in_morgan = 1,
                               markers = 1000,
                               time_points = c(200),
                               seed = 42,
                               coverage = 1,
-                              error_rate = errorrr)
+                              error_rate = errorrr,
+                              num_threads = -1)
 
   true_data <- vx$true_data
   phased_data <- vx$phased_data

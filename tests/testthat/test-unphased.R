@@ -3,11 +3,19 @@ test_that("unphased, use", {
 
   vx <- sim_phased_unphased(pop_size = 100,
                             freq_ancestor_1 = 0.5,
-                            total_runtime = 201,
+                            total_runtime = 100,
                             size_in_morgan = 1,
                             markers = 1000,
-                            time_points = c(100, 200),
-                            seed = 42)
+                            time_points = c(100),
+                            seed = 43)
+
+  a1 <- sum(vx$anc_chrom_1 != vx$anc_chrom_2) / length(vx$anc_chrom_1)
+  expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * 100)) ^ 100
+  expected_j <- junctions::number_of_junctions(N = 100,
+                                               H_0 = 0.5,
+                                               t = 100)
+
+  testthat::expect_equal(a1, expected_heterozygosity, scale = 1, tolerance = 0.1)
 
   num_indiv <- length(unique(vx$individual))
   testthat::expect_equal(num_indiv, 10)
@@ -15,7 +23,7 @@ test_that("unphased, use", {
 
   found <- c()
   focal_time <- 100
-  for (indiv in 0:9) {
+  for (indiv in unique(vx$individual)) {
     local_data <- subset(vx, vx$individual == indiv &
                            vx$time == focal_time)
 
@@ -144,25 +152,25 @@ test_that("unphased_cpp", {
 
   for(t in unique(vx$time)) {
     local_data <- subset(vx, vx$individual == 0 &
-                         vx$time == t)
+                           vx$time == t)
 
     age1 <- estimate_time_unphased(cbind(local_data$anc_chrom_1,
-                                       local_data$anc_chrom_2),
-                                 local_data$location,
-                                 pop_size = 100,
-                                 freq_ancestor_1 = 0.5,
-                                 upper_lim = 2000,
-                                 verbose = FALSE)
-
-    age2 <- estimate_time_unphased_cpp(cbind(1,
-                                             local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
                                    local_data$location,
                                    pop_size = 100,
                                    freq_ancestor_1 = 0.5,
-                                   lower_lim = 2,
-                                   upper_lim = 1000,
+                                   upper_lim = 2000,
                                    verbose = FALSE)
+
+    age2 <- estimate_time_unphased_cpp(cbind(1,
+                                             local_data$anc_chrom_1,
+                                             local_data$anc_chrom_2),
+                                       local_data$location,
+                                       pop_size = 100,
+                                       freq_ancestor_1 = 0.5,
+                                       lower_lim = 2,
+                                       upper_lim = 1000,
+                                       verbose = FALSE)
     cat(t, age1$minimum, age2[1], "\n")
     testthat::expect_equal(age1$minimum, age2[1], tolerance = 10)
   }

@@ -39,11 +39,29 @@ int getRecomPos(int L) {
 
     return pos;
 }
-
-bool do_recombination(std::vector<junction>& offspring,
+void do_recombination(std::vector<junction>& offspring,
                       const std::vector<junction>& chromosome1,
                       const std::vector<junction>& chromosome2,
-                      std::vector<double> recomPos) {
+                      std::vector<double>& recomPos) {
+
+    /*
+     chrom 1:  [0    1
+     0.5  0
+     1.0 -1]
+
+     chrom 2:  [0    0
+     0.5  1
+     1.0 -1]
+
+     recomPos  = {0.75, 0.75};
+
+     new_chrom = [0      1
+     0.5    0
+     1.0   -1]
+
+     // std::lower_bound()
+
+     */
 
     std::vector < std::vector<junction>::const_iterator > iters =
         { chromosome1.begin(), chromosome2.begin() };
@@ -53,7 +71,7 @@ bool do_recombination(std::vector<junction>& offspring,
     int index = 0;
     int recompos_cnt = 0;
 
-    while(1 == 1) {
+    while(true) {
 
         if ( iters[index]->pos > recomPos[recompos_cnt]  ) {
             // encountered junction point
@@ -65,9 +83,7 @@ bool do_recombination(std::vector<junction>& offspring,
 
             auto prev_iter = iters[index];
             prev_iter--;
-            assert(prev_iter->pos < recomPos[recompos_cnt]);
             junction new_junction(recomPos[recompos_cnt], prev_iter->right);
-            // offspring.push_back(new_junction);
             add(offspring, new_junction);
 
             recompos_cnt++;
@@ -81,39 +97,30 @@ bool do_recombination(std::vector<junction>& offspring,
         }
     }
 
-
-
-    return true;
+    return;
 }
 
-std::vector<double> generate_recomPos(size_t number_of_recombinations) {
+std::vector<double> generate_recomPos(int number_of_recombinations) {
 
     std::vector<double> recomPos(number_of_recombinations, 0);
     for(int i = 0; i < number_of_recombinations; ++i) {
         recomPos[i] = uniform();
     }
-    std::sort(recomPos.begin(), recomPos.end() );
-    recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
-
-    while (recomPos.size() < number_of_recombinations) {
-        double pos = uniform();
-        recomPos.push_back(pos);
-        // sort them, in case they are not sorted yet
-        // we need this to remove duplicates, and later
-        // to apply crossover
-        std::sort(recomPos.begin(), recomPos.end() );
-        // remove duplicate recombination sites
-        recomPos.erase(std::unique(recomPos.begin(), recomPos.end()), recomPos.end());
+    std::sort(recomPos.begin(), recomPos.end());
+    if (recomPos.size() != number_of_recombinations) {
+        stop("mismatch\n");
     }
+
     return recomPos;
 }
 
-void Recombine_inf(std::vector<junction>& offspring,
-               std::vector<junction> chromosome1,
-               std::vector<junction> chromosome2,
-               double MORGAN)  {
+void Recombine_inf(      std::vector<junction>& offspring,
+                     const std::vector<junction>& chromosome1,
+                     const std::vector<junction>& chromosome2,
+                     double MORGAN)  {
 
-    int numRecombinations = poisson_preset(); //poisson(MORGAN);
+    int numRecombinations = poisson(MORGAN);
+   // Rcout << numRecombinations << "\n";
 
     if (numRecombinations == 0) {
         offspring.insert(offspring.end(),
@@ -125,22 +132,10 @@ void Recombine_inf(std::vector<junction>& offspring,
 
     std::vector<double> recomPos = generate_recomPos(numRecombinations);
 
-    bool recomPos_is_unique = do_recombination(offspring,
-                                               chromosome1,
-                                               chromosome2,
-                                               recomPos);
-    // very rarely, the recombination positions are exactly
-    // on existing junctions - this should not happen.
-    while(recomPos_is_unique == false) {
-
-        recomPos = generate_recomPos(numRecombinations);
-
-        recomPos_is_unique = do_recombination(offspring,
-                                              chromosome1,
-                                              chromosome2,
-                                              recomPos);
-    }
-
+    do_recombination(offspring,
+                     chromosome1,
+                     chromosome2,
+                     recomPos);
     return;
 }
 
@@ -180,9 +175,9 @@ Fish_inf mate_inf(const Fish_inf& A, const Fish_inf& B, double numRecombinations
 }
 
 void Recombine_fin(std::vector<bool>* offspring,
-               std::vector<bool> chromosome1,
-               std::vector<bool> chromosome2,
-               double numberRecombinations)  {
+                   std::vector<bool> chromosome1,
+                   std::vector<bool> chromosome2,
+                   double numberRecombinations)  {
     // we have a decimal value, the fractional part is interpreted as
     // a probability of one extra recombination, note that we do NOT
     // assume a poisson distributed number of recombinations
@@ -221,7 +216,7 @@ void Recombine_fin(std::vector<bool>* offspring,
     int order = 0;
     int start = 0;
 
-    for (std::size_t i = 0; i < recomPos.size(); ++i) {
+    for (int i = 0; i < recomPos.size(); ++i) {
         int end = recomPos[i];
         if (order == 0) {  // add the first chromosome
             offspring->insert(offspring->end(),
@@ -253,8 +248,8 @@ void Recombine_fin(std::vector<bool>* offspring,
 }
 
 Fish_fin mate_fin(const Fish_fin& A,
-              const Fish_fin& B,
-              double numberRecombinations) {
+                  const Fish_fin& B,
+                  double numberRecombinations) {
 
     Fish_fin offspring;
     offspring.chromosome1.clear();
@@ -264,22 +259,22 @@ Fish_fin mate_fin(const Fish_fin& A,
     // we randomly select 1 of 2 produced chromosomes during recombination
     if (uniform() < 0.5) {
         Recombine_fin(&offspring.chromosome1,
-                  A.chromosome1, A.chromosome2,
-                  numberRecombinations);
+                      A.chromosome1, A.chromosome2,
+                      numberRecombinations);
     } else {
         Recombine_fin(&offspring.chromosome1,
-                  A.chromosome2, A.chromosome1,
-                  numberRecombinations);
+                      A.chromosome2, A.chromosome1,
+                      numberRecombinations);
     }
 
     if (uniform() < 0.5) {
         Recombine_fin(&offspring.chromosome2,
-                  B.chromosome1, B.chromosome2,
-                  numberRecombinations);
+                      B.chromosome1, B.chromosome2,
+                      numberRecombinations);
     } else {
         Recombine_fin(&offspring.chromosome2,
-                  B.chromosome2, B.chromosome1,
-                  numberRecombinations);
+                      B.chromosome2, B.chromosome1,
+                      numberRecombinations);
     }
     return offspring;
 }

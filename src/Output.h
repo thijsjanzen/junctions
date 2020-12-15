@@ -30,10 +30,10 @@ struct Output {
     void update_fin(const std::vector< Fish_fin >& Pop);
 
     void update_unphased(const std::vector< Fish_inf >& Pop,
-                         size_t t,
+                         int t,
                          bool record_true_junctions,
                          double morgan,
-                         size_t num_indiv);
+                         int num_indiv);
 
     void detectNumJunctions(const std::vector<Fish_inf> &Pop,
                             const std::vector<double> &markers);

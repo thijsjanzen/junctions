@@ -88,8 +88,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // sim_phased_unphased_cpp
-List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, NumericVector markers, NumericVector time_points, int seed, bool verbose, bool record_true_junctions, int num_indiv_sampled, int num_threads);
-RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP, SEXP verboseSEXP, SEXP record_true_junctionsSEXP, SEXP num_indiv_sampledSEXP, SEXP num_threadsSEXP) {
+List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, NumericVector markers, NumericVector time_points, int seed, bool verbose, bool record_true_junctions, int num_indiv_sampled);
+RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP, SEXP verboseSEXP, SEXP record_true_junctionsSEXP, SEXP num_indiv_sampledSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -103,8 +103,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< bool >::type record_true_junctions(record_true_junctionsSEXP);
     Rcpp::traits::input_parameter< int >::type num_indiv_sampled(num_indiv_sampledSEXP);
-    Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled, num_threads));
+    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -115,7 +114,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_junctions_loglikelihood_unphased_cpp", (DL_FUNC) &_junctions_loglikelihood_unphased_cpp, 5},
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
-    {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 11},
+    {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 10},
     {NULL, NULL, 0}
 };
 
