@@ -90,11 +90,15 @@ test_that("unphased, use", {
   testthat::expect_true(is.infinite(ll_inf))
 
   multi_ll <- loglikelihood_unphased(cbind(local_data$anc_chrom_1,
-                                           local_data$anc_chrom_2),
-                                     local_data$location,
-                                     pop_size = 1000,
-                                     freq_ancestor_1 = 0.1,
-                                     t = c(0, 10, 20))
+                                         local_data$anc_chrom_2),
+                                   local_data$location,
+                                   pop_size = 1000,
+                                   freq_ancestor_1 = 0.1,
+                                   t = c(30, 100, 300))
+
+  testthat::expect_true(length(multi_ll) == 3)
+  testthat::expect_gt(multi_ll[1], multi_ll[2])
+  testthat::expect_gt(multi_ll[2], multi_ll[3])
 })
 
 test_that("unphased, exceptions", {

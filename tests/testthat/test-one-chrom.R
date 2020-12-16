@@ -1,23 +1,26 @@
 context("one_chromosome")
 test_that("one chrom, use", {
 
-  vx <- sim_phased_unphased(pop_size = 1000,
-                            total_runtime = 100,
-                            markers = 10000,
-                            seed = 42,
-                            time_points = 100)
+  population_size <- 1000
+  run_time <- 20
 
-  focal_data <- subset(vx, vx$time == 100 & vx$individual == 0)
+  vx <- sim_phased_unphased(pop_size = population_size,
+                            total_runtime = run_time,
+                            markers = 1000,
+                            seed = 4,
+                            time_points = run_time)
+
+  focal_data <- subset(vx, vx$time == run_time & vx$individual == 0)
   time1 <- estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_1))),
-                                   N = 1000,
+                                   N = population_size,
                                    H_0 = 0.5,
                                    marker_distribution = focal_data$location)
   time2 <- estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_2))),
-                                   N = 1000,
+                                   N = population_size,
                                    H_0 = 0.5,
                                    marker_distribution = focal_data$location)
   cat(time1, time2, "\n")
-  testthat::expect_true( (time1 + time2) / 2 - 100 < 10)
+  testthat::expect_true( abs((time1 + time2) / 2 - run_time) < 5)
 
   # induce marker error
   testthat::expect_error(

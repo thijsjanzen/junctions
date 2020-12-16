@@ -73,7 +73,7 @@ loglikelihood_unphased <- function(local_anc_matrix,
   if (length(t) > 1) {
     output <- c()
     for (i in seq_along(t)) {
-      output[i] <- calc_ll(t)
+      output[i] <- calc_ll(t[i])
     }
     return(output)
   }
