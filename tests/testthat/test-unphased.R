@@ -1,7 +1,8 @@
 context("unphased")
 test_that("unphased, use", {
 
-  vx <- sim_phased_unphased(pop_size = 100,
+  population_size <- 10000
+  vx <- sim_phased_unphased(pop_size = population_size,
                             freq_ancestor_1 = 0.5,
                             total_runtime = 100,
                             size_in_morgan = 1,
@@ -10,7 +11,7 @@ test_that("unphased, use", {
                             seed = 43)
 
   a1 <- sum(vx$anc_chrom_1 != vx$anc_chrom_2) / length(vx$anc_chrom_1)
-  expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * 100)) ^ 100
+  expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * population_size)) ^ 100
 
   testthat::expect_equal(a1, expected_heterozygosity, scale = 1, tolerance = 0.1)
 
@@ -28,7 +29,7 @@ test_that("unphased, use", {
     estim_time <- estimate_time_unphased(cbind(local_data$anc_chrom_1,
                                                local_data$anc_chrom_2),
                                          local_data$location,
-                                         pop_size = 100,
+                                         pop_size = population_size,
                                          freq_ancestor_1 = 0.5,
                                          upper_lim = 200)
     found[indiv + 1] <- estim_time$minimum
