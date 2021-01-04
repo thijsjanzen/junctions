@@ -18,7 +18,8 @@ Output simulation_phased_nonphased(int popSize,
                                    bool verbose,
                                    bool record_true_junctions,
                                    int num_indiv_sampled,
-                                   int num_threads)    {
+                                   int num_threads,
+                                   rnd_t& rndgen)    {
 
   Output O;
   std::vector< Fish_inf > Pop(popSize);
@@ -34,14 +35,14 @@ Output simulation_phased_nonphased(int popSize,
     Fish_inf p1 = parent2;
     Fish_inf p2 = parent2;
 
-    if (uniform() < initRatio) {
+    if (rndgen.uniform() < initRatio) {
       p1 = parent1;
     }
-    if (uniform() < initRatio) {
+    if (rndgen.uniform() < initRatio) {
       p2 = parent1;
     }
 
-    Pop[i] = mate_inf(p1,p2, numRecombinations);
+    Pop[i] = mate_inf(p1,p2, numRecombinations, rndgen);
   }
 
   if (verbose) Rcout << "0--------25--------50--------75--------100\n";
@@ -61,14 +62,18 @@ Output simulation_phased_nonphased(int popSize,
     tbb::parallel_for(
       tbb::blocked_range<unsigned>(0, popSize),
       [&](const tbb::blocked_range<unsigned>& r) {
+        rnd_t rndgen2;
+
+
         for (unsigned i = r.begin(); i < r.end(); ++i) {
 
-          int index1 = random_number(popSize);
-          int index2 = random_number(popSize);
-          while(index2 == index1) index2 = random_number_popsize();
+          int index1 = rndgen2.random_number(popSize);
+          int index2 = rndgen2.random_number(popSize);
+          while(index2 == index1) index2 = rndgen2.random_number(popSize);
 
           newGeneration[i] =
-            mate_inf(Pop[index1], Pop[index2], numRecombinations);
+            mate_inf(Pop[index1], Pop[index2], numRecombinations,
+                     rndgen2);
         }
       }
     );
@@ -100,9 +105,7 @@ List sim_phased_unphased_cpp(int pop_size,
                              int num_indiv_sampled,
                              int num_threads) {
 
-  set_seed(seed);
-  set_poisson(size_in_morgan);
-  set_random_number_popsize(pop_size);
+  rnd_t rndgen(seed);
 
   std::vector< double > marker_dist(markers.begin(), markers.end());
 
@@ -114,7 +117,8 @@ List sim_phased_unphased_cpp(int pop_size,
                                          verbose,
                                          record_true_junctions,
                                          num_indiv_sampled,
-                                         num_threads);
+                                         num_threads,
+                                         rndgen);
 
   int num_rows = O.results.size();
   int num_cols = O.results[0].size();

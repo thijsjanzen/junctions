@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <vector>
 #include <algorithm>
+#include "random_functions.h"
 #include <Rcpp.h>
 
 struct junction {
@@ -44,13 +45,13 @@ struct Fish_fin  {
 
 
 Fish_fin mate_fin(const Fish_fin& A, const Fish_fin& B,
-          double numRecombinations);
+          double numRecombinations, rnd_t& rndgen);
 
 Fish_inf mate_inf(const Fish_inf& A, const Fish_inf& B,
-                  double numRecombinations);
+                  double numRecombinations, rnd_t& rndgen);
 
 long double getRecomPos();
-int getRecomPos(int L);
+int getRecomPos(int L, rnd_t& rndgen);
 
 bool is_in_time_points(int t,
                        const Rcpp::NumericVector& time_points);

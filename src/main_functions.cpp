@@ -17,13 +17,14 @@ Output doSimulation_inf(int popSize,
                     double initRatio,
                     int maxTime,
                     double numRecombinations,
-                    int numberOfMarkers)    {
+                    int numberOfMarkers,
+                    rnd_t& rndgen)    {
     Output O;
     std::vector<Fish_inf> Pop;
     std::vector<double> markers;
     if(numberOfMarkers > 0) {
         for(int i = 0; i < numberOfMarkers; ) {
-            double pos = uniform();
+            double pos = rndgen.uniform();
             if(pos > 0 && pos < 1.0) {
                 ++i;
                 markers.push_back(pos);
@@ -41,14 +42,14 @@ Output doSimulation_inf(int popSize,
         Fish_inf p1 = parent2;
         Fish_inf p2 = parent2;
 
-        if(uniform() < initRatio) {
+        if(rndgen.uniform() < initRatio) {
             p1 = parent1;
         }
-        if(uniform() < initRatio) {
+        if(rndgen.uniform() < initRatio) {
             p2 = parent1;
         }
 
-        Pop.push_back(mate_inf(p1,p2, numRecombinations));
+        Pop.push_back(mate_inf(p1,p2, numRecombinations, rndgen));
     }
 
     int updateFreq = maxTime / 20;
@@ -61,10 +62,13 @@ Output doSimulation_inf(int popSize,
         std::vector<Fish_inf> newGeneration(popSize);
 
         for(int i = 0; i < popSize; ++i)  {
-            int index1 = random_number(popSize);
-            int index2 = random_number(popSize);
+            int index1 = rndgen.random_number(popSize);
+            int index2 = rndgen.random_number(popSize);
 
-            newGeneration[i] = mate_inf(Pop[index1], Pop[index2], numRecombinations);
+            newGeneration[i] = mate_inf(Pop[index1],
+                                        Pop[index2],
+                                           numRecombinations,
+                                           rndgen);
         }
 
         Pop = newGeneration;
@@ -77,7 +81,8 @@ Output doSimulation_fin(int popSize,
                         int genomeSize,
                         double initRatio,
                         int maxTime,
-                        double numRecombinations)    {
+                        double numRecombinations,
+                        rnd_t& rndgen)    {
     Output O;
     std::vector<Fish_fin> Pop;
 
@@ -88,14 +93,14 @@ Output doSimulation_fin(int popSize,
         Fish_fin p1 = parent2;
         Fish_fin p2 = parent2;
 
-        if(uniform() < initRatio) {
+        if(rndgen.uniform() < initRatio) {
             p1 = parent1;
         }
-        if(uniform() < initRatio) {
+        if(rndgen.uniform() < initRatio) {
             p2 = parent1;
         }
 
-        Pop.push_back(mate_fin(p1,p2, numRecombinations));
+        Pop.push_back(mate_fin(p1,p2, numRecombinations, rndgen));
     }
 
     int updateFreq = maxTime / 20;
@@ -107,10 +112,13 @@ Output doSimulation_fin(int popSize,
 
         for(int i = 0; i < popSize; ++i)
         {
-            int index1 = random_number(popSize);
-            int index2 = random_number(popSize);
+            int index1 = rndgen.random_number(popSize);
+            int index2 = rndgen.random_number(popSize);
 
-            newGeneration[i] = mate_fin(Pop[index1],Pop[index2], numRecombinations);
+            newGeneration[i] = mate_fin(Pop[index1],
+                                        Pop[index2],
+                                           numRecombinations,
+                                           rndgen);
         }
 
         Pop = newGeneration;
@@ -128,13 +136,14 @@ List sim_fin_chrom(int pop_size,
                    int seed,
                    int R) {
 
-  set_seed(seed);
+  rnd_t rndgen(seed);
 
   Output O = doSimulation_fin(pop_size,
                               R + 1,
                               freq_ancestor_1,
                               run_time,
-                              size_in_Morgan);
+                              size_in_Morgan,
+                              rndgen);
 
   return List::create(Named("avgJunctions") = O.avgJunctions);
 }
@@ -146,13 +155,15 @@ List sim_inf_chrom(int pop_size,
                    double size_in_Morgan,
                    int markers,
                    int seed) {
-    set_seed(seed);
+  rnd_t rndgen(seed);
 
     Output O = doSimulation_inf(pop_size,
                                 freq_ancestor_1,
                                 run_time,
                                 size_in_Morgan,
-                                markers);
+                                markers,
+                                rndgen);
+
     return List::create(Named("avgJunctions") = O.avgJunctions,
                         Named("detectedJunctions") = O.avg_detected_Junctions,
                         Named("markers") = O.markers);

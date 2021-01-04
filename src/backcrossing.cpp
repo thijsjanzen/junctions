@@ -11,7 +11,8 @@ Output doSimulation_backcrossing(int population_size,
                                  int total_runtime,
                                  double size_in_morgan,
                                  int number_of_markers,
-                                 const NumericVector& time_points)    {
+                                 const NumericVector& time_points,
+                                 rnd_t& rndgen)    {
 
   // declaration of data holders
   Output O;
@@ -20,7 +21,7 @@ Output doSimulation_backcrossing(int population_size,
 
   // generate random markers if necessary
   if(number_of_markers > 0) {
-    markers = generate_random_markers(number_of_markers);
+    markers = rndgen.generate_random_markers(number_of_markers);
   }
   O.markers = markers;
 
@@ -50,7 +51,7 @@ Output doSimulation_backcrossing(int population_size,
     }*/
 
     Pop.push_back(mate_inf(focal_parent1, focal_parent2,
-                           size_in_morgan));
+                           size_in_morgan, rndgen));
   }
 
   // because we initialize with F1, we start at t = 1
@@ -65,10 +66,10 @@ Output doSimulation_backcrossing(int population_size,
     std::vector< Fish_inf > next_generation;
 
     for(int i = 0; i < population_size; ++i)  {
-      int index1 = random_number(population_size);
+      int index1 = rndgen.random_number(population_size);
 
       Fish_inf kid = mate_inf(Pop[index1], back_cross_parent,
-                              size_in_morgan);
+                              size_in_morgan, rndgen);
 
       next_generation.push_back(kid);
     }
@@ -92,14 +93,16 @@ List simulate_backcrossing_cpp(int pop_size,
                                int number_of_markers,
                                NumericVector time_points,
                                int seed) {
-  set_seed(seed);
+  rnd_t rndgen;
+  rndgen.set_seed(seed);
 
   Output O = doSimulation_backcrossing(pop_size,
                                        freq_ancestor_1,
                                        total_runtime,
                                        size_in_morgan,
                                        number_of_markers,
-                                       time_points);
+                                       time_points,
+                                       rndgen);
 
   return List::create(Named("average_junctions") = O.avgJunctions,
                       Named("detected_junctions") = O.avg_detected_Junctions,
