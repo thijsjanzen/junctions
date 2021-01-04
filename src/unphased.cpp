@@ -67,9 +67,8 @@ Output simulation_phased_nonphased(int popSize,
           int index2 = random_number(popSize);
           while(index2 == index1) index2 = random_number_popsize();
 
-          Fish_inf kid = mate_inf(Pop[index1], Pop[index2], numRecombinations);
-
-          newGeneration[i] = kid;
+          newGeneration[i] =
+            mate_inf(Pop[index1], Pop[index2], numRecombinations);
         }
       }
     );

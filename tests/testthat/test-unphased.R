@@ -175,3 +175,31 @@ test_that("unphased_cpp", {
     testthat::expect_equal(age1$minimum, age2[1], tolerance = 10)
   }
 })
+
+test_that("unphased, threads", {
+
+  skip_on_cran()
+  population_size <- 1000
+
+  t1 <- Sys.time()
+  vx <- sim_phased_unphased(pop_size = population_size,
+                            freq_ancestor_1 = 0.5,
+                            total_runtime = 1000,
+                            size_in_morgan = 1,
+                            markers = seq(0, 1, length.out = 100),
+                            num_threads = 1,
+                            seed = 43)
+  t2 <- Sys.time()
+  vy <- sim_phased_unphased(pop_size = population_size,
+                            freq_ancestor_1 = 0.5,
+                            total_runtime = 1000,
+                            size_in_morgan = 1,
+                            markers = seq(0, 1, length.out = 100),
+                            num_threads = -1,
+                            seed = 43)
+  t3 <- Sys.time()
+
+  time_one_thread = difftime(t2, t1, units = "secs")[[1]]
+  time_all_threads = difftime(t3, t2, units = "secs")[[1]]
+  testthat::expect_lt(time_all_threads, time_one_thread)
+})

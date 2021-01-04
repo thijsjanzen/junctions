@@ -58,15 +58,13 @@ Output doSimulation_inf(int popSize,
         O.update_inf(Pop);
         if(numberOfMarkers > 0) O.detectNumJunctions(Pop, markers);
 
-        std::vector<Fish_inf> newGeneration;
+        std::vector<Fish_inf> newGeneration(popSize);
 
         for(int i = 0; i < popSize; ++i)  {
             int index1 = random_number(popSize);
             int index2 = random_number(popSize);
 
-            Fish_inf kid = mate_inf(Pop[index1], Pop[index2], numRecombinations);
-
-            newGeneration.push_back(kid);
+            newGeneration[i] = mate_inf(Pop[index1], Pop[index2], numRecombinations);
         }
 
         Pop = newGeneration;
@@ -105,17 +103,14 @@ Output doSimulation_fin(int popSize,
 
     for(int t = 0; t <= maxTime; ++t) {
         O.update_fin(Pop);
-        std::vector<Fish_fin> newGeneration;
+        std::vector<Fish_fin> newGeneration(popSize);
 
         for(int i = 0; i < popSize; ++i)
         {
             int index1 = random_number(popSize);
             int index2 = random_number(popSize);
 
-            Fish_fin kid;
-            kid = mate_fin(Pop[index1],Pop[index2], numRecombinations);
-
-            newGeneration.push_back(kid);
+            newGeneration[i] = mate_fin(Pop[index1],Pop[index2], numRecombinations);
         }
 
         Pop = newGeneration;
