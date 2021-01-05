@@ -11,13 +11,6 @@ test_that("unphased, use", {
                             time_points = c(50, 100),
                             seed = 43)
 
-  vy <- subset(vx, vx$time == 100)
-
-  a1 <- sum(vy$anc_chrom_1 != vy$anc_chrom_2) / length(vy$anc_chrom_1)
-  expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * population_size)) ^ max_t
-
-  testthat::expect_equal(a1, expected_heterozygosity, scale = 1, tolerance = 0.1)
-
   num_indiv <- length(unique(vx$individual))
   testthat::expect_equal(num_indiv, 10)
   testthat::expect_equal(length(unique(vx$time)), 2)
