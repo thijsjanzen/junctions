@@ -62,9 +62,9 @@ Output simulation_phased_nonphased(int popSize,
     tbb::parallel_for(
       tbb::blocked_range<unsigned>(0, popSize),
       [&](const tbb::blocked_range<unsigned>& r) {
+
+
         rnd_t rndgen2;
-
-
         for (unsigned i = r.begin(); i < r.end(); ++i) {
 
           int index1 = rndgen2.random_number(popSize);

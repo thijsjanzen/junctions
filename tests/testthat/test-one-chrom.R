@@ -1,12 +1,12 @@
 context("one_chromosome")
 test_that("one chrom, use", {
 
-  population_size <- 1000
-  run_time <- 20
+  population_size <- 100000
+  run_time <- 10
 
   vx <- sim_phased_unphased(pop_size = population_size,
                             total_runtime = run_time,
-                            markers = 1000,
+                            markers = 10000,
                             seed = 4,
                             time_points = run_time)
 
