@@ -34,6 +34,6 @@ test_that("one chrom, use", {
                             N = 1000,
                             H_0 = 0.5,
                             marker_distribution = focal_data$location,
-                            upper_lim = 10)
+                            upper_lim = 3)
   )
 })
