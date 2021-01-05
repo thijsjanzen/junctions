@@ -4,10 +4,10 @@
 \alias{time_error}
 \title{Estimate the error in the time estimate}
 \usage{
-time_error(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1, t = 1, relative = TRUE)
+time_error(t = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1, relative = TRUE)
 }
 \arguments{
-\item{J}{The number of junctions at time t}
+\item{t}{Inferred time}
 
 \item{N}{Population Size}
 
@@ -17,8 +17,6 @@ time_error(J = NA, N = Inf, R = Inf, H_0 = 0.5, C = 1, t = 1, relative = TRUE)
 
 \item{C}{Mean number of crossovers per meiosis (e.g. size in Morgan of
 the chromosome)}
-
-\item{t}{Inferred time}
 
 \item{relative}{Boolean flag, if TRUE: return the relative error, if FALSE:
 return error in generations}
@@ -32,7 +30,7 @@ hybridisation, following Equations 3 & 4 in the Supplementary information of
 Janzen et al. 2018.
 }
 \examples{
-time_error(J = 100, N = Inf, R = 1000, H_0 = 0.5, C = 1)
+time_error(t = 10, N = 100, R = 1000, H_0 = 0.5, C = 1, relative = TRUE)
 }
 \keyword{analytic}
 \keyword{error}
