@@ -97,7 +97,7 @@ test_that("unphased, use", {
                                    local_data$location,
                                    pop_size = 1000,
                                    freq_ancestor_1 = 0.1,
-                                   t = c(30, 100, 300))
+                                   t = c(30, 1000, 3000))
 
   testthat::expect_true(length(multi_ll) == 3)
   testthat::expect_gt(multi_ll[1], multi_ll[2])
