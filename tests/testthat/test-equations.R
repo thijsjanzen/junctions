@@ -24,45 +24,63 @@ test_that("calculate_J and error", {
   expect_equal(time_estim, max_time)
 
   expect_silent(
-    junctions::time_error(J = junc, N = 100, R = 1000,
+    junctions::time_error(N = 100, R = 1000,
                           H_0 = 0.5, C = 1, time_estim,
                           relative = TRUE)
   )
 
   expect_silent(
-    junctions::time_error(J = junc, N = 100,
+    junctions::time_error(N = 100,
                           R = 1000, H_0 = 0.5,
-                          C = 1, time_estim,
+                          C = 1, t = time_estim,
                           relative = FALSE)
   )
 
-  expect_silent(
+  a1 <- junctions::time_error(t = c(5, 10, 15),
+                        N = 100,
+                        R = 1000, H_0 = 0.5,
+                        C = 1,
+                        relative = FALSE)
+
+  a2 <- junctions::time_error(t = c(5, 10, 15),
+                        N = 100,
+                        R = 1000, H_0 = 0.5,
+                        C = 1,
+                        relative = TRUE)
+
+  for (i in seq_along(a1)) {
+    testthat::expect_lt(a2[i], a1[i])
+  }
+
+
+
+  testthat::expect_silent(
     junctions::calculate_mat(N = 100, R = 1000,
                              H_0 = 0.5, C = 1)
   )
 
-  expect_silent(
+  testthat::expect_silent(
     junctions::number_of_junctions(N = Inf, R = Inf,
                                    H_0 = 0.5, C = 1, max_time)
   )
 
-  expect_error(
+  testthat::expect_error(
     junctions::calculate_mat(N = Inf, R = Inf,
                              H_0 = 0.5, C = 1)
   )
 
-  expect_error(
+  testthat::expect_error(
     junctions::estimate_time(J = NA, N = 100,
                              R = 1000, H_0 = 0.5,
                              C = 1)
   )
 
-  expect_error(
+  testthat::expect_error(
     junctions::estimate_time(N = 100, R = 1000,
                              H_0 = 0.5, C = 1)
   )
 
-  expect_silent(
+  testthat::expect_silent(
     junctions::estimate_time(J = 100, N = Inf, R = Inf,
                              H_0 = 0.5, C = 1)
   )

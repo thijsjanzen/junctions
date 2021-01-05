@@ -22,21 +22,28 @@ time_error <- function(t = NA,
                        C = 1,      # nolint
                        relative = TRUE) {
 
-  if (is.na(t)) {
-    stop("please provide a value for t")
+  error_t <- function(x) {
+    if (is.na(x)) {
+      return(NA)
+    }
+
+    K <- junctions::calc_k(N = N,      # nolint
+                           R = R,      # nolint
+                           H_0 = H_0,  # nolint
+                           C = C)      # nolint
+
+    u <- 1 - 1 / (2 * N) - C / R
+
+    error <- log(u ^ x - 1 / K) / (log(u) * x) - 1
+    # the flag relative determines whether we want the error
+    # relative to K, or in absolute generations (relative = FALSE)
+    if (relative) return(error)
+    if (!relative) return(x * error)
   }
 
-  # the flag relative determines whether we want the error
-  # relative to K, or in absolute generations (relative = FALSE)
-  K <- junctions::calc_k(N = N,      # nolint
-                         R = R,      # nolint
-                         H_0 = H_0,  # nolint
-                         C = C)      # nolint
-
-  u <- 1 - 1 / (2 * N) - C / R
-
-  error <- log(u ^ t - 1 / K) / (log(u) * t) - 1
-
-  if (relative) return(error)
-  if (!relative) return(t * error)
+  output <- c()
+  for(i in seq_along(t)) {
+    output[i] = error_t(t[i])
+  }
+  return(output)
 }
