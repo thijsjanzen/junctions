@@ -10,18 +10,24 @@ test_that("one chrom, use", {
                             seed = 4,
                             time_points = run_time)
 
-  focal_data <- subset(vx, vx$time == run_time & vx$individual == 0)
-  time1 <- estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_1))),
-                                   N = population_size,
-                                   H_0 = 0.5,
-                                   marker_distribution = focal_data$location)
-  time2 <- estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_2))),
-                                   N = population_size,
-                                   H_0 = 0.5,
-                                   marker_distribution = focal_data$location)
-  cat("one chrom\n")
-  cat(time1, time2, "\n")
-  cat("one chrom\n")
+  found <- c()
+
+  for(i in unique(vx$individual)) {
+    focal_data <- subset(vx, vx$time == run_time & vx$individual == i)
+    time1 <- estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_1))),
+                                     N = population_size,
+                                     H_0 = 0.5,
+                                     marker_distribution = focal_data$location)
+    time2 <- estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_2))),
+                                     N = population_size,
+                                     H_0 = 0.5,
+                                     marker_distribution = focal_data$location)
+    cat(i, time1, time2, "\n")
+
+    found <- c(found, c(time1, time2))
+  }
+
+  testthat::expect_equal(mean(found), run_time, tolerance = 5)
 
   # induce marker error
   testthat::expect_error(
