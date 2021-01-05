@@ -22,24 +22,6 @@ test_that("unphased, use", {
   testthat::expect_equal(num_indiv, 10)
   testthat::expect_equal(length(unique(vx$time)), 2)
 
-  found <- c()
-  focal_time <- 100
-  for (indiv in unique(vx$individual)) {
-    local_data <- subset(vx, vx$individual == indiv &
-                           vx$time == focal_time)
-
-
-    estim_time <- estimate_time_unphased(cbind(local_data$anc_chrom_1,
-                                               local_data$anc_chrom_2),
-                                         local_data$location,
-                                         pop_size = population_size,
-                                         freq_ancestor_1 = 0.5,
-                                         upper_lim = 200)
-    found[indiv + 1] <- estim_time$minimum
-  }
-
-  testthat::expect_equal(mean(found), focal_time, tolerance = 5)
-
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 100)
   ll_100 <- loglikelihood_unphased(cbind(local_data$anc_chrom_1,
