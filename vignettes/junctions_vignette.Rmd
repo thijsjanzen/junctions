@@ -249,22 +249,20 @@ time_estim
 ```
 And we see that we indeed get the correct age (200 generations). To obtain the relative error in the estimate, we can make use of the function 'time_error':
 ```{r}
-time_error(J = J, 
+time_error(t = time_estim,
            N = 100, 
            R = 1000, 
            H_0 = 0.5, 
            C = 1, 
-           t = time_estim,
            relative = TRUE)
 ```
 If we prefer to have our error in absolute terms (e.g. in generations), then we can set the 'relative' flag to FALSE and obtain:
 ```{r}
-time_error(J = J, 
+time_error(t = time_estim,
            N = 100, 
            R = 1000, 
            H_0 = 0.5, 
            C = 1, 
-           t = time_estim, 
            relative = FALSE)
 ```
 Which seems like a reasonably low error. To get more insight in the estimated error, it might prove to be useful to calculate the maximum accurate time, t_MAT. This can be calculated using:
@@ -297,12 +295,11 @@ abline(v = calculate_mat(N = 100,
        lty = 2)
 par(new = T)
 
-v <- time_error(J = J, 
+v <- time_error(t = 0:(maximum_time - 1), #to avoid an error at t = maxT
                 N = 100, 
                 R = 1000, 
                 H_0 = 0.5, 
                 C = 1, 
-                0:(maximum_time - 1), #to avoid an error at t = maxT
                 relative = TRUE)
 plot(v, 
      col = "red", type = "l",
