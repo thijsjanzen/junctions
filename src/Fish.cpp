@@ -12,22 +12,6 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
-void add(std::vector< junction>& offspring,
-         const junction& new_junction) {
-
-    if (offspring.empty()) {
-        offspring.push_back(new_junction);
-        return;
-    }
-
-
-    if (new_junction.pos > offspring.back().pos &&
-        new_junction.right != offspring.back().right) {
-        offspring.push_back(new_junction);
-    }
-    return;
-}
-
 int getRecomPos(int L,
                 rnd_t& rnd) {
     int pos = -100;
@@ -39,66 +23,6 @@ int getRecomPos(int L,
     pos = index;
 
     return pos;
-}
-void do_recombination(std::vector<junction>& offspring,
-                      const std::vector<junction>& chromosome1,
-                      const std::vector<junction>& chromosome2,
-                      std::vector<double>& recomPos) {
-
-    /*
-     chrom 1:  [0    1
-     0.5  0
-     1.0 -1]
-
-     chrom 2:  [0    0
-     0.5  1
-     1.0 -1]
-
-     recomPos  = {0.75, 0.75};
-
-     new_chrom = [0      1
-     0.5    0
-     1.0   -1]
-
-     // std::lower_bound()
-
-     */
-
-    std::vector < std::vector<junction>::const_iterator > iters =
-        { chromosome1.begin(), chromosome2.begin() };
-
- //   recomPos.push_back(1.0); // for completeness
-
-    int index = 0;
-    int recompos_cnt = 0;
-
-    while(true) {
-
-        if ( iters[index]->pos > recomPos[recompos_cnt]  ) {
-            // encountered junction point
-            // create junction
-            index = 1 - index;
-            while( iters[index]->pos < recomPos[recompos_cnt]) {
-                iters[index]++;
-            }
-
-            auto prev_iter = iters[index];
-            prev_iter--;
-            junction new_junction(recomPos[recompos_cnt], prev_iter->right);
-            add(offspring, new_junction);
-
-            recompos_cnt++;
-        } else {
-            add(offspring, (*iters[index]));
-            iters[index]++;
-        }
-
-        if (offspring.back().right == -1) {
-            break;
-        }
-    }
-
-    return;
 }
 
 std::vector<junction> recombine_new(const std::vector<junction>& chromosome1,
@@ -163,7 +87,7 @@ std::vector<double> generate_recomPos(int number_of_recombinations,
     return recomPos;
 }
 
-void Recombine_inf(      std::vector<junction>& offspring,
+void Recombine_inf(        std::vector<junction>& offspring,
                      const std::vector<junction>& chromosome1,
                      const std::vector<junction>& chromosome2,
                      double MORGAN,
@@ -392,6 +316,33 @@ Fish_fin::Fish_fin(const bool initLoc, const int genomeSize) {
     chromosome1.resize(genomeSize, initLoc);
     chromosome2.resize(genomeSize, initLoc);
 }
+
+Fish_inf::Fish_inf(Fish_inf&& other) {
+    chromosome1 = other.chromosome1;
+    chromosome2 = other.chromosome2;
+}
+
+Fish_inf& Fish_inf::operator=(Fish_inf&& other) {
+    if (this != &other) {
+        chromosome1 = other.chromosome1;
+        chromosome2 = other.chromosome2;
+    }
+    return *this;
+}
+
+Fish_inf::Fish_inf(const Fish_inf& other) {
+    chromosome1 = other.chromosome1;
+    chromosome2 = other.chromosome2;
+}
+
+Fish_inf& Fish_inf::operator=(const Fish_inf& other) {
+    if (this != &other) {
+        chromosome1 = other.chromosome1;
+        chromosome2 = other.chromosome2;
+    }
+    return *this;
+}
+
 
 bool is_in_time_points(int t,
                        const Rcpp::NumericVector & time_points) {

@@ -33,6 +33,10 @@ struct Fish_inf {
 
     Fish_inf();
     Fish_inf(int initLoc);
+    Fish_inf(const Fish_inf& other);
+    Fish_inf(Fish_inf&& other);
+    Fish_inf& operator=(Fish_inf&& other);
+    Fish_inf& operator=(const Fish_inf& other);
 };
 
 struct Fish_fin  {
