@@ -1,17 +1,20 @@
 context("unphased")
 test_that("unphased, use", {
 
-  population_size <- 10000
+  population_size <- 100
+  max_t <- 100
   vx <- sim_phased_unphased(pop_size = population_size,
                             freq_ancestor_1 = 0.5,
-                            total_runtime = 100,
+                            total_runtime = max_t,
                             size_in_morgan = 1,
                             markers = 1000,
                             time_points = c(50, 100),
                             seed = 43)
 
-  a1 <- sum(vx$anc_chrom_1 != vx$anc_chrom_2) / length(vx$anc_chrom_1)
-  expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * population_size)) ^ 100
+  vy <- subset(vx, vx$time == 100)
+
+  a1 <- sum(vy$anc_chrom_1 != vy$anc_chrom_2) / length(vy$anc_chrom_1)
+  expected_heterozygosity <- 2 * 0.5 * 0.5 * (1 - 1 / (2 * population_size)) ^ max_t
 
   testthat::expect_equal(a1, expected_heterozygosity, scale = 1, tolerance = 0.1)
 

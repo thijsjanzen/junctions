@@ -39,8 +39,8 @@ test_that("optim_limits, use", {
 
   # test scaling up upper limit:
   estim_time3 <- optim_limits(lower = 2, upper = 20, calc_func = estim)
-  testthat::expect_warning(estim_time3 <- optim_limits(lower = 2,
-                                                       upper = 20,
+  testthat::expect_warning(optim_limits(lower = 2,
+                                                       upper = 3,
                                                        calc_func = estim,
                               iterations = 1))
 

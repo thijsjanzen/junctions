@@ -116,20 +116,10 @@ test_that("phased, pop size", {
                                   optim_pop_size = TRUE,
                                   verbose = TRUE)
 
+  cat(time2$par[1], time2$par[2], "\n")
+
   testthat::expect_true(abs(time2$par[1] - 500) / 500 < 0.5)
   testthat::expect_true(abs(time2$par[2] - 100) / 100 < 0.5)
-
-  time3 <- estimate_time_phased(local_anc_matrix = phased_data,
-                                locations = focal_data$location,
-                                pop_size = 1000,
-                                freq_ancestor_1 = 0.5,
-                                optim_pop_size = TRUE,
-                                verbose = TRUE)
-
-  testthat::expect_true(abs(time3$par[1] - 500) / 500 < 0.5)
-  testthat::expect_true(abs(time3$par[2] - 100) / 100 < 0.5)
-
-  testthat::expect_false(time2$par[1] == time3$par[1])
 })
 
 
@@ -163,7 +153,8 @@ test_that("phased, abuse", {
 
   testthat::expect_equal(time1, time2)
 
-  alt_data[alt_data == 3] <- 5
+  alt_data[alt_data == 1] <- 5
+
   testthat::expect_error(
     estimate_time_phased(local_anc_matrix = alt_data,
                          locations = focal_data$location,
