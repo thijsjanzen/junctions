@@ -7,7 +7,9 @@
 #include <Rcpp.h>
 #include <nloptrAPI.h>
 
+#ifdef __unix__
 #include <tbb/tbb.h>
+#endif
 
 #include "estimate_time_unphased_cpp.h"
 

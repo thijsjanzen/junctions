@@ -75,7 +75,7 @@ std::vector<double> generate_recomPos(size_t number_of_recombinations,
                                       rnd_t& rndgen) {
 
     std::vector<double> recomPos(number_of_recombinations, 0);
-    for(int i = 0; i < number_of_recombinations; ++i) {
+    for(size_t i = 0; i < number_of_recombinations; ++i) {
         recomPos[i] = rndgen.uniform();
     }
     std::sort(recomPos.begin(), recomPos.end());

@@ -4,7 +4,7 @@
 #include "Fish.h"
 #include "random_functions.h"
 
-#ifndef _WIN32
+#ifdef __unix__
 #include <tbb/tbb.h>
 #endif
 
@@ -15,7 +15,8 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>& pop,
                 int popSize,
                 int numRecombinations) {
-#ifdef __unix__
+
+#ifdef __unix__   // tbb is not supported correctly on windows.. I think
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
     [&](const tbb::blocked_range<unsigned>& r) {
@@ -73,7 +74,7 @@ Output simulation_phased_nonphased(int popSize,
   Fish_inf parent1 = Fish_inf(0);
   Fish_inf parent2 = Fish_inf(1);
 
-#ifndef _WIN32
+#ifdef __unix__
   tbb::task_scheduler_init _tbb((num_threads > 0) ? num_threads : tbb::task_scheduler_init::automatic);
 #endif
 

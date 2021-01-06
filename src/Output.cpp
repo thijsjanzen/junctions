@@ -111,10 +111,10 @@ std::vector<int> detect_ancestry(const std::vector< junction >& G,
 }
 
 void Output::update_unphased(const std::vector< Fish_inf >& Pop,
-                    int t,
+                    size_t t,
                     bool record_true_junctions,
                     double morgan,
-                    int num_indiv) {
+                    size_t num_indiv) {
 
     for(unsigned int i = 0; i < num_indiv; ++i) {
         std::vector<int> chrom1 = detect_ancestry(Pop[i].chromosome1, markers);
