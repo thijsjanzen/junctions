@@ -11,8 +11,8 @@
 #' @return \item{avgJunctions}{vector of the average number of junctions at
 #' time = [0, total_runtime]}
 #' @examples
-#' v <- sim_fin_chrom(pop_size = 100, freq_ancestor_1 = 0.5,
-#'                    total_runtime = 1000, morgan = 1, seed = 42,
+#' sim_fin_chrom(pop_size = 100, freq_ancestor_1 = 0.5,
+#'                    total_runtime = 10, morgan = 1, seed = 42,
 #'                    R = 100)
 #' @export
 sim_fin_chrom <- function(pop_size = 100,

@@ -38,7 +38,7 @@ for a chromosome with an infinite number of recombination sites.
 }
 \examples{
 v <- sim_inf_chrom(pop_size = 100, freq_ancestor_1 = 0.5,
-                   total_runtime = 1000, morgan = 1, markers = 100,
+                   total_runtime = 10, morgan = 1, markers = 100,
                    seed = 42)
 plot(v$avgJunctions, type = "l", xlab = "Generations",
 ylab = "Number of Junctions", main = "Example Infinite Chromosome")
