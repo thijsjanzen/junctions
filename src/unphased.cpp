@@ -15,23 +15,7 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>& pop,
                 int popSize,
                 int numRecombinations) {
-
-#ifdef _WIN32
-  rnd_t rndgen2;
-  for (unsigned i = 0; i < popSize; ++i) {
-
-    int index1 = rndgen2.random_number(popSize);
-    int index2 = rndgen2.random_number(popSize);
-    while(index2 == index1) index2 = rndgen2.random_number(popSize);
-
-    pop[i] = std::move(mate_inf(old_pop[index1],
-                                old_pop[index2],
-                                numRecombinations,
-                                rndgen2));
-  }
-#endif
-
-#ifndef _WIN32
+#ifdef __unix__
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
     [&](const tbb::blocked_range<unsigned>& r) {
@@ -44,12 +28,27 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
         while(index2 == index1) index2 = rndgen2.random_number(popSize);
 
         pop[i] =
-          std::move(mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
-                   rndgen2));
+          mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
+                             rndgen2);
       }
     }
   );
+#else
+  rnd_t rndgen2;
+  for (unsigned i = 0; i < popSize; ++i) {
+
+    int index1 = rndgen2.random_number(popSize);
+    int index2 = rndgen2.random_number(popSize);
+    while(index2 == index1) index2 = rndgen2.random_number(popSize);
+
+    pop[i] = mate_inf(old_pop[index1],
+                                old_pop[index2],
+                                numRecombinations,
+                                rndgen2);
+  }
 #endif
+
+
   return;
 }
 

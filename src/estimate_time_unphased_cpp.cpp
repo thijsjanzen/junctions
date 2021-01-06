@@ -361,7 +361,7 @@ double chromosome::calculate_likelihood(double t,
                         states[1], t, pop_size, freq_ancestor_1, false);
 
 
-#ifndef _WIN32
+#ifdef __unix__
   tbb::task_scheduler_init _tbb((detail::num_threads > 0) ? detail::num_threads : tbb::task_scheduler_init::automatic);
 
   tbb::parallel_for(
@@ -376,8 +376,7 @@ double chromosome::calculate_likelihood(double t,
       }
     }
   );
-#endif
-#ifdef _WIN32
+#else
   for (unsigned i = 0; i < distances.size(); ++i) {
     double di = distances[i];
     double l = states[i];
