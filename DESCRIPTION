@@ -17,6 +17,6 @@ Imports: Rcpp,
          nloptr
 Suggests: knitr, 
           testthat
-SystemRequirements: C++14
+SystemRequirements: C++14, GNU make
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
