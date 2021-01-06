@@ -11,6 +11,7 @@
 #' in Morgan.
 #' @return Estimated number of observed junctions at time t
 #' @examples
+#' cat("example number of junctions markers")
 #' markers <- seq(from = 0, to = 1, length.out = 1000)
 #' jt <-  number_of_junctions_markers(N = 100,
 #'                                   H_0 = 0.5,
