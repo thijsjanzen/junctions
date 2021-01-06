@@ -116,7 +116,7 @@ test_that("phased, pop size", {
                                   optim_pop_size = TRUE,
                                   verbose = TRUE)
 
-  cat(time2$par[1], time2$par[2], "\n")
+  testthat::expect_equal(length(time2$par), 2)
 })
 
 

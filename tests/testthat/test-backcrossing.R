@@ -1,7 +1,7 @@
 context("backcross")
 test_that("backcross, use", {
 
-    vx <- sim_backcrossing(population_size = 10000,
+  vx <- sim_backcrossing(population_size = 10000,
                            total_runtime = 10,
                            freq_ancestor_1 = 0.5,
                            time_points = 1:10,
