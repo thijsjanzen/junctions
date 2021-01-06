@@ -2,14 +2,14 @@ context("equations")
 
 test_that("calc_K", {
   v1 <- junctions::calc_k(R = 10)
-  expect_equal(v1, 5)
+  testthat::expect_equal(v1, 5)
 
   v2 <- junctions::calc_k(N = 10)
-  expect_equal(v2, 10)
+  testthat::expect_equal(v2, 10)
 
   v3 <- junctions::calc_k()
   a <- is.infinite(v3)
-  expect_equal(a, TRUE)
+  testthat::expect_equal(a, TRUE)
 })
 
 test_that("calculate_J and error", {

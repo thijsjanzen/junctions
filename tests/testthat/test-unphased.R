@@ -154,29 +154,3 @@ test_that("unphased_cpp", {
   }
 })
 
-test_that("unphased, threads", {
-
-  skip_on_cran()
-  skip_on_ci()
-  population_size <- 1000
-
-  t1 <- Sys.time()
-  vx <- sim_phased_unphased(pop_size = population_size,
-                            freq_ancestor_1 = 0.5,
-                            total_runtime = 1000,
-                            size_in_morgan = 3,
-                            seed = 5,
-                            num_threads = 1)
-  t2 <- Sys.time()
-  vy <- sim_phased_unphased(pop_size = population_size,
-                            freq_ancestor_1 = 0.5,
-                            total_runtime = 1000,
-                            size_in_morgan = 3,
-                            seed = 5,
-                            num_threads = -1)
-  t3 <- Sys.time()
-
-  time_one_thread = difftime(t2, t1, units = "secs")[[1]]
-  time_all_threads = difftime(t3, t2, units = "secs")[[1]]
-  testthat::expect_lt(time_all_threads, time_one_thread)
-})
