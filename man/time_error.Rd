@@ -30,6 +30,7 @@ hybridisation, following Equations 3 & 4 in the Supplementary information of
 Janzen et al. 2018.
 }
 \examples{
+cat("example time_error")
 time_error(t = 10, N = 100, R = 1000, H_0 = 0.5, C = 1, relative = TRUE)
 }
 \keyword{analytic}

@@ -58,6 +58,7 @@ returning phased and unphased data. Ancestry on both chromosomes of 10
 randomly sampled individuals per generations is returned.
 }
 \examples{
+cat("example sim phased unphased")
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
                     total_runtime = 10, size_in_morgan = 1,
                     markers = 10, time_points = c(0, 5, 10),

@@ -25,6 +25,7 @@ number of generations, provided information on the initial heterozygosity,
 population size and the number of generations.
 }
 \examples{
+cat("example calc_k")
 k <-  calc_k(N = 100, R = 1000, H_0 = 0.5, C = 1)
 }
 \keyword{junctions}

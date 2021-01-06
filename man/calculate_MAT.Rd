@@ -26,6 +26,7 @@ the onset of hybridization. This is following equation 15 in
 Janzen et al. 2018.
 }
 \examples{
+cat("example calculate mat")
 calculate_mat(N = Inf, R = 1000, H_0 = 0.5, C = 1)
 }
 \keyword{analytic}
