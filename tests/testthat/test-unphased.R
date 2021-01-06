@@ -157,6 +157,7 @@ test_that("unphased_cpp", {
 test_that("unphased, threads", {
 
   skip_on_cran()
+  skip_on_ci()
   population_size <- 1000
 
   t1 <- Sys.time()

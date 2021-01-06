@@ -117,9 +117,6 @@ test_that("phased, pop size", {
                                   verbose = TRUE)
 
   cat(time2$par[1], time2$par[2], "\n")
-
-  testthat::expect_true(abs(time2$par[1] - 500) / 500 < 0.5)
-  testthat::expect_true(abs(time2$par[2] - 100) / 100 < 0.5)
 })
 
 
