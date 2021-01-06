@@ -164,12 +164,14 @@ test_that("unphased, threads", {
                             freq_ancestor_1 = 0.5,
                             total_runtime = 1000,
                             size_in_morgan = 3,
+                            seed = 5,
                             num_threads = 1)
   t2 <- Sys.time()
   vy <- sim_phased_unphased(pop_size = population_size,
                             freq_ancestor_1 = 0.5,
                             total_runtime = 1000,
                             size_in_morgan = 3,
+                            seed = 5,
                             num_threads = -1)
   t3 <- Sys.time()
 
