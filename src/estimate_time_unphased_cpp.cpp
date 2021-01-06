@@ -17,11 +17,11 @@ void force_output() {
   R_FlushConsole();
   R_ProcessEvents();
   R_CheckUserInterrupt();
- // ::sleep(1);
+  // ::sleep(1);
 }
 
 namespace detail {
-   int num_threads = -1;
+int num_threads = -1;
 }
 
 
@@ -49,7 +49,7 @@ struct chromosome {
 
     for(int i = 0; i < loc.size(); ++i) {
       if (i > 0) distances.push_back(loc[i] - loc[i - 1]);
-    //  assert(anc_matrix[i].size() == 2);
+      //  assert(anc_matrix[i].size() == 2);
       if (anc_matrix[i][0] == anc_matrix[i][1]) {
         states[i] = anc_matrix[i][0];
       }
@@ -100,9 +100,9 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
   for(int i = 0; i < local_anc_matrix.nrow(); ++i) {
     if (local_anc_matrix(i, 0) != current_chrom) {
       current_chrom = local_anc_matrix(i, 0);
-    //  Rcpp::Rcout << "creating new chrom\n"; force_output();
+      //  Rcpp::Rcout << "creating new chrom\n"; force_output();
       chromosome new_chrom(chrom_matrix, locations);
-    //  Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
+      //  Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
       output.push_back(new_chrom);
       chrom_matrix.clear();
     }
@@ -112,7 +112,7 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
     chrom_matrix.push_back(add);
   }
   chromosome new_chrom(chrom_matrix, locations);
- // Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
+  // Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
   output.push_back(new_chrom);
 
   return output;
@@ -141,10 +141,10 @@ std::vector<double> estimate_time_unphased_cpp(const Rcpp::NumericMatrix& local_
 
   detail::num_threads = num_threads;
 
-//  Rcpp::Rcout << "reading chromosomes into memory\n"; force_output();
+  //  Rcpp::Rcout << "reading chromosomes into memory\n"; force_output();
   std::vector< chromosome > chromosomes = create_chromosomes(local_anc_matrix, locations);
-//  Rcpp::Rcout << chromosomes.size() << "\n"; force_output();
-//  Rcpp::Rcout << "chromosomes read into memory\n"; force_output();
+  //  Rcpp::Rcout << chromosomes.size() << "\n"; force_output();
+  //  Rcpp::Rcout << "chromosomes read into memory\n"; force_output();
 
   nlopt_f_data optim_data(chromosomes, pop_size, freq_ancestor_1);
 
@@ -191,12 +191,12 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   double freq_ancestor_1,
                                   double t) {
 
- // Rcpp::Rcout << "loading chromosome\n"; //force_output();
+  // Rcpp::Rcout << "loading chromosome\n"; //force_output();
 
   chromosome focal_chrom(local_anc_matrix,
                          locations);
 
-//  Rcpp::Rcout << "starting likelihood calculation\n"; force_output();
+  //  Rcpp::Rcout << "starting likelihood calculation\n"; force_output();
 
   double ll = focal_chrom.calculate_likelihood(t, pop_size, freq_ancestor_1);
   return ll;
@@ -358,9 +358,10 @@ double chromosome::calculate_likelihood(double t,
   std::vector< double> ll(distances.size());
   ll[0] = calc_ll(distances[0],
                   states[0],
-                  states[1], t, pop_size, freq_ancestor_1, false);
+                        states[1], t, pop_size, freq_ancestor_1, false);
 
 
+#ifndef _WIN32
   tbb::task_scheduler_init _tbb((detail::num_threads > 0) ? detail::num_threads : tbb::task_scheduler_init::automatic);
 
   tbb::parallel_for(
@@ -375,6 +376,16 @@ double chromosome::calculate_likelihood(double t,
       }
     }
   );
+#endif
+#ifdef _WIN32
+  for (unsigned i = 0; i < distances.size(); ++i) {
+    double di = distances[i];
+    double l = states[i];
+    double r = states[i + 1];
+    ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true);
+  }
+
+#endif
 
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
   return(answer);

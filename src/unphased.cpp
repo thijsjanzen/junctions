@@ -4,10 +4,55 @@
 #include "Fish.h"
 #include "random_functions.h"
 
+#ifndef _WIN32
 #include <tbb/tbb.h>
+#endif
 
 #include <Rcpp.h>
 using namespace Rcpp;
+
+void update_pop(const std::vector<Fish_inf>& old_pop,
+                std::vector<Fish_inf>& pop,
+                int popSize,
+                int numRecombinations) {
+
+#ifdef _WIN32
+  rnd_t rndgen2;
+  for (unsigned i = 0; i < popSize; ++i) {
+
+    int index1 = rndgen2.random_number(popSize);
+    int index2 = rndgen2.random_number(popSize);
+    while(index2 == index1) index2 = rndgen2.random_number(popSize);
+
+    pop[i] = std::move(mate_inf(old_pop[index1],
+                                old_pop[index2],
+                                numRecombinations,
+                                rndgen2));
+  }
+#endif
+
+#ifndef _WIN32
+  tbb::parallel_for(
+    tbb::blocked_range<unsigned>(0, popSize),
+    [&](const tbb::blocked_range<unsigned>& r) {
+
+      rnd_t rndgen2;
+      for (unsigned i = r.begin(); i < r.end(); ++i) {
+
+        int index1 = rndgen2.random_number(popSize);
+        int index2 = rndgen2.random_number(popSize);
+        while(index2 == index1) index2 = rndgen2.random_number(popSize);
+
+        pop[i] =
+          std::move(mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
+                   rndgen2));
+      }
+    }
+  );
+#endif
+  return;
+}
+
 
 Output simulation_phased_nonphased(int popSize,
                                    double initRatio,
@@ -29,7 +74,9 @@ Output simulation_phased_nonphased(int popSize,
   Fish_inf parent1 = Fish_inf(0);
   Fish_inf parent2 = Fish_inf(1);
 
+#ifndef _WIN32
   tbb::task_scheduler_init _tbb((num_threads > 0) ? num_threads : tbb::task_scheduler_init::automatic);
+#endif
 
   for (int i = 0; i < popSize; ++i) {
     Fish_inf p1 = parent2;
@@ -58,25 +105,7 @@ Output simulation_phased_nonphased(int popSize,
 
     std::vector< Fish_inf > newGeneration(popSize);
 
-
-    tbb::parallel_for(
-      tbb::blocked_range<unsigned>(0, popSize),
-      [&](const tbb::blocked_range<unsigned>& r) {
-
-
-        rnd_t rndgen2;
-        for (unsigned i = r.begin(); i < r.end(); ++i) {
-
-          int index1 = rndgen2.random_number(popSize);
-          int index2 = rndgen2.random_number(popSize);
-          while(index2 == index1) index2 = rndgen2.random_number(popSize);
-
-          newGeneration[i] =
-            mate_inf(Pop[index1], Pop[index2], numRecombinations,
-                     rndgen2);
-        }
-      }
-    );
+    update_pop(Pop, newGeneration, popSize, numRecombinations);
 
     Pop.swap(newGeneration);
 
