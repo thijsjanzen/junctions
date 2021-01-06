@@ -71,7 +71,7 @@ std::vector<junction> recombine_new(const std::vector<junction>& chromosome1,
     return go;
 }
 
-std::vector<double> generate_recomPos(int number_of_recombinations,
+std::vector<double> generate_recomPos(size_t number_of_recombinations,
                                       rnd_t& rndgen) {
 
     std::vector<double> recomPos(number_of_recombinations, 0);
@@ -206,7 +206,7 @@ void Recombine_fin(std::vector<bool>* offspring,
     int order = 0;
     int start = 0;
 
-    for (int i = 0; i < recomPos.size(); ++i) {
+    for (size_t i = 0; i < recomPos.size(); ++i) {
         int end = recomPos[i];
         if (order == 0) {  // add the first chromosome
             offspring->insert(offspring->end(),

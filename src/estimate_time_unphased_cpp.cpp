@@ -78,7 +78,7 @@ double objective(unsigned int n, const double* x, double*, void* func_data)
 {
   auto psd = reinterpret_cast<nlopt_f_data*>(func_data);
   std::vector<double> ll(psd->chromosomes.size());
-  for(int i = 0; i < psd->chromosomes.size(); ++i) {
+  for(size_t i = 0; i < psd->chromosomes.size(); ++i) {
     ll[i] = psd->chromosomes[i].calculate_likelihood(x[0], psd->N, psd->p);
   }
   //Rcpp::Rcout << x[0] << " " << ll[0] << "\n"; force_output();
