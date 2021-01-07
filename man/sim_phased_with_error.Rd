@@ -64,9 +64,10 @@ user-provided error rate. Ancestry on both chromosomes of 10 randomly sampled
 individuals per generations is returned.
 }
 \examples{
-cat("example sim phased with error")
+\dontrun{
 sim_phased_with_error(pop_size = 100, freq_ancestor_1 = 0.5,
-                    total_runtime = 10, size_in_morgan = 1,
-                    markers = 10, time_points = c(10),
+                    total_runtime = 1000, size_in_morgan = 1,
+                    markers = 10, time_points = c(100),
                     seed = 42, coverage = 0.9, error_rate = 0.01)
+ }
 }

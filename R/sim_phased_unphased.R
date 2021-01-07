@@ -23,11 +23,12 @@
 #' @return a tibble with five columns: [time, individual, marker location,
 #'                             ancestry chromosome 1, ancestry chromosome 2]
 #' @examples
-#' cat("example sim phased unphased")
+#' \dontrun{
 #' sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
 #'                     total_runtime = 10, size_in_morgan = 1,
 #'                     markers = 10, time_points = c(0, 5, 10),
 #'                     seed = 42, num_threads = 1)
+#' }
 #' @export
 sim_phased_unphased <- function(pop_size = 100,
                                 freq_ancestor_1 = 0.5,

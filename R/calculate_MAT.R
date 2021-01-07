@@ -10,7 +10,6 @@
 #'          the chromosome)
 #' @return The maximum accurate time
 #' @examples
-#' cat("example calculate mat")
 #' calculate_mat(N = Inf, R = 1000, H_0 = 0.5, C = 1)
 #' @keywords analytic time error
 #' @export
