@@ -35,12 +35,4 @@ test_that("one chrom, use", {
                                    N = 1000,
                                    H_0 = 0.5)
   )
-
-  testthat::expect_warning(
-    estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_1))),
-                            N = 1000,
-                            H_0 = 0.5,
-                            marker_distribution = focal_data$location,
-                            upper_lim = 3)
-  )
 })
