@@ -29,15 +29,14 @@ std::vector<junction> recombine_new(const std::vector<junction>& chromosome1,
                                     const std::vector<junction>& chromosome2,
                                     const std::vector<double>& recom_positions) {
 
-    static thread_local auto tl_go = decltype(chromosome1){};
     assert(!chromosome1.empty());    // not strictly enforced by code
     assert(!chromosome2.empty());    // not strictly enforced bu code
 
     // we need something that is cheaply swappable:
     auto* g1 = &chromosome1;
     auto* g2 = &chromosome2;
-    auto& go = tl_go;   // offspring genome: recycle what's already there...
-    go.clear();
+    std::vector<junction> go;   // offspring genome: recycle what's already there...
+
 
     // predicate for lower_bound
     auto less = [](const auto& j, double p) { return j.pos < p; };
