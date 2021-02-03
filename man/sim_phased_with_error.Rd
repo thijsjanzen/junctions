@@ -43,7 +43,7 @@ ancestry is recorded at every generation (computationally heavy).}
 
 \item{num_threads}{number of threads}
 
-\item{verbose}{displays a progress bar}
+\item{verbose}{displays a progress bar, default is FALSE}
 
 \item{num_indiv_sampled}{the number of individuals sampled at each time point
 to be genotyped}

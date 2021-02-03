@@ -18,7 +18,7 @@
 #' ancestry is recorded at every generation (computationally heavy).
 #' @param seed Seed of the pseudo-random number generator
 #' @param num_threads number of threads
-#' @param verbose displays a progress bar
+#' @param verbose displays a progress bar, default is FALSE
 #' @param num_indiv_sampled the number of individuals sampled at each time point
 #' to be genotyped
 #' @param coverage fraction of markers that can be succesfully phased
