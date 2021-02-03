@@ -14,7 +14,7 @@ sim_phased_with_error(
   time_points = -1,
   seed = NULL,
   num_threads = -1,
-  verbose = TRUE,
+  verbose = FALSE,
   num_indiv_sampled = 10,
   coverage = 1,
   error_rate = 0
