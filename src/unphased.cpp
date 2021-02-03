@@ -4,9 +4,8 @@
 #include "Fish.h"
 #include "random_functions.h"
 
-#ifdef __unix__
-#include <tbb/tbb.h>
-#endif
+#include <RcppParallel.h>
+
 
 #include <Rcpp.h>
 using namespace Rcpp;
@@ -15,8 +14,8 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>& pop,
                 int popSize,
                 int numRecombinations) {
-/*
-#ifdef __unix__   // tbb is not supported correctly on windows.. I think
+
+//#ifdef __unix__   // tbb is not supported correctly on windows.. I think
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
     [&](const tbb::blocked_range<unsigned>& r) {
@@ -34,9 +33,11 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
       }
     }
   );
+
+  /*
 #else
 
- */
+
   rnd_t rndgen2;
   for (unsigned i = 0; i < popSize; ++i) {
 
@@ -49,8 +50,8 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                                 numRecombinations,
                                 rndgen2);
   }
-// #endif
-
+ #endif
+*/
 
   return;
 }
@@ -76,9 +77,9 @@ Output simulation_phased_nonphased(int popSize,
   Fish_inf parent1 = Fish_inf(0);
   Fish_inf parent2 = Fish_inf(1);
 
-#ifdef __unix__
+//#ifdef __unix__
   tbb::task_scheduler_init _tbb((num_threads > 0) ? num_threads : tbb::task_scheduler_init::automatic);
-#endif
+//#endif
 
   for (int i = 0; i < popSize; ++i) {
     Fish_inf p1 = parent2;
