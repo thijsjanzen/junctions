@@ -31,8 +31,8 @@ test_that("optim_limits, use", {
                          upper_lim = upper)
   }
 
-  estim_time2 <- optim_limits(lower = 2, upper = 200, calc_func = estim,
-                              verbose = TRUE)
+
+  estim_time2 <- optim_limits(lower = 2, upper = 200, calc_func = estim)
 
   testthat::expect_equal(estim_time, estim_time2)
 
@@ -48,8 +48,10 @@ test_that("optim_limits, use", {
   estim_time4 <- optim_limits(lower = 500, upper = 1000, calc_func = estim)
 
 
-  estim_time <- optim_limits(lower = 500, upper = 1000, calc_func = estim,
-                             verbose = TRUE)
+  testthat::expect_output(
+   estim_time <- optim_limits(lower = 500, upper = 1000, calc_func = estim,
+                              verbose = TRUE)
+  )
 
   testthat::expect_warning(
     estim_time4 <- optim_limits(lower = 500, upper = 1000, calc_func = estim,

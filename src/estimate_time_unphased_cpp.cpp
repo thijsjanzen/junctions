@@ -152,7 +152,7 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
 //' @param lower_lim lower limit
 //' @param upper_lim upper limit
 //' @param verbose use verbose output
-//' @param phasing is the data phased or not?
+//' @param phased is the data phased or not?
 //' @param num_threads, default is all threads. 5 threads is recommended.
 //' @export
 // [[Rcpp::export]]
@@ -212,6 +212,7 @@ std::vector<double> estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matri
 //' @param pop_size population size
 //' @param freq_ancestor_1 frequency of the most common ancestor
 //' @param t time
+//' @param phased is the data phased or not?
 //' @param num_threads number of threads, default is all threads (-1).
 //' @export
 // [[Rcpp::export]]

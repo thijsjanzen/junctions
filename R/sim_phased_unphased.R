@@ -38,7 +38,7 @@ sim_phased_unphased <- function(pop_size = 100,
                                 time_points = -1,
                                 seed = NULL,
                                 num_threads = -1,
-                                verbose = TRUE,
+                                verbose = FALSE,
                                 record_true_junctions = FALSE,
                                 num_indiv_sampled = 10) {
   if (length(time_points) == 1) {

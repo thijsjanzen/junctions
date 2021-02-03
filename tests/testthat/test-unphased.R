@@ -127,7 +127,7 @@ test_that("cpp likelihoods", {
                             time_points = seq(100, 900, by = 100),
                             num_threads = 1,
                             seed = 42)
-
+  t <- 500
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == t)
 
@@ -164,7 +164,6 @@ test_that("cpp likelihoods", {
                                       phased = TRUE)
 
     testthat::expect_equal(ll3, ll4)
-    cat(t, ll1, ll2, ll3, ll4, "\n")
   }
 })
 
@@ -201,7 +200,6 @@ test_that("unphased_cpp", {
                                        upper_lim = 1000,
                                        verbose = FALSE,
                                        phased = FALSE)
-    cat(t, age1$minimum, age2[1], "\n")
     testthat::expect_equal(age1$minimum, age2[1], tolerance = 10)
   }
 })

@@ -13,7 +13,7 @@ sim_phased_unphased(
   time_points = -1,
   seed = NULL,
   num_threads = -1,
-  verbose = TRUE,
+  verbose = FALSE,
   record_true_junctions = FALSE,
   num_indiv_sampled = 10
 )

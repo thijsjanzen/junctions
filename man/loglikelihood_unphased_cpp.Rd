@@ -10,7 +10,8 @@ loglikelihood_unphased_cpp(
   pop_size,
   freq_ancestor_1,
   t,
-  phased
+  phased,
+  num_threads = -1L
 )
 }
 \arguments{
@@ -23,6 +24,10 @@ loglikelihood_unphased_cpp(
 \item{freq_ancestor_1}{frequency of the most common ancestor}
 
 \item{t}{time}
+
+\item{phased}{is the data phased or not?}
+
+\item{num_threads}{number of threads, default is all threads (-1).}
 }
 \description{
 function to calculate log likelihood using cpp

@@ -32,7 +32,6 @@ test_that("phased, use", {
   testthat::expect_equal(mean(found), focal_time, tolerance = 10)
 
 
-
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 100)
   ll_100 <- loglikelihood_phased(cbind(local_data$anc_chrom_1,
@@ -113,8 +112,7 @@ test_that("phased, pop size", {
                                   locations = focal_data$location,
                                   pop_size = 100,
                                   freq_ancestor_1 = 0.5,
-                                  optim_pop_size = TRUE,
-                                  verbose = TRUE)
+                                  optim_pop_size = TRUE)
 
   testthat::expect_equal(length(time2$par), 2)
 })
@@ -139,8 +137,7 @@ test_that("phased, abuse", {
   time1 <- estimate_time_unphased(local_anc_matrix = alt_data,
                                   locations = focal_data$location,
                                   pop_size = 100,
-                                  freq_ancestor_1 = 0.5,
-                                  verbose = TRUE)
+                                  freq_ancestor_1 = 0.5)
 
   phased_data <- cbind(focal_data$anc_chrom_1, focal_data$anc_chrom_2)
   time2 <- estimate_time_unphased(local_anc_matrix = phased_data,
@@ -203,6 +200,7 @@ test_that("phased, expectation", {
                             time_points = c(20),
                             seed = 42,
                             record_true_junctions = TRUE)
+
   a <- mean(c(vx$true_results$junctions_chrom_1,
               vx$true_results$junctions_chrom_2))
 
@@ -230,8 +228,7 @@ test_that("phased_cpp optim time", {
                                    local_data$location,
                                    pop_size = 100,
                                    freq_ancestor_1 = 0.5,
-                                   upper_lim = 2000,
-                                   verbose = FALSE)
+                                   upper_lim = 2000)
 
     age2 <- estimate_time_cpp(cbind(1,
                                              local_data$anc_chrom_1,
@@ -241,7 +238,6 @@ test_that("phased_cpp optim time", {
                                        freq_ancestor_1 = 0.5,
                                        lower_lim = 2,
                                        upper_lim = 1000,
-                                       verbose = FALSE,
                                        phased = TRUE)
     cat(t, age1$minimum, age2[1], "\n")
     testthat::expect_equal(age1$minimum, age2[1], tolerance = 10)

@@ -38,8 +38,6 @@ test_that("markers, use", {
                                   marker_distribution = sim_markers)
 
     found_exp <- rbind(found_exp, expected_junctions)
-
-    cat(r, "\n")
   }
 
   found_obs <- colMeans(found_obs)
@@ -78,7 +76,6 @@ test_that("estimate time", {
                                               H_0 = 0.5,
                                               marker_distribution = sim_markers)
     all_times <- c(all_times, estimated_time)
-    cat(r, "\n")
   }
 
   testthat::expect_equal(mean(all_times), total_runtime,

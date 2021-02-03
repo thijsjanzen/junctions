@@ -12,7 +12,7 @@ test_that("one chrom, use", {
 
   found <- c()
 
-  for(i in unique(vx$individual)) {
+  for (i in unique(vx$individual)) {
     focal_data <- subset(vx, vx$time == run_time & vx$individual == i)
     time1 <- estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_1))),
                                      N = population_size,
@@ -22,7 +22,6 @@ test_that("one chrom, use", {
                                      N = population_size,
                                      H_0 = 0.5,
                                      marker_distribution = focal_data$location)
-    cat(i, time1, time2, "\n")
 
     found <- c(found, c(time1, time2))
   }

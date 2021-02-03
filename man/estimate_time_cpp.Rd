@@ -31,9 +31,9 @@ estimate_time_cpp(
 
 \item{verbose}{use verbose output}
 
-\item{num_threads, }{default is all threads. 5 threads is recommended.}
+\item{phased}{is the data phased or not?}
 
-\item{phasing}{is the data phased or not?}
+\item{num_threads, }{default is all threads. 5 threads is recommended.}
 }
 \description{
 function to calculate log likelihood using cpp
