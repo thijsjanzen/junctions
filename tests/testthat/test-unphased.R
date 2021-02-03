@@ -118,6 +118,57 @@ test_that("unphased, pop size", {
   testthat::expect_equal(length(vy$par), 2)
 })
 
+test_that("cpp likelihoods", {
+  vx <- sim_phased_unphased(pop_size = 100,
+                            freq_ancestor_1 = 0.5,
+                            total_runtime = 1000,
+                            size_in_morgan = 1,
+                            markers = 1000,
+                            time_points = seq(100, 900, by = 100),
+                            num_threads = 1,
+                            seed = 42)
+
+  local_data <- subset(vx, vx$individual == 0 &
+                         vx$time == t)
+
+  anc_matrix <- cbind(local_data$anc_chrom_1,
+                      local_data$anc_chrom_2)
+
+  for (t in c(2, 100, 1000)) {
+    ll1 <- loglikelihood_unphased(local_anc_matrix = anc_matrix,
+                                  locations = local_data$location,
+                                  pop_size = 100,
+                                  t = t,
+                                  freq_ancestor_1 = 0.5)
+
+    ll2 <- loglikelihood_unphased_cpp(local_anc_matrix = anc_matrix,
+                                      locations = local_data$location,
+                                      pop_size = 100,
+                                      freq_ancestor_1 = 0.5,
+                                      t = t,
+                                      phased = FALSE)
+
+    testthat::expect_equal(ll1, ll2)
+
+    ll3 <- loglikelihood_phased(local_anc_matrix = anc_matrix,
+                                locations = local_data$location,
+                                pop_size = 100,
+                                t = t,
+                                freq_ancestor_1 = 0.5)
+
+    ll4 <- loglikelihood_unphased_cpp(local_anc_matrix = anc_matrix,
+                                      locations = local_data$location,
+                                      pop_size = 100,
+                                      freq_ancestor_1 = 0.5,
+                                      t = t,
+                                      phased = TRUE)
+
+    testthat::expect_equal(ll3, ll4)
+    cat(t, ll1, ll2, ll3, ll4, "\n")
+  }
+})
+
+
 test_that("unphased_cpp", {
   vx <- sim_phased_unphased(pop_size = 100,
                             freq_ancestor_1 = 0.5,
@@ -128,7 +179,7 @@ test_that("unphased_cpp", {
                             num_threads = 1,
                             seed = 42)
 
-  for(t in unique(vx$time)) {
+  for (t in unique(vx$time)) {
     local_data <- subset(vx, vx$individual == 0 &
                            vx$time == t)
 
@@ -140,7 +191,7 @@ test_that("unphased_cpp", {
                                    upper_lim = 2000,
                                    verbose = FALSE)
 
-    age2 <- estimate_time_unphased_cpp(cbind(1,
+    age2 <- estimate_time_cpp(cbind(1,
                                              local_data$anc_chrom_1,
                                              local_data$anc_chrom_2),
                                        local_data$location,
@@ -148,7 +199,8 @@ test_that("unphased_cpp", {
                                        freq_ancestor_1 = 0.5,
                                        lower_lim = 2,
                                        upper_lim = 1000,
-                                       verbose = FALSE)
+                                       verbose = FALSE,
+                                       phased = FALSE)
     cat(t, age1$minimum, age2[1], "\n")
     testthat::expect_equal(age1$minimum, age2[1], tolerance = 10)
   }

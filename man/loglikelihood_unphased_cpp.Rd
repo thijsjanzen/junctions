@@ -9,7 +9,8 @@ loglikelihood_unphased_cpp(
   locations,
   pop_size,
   freq_ancestor_1,
-  t
+  t,
+  phased
 )
 }
 \arguments{

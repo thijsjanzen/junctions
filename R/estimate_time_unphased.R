@@ -161,6 +161,10 @@ estimate_time_unphased <- function(local_anc_matrix,
     stop("local ancestry labels should be [1, 2, 3] for homozygous anc 1,
          homozygous anc 2 and heterozygous\n")
   }
+  if (length(local_anc) < 2) {
+    stop("not enough markers provided")
+  }
+
 
   to_analyze <- cbind(distances,
                       local_anc[1:(length(local_anc) - 1)],
