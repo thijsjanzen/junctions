@@ -238,8 +238,8 @@ test_that("phased_cpp optim time", {
                                        freq_ancestor_1 = 0.5,
                                        lower_lim = 2,
                                        upper_lim = 1000,
-                                       phased = TRUE)
-    cat(t, age1$minimum, age2[1], "\n")
+                                       phased = TRUE,
+                                       verbose = FALSE)
     testthat::expect_equal(age1$minimum, age2[1], tolerance = 10)
   }
 })
