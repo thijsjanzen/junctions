@@ -15,7 +15,7 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>& pop,
                 int popSize,
                 int numRecombinations) {
-
+/*
 #ifdef __unix__   // tbb is not supported correctly on windows.. I think
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
@@ -35,6 +35,8 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
     }
   );
 #else
+
+ */
   rnd_t rndgen2;
   for (unsigned i = 0; i < popSize; ++i) {
 
@@ -47,7 +49,7 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                                 numRecombinations,
                                 rndgen2);
   }
-#endif
+// #endif
 
 
   return;

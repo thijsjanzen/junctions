@@ -206,3 +206,72 @@ test_that("unphased_cpp", {
   }
 })
 
+test_that("unphased, junctions", {
+
+  N <- 1000
+  R <- 1000
+  t <- 100
+  H_0 <- 0.5
+  C <- 1
+
+  vx <- sim_phased_unphased(pop_size = N,
+                            freq_ancestor_1 = H_0,
+                            total_runtime = t,
+                            size_in_morgan = C,
+                            markers = R,
+                            num_threads = 1,
+                            time_points = 100,
+                            num_indiv_sampled = 30,
+                            seed = 42)
+
+  num_j <- c()
+  for (i in unique(vx$individual)) {
+    dd <- subset(vx, vx$individual == i)
+    num_j_1 <- sum(abs(diff(dd$anc_chrom_1)))
+    num_j_2 <- sum(abs(diff(dd$anc_chrom_1)))
+    num_j <- c(num_j, c(num_j_1, num_j_2))
+  }
+
+  obs_j <- mean(num_j)
+  exp_j <- junctions::number_of_junctions(N = N,
+                                          R = R,
+                                          H_0 = H_0,
+                                          C = C,
+                                          t = t)
+
+  testthat::expect_equal(obs_j, exp_j, tolerance = 0.2)
+
+
+  N <- 10000
+  R <- 10000
+  t <- 20
+  H_0 <- 0.5
+  C <- 1
+
+  vx <- sim_phased_unphased(pop_size = N,
+                            freq_ancestor_1 = H_0,
+                            total_runtime = t,
+                            size_in_morgan = C,
+                            markers = R,
+                            num_threads = 1,
+                            time_points = t,
+                            num_indiv_sampled = 30,
+                            seed = 42)
+
+  num_j <- c()
+  for (i in unique(vx$individual)) {
+    dd <- subset(vx, vx$individual == i)
+    num_j_1 <- sum(abs(diff(dd$anc_chrom_1)))
+    num_j_2 <- sum(abs(diff(dd$anc_chrom_1)))
+    num_j <- c(num_j, c(num_j_1, num_j_2))
+  }
+
+  obs_j <- mean(num_j)
+  exp_j <- junctions::number_of_junctions(N = N,
+                                          R = R,
+                                          H_0 = H_0,
+                                          C = C,
+                                          t = t)
+
+  testthat::expect_equal(obs_j, exp_j, tolerance = 0.2)
+})
