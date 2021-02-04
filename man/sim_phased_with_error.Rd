@@ -13,7 +13,7 @@ sim_phased_with_error(
   markers = 100,
   time_points = -1,
   seed = NULL,
-  num_threads = -1,
+  num_threads = 1,
   verbose = FALSE,
   num_indiv_sampled = 10,
   coverage = 1,
@@ -41,7 +41,8 @@ ancestry is recorded at every generation (computationally heavy).}
 
 \item{seed}{Seed of the pseudo-random number generator}
 
-\item{num_threads}{number of threads}
+\item{num_threads}{number of threads, deafault is 1. -1 takes all available
+threads.}
 
 \item{verbose}{displays a progress bar, default is FALSE}
 
