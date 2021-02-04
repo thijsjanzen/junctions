@@ -13,6 +13,13 @@
 #include "Fish.h"
 #include <vector>
 
+#include <chrono>
+#include <thread>
+
+void force_output();
+
+
+
 struct Output {
     std::vector<double> avgJunctions;
     std::vector<double> avg_detected_Junctions;

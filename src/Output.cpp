@@ -7,7 +7,17 @@
 //
 
 #include "Output.h"
+#include "Rcpp.h"
+using namespace Rcpp;
 
+void force_output() {
+    // Rcout << s << "\n";
+    static std::chrono::milliseconds timespan(100);
+    std::this_thread::sleep_for(timespan);
+    R_FlushConsole();
+    R_ProcessEvents();
+    R_CheckUserInterrupt();
+}
 
 void Output::update_inf(const std::vector<Fish_inf>& Pop) {
     double averageNumJunctions = 0;
@@ -92,9 +102,9 @@ void Output::detectNumJunctions(const std::vector<Fish_inf> &Pop,
 std::vector<int> detect_ancestry(const std::vector< junction >& G,
                                  const std::vector< double >& markers) {
     std::vector<int> output(markers.size());
-
+   // Rcout << "detect_ancestry\n"; force_output();
     int j = 0;
-    for(unsigned int i = 0; i < markers.size(); ++i) {
+    for(int i = 0; i < static_cast<int>(markers.size()); ++i) {
         double focalPos = markers[i];
         for(; j <= (G.size()-1); ++j) {
             double left = G[j].pos;

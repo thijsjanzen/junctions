@@ -208,7 +208,7 @@ test_that("unphased, junctions", {
 
   N <- 1000
   R <- 1000
-  t <- 100
+  t <- 10
   H_0 <- 0.5
   C <- 1
 
@@ -218,8 +218,8 @@ test_that("unphased, junctions", {
                             size_in_morgan = C,
                             markers = R,
                             num_threads = 1,
-                            time_points = 100,
-                            num_indiv_sampled = 30,
+                            time_points = t,
+                            num_indiv_sampled = 2,
                             seed = 42)
 
   num_j <- c()

@@ -15,6 +15,7 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 int popSize,
                 int numRecombinations) {
 
+//  Rcout << "update_pop\n"; force_output();
 //#ifdef __unix__   // tbb is not supported correctly on windows.. I think
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
@@ -22,7 +23,7 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
 
       rnd_t rndgen2;
       for (unsigned i = r.begin(); i < r.end(); ++i) {
-
+ // for (int i = 0; i < popSize; ++i) {
         int index1 = rndgen2.random_number(popSize);
         int index2 = rndgen2.random_number(popSize);
         while(index2 == index1) index2 = rndgen2.random_number(popSize);
@@ -80,7 +81,7 @@ Output simulation_phased_nonphased(int popSize,
 //#ifdef __unix__
   tbb::task_scheduler_init _tbb((num_threads > 0) ? num_threads : tbb::task_scheduler_init::automatic);
 //#endif
-
+//  Rcout << "seeding pop\n"; force_output();
   for (int i = 0; i < popSize; ++i) {
     Fish_inf p1 = parent2;
     Fish_inf p2 = parent2;
@@ -100,8 +101,11 @@ Output simulation_phased_nonphased(int popSize,
   int updateFreq = maxTime / 20;
   if (updateFreq < 1) updateFreq = 1;
 
+//  Rcout << "starting simulation\n"; force_output();
+
   for (int t = 0; t <= maxTime; ++t) {
     if (is_in_time_points(t, time_points)) {
+   //   Rcout << "update_unphased\n"; force_output();
       O.update_unphased(Pop, t, record_true_junctions, numRecombinations,
                         num_indiv_sampled);
     }
@@ -116,8 +120,16 @@ Output simulation_phased_nonphased(int popSize,
       if(t % updateFreq == 0) {
         Rcout << "**";
       }
-    }
 
+
+    }
+    /*double num_j = 0.0;
+    for (size_t i = 0; i < Pop.size(); ++i) {
+      num_j += Pop[i].chromosome1.size() - 2;
+      num_j += Pop[i].chromosome2.size() - 2;
+    }
+    num_j *= 1.0 / (2.0 * Pop.size());
+    Rcout << t << " " << num_j << "\n"; force_output();*/
     Rcpp::checkUserInterrupt();
   }
   if (verbose) Rcout << "\n";

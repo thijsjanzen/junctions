@@ -14,13 +14,7 @@
 #include "estimate_time_unphased_cpp.h"
 
 
-void force_output() {
-  // Rcout << s << "\n";
-  R_FlushConsole();
-  R_ProcessEvents();
-  R_CheckUserInterrupt();
-  // ::sleep(1);
-}
+
 
 namespace detail {
 int num_threads = -1;

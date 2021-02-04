@@ -29,8 +29,8 @@ std::vector<junction> recombine_new(const std::vector<junction>& chromosome1,
                                     const std::vector<junction>& chromosome2,
                                     const std::vector<double>& recom_positions) {
 
-    assert(!chromosome1.empty());    // not strictly enforced by code
-    assert(!chromosome2.empty());    // not strictly enforced bu code
+ //   assert(!chromosome1.empty());    // not strictly enforced by code
+//    assert(!chromosome2.empty());    // not strictly enforced bu code
 
     // we need something that is cheaply swappable:
     auto* g1 = &chromosome1;
@@ -106,9 +106,38 @@ void Recombine_inf(        std::vector<junction>& offspring,
     std::vector<double> recomPos = generate_recomPos(numRecombinations,
                                                      rndgen);
 
+
+
     offspring = recombine_new(chromosome1,
                               chromosome2,
                               recomPos);
+/*
+    Rcout << "c1: ";
+    for(auto i: chromosome1) {
+      Rcout << i.pos << " " << i.right << " ";
+    }
+    Rcout << "\n";
+
+    Rcout << "c2: ";
+    for(auto i: chromosome2) {
+      Rcout << i.pos << " " << i.right << " ";
+    }
+    Rcout << "\n";
+
+    Rcout << "r: ";
+    for (auto i : recomPos) {
+      Rcout << i << " ";
+    }
+    Rcout << "\n";
+
+    Rcout << "o: ";
+    for(auto i: offspring) {
+      Rcout << i.pos << " " << i.right << " ";
+    }
+    Rcout << "\n";
+
+    //Rcpp::stop("stop");
+*/
     return;
 }
 
@@ -127,14 +156,16 @@ Fish_inf mate_inf(const Fish_inf& A,
         case 0:  {
             Recombine_inf(offspring.chromosome1,
                           A.chromosome1,
-                          A.chromosome2, numRecombinations,
+                          A.chromosome2,
+                          numRecombinations,
                           rndgen);
             break;
         }
         case 1: {
             Recombine_inf(offspring.chromosome1,
                           A.chromosome2,
-                          A.chromosome1, numRecombinations,
+                          A.chromosome1,
+                          numRecombinations,
                           rndgen);
             break;
         }
@@ -146,14 +177,16 @@ Fish_inf mate_inf(const Fish_inf& A,
         case 0:  {
             Recombine_inf(offspring.chromosome2,
                           B.chromosome1,
-                          B.chromosome2, numRecombinations,
+                          B.chromosome2,
+                          numRecombinations,
                           rndgen);
             break;
         }
         case 1: {
             Recombine_inf(offspring.chromosome2,
                           B.chromosome2,
-                          B.chromosome1, numRecombinations,
+                          B.chromosome1,
+                          numRecombinations,
                           rndgen);
             break;
         }
@@ -344,7 +377,7 @@ Fish_inf& Fish_inf::operator=(const Fish_inf& other) {
 
 
 bool is_in_time_points(int t,
-                       const Rcpp::NumericVector & time_points) {
+                       const Rcpp::NumericVector& time_points) {
     for (auto it = time_points.begin(); it != time_points.end(); ++it) {
         if((*it) == t) return true;
     }

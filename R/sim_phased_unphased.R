@@ -47,6 +47,13 @@ sim_phased_unphased <- function(pop_size = 100,
     }
   }
 
+  within_range <- which(time_points <= total_runtime)
+  time_points <- time_points[within_range]
+  if (length(time_points) < 1) {
+    time_points <- c(-1)
+  }
+
+
   if (is.null(seed)) {
     warning("you did not provide a seed,
             will use the time as a seed\n")
