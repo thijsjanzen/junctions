@@ -75,4 +75,5 @@ struct rnd_t {
   }
 };
 
+
 #endif /* random_functions_hpp */

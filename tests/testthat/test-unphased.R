@@ -217,10 +217,11 @@ test_that("unphased, junctions", {
                             total_runtime = t,
                             size_in_morgan = C,
                             markers = R,
-                            num_threads = 4,
+                            num_threads = -1,
                             time_points = t,
                             num_indiv_sampled = 20,
                             record_true_junctions = TRUE,
+                            verbose = TRUE,
                             seed = 42)
 
   num_j_true <- mean(c(vx$true_results$junctions_chrom_1,

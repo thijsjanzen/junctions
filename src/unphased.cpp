@@ -4,11 +4,15 @@
 #include "Fish.h"
 #include "random_functions.h"
 
-#include <mutex>
+#include <thread>
+#include <chrono>
+#include <functional>
 
 #include <RcppParallel.h>
 #include <Rcpp.h>
 using namespace Rcpp;
+
+int get_seed();
 
 void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>& pop,
@@ -20,35 +24,12 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
 
   rnd_t rndgen;
 
-  int num_seeds = num_threads * 2;
-  if (num_threads == -1) {
-    num_seeds = 20 * 2; //this is an arbitrary hard limit..
-  }
-
-  std::vector< int > seed_values(num_seeds);
-
-  for (int i = 0; i < num_seeds; ++i) {
-    seed_values[i] = rndgen.random_number(4294967295); // large value
-  }
-
-  int seed_index = 0;
-  std::mutex mutex;
-
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
     [&](const tbb::blocked_range<unsigned>& r) {
 
-      rnd_t rndgen2(seed_values[seed_index]);
-      {
-        std::lock_guard<std::mutex> _(mutex);
-        seed_index++;
-        if (seed_index >= seed_values.size()) {
-        for (int i = 0; i < num_seeds; ++i) {
-            seed_values[i] = rndgen.random_number(4294967295);
-          }
-          seed_index = 0;
-        }
-      }
+      int seed = get_seed();
+      rnd_t rndgen2(seed);
 
       for (unsigned i = r.begin(); i < r.end(); ++i) {
         int index1 = rndgen2.random_number(popSize);
@@ -182,4 +163,11 @@ List sim_phased_unphased_cpp(int pop_size,
                         Named("true_results") = output_matrix_true);
   }
   return List::create(Named("results") = output_matrix);
+}
+
+int get_seed() {
+  const auto tt = static_cast<int64_t>(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+  auto tid = std::this_thread::get_id();
+  const uint64_t e3{ std::hash<std::remove_const_t<decltype(tid)>>()(tid) };
+  return static_cast<int>(tt + e3);
 }
