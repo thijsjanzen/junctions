@@ -4,57 +4,63 @@
 #include "Fish.h"
 #include "random_functions.h"
 
+#include <mutex>
+
 #include <RcppParallel.h>
-
-
 #include <Rcpp.h>
 using namespace Rcpp;
 
 void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>& pop,
                 int popSize,
-                int numRecombinations) {
+                int numRecombinations,
+                int num_threads) {
 
-//  Rcout << "update_pop\n"; force_output();
-//#ifdef __unix__   // tbb is not supported correctly on windows.. I think
+  tbb::task_scheduler_init _tbb((num_threads > 0) ? num_threads : tbb::task_scheduler_init::automatic);
+
+  rnd_t rndgen;
+
+  int num_seeds = num_threads * 100;
+  if (num_threads == -1) {
+    num_seeds = 20 * 100;
+  }
+
+
+  std::vector< int > seed_values(num_seeds);
+
+  for (int i = 0; i < num_seeds; ++i) {
+    seed_values[i] = rndgen.random_number(4294967295); // large value
+  }
+
+  int seed_index = 0;
+  std::mutex mutex;
+
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
     [&](const tbb::blocked_range<unsigned>& r) {
 
-      rnd_t rndgen2;
+      rnd_t rndgen2(seed_values[seed_index]);
+      {
+        std::lock_guard<std::mutex> _(mutex);
+        seed_index++;
+        if (seed_index >= seed_values.size()) {
+        for (int i = 0; i < num_seeds; ++i) {
+            seed_values[i] = rndgen.random_number(4294967295);
+          }
+          seed_index = 0;
+        }
+      }
+
       for (unsigned i = r.begin(); i < r.end(); ++i) {
- // for (int i = 0; i < popSize; ++i) {
         int index1 = rndgen2.random_number(popSize);
         int index2 = rndgen2.random_number(popSize);
         while(index2 == index1) index2 = rndgen2.random_number(popSize);
 
-        pop[i] =
-          mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
-                             rndgen2);
+        pop[i] = mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
+                          rndgen2);
       }
     }
   );
-
-  /*
-#else
-
-
-  rnd_t rndgen2;
-  for (unsigned i = 0; i < popSize; ++i) {
-
-    int index1 = rndgen2.random_number(popSize);
-    int index2 = rndgen2.random_number(popSize);
-    while(index2 == index1) index2 = rndgen2.random_number(popSize);
-
-    pop[i] = mate_inf(old_pop[index1],
-                                old_pop[index2],
-                                numRecombinations,
-                                rndgen2);
-  }
- #endif
-*/
-
-  return;
 }
 
 
@@ -79,7 +85,6 @@ Output simulation_phased_nonphased(int popSize,
   Fish_inf parent2 = Fish_inf(1);
 
 //#ifdef __unix__
-  tbb::task_scheduler_init _tbb((num_threads > 0) ? num_threads : tbb::task_scheduler_init::automatic);
 //#endif
 //  Rcout << "seeding pop\n"; force_output();
   for (int i = 0; i < popSize; ++i) {
@@ -112,7 +117,7 @@ Output simulation_phased_nonphased(int popSize,
 
     std::vector< Fish_inf > newGeneration(popSize);
 
-    update_pop(Pop, newGeneration, popSize, numRecombinations);
+    update_pop(Pop, newGeneration, popSize, numRecombinations, num_threads);
 
     Pop.swap(newGeneration);
 

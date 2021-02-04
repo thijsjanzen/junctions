@@ -46,8 +46,7 @@ test_that("phased, use", {
                               time_points = c(200),
                               seed = 42,
                               coverage = 1,
-                              error_rate = errorrr,
-                              num_threads = -1)
+                              error_rate = errorrr)
 
   true_data <- vx$true_data
   phased_data <- vx$phased_data

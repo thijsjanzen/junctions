@@ -208,7 +208,7 @@ test_that("unphased, junctions", {
 
   N <- 1000
   R <- 1000
-  t <- 10
+  t <- 100
   H_0 <- 0.5
   C <- 1
 
@@ -217,10 +217,15 @@ test_that("unphased, junctions", {
                             total_runtime = t,
                             size_in_morgan = C,
                             markers = R,
-                            num_threads = 1,
+                            num_threads = 4,
                             time_points = t,
-                            num_indiv_sampled = 2,
+                            num_indiv_sampled = 20,
+                            record_true_junctions = TRUE,
                             seed = 42)
+
+  num_j_true <- mean(c(vx$true_results$junctions_chrom_1,
+                     vx$true_results$junctions_chrom_2))
+  vx <- vx$results
 
   num_j <- c()
   for (i in unique(vx$individual)) {
@@ -236,6 +241,8 @@ test_that("unphased, junctions", {
                                           H_0 = H_0,
                                           C = C,
                                           t = t)
+
+  cat(num_j_true, obs_j, exp_j, "\n")
 
   testthat::expect_equal(obs_j, exp_j, tolerance = 0.2)
 
