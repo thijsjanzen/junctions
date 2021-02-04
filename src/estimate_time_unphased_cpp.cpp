@@ -7,9 +7,7 @@
 #include <Rcpp.h>
 #include <nloptrAPI.h>
 
-// #ifdef __unix__
 #include <RcppParallel.h>
-// #endif
 
 #include "estimate_time_unphased_cpp.h"
 
@@ -515,7 +513,6 @@ double chromosome::calculate_likelihood(double t,
                         phased);
 
 
-// #ifdef __unix__
   tbb::task_scheduler_init _tbb((detail::num_threads > 0) ? detail::num_threads : tbb::task_scheduler_init::automatic);
 
   tbb::parallel_for(
@@ -531,18 +528,6 @@ double chromosome::calculate_likelihood(double t,
       }
     }
   );
-/*
-  #else
-  for (unsigned i = 1; i < distances.size(); ++i) {
-    double di = distances[i];
-    double l = states[i];
-    double r = states[i + 1];
-    ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
-                    phased);
-  }
-
-#endif
-*/
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
   return(answer);
 }

@@ -20,11 +20,10 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
 
   rnd_t rndgen;
 
-  int num_seeds = num_threads * 100;
+  int num_seeds = num_threads * 2;
   if (num_threads == -1) {
-    num_seeds = 20 * 100;
+    num_seeds = 20 * 2; //this is an arbitrary hard limit..
   }
-
 
   std::vector< int > seed_values(num_seeds);
 
@@ -84,9 +83,6 @@ Output simulation_phased_nonphased(int popSize,
   Fish_inf parent1 = Fish_inf(0);
   Fish_inf parent2 = Fish_inf(1);
 
-//#ifdef __unix__
-//#endif
-//  Rcout << "seeding pop\n"; force_output();
   for (int i = 0; i < popSize; ++i) {
     Fish_inf p1 = parent2;
     Fish_inf p2 = parent2;
@@ -128,13 +124,6 @@ Output simulation_phased_nonphased(int popSize,
 
 
     }
-    /*double num_j = 0.0;
-    for (size_t i = 0; i < Pop.size(); ++i) {
-      num_j += Pop[i].chromosome1.size() - 2;
-      num_j += Pop[i].chromosome2.size() - 2;
-    }
-    num_j *= 1.0 / (2.0 * Pop.size());
-    Rcout << t << " " << num_j << "\n"; force_output();*/
     Rcpp::checkUserInterrupt();
   }
   if (verbose) Rcout << "\n";
