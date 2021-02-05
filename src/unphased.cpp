@@ -28,8 +28,8 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
     tbb::blocked_range<unsigned>(0, popSize),
     [&](const tbb::blocked_range<unsigned>& r) {
 
-      int seed = get_seed();
-      rnd_t rndgen2(seed);
+      thread_local int seed = get_seed();
+      thread_local rnd_t rndgen2(seed);
 
       for (unsigned i = r.begin(); i < r.end(); ++i) {
         int index1 = rndgen2.random_number(popSize);
