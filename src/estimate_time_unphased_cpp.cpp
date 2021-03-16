@@ -48,6 +48,16 @@ struct chromosome {
     }
   }
 
+  chromosome(const Rcpp::NumericVector& anc_matrix,
+             const Rcpp::NumericVector& loc,
+             bool p) : phased(p) {
+
+    states = std::vector<size_t>(anc_matrix.begin(), anc_matrix.end());
+    for(int i = 0; i < loc.size(); ++i) {
+      if (i > 0) distances.push_back(loc[i] - loc[i - 1]);
+    }
+  }
+
   chromosome(const std::vector< std::vector< int > >& anc_matrix,
              const Rcpp::NumericVector& loc,
              bool p) : phased(p) {
@@ -148,7 +158,7 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
 //' @param num_threads, default is all threads. 5 threads is recommended.
 //' @export
 // [[Rcpp::export]]
-std::vector<double> estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
+Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                       const Rcpp::NumericVector& locations,
                                       int pop_size,
                                       double freq_ancestor_1,
@@ -160,12 +170,9 @@ std::vector<double> estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matri
 
   detail::num_threads = num_threads;
 
-  //  Rcpp::Rcout << "reading chromosomes into memory\n"; force_output();
   std::vector< chromosome > chromosomes = create_chromosomes(local_anc_matrix,
                                                              locations,
                                                              phased);
-  //  Rcpp::Rcout << chromosomes.size() << "\n"; force_output();
-  //  Rcpp::Rcout << "chromosomes read into memory\n"; force_output();
 
   nlopt_f_data optim_data(chromosomes, pop_size, freq_ancestor_1);
 
@@ -195,7 +202,8 @@ std::vector<double> estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matri
 
   std::vector<double> output = {x[0], minf};
 
-  return output;
+  return Rcpp::List::create(Rcpp::Named("time") = x[0],
+                            Rcpp::Named("likelihood") = -1 * minf);
 }
 
 //' function to calculate log likelihood using cpp
@@ -205,23 +213,21 @@ std::vector<double> estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matri
 //' @param freq_ancestor_1 frequency of the most common ancestor
 //' @param t time
 //' @param phased is the data phased or not?
-//' @param num_threads number of threads, default is all threads (-1).
+//' @param num_threads number of threads, default is one thread. Set to -1 to
+//' use all available threads.
 //' @export
 // [[Rcpp::export]]
-double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
+double loglikelihood_unphased_cpp(const Rcpp::NumericVector& local_anc_vec,
                                   const Rcpp::NumericVector& locations,
                                   int pop_size,
                                   double freq_ancestor_1,
                                   double t,
                                   bool phased,
-                                  int num_threads = -1) {
+                                  int num_threads = 1) {
 
-  // Rcpp::Rcout << "loading chromosome\n"; //force_output();
   detail::num_threads = num_threads;
-  chromosome focal_chrom(local_anc_matrix,
+  chromosome focal_chrom(local_anc_vec,
                          locations, phased);
-
-  //  Rcpp::Rcout << "starting likelihood calculation\n"; force_output();
 
   double ll = focal_chrom.calculate_likelihood(t, pop_size, freq_ancestor_1);
   return ll;

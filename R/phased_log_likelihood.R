@@ -13,13 +13,16 @@
 #' @param pop_size population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
 #' @param t time since admixture
+#' @param num_threads number of threads, default is one thread. Set to -1 to
+#'  use all available threads.
 #' @return log likelihood
 #' @export
 loglikelihood_phased <- function(local_anc_matrix,
                                  locations,
                                  pop_size,
                                  freq_ancestor_1 = 0.5,
-                                 t) {
+                                 t,
+                                 num_threads = 1) {
 
   distances <- diff(locations)
 
@@ -48,26 +51,14 @@ loglikelihood_phased <- function(local_anc_matrix,
          homozygous Q, heterozygous PQ and heterozygous QP \n")
   }
 
-  to_analyze <- cbind(distances,
-                      local_anc[1:(length(local_anc) - 1)],
-                      local_anc[2:length(local_anc)])
-
-
   calc_ll <- function(params) {
-
-    local_probs <- apply(to_analyze, 1, get_cond_prob_vector_phased,
-                         freq_ancestor_1,
-                         pop_size,
-                         local_time = params[[1]],
-                         condition = TRUE)
-
-    local_probs[1] <- get_cond_prob_vector_phased(to_analyze[1, ],
-                                                  freq_ancestor_1,
-                                                  pop_size,
-                                                  local_time = params[[1]],
-                                                  condition = FALSE)
-
-    return(sum(local_probs))
+    loglikelihood_unphased_cpp(local_anc_matrix = local_anc,
+                               locations = locations,
+                               pop_size = pop_size,
+                               freq_ancestor_1 = freq_ancestor_1,
+                               t = params[[1]],
+                               phased = TRUE,
+                               num_threads = num_threads)
   }
 
   if (length(t) == 1) {
