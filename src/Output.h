@@ -16,9 +16,8 @@
 #include <chrono>
 #include <thread>
 
+
 void force_output();
-
-
 
 struct Output {
     std::vector<double> avgJunctions;
@@ -41,6 +40,13 @@ struct Output {
                          bool record_true_junctions,
                          double morgan,
                          size_t num_indiv);
+
+    void update_unphased(const std::vector< Fish_explicit >& Pop,
+                                 size_t t,
+                                 bool record_true_junctions,
+                                 double morgan,
+                                 size_t num_indiv);
+
 
     void detectNumJunctions(const std::vector<Fish_inf> &Pop,
                             const std::vector<double> &markers);

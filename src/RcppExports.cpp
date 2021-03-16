@@ -111,6 +111,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// sim_phased_unphased_explicit_cpp
+List sim_phased_unphased_explicit_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, NumericVector markers, NumericVector time_points, int seed, bool verbose, bool record_true_junctions, int num_indiv_sampled, int num_threads);
+RcppExport SEXP _junctions_sim_phased_unphased_explicit_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP, SEXP verboseSEXP, SEXP record_true_junctionsSEXP, SEXP num_indiv_sampledSEXP, SEXP num_threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
+    Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
+    Rcpp::traits::input_parameter< double >::type size_in_morgan(size_in_morganSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type markers(markersSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type time_points(time_pointsSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    Rcpp::traits::input_parameter< bool >::type record_true_junctions(record_true_junctionsSEXP);
+    Rcpp::traits::input_parameter< int >::type num_indiv_sampled(num_indiv_sampledSEXP);
+    Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_explicit_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, seed, verbose, record_true_junctions, num_indiv_sampled, num_threads));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 7},
@@ -119,6 +140,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
     {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 11},
+    {"_junctions_sim_phased_unphased_explicit_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_explicit_cpp, 11},
     {NULL, NULL, 0}
 };
 
