@@ -9,7 +9,8 @@ loglikelihood_unphased(
   locations,
   pop_size,
   freq_ancestor_1 = 0.5,
-  t
+  t,
+  num_threads = 1
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ heterozygous (2).}
 \item{freq_ancestor_1}{Frequency of ancestor 1 at t = 0}
 
 \item{t}{time since admixture}
+
+\item{num_threads}{number of threads, default is one thread. Set to -1 to
+use all available threads.}
 }
 \value{
 log likelihood

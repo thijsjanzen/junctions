@@ -115,7 +115,7 @@ get_cond_prob_vector <- function(info_vector,
 #' chromosome 1, and the second column represents ancestry on chromosome
 #' 2. Ancestry labels used should be [0, 1], where 0 indicates the first
 #' ancestor, and 1 indicates the second ancestor. Alternatively, the user
-#' can provide a vector containing lables indicating whether at the
+#' can provide a vector containing labels indicating whether at the
 #' specific marker, the focal individual is homozygous for the first
 #' ancestor (label = 1), homozygous for the second ancestor (label = 2)
 #' or heterozygous (label = 3).
