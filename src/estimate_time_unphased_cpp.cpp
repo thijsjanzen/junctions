@@ -22,6 +22,7 @@ struct chromosome {
   std::vector< size_t > states;
   std::vector< double > distances;
   bool phased;
+  bool verbose;
 /*
   chromosome(const Rcpp::NumericMatrix& anc_matrix,
              const Rcpp::NumericVector& loc,
@@ -61,7 +62,8 @@ struct chromosome {
 
   chromosome(const Rcpp::NumericVector& anc_matrix,
              const Rcpp::NumericVector& loc,
-             bool p) : phased(p) {
+             bool p,
+             bool verb) : phased(p), verbose(verb) {
 
     states = std::vector<size_t>(anc_matrix.begin(), anc_matrix.end());
     for(int i = 0; i < loc.size(); ++i) {
@@ -71,7 +73,8 @@ struct chromosome {
 
   chromosome(const std::vector< std::vector< int > >& anc_matrix,
              const std::vector<double>& loc,
-             bool p) : phased(p) {
+             bool p,
+             bool verb) : phased(p), verbose(verb) {
 
  //   Rcpp::Rcout << "we are in the chromosome constructor\n"; force_output();
 
@@ -138,13 +141,17 @@ double objective(unsigned int n, const double* x, double*, void* func_data)
   for(size_t i = 0; i < psd->chromosomes.size(); ++i) {
     ll[i] = psd->chromosomes[i].calculate_likelihood(x[0], psd->N, psd->p);
   }
-  //Rcpp::Rcout << x[0] << " " << ll[0] << "\n"; force_output();
-  return -std::accumulate(ll.begin(), ll.end(), 0.0);
+  auto sum_ll = -std::accumulate(ll.begin(), ll.end(), 0.0);
+  if (psd->chromosomes.begin()->verbose) {
+    Rcpp::Rcout << x[0] << " " << -sum_ll << "\n";
+  }
+  return sum_ll;
 }
 
 std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_anc_matrix,
                                              const Rcpp::NumericVector& locations,
-                                             bool phased) {
+                                             bool phased,
+                                             bool verbose) {
 
   std::vector< chromosome > output;
   int current_chrom = local_anc_matrix(0, 0);
@@ -170,7 +177,7 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
     if (add_chrom) {
       current_chrom = local_anc_matrix(i, 0);
    //   Rcpp::Rcout << "creating new chrom\n"; force_output();
-      chromosome new_chrom(chrom_matrix, positions, phased);
+      chromosome new_chrom(chrom_matrix, positions, phased, verbose);
    //   Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
       output.push_back(new_chrom);
       chrom_matrix.clear();
@@ -182,7 +189,7 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
     chrom_matrix.push_back(add);
     positions.push_back(locations[i]);
   }
-  chromosome new_chrom(chrom_matrix, positions, phased);
+  chromosome new_chrom(chrom_matrix, positions, phased, verbose);
  // Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
   output.push_back(new_chrom);
 
@@ -231,7 +238,8 @@ try {
   }
   std::vector< chromosome > chromosomes = create_chromosomes(local_anc_matrix,
                                                              locations,
-                                                             phased);
+                                                             phased,
+                                                             verbose);
 
   if (verbose) {
     Rcpp::Rcout << "chromosomes read from data\n"; force_output();
@@ -289,6 +297,7 @@ return NA_REAL;
 //' @param freq_ancestor_1 frequency of the most common ancestor
 //' @param t time
 //' @param phased is the data phased or not?
+//' @param verbose verbose output
 //' @param num_threads number of threads, default is one thread. Set to -1 to
 //' use all available threads.
 //' @export
@@ -299,11 +308,12 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericVector& local_anc_vec,
                                   double freq_ancestor_1,
                                   double t,
                                   bool phased,
+                                  bool verbose = false,
                                   int num_threads = 1) {
 
   detail::num_threads = num_threads;
   chromosome focal_chrom(local_anc_vec,
-                         locations, phased);
+                         locations, phased, verbose);
 
   double ll = focal_chrom.calculate_likelihood(t, pop_size, freq_ancestor_1);
   return ll;
@@ -611,6 +621,9 @@ double chromosome::calculate_likelihood(double t,
     }
   );
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
+  //if (verbose) {
+  //  Rcpp::Rcout << t << " " << pop_size << " " << answer << "\n";
+//  }
   return(answer);
 }
 

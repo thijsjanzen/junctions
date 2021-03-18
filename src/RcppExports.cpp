@@ -42,8 +42,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // loglikelihood_unphased_cpp
-double loglikelihood_unphased_cpp(const Rcpp::NumericVector& local_anc_vec, const Rcpp::NumericVector& locations, int pop_size, double freq_ancestor_1, double t, bool phased, int num_threads);
-RcppExport SEXP _junctions_loglikelihood_unphased_cpp(SEXP local_anc_vecSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP tSEXP, SEXP phasedSEXP, SEXP num_threadsSEXP) {
+double loglikelihood_unphased_cpp(const Rcpp::NumericVector& local_anc_vec, const Rcpp::NumericVector& locations, int pop_size, double freq_ancestor_1, double t, bool phased, bool verbose, int num_threads);
+RcppExport SEXP _junctions_loglikelihood_unphased_cpp(SEXP local_anc_vecSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP tSEXP, SEXP phasedSEXP, SEXP verboseSEXP, SEXP num_threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -53,8 +53,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
     Rcpp::traits::input_parameter< double >::type t(tSEXP);
     Rcpp::traits::input_parameter< bool >::type phased(phasedSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(loglikelihood_unphased_cpp(local_anc_vec, locations, pop_size, freq_ancestor_1, t, phased, num_threads));
+    rcpp_result_gen = Rcpp::wrap(loglikelihood_unphased_cpp(local_anc_vec, locations, pop_size, freq_ancestor_1, t, phased, verbose, num_threads));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -136,7 +137,7 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 7},
     {"_junctions_estimate_time_cpp", (DL_FUNC) &_junctions_estimate_time_cpp, 9},
-    {"_junctions_loglikelihood_unphased_cpp", (DL_FUNC) &_junctions_loglikelihood_unphased_cpp, 7},
+    {"_junctions_loglikelihood_unphased_cpp", (DL_FUNC) &_junctions_loglikelihood_unphased_cpp, 8},
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
     {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 11},

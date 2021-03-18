@@ -27,11 +27,12 @@ estimate_time_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancest
 #' @param freq_ancestor_1 frequency of the most common ancestor
 #' @param t time
 #' @param phased is the data phased or not?
+#' @param verbose verbose output
 #' @param num_threads number of threads, default is one thread. Set to -1 to
 #' use all available threads.
 #' @export
-loglikelihood_unphased_cpp <- function(local_anc_vec, locations, pop_size, freq_ancestor_1, t, phased, num_threads = 1L) {
-    .Call('_junctions_loglikelihood_unphased_cpp', PACKAGE = 'junctions', local_anc_vec, locations, pop_size, freq_ancestor_1, t, phased, num_threads)
+loglikelihood_unphased_cpp <- function(local_anc_vec, locations, pop_size, freq_ancestor_1, t, phased, verbose = FALSE, num_threads = 1L) {
+    .Call('_junctions_loglikelihood_unphased_cpp', PACKAGE = 'junctions', local_anc_vec, locations, pop_size, freq_ancestor_1, t, phased, verbose, num_threads)
 }
 
 sim_fin_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, seed, R) {
