@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - marker_explicit
   pull_request:
     branches:
       - main
