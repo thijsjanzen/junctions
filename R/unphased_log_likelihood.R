@@ -42,7 +42,7 @@ loglikelihood_unphased <- function(local_anc_matrix,
   }
 
   calc_ll <- function(params) {
-    loglikelihood_unphased_cpp(local_anc_matrix = local_anc,
+    loglikelihood_unphased_cpp(local_anc_vec = local_anc,
                                locations = locations,
                                pop_size = pop_size,
                                freq_ancestor_1 = freq_ancestor_1,

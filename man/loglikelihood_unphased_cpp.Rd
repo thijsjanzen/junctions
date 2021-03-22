@@ -11,6 +11,7 @@ loglikelihood_unphased_cpp(
   freq_ancestor_1,
   t,
   phased,
+  verbose = FALSE,
   num_threads = 1L
 )
 }
@@ -24,6 +25,8 @@ loglikelihood_unphased_cpp(
 \item{t}{time}
 
 \item{phased}{is the data phased or not?}
+
+\item{verbose}{verbose output}
 
 \item{num_threads}{number of threads, default is one thread. Set to -1 to
 use all available threads.}
