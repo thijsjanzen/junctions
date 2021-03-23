@@ -302,7 +302,7 @@ return NA_REAL;
 //' use all available threads.
 //' @export
 // [[Rcpp::export]]
-double loglikelihood_unphased_cpp(const Rcpp::NumericVector& local_anc_vec,
+double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   const Rcpp::NumericVector& locations,
                                   int pop_size,
                                   double freq_ancestor_1,
@@ -312,11 +312,21 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericVector& local_anc_vec,
                                   int num_threads = 1) {
 
   detail::num_threads = num_threads;
-  chromosome focal_chrom(local_anc_vec,
-                         locations, phased, verbose);
+  if (local_anc_matrix.ncol() != 3) {
+    Rcpp::stop("local ancestry matrix has to have 3 columns");
+  }
 
-  double ll = focal_chrom.calculate_likelihood(t, pop_size, freq_ancestor_1);
-  return ll;
+  std::vector< chromosome > chromosomes = create_chromosomes(local_anc_matrix,
+                                                             locations,
+                                                             phased,
+                                                             verbose);
+
+  std::vector< double > ll(chromosomes.size());
+  for (int i = 0; i < chromosomes.size(); ++i) {
+    ll[i] = chromosomes[i].calculate_likelihood(t, pop_size, freq_ancestor_1);
+  }
+
+  return std::accumulate(ll.begin(), ll.end(), 0.0);
 }
 
 std::vector< double > single_state_cpp(int t, int N, double d) {

@@ -1,22 +1,17 @@
 #' @keywords internal
 calc_ll_haploid_di <- function(info_vector, N, freq_ancestor_1, t) {
-
   di <- info_vector[[1]]
   left <- info_vector[[2]]
   right <- info_vector[[3]]
 
-  trans_matrix <- matrix(0, 2, 2)
-  x <- 1 / (2*N)
-  trans_matrix[1, ] <- c(1 - di, di)
-  trans_matrix[2, ] <- c(x,      1 - x)
-  initial_state <- c(1, 0)
-
-  current_state <- initial_state %*% expm::`%^%`(trans_matrix, t)
-
   H_0 <- 2 * freq_ancestor_1 * (1 - freq_ancestor_1)
-  prob <- H_0 * current_state[2]
+
+  a1 <- H_0 * 2 * N / (2 * N + 1 / di)
+  a2 <- 1 - (1 - di - 1 / (2*N)) ^ t
+  prob <- a1 * a2
+
   if (left == right) {
-    prob <-  1 - prob
+    prob <- 1 - prob
   }
 
   return(log(prob))
@@ -24,17 +19,19 @@ calc_ll_haploid_di <- function(info_vector, N, freq_ancestor_1, t) {
 
 #' @keywords internal
 calc_ll_haploid <- function(chrom_matrix,
-                            N,
-                            freq_ancestor_1,
-                            t) {
-
+                             N,
+                             freq_ancestor_1,
+                             t) {
   di <- c(diff(chrom_matrix[, 2]))
   to_analyze <- cbind(di,
                       chrom_matrix[1:(length(chrom_matrix[, 1]) - 1), 3],
                       chrom_matrix[2:length(chrom_matrix[,1]), 3])
-  ll <- apply(to_analyze, 1, calc_ll_haploid_di, N, freq_ancestor_1, t)
+
+  ll <- apply(to_analyze, 1, calc_ll_haploid_di_2, N, freq_ancestor_1, t)
   return(sum(ll))
 }
+
+
 
 #' log likelihood of the time since admixture for a haploid genome
 #' @description log likelihood of the time since admixture for a set of single
@@ -61,8 +58,6 @@ loglikelihood_haploid <- function(ancestry_matrix,
   }
   return(sum(ll))
 }
-
-
 
 #' estimate time using likelihood for a single chromosome
 #' @description Estimate the time since the onset of hybridization, for a

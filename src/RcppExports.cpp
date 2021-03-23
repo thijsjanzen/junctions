@@ -42,12 +42,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // loglikelihood_unphased_cpp
-double loglikelihood_unphased_cpp(const Rcpp::NumericVector& local_anc_vec, const Rcpp::NumericVector& locations, int pop_size, double freq_ancestor_1, double t, bool phased, bool verbose, int num_threads);
-RcppExport SEXP _junctions_loglikelihood_unphased_cpp(SEXP local_anc_vecSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP tSEXP, SEXP phasedSEXP, SEXP verboseSEXP, SEXP num_threadsSEXP) {
+double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix, const Rcpp::NumericVector& locations, int pop_size, double freq_ancestor_1, double t, bool phased, bool verbose, int num_threads);
+RcppExport SEXP _junctions_loglikelihood_unphased_cpp(SEXP local_anc_matrixSEXP, SEXP locationsSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP tSEXP, SEXP phasedSEXP, SEXP verboseSEXP, SEXP num_threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type local_anc_vec(local_anc_vecSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type local_anc_matrix(local_anc_matrixSEXP);
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type locations(locationsSEXP);
     Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
     Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
@@ -55,7 +55,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type phased(phasedSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(loglikelihood_unphased_cpp(local_anc_vec, locations, pop_size, freq_ancestor_1, t, phased, verbose, num_threads));
+    rcpp_result_gen = Rcpp::wrap(loglikelihood_unphased_cpp(local_anc_matrix, locations, pop_size, freq_ancestor_1, t, phased, verbose, num_threads));
     return rcpp_result_gen;
 END_RCPP
 }

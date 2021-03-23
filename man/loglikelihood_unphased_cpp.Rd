@@ -5,7 +5,7 @@
 \title{function to calculate log likelihood using cpp}
 \usage{
 loglikelihood_unphased_cpp(
-  local_anc_vec,
+  local_anc_matrix,
   locations,
   pop_size,
   freq_ancestor_1,
@@ -16,6 +16,8 @@ loglikelihood_unphased_cpp(
 )
 }
 \arguments{
+\item{local_anc_matrix}{local ancestry matrix}
+
 \item{locations}{locations of markers}
 
 \item{pop_size}{population size}
@@ -30,8 +32,6 @@ loglikelihood_unphased_cpp(
 
 \item{num_threads}{number of threads, default is one thread. Set to -1 to
 use all available threads.}
-
-\item{local_anc_matrix}{local ancestry matrix}
 }
 \description{
 function to calculate log likelihood using cpp
