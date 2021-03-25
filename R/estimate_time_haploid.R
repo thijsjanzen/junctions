@@ -27,7 +27,7 @@ calc_ll_haploid <- function(chrom_matrix,
                       chrom_matrix[1:(length(chrom_matrix[, 1]) - 1), 3],
                       chrom_matrix[2:length(chrom_matrix[,1]), 3])
 
-  ll <- apply(to_analyze, 1, calc_ll_haploid_di_2, N, freq_ancestor_1, t)
+  ll <- apply(to_analyze, 1, calc_ll_haploid_di, N, freq_ancestor_1, t)
   return(sum(ll))
 }
 

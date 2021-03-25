@@ -29,6 +29,11 @@ estimate_time_joint <- function(ancestry_information,
                                 upper_lim = 2000,
                                 num_threads = 1,
                                 verbose = FALSE) {
+
+  if (!(analysis_type %in% c("all", "individuals", "chromosomes"))) {
+    stop("analysis type not known, did you perhaps spell individual instead of individuals?")
+  }
+
   time_estimates <- c()
   if (analysis_type == "all") {
     for (indiv in unique(ancestry_information[, 1])) {
