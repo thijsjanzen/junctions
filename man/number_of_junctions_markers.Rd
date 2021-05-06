@@ -32,7 +32,6 @@ number of generations since the onset of admixture and the distribution of
 markers.
 }
 \examples{
-cat("example number of junctions markers")
 markers <- seq(from = 0, to = 1, length.out = 1000)
 jt <-  number_of_junctions_markers(N = 100,
                                   H_0 = 0.5,

@@ -4,8 +4,8 @@ author: "Thijs Janzen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-%\VignetteIndexEntry{junctions}
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{junctions}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   ---
   

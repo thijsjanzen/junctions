@@ -26,6 +26,6 @@ Expected error in the time estimate
 }
 \description{
 Calculate the error in the estimate of the onset of
-hybridisation, following Equations 3 & 4 in the Supplementary information of
+hybridization, following Equations 3 & 4 in the Supplementary information of
 Janzen et al. 2018.
 }
