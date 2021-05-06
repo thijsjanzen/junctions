@@ -16,7 +16,10 @@ Imports: Rcpp,
          subplex,
          nloptr
 Suggests: knitr, 
-          testthat
-SystemRequirements: C++14, GNU make
+          testthat,
+          dplyr,
+          magrittr,
+          ggplot2
+SystemRequirements: C++14
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1

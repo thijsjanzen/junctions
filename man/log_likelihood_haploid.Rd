@@ -7,14 +7,14 @@
 log_likelihood_haploid(ancestry_matrix, N = 1000, freq_ancestor_1 = 0.5, t = 2)
 }
 \arguments{
+\item{ancestry_matrix}{matrix with 3 columns, column 1 = chromosome, column 2 =
+location in Morgan, column 3 = ancestry.}
+
 \item{N}{Population Size}
 
 \item{freq_ancestor_1}{Frequency of ancestor 1 at t = 0}
 
 \item{t}{time since admixture}
-
-\item{ancestry}{matrix with 3 columns, column 1 = chromosome, column 2 =
-location in Morgan, column 3 = ancestry.}
 }
 \value{
 loglikelihood

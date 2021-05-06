@@ -4,13 +4,13 @@ author: "Thijs Janzen"
 date: "5/6/2021"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Overview_of_the_junctions_package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.width = 7, echo = TRUE)
 library(junctions)
 require(tidyr)
 require(dplyr)

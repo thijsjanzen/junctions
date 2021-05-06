@@ -24,6 +24,8 @@ ancestry at chromosome 4) ancestry at chromosome 2.}
 
 \item{t}{time since admixture}
 
+\item{phased}{is the data phased or not? default is false.}
+
 \item{num_threads}{number of threads, default is one thread. Set to -1 to
 use all available threads.}
 }
