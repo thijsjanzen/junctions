@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(fig.width = 7, echo = TRUE)
+knitr::opts_chunk$set(fig.width = 7, fig.height = 7, echo = TRUE)
 library(junctions)
 require(tidyr)
 require(dplyr)
@@ -264,7 +264,60 @@ plot(ll_haploid ~ time_points, type = "l",
 ```
 
 ## Expected number of junctions
-Mathematically, one can calculate the expected number of junctions, given 
-several pieces of information:
+Mathematically, one can calculate the expected number of junctions. The first 
+equation covered here covers the derivations obtained in Janzen et al. 2018:
+```{r expected number of junctions}
+number_of_junctions(N = 100, R = 100, H_0 = 0.5, C = 1, t = 1000)
+```
 
+This equation however, has to assume that the markers are equally spaced, that 
+is, that the distance between each consecutive marker pair is equal. This is 
+rarely the case in empirical data, and a better version is provided by the 
+function \code{number_of_junctions_markers}:
+```{r expected number of junctions markers}
+number_of_junctions_markers(N = 100, H_0 = 0.5, t = 1000,
+                            marker_distribution = sort(runif(100, 0, 1)))
+```
 
+Similarly, we can calculate the probability of observing a junction in between
+two markers, given an amount of recombination (in Morgan) between these 
+two markers:
+```{r expected number of junctions di}
+number_of_junctions_di(N = 100, H_0 = 0.5, t = 1000, di = 1e-5)
+```
+
+Lastly, we have included a function that calculates the expected number of 
+junctions after a number of generations, in a backcrossing mating scheme. 
+
+```{r expected number of junctions back crossing}
+number_of_junctions_backcross(H_0 = 0.5, C = 1, t = 10)
+```
+
+## Mathematical expressions
+Following Janzen et al. 2018, there are a number of equations that might be 
+useful.
+Firstly, there is an equation to calculate the upper limit of junctions that can
+be packed in a chromosome, given the number of (regularly spaced) markers:
+```{r K}
+calc_k(N = 1000, R = 1000, H_0 = 0.5, C = 1)
+```
+
+Any time spent after the population has reached this upper limit remains 
+"invisible" for inference purposes, and thus it can be useful to calculate the
+upper limit of age inference, coined 'Maximum Accurate Time', following equation
+15 in Janzen et al. 2018:
+```{r MAT}
+calculate_mat(N = 1000, R = 1000, H_0 = 0.5, C = 1)
+```
+
+Similarly, we can estimate the error induced in time inference, where the error
+is given by the amount of time difference induced if we were to infer one 
+junction less (or more), following Equations 3 & 4 in the Supplementary 
+information of Janzen et al. 2018.
+```{r error}
+time_error(t = 30, N = 1000, R = 1000, H_0 = 0.5, C = 1)
+```
+
+This concludes a runthrough of all the available functions in the junctions 
+package. Feel free to contact me if you feel anything is missing, or to create
+an issue if you run into a problem. 
