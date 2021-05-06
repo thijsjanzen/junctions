@@ -20,7 +20,8 @@ Suggests: knitr,
           dplyr,
           magrittr,
           ggplot2,
-          tidyr
+          tidyr,
+          rmarkdown
 SystemRequirements: C++14
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
