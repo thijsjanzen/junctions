@@ -17,16 +17,19 @@ test_that("unphased, use", {
 
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 100)
-  ll_100 <- log_likelihood_diploid(cbind(1, local_data$location, local_data$anc_chrom_1,
+  ll_100 <- log_likelihood_diploid(cbind(1,
+                                         local_data$location,
+                                         local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
                                    pop_size = 100,
                                    freq_ancestor_1 = 0.5,
                                    t = 100,
                                    phased = FALSE)
 
-  ll_200 <- log_likelihood_diploid(cbind(1, local_data$location, local_data$anc_chrom_1,
+  ll_200 <- log_likelihood_diploid(cbind(1,
+                                         local_data$location,
+                                         local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
-                                   local_data$location,
                                    pop_size = 100,
                                    freq_ancestor_1 = 0.5,
                                    phased = FALSE,
@@ -48,7 +51,6 @@ test_that("unphased, use", {
   ll_30 <- log_likelihood_diploid(cbind(1, local_data$location,
                                         local_data$anc_chrom_1,
                                         local_data$anc_chrom_2),
-                                  local_data$location,
                                   pop_size = 1000,
                                   freq_ancestor_1 = 0.1,
                                   phased = FALSE,
@@ -63,16 +65,7 @@ test_that("unphased, use", {
                                    t = 600)
   testthat::expect_gte(ll_30, ll_100)
 
-  ll_inf <- log_likelihood_diploid(cbind(1, local_data$location,
-                                         local_data$anc_chrom_1,
-                                         local_data$anc_chrom_2),
-                                   pop_size = 1000,
-                                   freq_ancestor_1 = 0.1,
-                                   phased = FALSE,
-                                   t = 0)
-  testthat::expect_true(is.infinite(ll_inf))
-
-  multi_ll <- loglikelihood_unphased(cbind(1,
+  multi_ll <- log_likelihood_diploid(cbind(1,
                                            local_data$location,
                                            local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),

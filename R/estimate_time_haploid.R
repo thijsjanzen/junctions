@@ -75,5 +75,6 @@ estimate_time_haploid <- function(ancestry_matrix,
             "consider adjusting the upper limit to improve accuracy\n")
   }
 
-  return(list(time = fitted$minimum, likelihood = -fitted$objective))
+  return(list(time = fitted$minimum,
+              loglikelihood = -fitted$objective))
 }

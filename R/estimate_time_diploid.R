@@ -62,7 +62,7 @@ estimate_time_diploid <- function(ancestry_information,
       }
     }
     colnames(time_estimates) <- c("individual", "chromosome",
-                                  "time", "likelihood")
+                                  "time", "loglikelihood")
   }
   if (analysis_type == "individuals") {
     for (indiv in unique(ancestry_information[, 1])) {
@@ -82,7 +82,7 @@ estimate_time_diploid <- function(ancestry_information,
       time_estimates <- rbind(time_estimates, c(indiv,
                                                 result$time, result$likelihood))
     }
-    colnames(time_estimates) <- c("individual", "time", "likelihood")
+    colnames(time_estimates) <- c("individual", "time", "loglikelihood")
   }
   if (analysis_type == "chromosomes") {
     for (chrom in unique(ancestry_information[, 2])) {
@@ -102,7 +102,7 @@ estimate_time_diploid <- function(ancestry_information,
       time_estimates <- rbind(time_estimates, c(chrom,
                                                 result$time, result$likelihood))
     }
-    colnames(time_estimates) <- c("chromosome", "time", "likelihood")
+    colnames(time_estimates) <- c("chromosome", "time", "loglikelihood")
   }
 
 

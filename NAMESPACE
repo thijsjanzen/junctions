@@ -3,7 +3,6 @@
 export(calc_k)
 export(calculate_mat)
 export(estimate_time)
-export(estimate_time_cpp)
 export(estimate_time_diploid)
 export(estimate_time_haploid)
 export(estimate_time_one_chrom)
