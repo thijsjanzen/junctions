@@ -1,7 +1,7 @@
 #' log likelihood of the time since admixture for a haploid genome
 #' @description log likelihood of the time since admixture for a set of single
 #' chromosomes (for ex. in Yeast).
-#' @param ancestry matrix with 3 columns, column 1 = chromosome, column 2 =
+#' @param ancestry_matrix matrix with 3 columns, column 1 = chromosome, column 2 =
 #' location in Morgan, column 3 = ancestry.
 #' @param N Population Size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0

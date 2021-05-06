@@ -7,6 +7,7 @@
 #' @param pop_size population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
 #' @param t time since admixture
+#' @param phased is the data phased or not? default is false.
 #' @param num_threads number of threads, default is one thread. Set to -1 to
 #'  use all available threads.
 #' @return log likelihood
