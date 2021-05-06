@@ -5,32 +5,10 @@ simulate_backcrossing_cpp <- function(pop_size, freq_ancestor_1, total_runtime, 
     .Call('_junctions_simulate_backcrossing_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed)
 }
 
-#' function to calculate log likelihood using cpp
-#' @param local_anc_matrix local ancestry matrix
-#' @param locations locations of markers
-#' @param pop_size population size
-#' @param freq_ancestor_1 frequency of the most common ancestor
-#' @param lower_lim lower limit
-#' @param upper_lim upper limit
-#' @param verbose use verbose output
-#' @param phased is the data phased or not?
-#' @param num_threads, default is all threads. 5 threads is recommended.
-#' @export
 estimate_time_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, phased, num_threads = -1L) {
     .Call('_junctions_estimate_time_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, phased, num_threads)
 }
 
-#' function to calculate log likelihood using cpp
-#' @param local_anc_matrix local ancestry matrix
-#' @param locations locations of markers
-#' @param pop_size population size
-#' @param freq_ancestor_1 frequency of the most common ancestor
-#' @param t time
-#' @param phased is the data phased or not?
-#' @param verbose verbose output
-#' @param num_threads number of threads, default is one thread. Set to -1 to
-#' use all available threads.
-#' @export
 loglikelihood_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, t, phased, verbose = FALSE, num_threads = 1L) {
     .Call('_junctions_loglikelihood_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, t, phased, verbose, num_threads)
 }

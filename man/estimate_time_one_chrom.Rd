@@ -28,7 +28,7 @@ in Morgan.}
 \item{lower_lim}{lower limit of the optimization algorithm. Increase if the
 expected admixture time is relatively ancient}
 
-\item{upper_lim}{upper limit of hte optimization algorithm. If set too large,
+\item{upper_lim}{upper limit of the optimization algorithm. If set too large,
 recent admixture events can be overlooked - best to set as low as possible.}
 }
 \value{

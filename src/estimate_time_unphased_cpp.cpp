@@ -159,12 +159,8 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
     Rcpp::stop("local anc matrix has to have 3 columns");
   }
 
- // Rcpp::Rcout << "starting selecting positions\n"; force_output();
   std::vector< std::vector< int > > chrom_matrix;
- /* std::vector< double > positions(locations.begin(), locations.end());
-  std::sort(positions.begin(), positions.end());
-  positions.erase(std::unique(positions.begin(), positions.end()), positions.end());
-*/
+
  std::vector<double> positions;
 
   for(int i = 0; i < local_anc_matrix.nrow(); ++i) {
@@ -197,17 +193,7 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
 }
 
 
-//' function to calculate log likelihood using cpp
-//' @param local_anc_matrix local ancestry matrix
-//' @param locations locations of markers
-//' @param pop_size population size
-//' @param freq_ancestor_1 frequency of the most common ancestor
-//' @param lower_lim lower limit
-//' @param upper_lim upper limit
-//' @param verbose use verbose output
-//' @param phased is the data phased or not?
-//' @param num_threads, default is all threads. 5 threads is recommended.
-//' @export
+
 // [[Rcpp::export]]
 Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                              const Rcpp::NumericVector& locations,
@@ -218,8 +204,6 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                              bool verbose,
                              bool phased,
                              int num_threads = -1) {
-
-
 try {
 
   if (verbose) {
@@ -290,17 +274,7 @@ try {
 }
 return NA_REAL;
 }
-//' function to calculate log likelihood using cpp
-//' @param local_anc_matrix local ancestry matrix
-//' @param locations locations of markers
-//' @param pop_size population size
-//' @param freq_ancestor_1 frequency of the most common ancestor
-//' @param t time
-//' @param phased is the data phased or not?
-//' @param verbose verbose output
-//' @param num_threads number of threads, default is one thread. Set to -1 to
-//' use all available threads.
-//' @export
+
 // [[Rcpp::export]]
 double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   const Rcpp::NumericVector& locations,

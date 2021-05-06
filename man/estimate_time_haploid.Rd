@@ -14,6 +14,9 @@ estimate_time_haploid(
 )
 }
 \arguments{
+\item{ancestry_matrix}{matrix with 3 columns, column 1 = chromosome, column 2 =
+location in Morgan, column 3 = ancestry.}
+
 \item{N}{Population Size}
 
 \item{freq_ancestor_1}{Frequency of ancestor 1 at t = 0}
@@ -25,9 +28,6 @@ expected admixture time is relatively ancient}
 recent admixture events can be overlooked - best to set as low as possible.}
 
 \item{verbose}{return verbose output}
-
-\item{ancestry}{matrix with 3 columns, column 1 = chromosome, column 2 =
-location in Morgan, column 3 = ancestry.}
 }
 \value{
 The number of generations passed since the onset of hybridization

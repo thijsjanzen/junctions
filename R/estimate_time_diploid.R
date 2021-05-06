@@ -1,4 +1,4 @@
-#' estimates the time since admixture, given unphased ancestry data.
+#' estimates the time since admixture, given diploid ancestry data.
 #' @description Calculates the time since admixture, given unphased
 #' ancestry data.
 #' @param ancestry_information a matrix with five columns: column 1) indicator
@@ -17,21 +17,26 @@
 #' @param upper_lim upper limit of hte optimization algorithm. If set too
 #' large, recent admixture events can be overlooked - best to set as low
 #' as possible.
-#' @param num_threads num_threads, default is all threads. 5 threads is recommended.
+#' @param num_threads num_threads, default is all threads. 5 threads is
+#' recommended.
 #' @param verbose display intermediate output? Default = FALSE
 #' @export
-estimate_time_joint <- function(ancestry_information,
-                                analysis_type = "all",
-                                phased = FALSE,
-                                pop_size = 1000,
-                                freq_ancestor_1 = 0.5,
-                                lower_lim = 2,
-                                upper_lim = 2000,
-                                num_threads = 1,
-                                verbose = FALSE) {
+estimate_time_diploid <- function(ancestry_information,
+                                  analysis_type = "individuals",
+                                  phased = FALSE,
+                                  pop_size = 1000,
+                                  freq_ancestor_1 = 0.5,
+                                  lower_lim = 2,
+                                  upper_lim = 2000,
+                                  num_threads = 1,
+                                  verbose = FALSE) {
 
   if (!(analysis_type %in% c("all", "individuals", "chromosomes"))) {
     stop("analysis type not known, did you perhaps spell individual instead of individuals?")
+  }
+
+  if (!is.matrix(ancestry_information)) {
+    ancestry_information <- as.matrix(ancestry_information)
   }
 
   time_estimates <- c()

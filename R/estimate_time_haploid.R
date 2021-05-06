@@ -31,38 +31,10 @@ calc_ll_haploid <- function(chrom_matrix,
   return(sum(ll))
 }
 
-
-
-#' log likelihood of the time since admixture for a haploid genome
-#' @description log likelihood of the time since admixture for a set of single
-#' chromosomes (for ex. in Yeast).
-#' @param ancestry matrix with 3 columns, column 1 = chromosome, column 2 =
-#' location in Morgan, column 3 = ancestry.
-#' @param N Population Size
-#' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
-#' @param t time since admixture
-#' @return loglikelihood
-#' @export
-loglikelihood_haploid <- function(ancestry_matrix,
-                                  N = 1000,
-                                  freq_ancestor_1 = 0.5,
-                                  t = 2) {
-
-  chrom <- unique(ancestry_matrix[, 1])
-  num_chrom <- length(chrom)
-
-  ll <- rep(0, num_chrom)
-  for (i in seq_along(chrom)) {
-    focal_chrom <- subset(ancestry_matrix, ancestry_matrix[, 1] == chrom[i])
-    ll[i] = calc_ll_haploid(focal_chrom, N, freq_ancestor_1, t)
-  }
-  return(sum(ll))
-}
-
 #' estimate time using likelihood for a single chromosome
 #' @description Estimate the time since the onset of hybridization, for a
 #' haploid genome
-#' @param ancestry matrix with 3 columns, column 1 = chromosome, column 2 =
+#' @param ancestry_matrix matrix with 3 columns, column 1 = chromosome, column 2 =
 #' location in Morgan, column 3 = ancestry.
 #' @param N Population Size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
@@ -79,6 +51,10 @@ estimate_time_haploid <- function(ancestry_matrix,
                                   lower_lim = 2,
                                   upper_lim = 1000,
                                   verbose = FALSE) {
+
+  if (!is.matrix(ancestry_matrix)) {
+    ancestry_matrix <- as.matrix(ancestry_matrix)
+  }
 
   chrom <- unique(ancestry_matrix[, 1])
   num_chrom <- length(chrom)
