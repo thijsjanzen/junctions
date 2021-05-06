@@ -1,14 +1,14 @@
 # junctions <img src="pics/junctions_sticker3.png" align="right" width="180" />
-Individual based simulations of hybridizing populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes. Both simulations and mathematical equations are based on Janzen et al. (2018) 
+Individual based simulations of hybridizing populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes. Both simulations and mathematical equations are based on Janzen et al. (2018).
 
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/junctions)](https://cran.r-project.org/package=junctions)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/junctions)](https://cran.r-project.org/package=junctions)
 [![](http://cranlogs.r-pkg.org/badges/junctions)](https://cran.r-project.org/package=junctions)
 [![R-CMD-check](https://github.com/thijsjanzen/junctions/workflows/R-CMD-check/badge.svg)](https://github.com/thijsjanzen/junctions/actions)
 
-Branch|[![Travis CI logo](pics/TravisCI.png)](https://travis-ci.org)|[![AppVeyor logo](pics/AppVeyor.png)](https://www.appveyor.com)|[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
----|---|---|---
-master|[![Build Status](https://travis-ci.org/thijsjanzen/junctions.svg?branch=master)](https://travis-ci.org/thijsjanzen/junctions)|[![Build status](https://ci.appveyor.com/api/projects/status/rt9856tv3pi87sms?svg=true)](https://ci.appveyor.com/project/thijsjanzen/junctions)|[![codecov.io](https://codecov.io/gh/thijsjanzen/junctions/branch/master/graph/badge.svg)](https://codecov.io/gh/thijsjanzen/junctions)
+Branch|[![AppVeyor logo](pics/AppVeyor.png)](https://www.appveyor.com)|[![Codecov logo](pics/Codecov.png)](https://www.codecov.io)
+---|---|---
+master|[![Build status](https://ci.appveyor.com/api/projects/status/rt9856tv3pi87sms?svg=true)](https://ci.appveyor.com/project/thijsjanzen/junctions)|[![codecov.io](https://codecov.io/gh/thijsjanzen/junctions/branch/master/graph/badge.svg)](https://codecov.io/gh/thijsjanzen/junctions)
 
 
 
