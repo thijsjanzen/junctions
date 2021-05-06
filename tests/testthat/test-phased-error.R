@@ -62,12 +62,3 @@ test_that("phased, use", {
                            tolerance = 10)
   }
 })
-
-test_that("unphased, exceptions", {
-
-  vx <- sim_phased_unphased(pop_size = 100,
-                            freq_ancestor_1 = 0.5,
-                            total_runtime = 201,
-                            size_in_morgan = 1,
-                            markers = 1000)
-})

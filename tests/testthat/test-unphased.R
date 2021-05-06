@@ -1,6 +1,5 @@
 context("unphased")
 test_that("unphased, use", {
-
   population_size <- 100
   max_t <- 100
   vx <- sim_phased_unphased(pop_size = population_size,
@@ -16,6 +15,7 @@ test_that("unphased, use", {
 
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 100)
+
   ll_100 <- log_likelihood_diploid(cbind(1,
                                          local_data$location,
                                          local_data$anc_chrom_1,
@@ -77,15 +77,6 @@ test_that("unphased, use", {
   testthat::expect_gt(multi_ll[2], multi_ll[3])
 })
 
-test_that("unphased, exceptions", {
-
-  vx <- sim_phased_unphased(pop_size = 100,
-                            freq_ancestor_1 = 0.5,
-                            total_runtime = 201,
-                            size_in_morgan = 1,
-                            markers = 1000)
-})
-
 test_that("unphased, junctions", {
 
   N <- 1000 # nolint
@@ -124,10 +115,7 @@ test_that("unphased, junctions", {
                                           C = C,
                                           t = t)
 
-  cat(num_j_true, obs_j, exp_j, "\n")
-
   testthat::expect_equal(obs_j, exp_j, tolerance = 0.2)
-
 
   N <- 10000 # nolint
   R <- 10000 # nolint

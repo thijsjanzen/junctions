@@ -54,34 +54,6 @@ test_that("markers, abuse", {
   )
 })
 
-test_that("estimate time", {
-  N <- 1e3  # nolint
-  num_markers <- 1000
-  total_runtime <- 50
-  num_repl <- 100
-  all_times <- c()
-  for (r in seq_len(num_repl)) {
-
-    sim_results <- sim_inf_chrom(pop_size = N,
-                                 freq_ancestor_1 = 0.5,
-                                 total_runtime = total_runtime,
-                                 morgan = 1,
-                                 markers = num_markers,
-                                 seed = r + 15)
-
-    sim_markers <- sim_results$markers
-    focal_j <- tail(sim_results$avgJunctions, 1)  # nolint
-    estimated_time <- estimate_time_one_chrom(J = focal_j,
-                                              N = N,
-                                              H_0 = 0.5,
-                                              marker_distribution = sim_markers)
-    all_times <- c(all_times, estimated_time)
-  }
-
-  testthat::expect_equal(mean(all_times), total_runtime,
-                         tolerance = 0.1, scale = total_runtime)
-})
-
 test_that("marker dist", {
   vx <- sim_phased_unphased(total_runtime = 2,
                             markers = 10,
