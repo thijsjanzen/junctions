@@ -10,7 +10,6 @@ test_that("explicit, use", {
                             total_runtime = max_gen,
                             markers = marker_vec,
                             time_points = max_gen,
-                            seed = 42,
                             num_indiv_sampled = 100,
                             use_explicit = FALSE)
 
@@ -19,7 +18,6 @@ test_that("explicit, use", {
                             total_runtime = max_gen,
                             markers = marker_vec,
                             time_points = max_gen,
-                            seed = 42,
                             num_indiv_sampled = 100,
                             use_explicit = TRUE)
 

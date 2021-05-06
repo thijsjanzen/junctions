@@ -6,8 +6,7 @@ test_that("phased, use", {
                             total_runtime = 201,
                             size_in_morgan = 1,
                             markers = 1000,
-                            time_points = c(100, 200),
-                            seed = 42)
+                            time_points = c(100, 200))
 
   num_indiv <- length(unique(vx$individual))
   testthat::expect_equal(num_indiv, 10)
@@ -61,8 +60,7 @@ test_that("phased, use", {
                             total_runtime = 30,
                             size_in_morgan = 1,
                             markers = 1000,
-                            time_points = c(30),
-                            seed = 421)
+                            time_points = c(30))
 
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 30)
@@ -107,7 +105,6 @@ test_that("phased, expectation", {
                             total_runtime = 100,
                             size_in_morgan = 1,
                             time_points = c(20),
-                            seed = 42,
                             record_true_junctions = TRUE)
 
   a <- mean(c(vx$true_results$junctions_chrom_1,
@@ -115,5 +112,5 @@ test_that("phased, expectation", {
 
   expected_j <- number_of_junctions(N = 10000, t = 20)
 
-  testthat::expect_true( abs(a - expected_j) / expected_j < 0.5)
+  testthat::expect_true(abs(a - expected_j) / expected_j < 0.5)
 })

@@ -120,13 +120,12 @@ List sim_phased_unphased_explicit_cpp(int pop_size,
                              double size_in_morgan,
                              NumericVector markers,
                              NumericVector time_points,
-                             int seed,
                              bool verbose,
                              bool record_true_junctions,
                              int num_indiv_sampled,
                              int num_threads) {
 
-  rnd_t rndgen(seed);
+  rnd_t rndgen;
 
   std::vector< double > marker_dist(markers.begin(), markers.end());
 

@@ -75,7 +75,7 @@ Output simulation_phased_nonphased(int popSize,
       p2 = parent1;
     }
 
-    Pop[i] = mate_inf(p1,p2, numRecombinations, rndgen);
+    Pop[i] = mate_inf(p1, p2, numRecombinations, rndgen);
   }
 
   if (verbose) Rcout << "0--------25--------50--------75--------100\n";
@@ -118,17 +118,17 @@ List sim_phased_unphased_cpp(int pop_size,
                              double size_in_morgan,
                              NumericVector markers,
                              NumericVector time_points,
-                             int seed,
                              bool verbose,
                              bool record_true_junctions,
                              int num_indiv_sampled,
                              int num_threads) {
 
-  rnd_t rndgen(seed);
+  rnd_t rndgen;
 
   std::vector< double > marker_dist(markers.begin(), markers.end());
 
-  Output O = simulation_phased_nonphased(pop_size, freq_ancestor_1,
+  Output O = simulation_phased_nonphased(pop_size,
+                                         freq_ancestor_1,
                                          total_runtime,
                                          size_in_morgan,
                                          marker_dist,

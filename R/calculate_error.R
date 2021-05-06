@@ -39,8 +39,8 @@ time_error <- function(t = NA,
   }
 
   output <- c()
-  for(i in seq_along(t)) {
-    output[i] = error_t(t[i])
+  for (i in seq_along(t)) {
+    output[i] <- error_t(t[i])
   }
   return(output)
 }

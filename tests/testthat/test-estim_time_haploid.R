@@ -4,7 +4,6 @@ test_that("estimate_time_haploid, use", {
   vx <- sim_phased_unphased(total_runtime = sim_time,
                             time_points = sim_time,
                             pop_size = 1000,
-                            seed = 1,
                             num_indiv_sampled = 20)
 
   estim_time <- estimate_time_haploid(cbind(vx$individual,
@@ -33,7 +32,6 @@ test_that("estimate_time_diploid, use", {
   vx <- sim_phased_unphased(total_runtime = sim_time,
                             time_points = sim_time,
                             pop_size = 1000,
-                            seed = 1,
                             num_indiv_sampled = 30)
 
   indiv <- vx$individual

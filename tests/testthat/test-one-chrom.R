@@ -7,7 +7,6 @@ test_that("one chrom, use", {
   vx <- sim_phased_unphased(pop_size = population_size,
                             total_runtime = run_time,
                             markers = 10000,
-                            seed = 4,
                             time_points = run_time)
 
   found <- c()

@@ -21,4 +21,44 @@ get_num_markers <- function(markers) {
     return(markers)
   }
 }
+
+#' @keywords internal
+apply_phasing_error <- function(output,
+                                coverage,
+                                error_rate) {
+
+  true_data <- output$results
+  colnames(true_data) <- c("time", "individual", "location",
+                           "anc_chrom_1", "anc_chrom_2")
+  true_data <- tibble::as_tibble(true_data)
+
+  markers <- unique(true_data$location)
+  selected_markers <- sort(sample(markers,
+                                  size = coverage * length(markers),
+                                  replace = F))
+
+  phased_data <- true_data[true_data$location %in% selected_markers, ]
+
+  for (i in unique(phased_data$individual)) {
+    focal_indices <- which(phased_data$individual == i)
+    # select which ones to flip:
+    sample_size <- stats::rbinom(size = length(focal_indices),
+                                 n = 1,
+                                 prob = error_rate)
+
+    to_flip <- sample(focal_indices,
+                      size = sample_size,
+                      replace = F)
+
+    if (length(to_flip) > 0) {
+      temp <- phased_data$anc_chrom_1[to_flip]
+      phased_data$anc_chrom_1[to_flip] <- phased_data$anc_chrom_2[to_flip]
+      phased_data$anc_chrom_2[to_flip] <- temp
+    }
+  }
+
+  return(list("true_data" = true_data,  "phased_data" = phased_data))
+}
+
+
 # nolint end

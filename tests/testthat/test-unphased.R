@@ -8,8 +8,7 @@ test_that("unphased, use", {
                             total_runtime = max_t,
                             size_in_morgan = 1,
                             markers = 1000,
-                            time_points = c(50, 100),
-                            seed = 43)
+                            time_points = c(50, 100))
 
   num_indiv <- length(unique(vx$individual))
   testthat::expect_equal(num_indiv, 10)
@@ -37,16 +36,15 @@ test_that("unphased, use", {
 
   testthat::expect_gte(ll_100, ll_200)
 
-  vx <- sim_phased_unphased(pop_size = 1000,
+  vx <- sim_phased_unphased(pop_size = 10000,
                             freq_ancestor_1 = 0.1,
-                            total_runtime = 30,
+                            total_runtime = 20,
                             size_in_morgan = 1,
                             markers = 10000,
-                            time_points = c(30),
-                            seed = 421)
+                            time_points = c(20))
 
   local_data <- subset(vx, vx$individual == 0 &
-                         vx$time == 30)
+                         vx$time == 20)
 
   ll_30 <- log_likelihood_diploid(cbind(1, local_data$location,
                                         local_data$anc_chrom_1,
@@ -85,26 +83,16 @@ test_that("unphased, exceptions", {
                             freq_ancestor_1 = 0.5,
                             total_runtime = 201,
                             size_in_morgan = 1,
-                            markers = 1000,
-                            seed = 42)
-
-  testthat::expect_warning(
-    vx <- sim_phased_unphased(pop_size = 100,
-                              freq_ancestor_1 = 0.5,
-                              total_runtime = 201,
-                              size_in_morgan = 1,
-                              markers = 1000,
-                              time_points = c(100, 200))
-  )
+                            markers = 1000)
 })
 
 test_that("unphased, junctions", {
 
-  N <- 1000
-  R <- 1000
+  N <- 1000 # nolint
+  R <- 1000 # nolint
   t <- 100
-  H_0 <- 0.5
-  C <- 1
+  H_0 <- 0.5 # nolint
+  C <- 1     # nolint
 
   vx <- sim_phased_unphased(pop_size = N,
                             freq_ancestor_1 = H_0,
@@ -115,8 +103,7 @@ test_that("unphased, junctions", {
                             time_points = t,
                             num_indiv_sampled = 20,
                             record_true_junctions = TRUE,
-                            verbose = TRUE,
-                            seed = 42)
+                            verbose = TRUE)
 
   num_j_true <- mean(c(vx$true_results$junctions_chrom_1,
                      vx$true_results$junctions_chrom_2))
@@ -142,11 +129,11 @@ test_that("unphased, junctions", {
   testthat::expect_equal(obs_j, exp_j, tolerance = 0.2)
 
 
-  N <- 10000
-  R <- 10000
+  N <- 10000 # nolint
+  R <- 10000 # nolint
   t <- 20
-  H_0 <- 0.5
-  C <- 1
+  H_0 <- 0.5 # nolint
+  C <- 1    # nolint
 
   vx <- sim_phased_unphased(pop_size = N,
                             freq_ancestor_1 = H_0,
@@ -155,8 +142,7 @@ test_that("unphased, junctions", {
                             markers = R,
                             num_threads = 1,
                             time_points = t,
-                            num_indiv_sampled = 30,
-                            seed = 42)
+                            num_indiv_sampled = 30)
 
   num_j <- c()
   for (i in unique(vx$individual)) {

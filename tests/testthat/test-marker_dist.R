@@ -84,7 +84,7 @@ test_that("estimate time", {
 
 test_that("marker dist", {
   vx <- sim_phased_unphased(total_runtime = 2,
-                            markers = 10, seed = 5,
+                            markers = 10,
                             num_indiv_sampled = 1,
                             time_points = 1)
 
@@ -93,7 +93,7 @@ test_that("marker dist", {
   testthat::expect_false(diff_loc[1] == diff_loc[2])
 
   vy <- sim_phased_unphased(total_runtime = 2,
-                            markers = -9, seed = 5,
+                            markers = -9,
                             num_indiv_sampled = 1,
                             time_points = 1)
 

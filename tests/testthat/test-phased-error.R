@@ -7,7 +7,6 @@ test_that("phased, use", {
                               size_in_morgan = 1,
                               markers = 1000,
                               time_points = c(100, 200),
-                              seed = 42,
                               coverage = 0.99,
                               error_rate = 0)
 
@@ -22,7 +21,6 @@ test_that("phased, use", {
                               size_in_morgan = 1,
                               markers = 1000,
                               time_points = c(100, 200),
-                              seed = 42,
                               coverage = 0.5,
                               error_rate = 0)
 
@@ -40,7 +38,6 @@ test_that("phased, use", {
                               size_in_morgan = 1,
                               markers = 1000,
                               time_points = c(200),
-                              seed = 42,
                               coverage = 1,
                               error_rate = errorrr)
 
@@ -72,15 +69,5 @@ test_that("unphased, exceptions", {
                             freq_ancestor_1 = 0.5,
                             total_runtime = 201,
                             size_in_morgan = 1,
-                            markers = 1000,
-                            seed = 42)
-
-  testthat::expect_warning(
-    vx <- sim_phased_unphased(pop_size = 100,
-                              freq_ancestor_1 = 0.5,
-                              total_runtime = 201,
-                              size_in_morgan = 1,
-                              markers = 1000,
-                              time_points = c(100, 200))
-  )
+                            markers = 1000)
 })
