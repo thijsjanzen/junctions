@@ -59,11 +59,12 @@ Secondly, we need to provide a vector with the location in Morgan. This vector
 is converted into recombination distances between markers (very similar to how Ancestry HMM treats markers as well). Simulation output already contains this information and we can use this to infer the time since admixture:
 
 ```{r, infer unphased admixture time}
-admixture_time <- estimate_time_unphased(local_anc_matrix = unphased_data,
-                                         locations = focal_data$location,
+admixture_time <- estimate_time_diploid(ancestry_information = cbind(1, 1, focal_data$location, 
+                                                                 focal_data$anc_chrom_1,
+                                                                 focal_data$anc_chrom_2),
                                          pop_size = 1000,
                                          freq_ancestor_1 = 0.5,
-                                         verbose = FALSE)
+                                         phased = FALSE)
 admixture_time
 ```
 
@@ -75,8 +76,9 @@ we can also use the phased framework. Here, we need to provide a matrix with two
 ```{r, infer phased admixture time}
 morgan_locations = focal_data$location
 phased_data = cbind(focal_data$anc_chrom_1, focal_data$anc_chrom_2)
-admixture_time_phased <- estimate_time_phased(local_anc_matrix = phased_data,
-                                              locations = morgan_locations,
+admixture_time_phased <- estimate_time_diploid(ancestry_information = 
+                                                 cbind(1, 1, morgan_locations, phased_data),
+                                              phased = TRUE,
                                               pop_size = 1000,
                                               freq_ancestor_1 = 0.5)
 
@@ -91,12 +93,15 @@ Because we are using simulated data, we know beforehand the size of the populati
 ```{r, infer time pop size}
 found <- c()
 for (N in c(100, 1000, 10000, 100000, 1e6, 1e7)) {
-  admixture_time_phased <- estimate_time_phased(local_anc_matrix = phased_data,
-                                                locations = morgan_locations,
-                                                pop_size = N,
-                                                freq_ancestor_1 = 0.5)
-  found <- rbind(found, c(N, admixture_time_phased$minimum, 
-                          admixture_time_phased$objective))
+  admixture_time_phased <- estimate_time_diploid(ancestry_information = 
+                                                 cbind(1, 1, 
+                                                       morgan_locations, 
+                                                       phased_data),
+                                              phased = TRUE,
+                                              pop_size = N,
+                                              freq_ancestor_1 = 0.5)
+  found <- rbind(found, c(N, admixture_time_phased$time[[1]], 
+                          admixture_time_phased$loglikelihood[[1]]))
 }
 found
 plot(found[, 2] ~ found[,1], log = "x", 
@@ -107,24 +112,16 @@ plot((-1 * found[, 3]) ~ found[, 1], log = "x",
      ylab = "Log Likelihood")
 ```
 
-Indeed we see that admixture time estimates vary only minutely, and we see that the likelihood values are extremely similar. If, instead, we don't want to manually explore values, but want to infer the population size jointly with admixture time, we can do that as well:
-```{r, pop size}
-admixture_time_phased <- estimate_time_phased(local_anc_matrix = phased_data,
-                                              locations = morgan_locations,
-                                              pop_size = 1000,
-                                              freq_ancestor_1 = 0.5,
-                                              optim_pop_size = TRUE)
-admixture_time_phased
-```
-
-The function now returns two values, \code{value}, which contains the -loglikelihood, and \code{par}, which contains a vector of c(time, population_size). Because the loglikelihood surface is typically very flat for higher populatin sizes, the population size estimate is typically not correct.
+Because the loglikelihood surface is typically very flat for higher population sizes, the population size estimate is typically not correct.
 If we want to explore the effect of population size, we can also directly calculate the likelihood (without optimization) and explore the impact. 
 
 ```{r, likelihood}
 found <- c()
 for (N in 10^(seq(1, 6, length.out = 100))) {
-  ll <- junctions::loglikelihood_phased(local_anc_matrix = phased_data,
-                                        locations = morgan_locations,
+  ll <- junctions::log_likelihood_diploid(local_anc_matrix = cbind(1, 
+                                                                   morgan_locations,
+                                                                   phased_data),
+                                        phased = TRUE,
                                         pop_size = N,
                                         freq_ancestor_1 = 0.5,
                                         t = 100)
@@ -140,7 +137,7 @@ To reflect phasing error, we can also simulate data with imposed phasing error, 
 To simulate such data, we can use the junctions package:
 
 ```{r, phasing error}
-simulated_data <- sim_phased_with_error(pop_size = 1000,
+simulated_data <- sim_phased_unphased(pop_size = 1000,
                                         freq_ancestor_1 = 0.5,
                                         total_runtime = 100,
                                         size_in_morgan = 1,
@@ -163,8 +160,9 @@ true_data <- cbind(focal_true_data$anc_chrom_1,                                 
 
 true_loc  <- focal_true_data$location
 
-admixture_time_true <- estimate_time_phased(local_anc_matrix = true_data,
-                                            locations = true_loc,
+admixture_time_true <- estimate_time_diploid(ancestry_information  = 
+                                               cbind(1, 1, true_loc, true_data),
+                                            phased = TRUE,
                                             pop_size = 1000,
                                             freq_ancestor_1 = 0.5)
 
@@ -175,10 +173,12 @@ phased_data <- cbind(focal_phased_data$anc_chrom_1,                             
 phased_loc  <- focal_phased_data$location
 
 
-admixture_time_error <- estimate_time_phased(local_anc_matrix = phased_data,
-                                             locations = phased_loc,
-                                             pop_size = 1000,
-                                             freq_ancestor_1 = 0.5)
+admixture_time_error <- estimate_time_diploid(ancestry_information = 
+                                               cbind(1, 1, 
+                                                     phased_loc, phased_data),
+                                            phased = TRUE,
+                                            pop_size = 1000,
+                                            freq_ancestor_1 = 0.5)
 admixture_time_true
 admixture_time_error
 ```

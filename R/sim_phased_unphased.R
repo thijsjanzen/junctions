@@ -20,6 +20,11 @@
 #' @param record_true_junctions keep track of the true number of junctions?
 #' @param num_indiv_sampled the number of individuals sampled at each time point
 #' to be genotyped
+#' @param use_explicit if TRUE, only ancestry at the markers is simulated. If
+#' FALSE, all junctions are simulated.
+#' @param coverage fraction of markers that can be succesfully phased
+#' @param error_rate fraction of markers that are erroneously
+#' phased (e.g. swapped)
 #' @return a tibble with five columns: [time, individual, marker location,
 #'                             ancestry chromosome 1, ancestry chromosome 2]
 #' @examples
@@ -40,7 +45,10 @@ sim_phased_unphased <- function(pop_size = 100,
                                 num_threads = 1,
                                 verbose = FALSE,
                                 record_true_junctions = FALSE,
-                                num_indiv_sampled = 10) {
+                                num_indiv_sampled = 10,
+                                use_explicit = FALSE,
+                                coverage = 1,
+                                error_rate = 0) {
   if (length(time_points) == 1) {
     if (time_points == -1) {
       time_points <- seq(0, total_runtime, by = 1)
@@ -62,8 +70,22 @@ sim_phased_unphased <- function(pop_size = 100,
 
   markers <- get_num_markers(markers)
 
+  output <- c()
 
-  output <- sim_phased_unphased_cpp(pop_size,
+  if (use_explicit == FALSE) {
+    output <- sim_phased_unphased_cpp(pop_size,
+                                        freq_ancestor_1,
+                                        total_runtime,
+                                        size_in_morgan,
+                                        markers,
+                                        time_points,
+                                        seed,
+                                        verbose,
+                                        record_true_junctions,
+                                        num_indiv_sampled,
+                                        num_threads)
+  } else {
+    output <- sim_phased_unphased_explicit_cpp(pop_size,
                                       freq_ancestor_1,
                                       total_runtime,
                                       size_in_morgan,
@@ -74,19 +96,57 @@ sim_phased_unphased <- function(pop_size = 100,
                                       record_true_junctions,
                                       num_indiv_sampled,
                                       num_threads)
+  }
 
-  colnames(output$results) <- c("time", "individual", "location",
-                                "anc_chrom_1", "anc_chrom_2")
+  if (coverage != 1 || error_rate != 0) {
+    true_data <- output$results
+    colnames(true_data) <- c("time", "individual", "location",
+                             "anc_chrom_1", "anc_chrom_2")
+    true_data <- tibble::as_tibble(true_data)
 
-  if (!record_true_junctions)
-    return(tibble::as_tibble(output$results))
+    markers <- unique(true_data$location)
+    selected_markers <- sort(sample(markers,
+                                    size = coverage * length(markers),
+                                    replace = F))
 
-  if (record_true_junctions) {
-    colnames(output$true_results) <- c("time",
-                                      "individual",
-                                      "junctions_chrom_1",
-                                      "junctions_chrom_2")
-    output <- list("results" = tibble::as_tibble(output$results),
-                   "true_results" = tibble::as_tibble(output$true_results))
+    phased_data <- true_data[true_data$location %in% selected_markers, ]
+
+    for (i in unique(phased_data$individual)) {
+      focal_indices <- which(phased_data$individual == i)
+      # select which ones to flip:
+
+      sample_size <- stats::rbinom(size = length(focal_indices),
+                                   n = 1,
+                                   prob = error_rate)
+
+      to_flip <- sample(focal_indices,
+                        size = sample_size,
+                        replace = F)
+
+      if (length(to_flip) > 0) {
+        temp <- phased_data$anc_chrom_1[to_flip]
+        phased_data$anc_chrom_1[to_flip] <- phased_data$anc_chrom_2[to_flip]
+        phased_data$anc_chrom_2[to_flip] <- temp
+      }
+    }
+
+    return(list("true_data" = true_data,
+                "phased_data" = phased_data))
+  } else {
+    colnames(output$results) <- c("time", "individual", "location",
+                                  "anc_chrom_1", "anc_chrom_2")
+
+    if (!record_true_junctions)
+      return(tibble::as_tibble(output$results))
+
+    if (record_true_junctions) {
+      colnames(output$true_results) <- c("time",
+                                        "individual",
+                                        "junctions_chrom_1",
+                                        "junctions_chrom_2")
+      output <- list("results" = tibble::as_tibble(output$results),
+                     "true_results" = tibble::as_tibble(output$true_results))
+      return(output)
+    }
   }
 }

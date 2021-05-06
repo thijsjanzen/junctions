@@ -15,7 +15,10 @@ sim_phased_unphased(
   num_threads = 1,
   verbose = FALSE,
   record_true_junctions = FALSE,
-  num_indiv_sampled = 10
+  num_indiv_sampled = 10,
+  use_explicit = FALSE,
+  coverage = 1,
+  error_rate = 0
 )
 }
 \arguments{
@@ -47,6 +50,14 @@ ancestry is recorded at every generation (computationally heavy).}
 
 \item{num_indiv_sampled}{the number of individuals sampled at each time point
 to be genotyped}
+
+\item{use_explicit}{if TRUE, only ancestry at the markers is simulated. If
+FALSE, all junctions are simulated.}
+
+\item{coverage}{fraction of markers that can be succesfully phased}
+
+\item{error_rate}{fraction of markers that are erroneously
+phased (e.g. swapped)}
 }
 \value{
 a tibble with five columns: [time, individual, marker location,

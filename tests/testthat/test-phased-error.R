@@ -1,26 +1,22 @@
 context("phased_with_error")
 test_that("phased, use", {
 
-  vx <- sim_phased_with_error(pop_size = 100,
+  vx <- sim_phased_unphased(pop_size = 100,
                               freq_ancestor_1 = 0.5,
                               total_runtime = 201,
                               size_in_morgan = 1,
                               markers = 1000,
                               time_points = c(100, 200),
                               seed = 42,
-                              coverage = 1,
+                              coverage = 0.99,
                               error_rate = 0)
 
   num_indiv <- length(unique(vx$true_data$individual))
   testthat::expect_equal(num_indiv, 10)
   testthat::expect_equal(length(unique(vx$true_data$time)), 2)
 
-  true_data <- vx$true_data
-  phased_data <- vx$phased_data
-  testthat::expect_true(all.equal(true_data, phased_data))
-
   # now we introduce less coverage:
-  vx <- sim_phased_with_error(pop_size = 100,
+  vx <- sim_phased_unphased(pop_size = 100,
                               freq_ancestor_1 = 0.5,
                               total_runtime = 201,
                               size_in_morgan = 1,
@@ -38,7 +34,7 @@ test_that("phased, use", {
 
   # now we introduce error
   errorrr <- 0.5
-  vx <- sim_phased_with_error(pop_size = 10000,
+  vx <- sim_phased_unphased(pop_size = 10000,
                               freq_ancestor_1 = 0.5,
                               total_runtime = 200,
                               size_in_morgan = 1,
@@ -72,7 +68,7 @@ test_that("phased, use", {
 
 test_that("unphased, exceptions", {
 
-  vx <- sim_phased_with_error(pop_size = 100,
+  vx <- sim_phased_unphased(pop_size = 100,
                             freq_ancestor_1 = 0.5,
                             total_runtime = 201,
                             size_in_morgan = 1,
@@ -80,7 +76,7 @@ test_that("unphased, exceptions", {
                             seed = 42)
 
   testthat::expect_warning(
-    vx <- sim_phased_with_error(pop_size = 100,
+    vx <- sim_phased_unphased(pop_size = 100,
                               freq_ancestor_1 = 0.5,
                               total_runtime = 201,
                               size_in_morgan = 1,

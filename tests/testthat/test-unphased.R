@@ -17,18 +17,22 @@ test_that("unphased, use", {
 
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 100)
-  ll_100 <- loglikelihood_unphased(cbind(local_data$anc_chrom_1,
+  ll_100 <- log_likelihood_diploid(cbind(1,
+                                         local_data$location,
+                                         local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
-                                   local_data$location,
                                    pop_size = 100,
                                    freq_ancestor_1 = 0.5,
-                                   t = 100)
+                                   t = 100,
+                                   phased = FALSE)
 
-  ll_200 <- loglikelihood_unphased(cbind(local_data$anc_chrom_1,
+  ll_200 <- log_likelihood_diploid(cbind(1,
+                                         local_data$location,
+                                         local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
-                                   local_data$location,
                                    pop_size = 100,
                                    freq_ancestor_1 = 0.5,
+                                   phased = FALSE,
                                    t = 200)
 
   testthat::expect_gte(ll_100, ll_200)
@@ -44,34 +48,30 @@ test_that("unphased, use", {
   local_data <- subset(vx, vx$individual == 0 &
                          vx$time == 30)
 
-  ll_30 <- loglikelihood_unphased(cbind(local_data$anc_chrom_1,
+  ll_30 <- log_likelihood_diploid(cbind(1, local_data$location,
+                                        local_data$anc_chrom_1,
                                         local_data$anc_chrom_2),
-                                  local_data$location,
                                   pop_size = 1000,
                                   freq_ancestor_1 = 0.1,
+                                  phased = FALSE,
                                   t = 30)
 
-  ll_100 <- loglikelihood_unphased(cbind(local_data$anc_chrom_1,
+  ll_100 <- log_likelihood_diploid(cbind(1, local_data$location,
+                                         local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
-                                   local_data$location,
                                    pop_size = 1000,
                                    freq_ancestor_1 = 0.1,
+                                   phased = FALSE,
                                    t = 600)
   testthat::expect_gte(ll_30, ll_100)
 
-  ll_inf <- loglikelihood_unphased(cbind(local_data$anc_chrom_1,
+  multi_ll <- log_likelihood_diploid(cbind(1,
+                                           local_data$location,
+                                           local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
-                                   local_data$location,
                                    pop_size = 1000,
                                    freq_ancestor_1 = 0.1,
-                                   t = 0)
-  testthat::expect_true(is.infinite(ll_inf))
-
-  multi_ll <- loglikelihood_unphased(cbind(local_data$anc_chrom_1,
-                                         local_data$anc_chrom_2),
-                                   local_data$location,
-                                   pop_size = 1000,
-                                   freq_ancestor_1 = 0.1,
+                                   phased = FALSE,
                                    t = c(3, 3000, 300000))
 
   testthat::expect_true(length(multi_ll) == 3)
@@ -96,63 +96,6 @@ test_that("unphased, exceptions", {
                               markers = 1000,
                               time_points = c(100, 200))
   )
-})
-
-test_that("unphased, pop size", {
-  vx <- sim_phased_unphased(pop_size = 100,
-                            freq_ancestor_1 = 0.5,
-                            total_runtime = 1000,
-                            size_in_morgan = 1,
-                            markers = 1000,
-                            seed = 42)
-  local_data <- subset(vx, vx$individual == 0 &
-                         vx$time == 1000)
-  vy <- estimate_time_unphased(cbind(local_data$anc_chrom_1,
-                                     local_data$anc_chrom_2),
-                               local_data$location,
-                               freq_ancestor_1 = 0.5,
-                               upper_lim = 2000,
-                               optim_pop_size = TRUE,
-                               verbose = FALSE)
-
-  testthat::expect_equal(length(vy$par), 2)
-})
-
-
-test_that("unphased_cpp", {
-  vx <- sim_phased_unphased(pop_size = 100,
-                            freq_ancestor_1 = 0.5,
-                            total_runtime = 1000,
-                            size_in_morgan = 1,
-                            markers = 1000,
-                            time_points = seq(100, 900, by = 100),
-                            num_threads = 1,
-                            seed = 42)
-
-  for (t in unique(vx$time)) {
-    local_data <- subset(vx, vx$individual == 0 &
-                           vx$time == t)
-
-    age1 <- estimate_time_unphased(cbind(local_data$anc_chrom_1,
-                                         local_data$anc_chrom_2),
-                                   local_data$location,
-                                   pop_size = 100,
-                                   freq_ancestor_1 = 0.5,
-                                   upper_lim = 2000,
-                                   verbose = FALSE)
-
-    age2 <- estimate_time_cpp(cbind(1,
-                                             local_data$anc_chrom_1,
-                                             local_data$anc_chrom_2),
-                                       local_data$location,
-                                       pop_size = 100,
-                                       freq_ancestor_1 = 0.5,
-                                       lower_lim = 2,
-                                       upper_lim = 1000,
-                                       verbose = FALSE,
-                                       phased = FALSE)
-    testthat::expect_equal(age1$minimum, age2[1], tolerance = 10)
-  }
 })
 
 test_that("unphased, junctions", {

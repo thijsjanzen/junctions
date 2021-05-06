@@ -10,7 +10,7 @@
 #' in Morgan.
 #' @param lower_lim lower limit of the optimization algorithm. Increase if the
 #' expected admixture time is relatively ancient
-#' @param upper_lim upper limit of hte optimization algorithm. If set too large,
+#' @param upper_lim upper limit of the optimization algorithm. If set too large,
 #' recent admixture events can be overlooked - best to set as low as possible.
 #' @return The number of generations passed since the onset of hybridization
 #' @examples
