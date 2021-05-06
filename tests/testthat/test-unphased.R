@@ -41,7 +41,7 @@ test_that("unphased, use", {
                             freq_ancestor_1 = 0.1,
                             total_runtime = 30,
                             size_in_morgan = 1,
-                            markers = 1000,
+                            markers = 10000,
                             time_points = c(30),
                             seed = 421)
 
@@ -72,7 +72,7 @@ test_that("unphased, use", {
                                    pop_size = 1000,
                                    freq_ancestor_1 = 0.1,
                                    phased = FALSE,
-                                   t = c(3, 3000, 300000))
+                                   t = c(3, 30000, 300000))
 
   testthat::expect_true(length(multi_ll) == 3)
   testthat::expect_gt(multi_ll[1], multi_ll[2])
