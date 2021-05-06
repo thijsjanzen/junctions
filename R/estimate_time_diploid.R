@@ -42,23 +42,29 @@ estimate_time_diploid <- function(ancestry_information,
   time_estimates <- c()
   if (analysis_type == "all") {
     for (indiv in unique(ancestry_information[, 1])) {
-      for (chrom in unique(ancestry_information[, 2])) {
-        local_anc_data <- subset(ancestry_information,
-                                 ancestry_information[, 1] == indiv &
-                                 ancestry_information[, 2] == chrom)
+      focal_anc_data <- subset(ancestry_information,
+                               ancestry_information[, 1] == indiv)
+      for (chrom in unique(focal_anc_data[, 2])) {
+        local_anc_data <- subset(focal_anc_data,
+                                 focal_anc_data[, 2] == chrom)
 
-        result <- estimate_time_cpp(local_anc_matrix =
-                                      as.matrix(local_anc_data[,c(2, 4, 5)]),
-                                    locations = local_anc_data[, 3],
-                                    pop_size = pop_size,
-                                    freq_ancestor_1 = freq_ancestor_1,
-                                    lower_lim = lower_lim,
-                                    upper_lim = upper_lim,
-                                    verbose = verbose,
-                                    phased = phased,
-                                    num_threads = num_threads)
-        time_estimates <- rbind(time_estimates, c(indiv, chrom,
-                                                  result$time, result$likelihood))
+        # could still be empty.
+        if (length(local_anc_data[, 1]) > 0) {
+
+          result <- estimate_time_cpp(local_anc_matrix =
+                                        as.matrix(local_anc_data[,c(2, 4, 5)]),
+                                      locations = local_anc_data[, 3],
+                                      pop_size = pop_size,
+                                      freq_ancestor_1 = freq_ancestor_1,
+                                      lower_lim = lower_lim,
+                                      upper_lim = upper_lim,
+                                      verbose = verbose,
+                                      phased = phased,
+                                      num_threads = num_threads)
+          time_estimates <- rbind(time_estimates, c(indiv, chrom,
+                                                    result$time,
+                                                    result$likelihood))
+        }
       }
     }
     colnames(time_estimates) <- c("individual", "chromosome",
