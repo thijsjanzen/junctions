@@ -19,7 +19,8 @@ Suggests: knitr,
           testthat,
           dplyr,
           magrittr,
-          ggplot2
+          ggplot2,
+          tidyr
 SystemRequirements: C++14
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
