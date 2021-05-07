@@ -10,7 +10,7 @@ test_that("explicit, use", {
                             total_runtime = max_gen,
                             markers = marker_vec,
                             time_points = max_gen,
-                            num_indiv_sampled = 30,
+                            num_indiv_sampled = 100,
                             use_explicit = FALSE)
 
   s2 <- sim_phased_unphased(pop_size = 1000,
@@ -18,7 +18,7 @@ test_that("explicit, use", {
                             total_runtime = max_gen,
                             markers = marker_vec,
                             time_points = max_gen,
-                            num_indiv_sampled = 30,
+                            num_indiv_sampled = 100,
                             use_explicit = TRUE)
 
   testthat::expect_equal(s1$location, s2$location)

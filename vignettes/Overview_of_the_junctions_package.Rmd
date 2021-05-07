@@ -88,7 +88,7 @@ junctions_fin_chrom <- sim_fin_chrom(pop_size = 1000,
                                      freq_ancestor_1 = 0.5,
                                      total_runtime = 200,
                                      morgan = 1,
-                                     R = 100) # R indicates the number of finite crossover sites
+                                     R = 100) # the number of crossover sites
 
 junctions_inf_chrom <- sim_inf_chrom(pop_size = 1000,
                                      freq_ancestor_1 = 0.5,
@@ -103,7 +103,7 @@ plot(junctions_inf_chrom$avgJunctions,
      ylab = "Number of junctions")
 lines(junctions_fin_chrom$avgJunctions, col = "blue", lwd = 2)
 lines(junctions_inf_chrom$detectedJunctions, col = "lightgreen", lwd = 2)
-legend("topleft", legend = c("Finite chromosome", "Infinite chromosome", 
+legend("topleft", legend = c("Finite chromosome", "Infinite chromosome",
                              "Infinite chromosome detected"),
        col = c("blue", "darkgreen", "lightgreen"), lty = 1, lwd = 2)
 ```
@@ -120,7 +120,7 @@ backcross_result <- sim_backcrossing(population_size = 1000,
                                      size_in_morgan = 1,
                                      number_of_markers = 100)
 
-plot(backcross_result$average_junctions, 
+plot(backcross_result$average_junctions,
      type = "l", lwd = 2,
      col = "darkgreen",
      xlab = "Time since admixture",
@@ -167,7 +167,7 @@ chromosome in Morgan and 3) local ancestry. The function returns the maximum
 likelihood estimate of the time, and the associated likelihood. 
 ```{r estimate time haploid}
 ancestry_data <- subset(simulated_pop, simulated_pop$time == 100)
-ancestry_matrix <- dplyr::select(ancestry_data, c(individual, 
+ancestry_matrix <- dplyr::select(ancestry_data, c(individual,
                                                   location, anc_chrom_1))
 estimate_time_haploid(ancestry_matrix = ancestry_matrix,
                       N = 1000,
@@ -194,10 +194,10 @@ by chromosome, jointly optimizing across individuals (not recommended). Lastly,
 one can specify to split out the data per individual chromosome and provide 
 separate estimates for each chromosome found in each individual. 
 ```{r estimate time diploid}
-ancestry_matrix <- dplyr::select(ancestry_data, c(individual, 
-                                                  location, 
+ancestry_matrix <- dplyr::select(ancestry_data, c(individual,
+                                                  location,
                                                   anc_chrom_1, anc_chrom_2))
-ancestry_matrix <- cbind(rep(1, length(ancestry_matrix$individual)), 
+ancestry_matrix <- cbind(rep(1, length(ancestry_matrix$individual)),
                          ancestry_matrix)
 
 t_phased <- estimate_time_diploid(ancestry_information = ancestry_matrix,
@@ -224,7 +224,7 @@ instance to assess how accurate our estimate is, we can do so with the
 respective likelihood functions. 
 
 ```{r likelihood}
-ancestry_matrix <- dplyr::select(ancestry_data, c(individual, location, 
+ancestry_matrix <- dplyr::select(ancestry_data, c(individual, location,
                                                   anc_chrom_1, anc_chrom_2))
 
 time_points <- 80:120
@@ -242,14 +242,15 @@ ll_unphased <- log_likelihood_diploid(ancestry_matrix,
 to_plot <- tibble::tibble(time_points, ll_phased, ll_unphased)
 to_plot %>%
   tidyr::gather(key = "phasing", value = "loglikelihood", -time_points) %>%
-  ggplot2::ggplot(ggplot2::aes(x = time_points, y = loglikelihood, col = phasing)) +
+  ggplot2::ggplot(
+      ggplot2::aes(x = time_points, y = loglikelihood, col = phasing)) +
   ggplot2::geom_line()
 ```
 
 Alternatively, we can calculate the haploid log likelihood, e.g. the likelihood
 of observing the ancestry in one chromosome:
 ```{r likelihood haploid}
-ancestry_matrix <- dplyr::select(ancestry_data, c(individual, location, 
+ancestry_matrix <- dplyr::select(ancestry_data, c(individual, location,
                                                   anc_chrom_1))
 
 ll_haploid <- log_likelihood_haploid(ancestry_matrix,
