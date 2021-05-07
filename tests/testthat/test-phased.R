@@ -74,15 +74,15 @@ test_that("phased, use", {
                                 freq_ancestor_1 = 0.1,
                                 t = 30)
 
-  ll_90 <- log_likelihood_diploid(cbind(1,
+  ll_900 <- log_likelihood_diploid(cbind(1,
                                         local_data$location,
                                         local_data$anc_chrom_1,
                                         local_data$anc_chrom_2),
                                   phased = TRUE,
                                   pop_size = 1000,
                                   freq_ancestor_1 = 0.1,
-                                t = 90)
-  testthat::expect_gte(ll_30, ll_90)
+                                t = 900)
+  testthat::expect_gte(ll_30, ll_900)
 
   multi_ll <- log_likelihood_diploid(cbind(1,
                                            local_data$location,
