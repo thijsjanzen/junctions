@@ -169,10 +169,6 @@ int detect_junctions(const Fish_inf& indiv,
             } else {               // homozygous 1 : 1/1
                 genotypes[i] = 2;
             }
-
-            if (chrom1[i] == 2) {
-              Rcpp::stop("ERROR alleles should be 0 and 1");
-            }
         }
     }
 
