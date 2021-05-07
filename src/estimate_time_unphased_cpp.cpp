@@ -13,7 +13,6 @@
 #include "Output.h"
 
 
-
 namespace detail {
 int num_threads = -1;
 }
@@ -67,9 +66,6 @@ struct chromosome {
         }
 
         if (anc_matrix[i][0] == anc_matrix[i][1]) {
-          if (i > states.size()) {
-            Rcpp::stop("i > states.size()");
-          }
           states[i] = anc_matrix[i][0];
         }
       }
@@ -113,9 +109,6 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
 
   std::vector< chromosome > output;
   int current_chrom = local_anc_matrix(0, 0);
-  if (local_anc_matrix.ncol() != 3) {
-    Rcpp::stop("local anc matrix has to have 3 columns");
-  }
 
   std::vector< std::vector< int > > chrom_matrix;
 
