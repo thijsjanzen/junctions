@@ -54,6 +54,14 @@ test_that("estimate_time_haploid, use", {
                           verbose = TRUE)
   )
 
+  # check it works with tibble:
+  testthat::expect_silent(
+    estimate_time_haploid(tibble::tibble(vx$individual,
+                                vx$location,
+                                vx$anc_chrom_1),
+                          N = 1000,
+                          freq_ancestor_1 = 0.5)
+  )
 
 })
 
@@ -116,5 +124,27 @@ test_that("estimate_time_diploid, use", {
                                 freq_ancestor_1 = 0.5,
                                 verbose = TRUE)
   )
-})
 
+  # test error:
+  testthat::expect_error(
+    estimate_time_diploid(ancestry_information = cbind(indiv, vx$individual,
+                                                       vx$location,
+                                                       vx$anc_chrom_1,
+                                                       vx$anc_chrom_2),
+                          analysis_type = "individual",
+                          pop_size = 1000,
+                          freq_ancestor_1 = 0.5)
+  )
+
+  # test working with tibble
+  input_tibble <- tibble::tibble(indiv, vx$individual,
+                         vx$location,
+                         vx$anc_chrom_1,
+                         vx$anc_chrom_2)
+  testthat::expect_silent(
+    estimate_time_diploid(ancestry_information = input_tibble,
+                          analysis_type = "individuals",
+                          pop_size = 1000,
+                          freq_ancestor_1 = 0.5)
+  )
+})
