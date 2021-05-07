@@ -11,7 +11,6 @@ sim_phased_unphased(
   size_in_morgan = 1,
   markers = 100,
   time_points = -1,
-  seed = NULL,
   num_threads = 1,
   verbose = FALSE,
   record_true_junctions = FALSE,
@@ -39,8 +38,6 @@ a vector is provided, that vector is used.}
 \item{time_points}{vector with time points at which local ancestry has to be
 recorded to be returned at the end of the simulation. If left at -1,
 ancestry is recorded at every generation (computationally heavy).}
-
-\item{seed}{Seed of the pseudo-random number generator}
 
 \item{num_threads}{default is 1. -1 takes all available threads.}
 
@@ -73,6 +70,6 @@ randomly sampled individuals per generations is returned.
 sim_phased_unphased(pop_size = 100, freq_ancestor_1 = 0.5,
                     total_runtime = 10, size_in_morgan = 1,
                     markers = 10, time_points = c(0, 5, 10),
-                    seed = 42, num_threads = 1)
+                    num_threads = 1)
 }
 }

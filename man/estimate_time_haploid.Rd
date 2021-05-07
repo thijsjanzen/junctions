@@ -14,8 +14,8 @@ estimate_time_haploid(
 )
 }
 \arguments{
-\item{ancestry_matrix}{matrix with 3 columns, column 1 = chromosome, column 2 =
-location in Morgan, column 3 = ancestry.}
+\item{ancestry_matrix}{matrix with 3 columns, column 1 = chromosome,
+column 2 = location in Morgan, column 3 = ancestry.}
 
 \item{N}{Population Size}
 

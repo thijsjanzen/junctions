@@ -7,8 +7,8 @@
 log_likelihood_haploid(ancestry_matrix, N = 1000, freq_ancestor_1 = 0.5, t = 2)
 }
 \arguments{
-\item{ancestry_matrix}{matrix with 3 columns, column 1 = chromosome, column 2 =
-location in Morgan, column 3 = ancestry.}
+\item{ancestry_matrix}{matrix with 3 columns, column 1 = chromosome,
+column 2 = location in Morgan, column 3 = ancestry.}
 
 \item{N}{Population Size}
 
