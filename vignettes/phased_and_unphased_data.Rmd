@@ -29,8 +29,7 @@ simulated_data <- sim_phased_unphased(pop_size = 1000,
                                       total_runtime = 100,
                                       size_in_morgan = 1,
                                       time_points = 100,
-                                      markers = 1000,
-                                      seed = 42)
+                                      markers = 1000)
 
 simulated_data
 ```
@@ -143,8 +142,7 @@ simulated_data <- sim_phased_unphased(pop_size = 1000,
                                         size_in_morgan = 1,
                                         time_points = 100,
                                         markers = 1000,
-                                        error_rate = 0.01,
-                                        seed = 42)
+                                        error_rate = 0.01)
 
 simulated_data$true_data
 simulated_data$phased_data
