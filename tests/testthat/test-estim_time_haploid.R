@@ -62,11 +62,11 @@ test_that("estimate_time_diploid, use", {
   vx <- sim_phased_unphased(total_runtime = sim_time,
                             time_points = sim_time,
                             pop_size = 1000,
-                            num_indiv_sampled = 30)
+                            num_indiv_sampled = 5)
 
   indiv <- vx$individual
-  indiv[indiv < 15] <- 1
-  indiv[indiv >= 15] <- 2
+  indiv[indiv < 2] <- 1
+  indiv[indiv >= 2] <- 2
 
   t1 <- estimate_time_diploid(ancestry_information = cbind(indiv, vx$individual,
                                                            vx$location,
@@ -99,8 +99,8 @@ test_that("estimate_time_diploid, use", {
   testthat::expect_equal(t2$time, t3$time)
 
   # 30 chromosomes:
-  testthat::expect_equal(length(t2$time), 30)
-  testthat::expect_equal(length(t3$time), 30)
+  testthat::expect_equal(length(t2$time), 5)
+  testthat::expect_equal(length(t3$time), 5)
   # 2 individuals:
   testthat::expect_equal(length(t1$time), 2)
 
@@ -117,3 +117,4 @@ test_that("estimate_time_diploid, use", {
                                 verbose = TRUE)
   )
 })
+

@@ -19,7 +19,9 @@ test_that("finite chromosome", {
                            H_0 = H_0, C = C,
                            0:max_time)
 
-  for (i in seq_along(v)) {
+  t_sample <- sample(1:max_time, size = 10)
+
+  for (i in t_sample) {
     testthat::expect_equal(v[i], predicted[i], tolerance = 1)
   }
 })
@@ -43,7 +45,9 @@ test_that("infinite chromosome", {
                                    H_0 = H_0, C = C,
                                    0:max_time)
 
-  for (i in seq_along(v)) {
+  t_sample <- sample(1:max_time, size = 10)
+
+  for (i in t_sample) {
     testthat::expect_equal(v[i], predicted[i], tolerance = 1)
   }
 

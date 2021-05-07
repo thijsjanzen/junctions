@@ -3,10 +3,10 @@ test_that("phased, use", {
 
   vx <- sim_phased_unphased(pop_size = 100,
                             freq_ancestor_1 = 0.5,
-                            total_runtime = 201,
+                            total_runtime = 120,
                             size_in_morgan = 1,
                             markers = 1000,
-                            time_points = c(100, 200))
+                            time_points = c(100, 120))
 
   num_indiv <- length(unique(vx$individual))
   testthat::expect_equal(num_indiv, 10)

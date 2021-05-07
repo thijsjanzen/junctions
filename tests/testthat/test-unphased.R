@@ -1,7 +1,7 @@
 context("unphased")
 test_that("unphased, use", {
   population_size <- 100
-  max_t <- 1000
+  max_t <- 110
   vx <- sim_phased_unphased(pop_size = population_size,
                             freq_ancestor_1 = 0.5,
                             total_runtime = max_t,
@@ -102,8 +102,6 @@ test_that("unphased, time points", {
   testthat::expect_equal(length(unique(vx$time)), 1)
 })
 
-
-
 test_that("unphased, junctions", {
 
   N <- 1000 # nolint
@@ -112,16 +110,18 @@ test_that("unphased, junctions", {
   H_0 <- 0.5 # nolint
   C <- 1     # nolint
 
-  vx <- sim_phased_unphased(pop_size = N,
-                            freq_ancestor_1 = H_0,
-                            total_runtime = t,
-                            size_in_morgan = C,
-                            markers = R,
-                            num_threads = 4,
-                            time_points = t,
-                            num_indiv_sampled = 20,
-                            record_true_junctions = TRUE,
-                            verbose = TRUE)
+  testthat::expect_output(
+    vx <- sim_phased_unphased(pop_size = N,
+                              freq_ancestor_1 = H_0,
+                              total_runtime = t,
+                              size_in_morgan = C,
+                              markers = R,
+                              num_threads = 4,
+                              time_points = t,
+                              num_indiv_sampled = 20,
+                              record_true_junctions = TRUE,
+                              verbose = TRUE)
+  )
 
   num_j_true <- mean(c(vx$true_results$junctions_chrom_1,
                      vx$true_results$junctions_chrom_2))
