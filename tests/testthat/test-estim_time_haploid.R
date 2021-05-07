@@ -14,6 +14,15 @@ test_that("estimate_time_haploid, use", {
 
   testthat::expect_equal(estim_time$time, sim_time, tolerance = 0.2)
 
+  ll1 <- log_likelihood_haploid(ancestry_matrix = cbind(vx$individual,
+                                                        vx$location,
+                                                        vx$anc_chrom_1),
+                                N = 1000,
+                                freq_ancestor_1 = 0.5,
+                                t = 100)
+
+  testthat::expect_equal(length(ll1), 1)
+
   focal_t <- 75:125
   ll <- log_likelihood_haploid(ancestry_matrix = cbind(vx$individual,
                                                        vx$location,
@@ -24,6 +33,7 @@ test_that("estimate_time_haploid, use", {
 
   a <- which.max(ll)
   testthat::expect_equal(75 + a, 100, tolerance = 0.2)
+  testthat::expect_equal(length(ll), length(focal_t))
 
 })
 

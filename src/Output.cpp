@@ -10,15 +10,6 @@
 #include "Rcpp.h"
 using namespace Rcpp;
 
-void force_output() {
-    // Rcout << s << "\n";
-    static std::chrono::milliseconds timespan(100);
-    std::this_thread::sleep_for(timespan);
-    R_FlushConsole();
-    R_ProcessEvents();
-    R_CheckUserInterrupt();
-}
-
 void Output::update_inf(const std::vector<Fish_inf>& Pop) {
     double averageNumJunctions = 0;
     for(std::vector<Fish_inf>::const_iterator i = Pop.begin(); i != Pop.end(); ++i)

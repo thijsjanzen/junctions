@@ -1,7 +1,7 @@
 context("unphased")
 test_that("unphased, use", {
   population_size <- 100
-  max_t <- 100
+  max_t <- 1000
   vx <- sim_phased_unphased(pop_size = population_size,
                             freq_ancestor_1 = 0.5,
                             total_runtime = max_t,
@@ -25,16 +25,16 @@ test_that("unphased, use", {
                                    t = 100,
                                    phased = FALSE)
 
-  ll_200 <- log_likelihood_diploid(cbind(1,
+  ll_2000 <- log_likelihood_diploid(cbind(1,
                                          local_data$location,
                                          local_data$anc_chrom_1,
                                          local_data$anc_chrom_2),
                                    pop_size = 100,
                                    freq_ancestor_1 = 0.5,
                                    phased = FALSE,
-                                   t = 200)
+                                   t = 2000)
 
-  testthat::expect_gte(ll_100, ll_200)
+  testthat::expect_gte(ll_100, ll_2000)
 
   vx <- sim_phased_unphased(pop_size = 10000,
                             freq_ancestor_1 = 0.1,
