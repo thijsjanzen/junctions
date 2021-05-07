@@ -1,12 +1,12 @@
 context("one_chromosome")
 test_that("one chrom, use", {
 
-  population_size <- 100000
+  population_size <- 10000
   run_time <- 10
 
   vx <- sim_phased_unphased(pop_size = population_size,
                             total_runtime = run_time,
-                            markers = 10000,
+                            markers = 1000,
                             time_points = run_time)
 
   found <- c()
@@ -25,7 +25,7 @@ test_that("one chrom, use", {
     found <- c(found, c(time1, time2))
   }
 
-  testthat::expect_equal(mean(found), run_time, tolerance = 5)
+  testthat::expect_equal(mean(found), run_time, tolerance = 3)
 
   # induce marker error
   testthat::expect_error(

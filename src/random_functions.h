@@ -62,15 +62,6 @@ struct rnd_t {
     }
     std::sort(markers.begin(), markers.end());
 
-    markers.erase( unique( markers.begin(), markers.end() ), markers.end() );
-    while(markers.size() < static_cast<size_t>(number_of_markers)) {
-      int diff = number_of_markers - markers.size();
-      for(int i = 0; i < diff; ++i) {
-        markers.push_back(uniform());
-      }
-      std::sort(markers.begin(), markers.end());
-      markers.erase( unique( markers.begin(), markers.end() ), markers.end() );
-    }
     return(markers);
   }
 };

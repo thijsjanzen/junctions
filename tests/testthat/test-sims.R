@@ -7,7 +7,7 @@ test_that("finite chromosome", {
   C <- 1 # nolint
   max_time <- 1000
 
-  number_replicates <- 100
+  number_replicates <- 30
   v <- c()
   for (r in 1:number_replicates) {
     v2 <- sim_fin_chrom(pop_size, H_0, max_time, C, r, num_markers)
@@ -31,7 +31,7 @@ test_that("infinite chromosome", {
   C <- 1 # nolint
   max_time <- 1000
 
-  number_replicates <- 100
+  number_replicates <- 30
   v <- c()
   for (r in 1:number_replicates) {
     v2 <- sim_inf_chrom(pop_size, H_0, max_time, C, -1, r)

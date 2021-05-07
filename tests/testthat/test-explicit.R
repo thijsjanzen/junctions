@@ -5,20 +5,20 @@ test_that("explicit, use", {
 
   max_gen <- 20
 
-  s1 <- sim_phased_unphased(pop_size = 10000,
+  s1 <- sim_phased_unphased(pop_size = 1000,
                             freq_ancestor_1 = 0.5,
                             total_runtime = max_gen,
                             markers = marker_vec,
                             time_points = max_gen,
-                            num_indiv_sampled = 100,
+                            num_indiv_sampled = 10,
                             use_explicit = FALSE)
 
-  s2 <- sim_phased_unphased(pop_size = 10000,
+  s2 <- sim_phased_unphased(pop_size = 1000,
                             freq_ancestor_1 = 0.5,
                             total_runtime = max_gen,
                             markers = marker_vec,
                             time_points = max_gen,
-                            num_indiv_sampled = 100,
+                            num_indiv_sampled = 10,
                             use_explicit = TRUE)
 
   testthat::expect_equal(s1$location, s2$location)
