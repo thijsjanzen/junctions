@@ -59,6 +59,4 @@ apply_phasing_error <- function(output,
 
   return(list("true_data" = true_data,  "phased_data" = phased_data))
 }
-
-
 # nolint end

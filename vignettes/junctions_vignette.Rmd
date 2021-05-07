@@ -53,7 +53,7 @@ maximum_time <- 1000 # run time
 c <- 1 # number of recombinations per meiosis
 
 # we first ignore the effect of imposing randomly distributed markers
-number_of_markers <- -1 
+number_of_markers <- -1
 
 v <- sim_inf_chrom(pop_size,
                    h_0,
@@ -62,7 +62,7 @@ v <- sim_inf_chrom(pop_size,
                    number_of_markers,
                    42)
 
-plot(v$avgJunctions, 
+plot(v$avgJunctions,
      type = "l",
      xlab = "Generations",
      ylab = "Number of Junctions",
@@ -82,7 +82,7 @@ for (r in 1:number_replicates) {
                       maximum_time,
                       c,
                       number_of_markers,
-                      seed = sample(1e9,1))
+                      seed = sample(1e9, 1))
   v <- rbind(v, as.numeric(v2$avgJunctions))
 }
 v <- colMeans(v) #mean across replicates
@@ -138,7 +138,7 @@ plot(v$avgJunctions,
 
 lines(v$detectedJunctions, col = "blue")
 legend("bottomright",
-       c("Real number","Number detected"),
+       c("Real number", "Number detected"),
        lty = 1,
        col = c("black", "blue"))
 ```
@@ -154,7 +154,7 @@ for (r in 1:number_replicates) {
                       maximum_time,
                       c,
                       number_of_markers,
-                      seed = sample(1e9,1))
+                      seed = sample(1e9, 1))
   mean_junctions <- rbind(mean_junctions,
                           as.numeric(v2$avgJunctions))
   detected_junctions <- rbind(detected_junctions,
@@ -169,12 +169,12 @@ K by the maximum number of junctions at the end of the simulation, and use
 this empirical value of K to predict the number of junctions instead. 
 ```{r, plot_sim_random, fig.width = 7, fig.height = 7}
 #we plot not all points, for clarity
-clarity <- seq(1, maximum_time, length.out = 50) 
+clarity <- seq(1, maximum_time, length.out = 50)
 plot(mean_junctions[clarity] ~ clarity,
      xlab = "Generations",
      ylab = "Number of Junctions",
      main = "Average behaviour Infinite chromosome",
-     pch = 16) 
+     pch = 16)
 
 points(detected_junctions[clarity] ~ clarity,
        pch = 17,
@@ -185,16 +185,16 @@ predicted <- number_of_junctions(N = pop_size,
                                  H_0 = h_0,
                                  C = c,
                                  t = t)
-lines(predicted ~ t,lwd = 2)
+lines(predicted ~ t, lwd = 2)
 
 # now substitute K with the observed maximum detected.
-k <- tail(detected_junctions,1) 
+k <- tail(detected_junctions, 1)
 pred <- k - k * (1 - h_0 * c / k) ^ t
 lines(pred ~ t, col = "blue", lwd = 2)
 
 legend("bottomright",
-       c("Real number","Detected",
-         "Predicted Real","Predicted Detected"),
+       c("Real number", "Detected",
+         "Predicted Real", "Predicted Detected"),
        pch = c(16, 17, NA, NA),
        lty = c(NA, NA, 1, 1),
        col = c("black", "blue",
@@ -220,7 +220,7 @@ of genetic markers used. Usage is identical too, and we can obtain a single
 run as follows:
 ```{r, single_sim_fin, fig.width = 7, fig.height = 7}
 r <- 100 # chromosome size
-n <- 100 # population size 
+n <- 100 # population size
 freq_ancestor_1 <- 0.5 # frequency of ancestor 1 at t = 0
 c <- 1 # number of recombinations per meiosis
 maximum_time <- 1000
@@ -232,9 +232,9 @@ v <- sim_fin_chrom(pop_size = n,
                    morgan = c,
                    seed = 42,
                    R = r)
-plot(v$avgJunctions, type = "l", 
+plot(v$avgJunctions, type = "l",
      xlab = "Generations",
-     ylab = "Number of Junctions", 
+     ylab = "Number of Junctions",
      main = "Example Finite Chromosome")
 ```
 
@@ -244,7 +244,7 @@ mean of a number of replicates:
 v <- c();
 for (r in 1:number_replicates) {
   v2 <- sim_fin_chrom(n, h_0, maximum_time, c, sample(1e9, 1), r)
-  v <- rbind(v, as.numeric( v2$avgJunctions))
+  v <- rbind(v, as.numeric(v2$avgJunctions))
 }
 v <- colMeans(v)
 ```
@@ -259,8 +259,8 @@ plot(v[clarity] ~ clarity, lwd = 2,
      pch  = 16)
 
 t <- 0:maximum_time
-predicted <- number_of_junctions(N = n, R = r, 
-                                 H_0 = h_0, C = c, 
+predicted <- number_of_junctions(N = n, R = r,
+                                 H_0 = h_0, C = c,
                                  t)
 lines(predicted ~ t, col = "blue")
 legend("bottomright", c("Simulated", "Predicted"),
@@ -278,13 +278,13 @@ Let's first calculate the number of junctions at t = 200, for a population of
 size 100, with a finite chromosome of 1000 elements 
 (initial heterozygosity = 0.5, C = 1). 
 ```{r, equations}
-J <- number_of_junctions(N = 100,
-                         R = 1000,
-                         H_0 = 0.5,
-                         C = 1,
-                         t = 200)
-J <- tail(J, 1)
-J
+num_j <- number_of_junctions(N = 100,
+                             R = 1000,
+                             H_0 = 0.5,
+                             C = 1,
+                             t = 200)
+num_j <- tail(num_j, 1)
+num_j
 ```
 Now, imagine that we had only measured J, and wanted to calculate the time 
 (t = 200), from this information. Then we could use the function 
@@ -297,7 +297,7 @@ time_estim <- estimate_time(J = J,
                             R = 1000,
                             H_0 = 0.5,
                             C = 1)
-time_estim 
+time_estim
 ```
 And we see that we indeed get the correct age (200 generations). To obtain the 
 relative error in the estimate, we can make use of the function 'time_error':
@@ -338,13 +338,13 @@ plotting the number of junctions, and the error in the estimate in a joint plot.
 ```{r, fig.width = 7, fig.height = 7}
 maximum_time <- 1000
 t <- 0:maximum_time
-J <- number_of_junctions(N = 100,
-                         R = 1000,
-                         H_0 = 0.5,
-                         C = 1,
-                         t = t)
+num_j <- number_of_junctions(N = 100,
+                             R = 1000,
+                             H_0 = 0.5,
+                             C = 1,
+                             t = t)
 par(mar = c(4, 5, 2, 3))
-plot(J ~ t,
+plot(num_j ~ t,
      type = "l",
      xlab = "Generations",
      ylab = "Number of Junctions",
@@ -371,7 +371,7 @@ plot(v,
      xlab = "", ylab = "")
 axis(4)
 mtext("Relative error", side = 4, line = 2)
-legend("bottomright", 
+legend("bottomright",
        c("Number of junctions", "Relative Error", "t_MAX"),
        lty = c(1, 1, 2),
        col = c("black", "red", "black"))

@@ -96,7 +96,7 @@ junctions_inf_chrom <- sim_inf_chrom(pop_size = 1000,
                                      morgan = 1,
                                      markers = 100)
 
-plot(junctions_inf_chrom$avgJunctions, 
+plot(junctions_inf_chrom$avgJunctions,
      type = "l", lwd = 2,
      col = "darkgreen",
      xlab = "Time since admixture",
@@ -257,7 +257,7 @@ ll_haploid <- log_likelihood_haploid(ancestry_matrix,
                                      N = 1000,
                                      freq_ancestor_1 = 0.5,
                                      t = time_points)
-plot(ll_haploid ~ time_points, type = "l", 
+plot(ll_haploid ~ time_points, type = "l",
      xlab = "Time since admixture",
      ylab = "Loglikelihood")
 ```
