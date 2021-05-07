@@ -13,9 +13,9 @@ test_that("markers, use", {
 
   num_repl <- 10
 
-  N <- 1e3   # nolint
+  N <- 1000   # nolint
   num_markers <- 1000
-  total_runtime <- 50
+  total_runtime <- 20
 
   found_obs <- c()
   found_exp <- c()

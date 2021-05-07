@@ -2,10 +2,10 @@ context("simulations")
 
 test_that("finite chromosome", {
   num_markers <- 100 #chromosome size
-  pop_size <- 100 #population size
+  pop_size <- 100 # population size
   H_0 <- 0.5 # nolint
   C <- 1 # nolint
-  max_time <- 1000
+  max_time <- 500
 
   number_replicates <- 30
   v <- c()
@@ -31,7 +31,7 @@ test_that("infinite chromosome", {
   pop_size <- 50 #population size
   H_0 <- 0.5 # nolint
   C <- 1 # nolint
-  max_time <- 1000
+  max_time <- 500
 
   number_replicates <- 30
   v <- c()
