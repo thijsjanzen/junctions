@@ -93,7 +93,6 @@ void Recombine_inf(        std::vector<junction>& offspring,
                      rnd_t& rndgen)  {
 
     int numRecombinations = rndgen.poisson(MORGAN);
-   // Rcout << numRecombinations << "\n";
 
     if (numRecombinations == 0) {
         offspring.insert(offspring.end(),
@@ -111,33 +110,7 @@ void Recombine_inf(        std::vector<junction>& offspring,
     offspring = recombine_new(chromosome1,
                               chromosome2,
                               recomPos);
-/*
-    Rcout << "c1: ";
-    for(auto i: chromosome1) {
-      Rcout << i.pos << " " << i.right << " ";
-    }
-    Rcout << "\n";
 
-    Rcout << "c2: ";
-    for(auto i: chromosome2) {
-      Rcout << i.pos << " " << i.right << " ";
-    }
-    Rcout << "\n";
-
-    Rcout << "r: ";
-    for (auto i : recomPos) {
-      Rcout << i << " ";
-    }
-    Rcout << "\n";
-
-    Rcout << "o: ";
-    for(auto i: offspring) {
-      Rcout << i.pos << " " << i.right << " ";
-    }
-    Rcout << "\n";
-
-    //Rcpp::stop("stop");
-*/
     return;
 }
 
@@ -319,10 +292,6 @@ junction::junction(double loc, int A) : pos(loc), right(A) {
 junction::junction(const junction& other) {
     pos = other.pos;
     right = other.right;
-}
-
-bool junction::operator <(const junction& other) const {
-    return(pos < other.pos);
 }
 
 Fish_inf::Fish_inf(){

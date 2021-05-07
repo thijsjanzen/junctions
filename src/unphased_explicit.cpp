@@ -150,18 +150,5 @@ List sim_phased_unphased_explicit_cpp(int pop_size,
     }
   }
 
-  if (record_true_junctions) {
-    int num_rows_t = O.true_results.size();
-    int num_cols_t = O.true_results[0].size();
-    NumericMatrix output_matrix_true(num_rows_t, num_cols_t);
-    for(int i = 0; i < num_rows_t; ++i) {
-      for(int j = 0; j < num_cols_t; ++j) {
-        output_matrix_true(i,j) = O.true_results[i][j];
-      }
-    }
-
-    return List::create(Named("results") = output_matrix,
-                        Named("true_results") = output_matrix_true);
-  }
   return List::create(Named("results") = output_matrix);
 }

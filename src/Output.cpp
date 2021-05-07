@@ -169,20 +169,11 @@ int detect_junctions(const Fish_inf& indiv,
             } else {               // homozygous 1 : 1/1
                 genotypes[i] = 2;
             }
-        }
 
-       /* if(chrom1[i] == 0 && chrom2[i] == 0) {
-            genotypes[i] = 0;
+            if (chrom1[i] == 2) {
+              Rcpp::stop("ERROR alleles should be 0 and 1");
+            }
         }
-        if(chrom1[i] == 0 && chrom2[i] == 1) {
-            genotypes[i] = 1;
-        }
-        if(chrom1[i] == 1 && chrom2[i] == 0) {
-            genotypes[i] = 1;
-        }
-        if(chrom1[i] == 1 && chrom2[i] == 1) {
-            genotypes[i] = 2;
-        }*/
     }
 
     int number_of_junctions = 0;
@@ -241,17 +232,6 @@ void Output::update_unphased(const std::vector< Fish_explicit >& Pop,
             to_add[3] = Pop[i].chromosome1[j];
             to_add[4] = Pop[i].chromosome2[j];
             results.push_back(to_add);
-        }
-
-        if(record_true_junctions) {
-            int true_junct_chrom_1  = (int)Pop[i].chromosome1.size() - 2; //exclude the ends
-            int true_junct_chrom_2  = (int)Pop[i].chromosome2.size() - 2; //exclude the ends
-            std::vector< double > to_add_true(4);
-            to_add_true[0] = t;
-            to_add_true[1] = i;
-            to_add_true[2] = true_junct_chrom_1;
-            to_add_true[3] = true_junct_chrom_2;
-            true_results.push_back(to_add_true);
         }
     }
     return;

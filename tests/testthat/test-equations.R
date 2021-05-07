@@ -36,6 +36,17 @@ test_that("calculate_J and error", {
                           relative = FALSE)
   )
 
+  # expect NA:
+  e1 <- junctions::time_error(t = c(NA),
+                            N = 100,
+                            R = 1000, H_0 = 0.5,
+                            C = 1,
+                            relative = FALSE)
+  testthat::expect_true(is.na(e1))
+
+
+
+
   a1 <- junctions::time_error(t = c(5, 10, 15),
                         N = 100,
                         R = 1000, H_0 = 0.5,

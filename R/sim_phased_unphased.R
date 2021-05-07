@@ -47,17 +47,22 @@ sim_phased_unphased <- function(pop_size = 100,
                                 use_explicit = FALSE,
                                 coverage = 1,
                                 error_rate = 0) {
+
+  within_range <- which(time_points <= total_runtime)
+  time_points <- time_points[within_range]
+  if (length(time_points) < 1) {
+    warning("all chosen time points were past the simulation time,
+             chosen to only measure at the last time step")
+    time_points <- total_runtime
+  }
+
   if (length(time_points) == 1) {
     if (time_points == -1) {
       time_points <- seq(0, total_runtime, by = 1)
     }
   }
 
-  within_range <- which(time_points <= total_runtime)
-  time_points <- time_points[within_range]
-  if (length(time_points) < 1) {
-    time_points <- c(-1)
-  }
+
 
   markers <- get_num_markers(markers)
 
@@ -74,6 +79,11 @@ sim_phased_unphased <- function(pop_size = 100,
                                         num_indiv_sampled,
                                         num_threads)
   } else {
+
+    if (record_true_junctions) {
+      warning("can not record true junctions when simulating explicitly")
+    }
+
     output <- sim_phased_unphased_explicit_cpp(pop_size,
                                       freq_ancestor_1,
                                       total_runtime,
@@ -95,7 +105,7 @@ sim_phased_unphased <- function(pop_size = 100,
     colnames(output$results) <- c("time", "individual", "location",
                                   "anc_chrom_1", "anc_chrom_2")
 
-    if (!record_true_junctions)
+    if (!record_true_junctions || use_explicit)
       return(tibble::as_tibble(output$results))
 
     if (record_true_junctions) {

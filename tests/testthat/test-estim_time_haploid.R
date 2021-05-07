@@ -35,6 +35,26 @@ test_that("estimate_time_haploid, use", {
   testthat::expect_equal(75 + a, 100, tolerance = 0.2)
   testthat::expect_equal(length(ll), length(focal_t))
 
+  # check boundaries:
+  testthat::expect_warning(
+    estimate_time_haploid(cbind(vx$individual,
+                                vx$location,
+                                vx$anc_chrom_1),
+                          N = 1000,
+                          freq_ancestor_1 = 0.5,
+                          upper_lim = 10)
+  )
+
+  testthat::expect_output(
+    estimate_time_haploid(cbind(vx$individual,
+                                vx$location,
+                                vx$anc_chrom_1),
+                          N = 1000,
+                          freq_ancestor_1 = 0.5,
+                          verbose = TRUE)
+  )
+
+
 })
 
 test_that("estimate_time_diploid, use", {
@@ -83,4 +103,17 @@ test_that("estimate_time_diploid, use", {
   testthat::expect_equal(length(t3$time), 30)
   # 2 individuals:
   testthat::expect_equal(length(t1$time), 2)
+
+
+  # test verbose output:
+  testthat::expect_output(
+    estimate_time_diploid(ancestry_information = cbind(indiv, vx$individual,
+                                                             vx$location,
+                                                             vx$anc_chrom_1,
+                                                             vx$anc_chrom_2),
+                                analysis_type = "individuals",
+                                pop_size = 1000,
+                                freq_ancestor_1 = 0.5,
+                                verbose = TRUE)
+  )
 })

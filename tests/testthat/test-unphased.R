@@ -77,6 +77,33 @@ test_that("unphased, use", {
   testthat::expect_gt(multi_ll[2], multi_ll[3])
 })
 
+test_that("unphased, time points", {
+  population_size <- 100
+  max_t <- 10
+  vx <- sim_phased_unphased(pop_size = population_size,
+                            freq_ancestor_1 = 0.5,
+                            total_runtime = max_t,
+                            size_in_morgan = 1,
+                            markers = 1000,
+                            time_points = -1)
+
+  sim_t <- unique(vx$time)
+  testthat::expect_equal(length(sim_t), max_t + 1)  # [0, 1, ..., max_t]
+
+  testthat::expect_warning(
+    vx <- sim_phased_unphased(pop_size = population_size,
+                              freq_ancestor_1 = 0.5,
+                              total_runtime = max_t,
+                              size_in_morgan = 1,
+                              markers = 1000,
+                              time_points = max_t + 5)
+
+  )
+  testthat::expect_equal(length(unique(vx$time)), 1)
+})
+
+
+
 test_that("unphased, junctions", {
 
   N <- 1000 # nolint

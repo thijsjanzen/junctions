@@ -23,42 +23,6 @@ struct chromosome {
   std::vector< double > distances;
   bool phased;
   bool verbose;
-/*
-  chromosome(const Rcpp::NumericMatrix& anc_matrix,
-             const Rcpp::NumericVector& loc,
-             bool p) : phased(p) {
-
-    Rcpp::Rcout << "we are in the chromosome constructor\n"; force_output();
-
-    if (anc_matrix.nrow() != loc.size()) {
-      Rcpp::stop("anc_matrix.nrow != loc.size()");
-    }
-
-    states = std::vector<size_t>(loc.size(), 2);
-
-    if (phased) {
-      for(int i = 0; i < loc.size(); ++i) {
-        if (i > 0) distances.push_back(loc[i] - loc[i - 1]);
-
-        if (anc_matrix(i, 0) == anc_matrix(i, 1)) {
-          states[i] = anc_matrix(i, 0);     // [0, 0] (state 0) or [1, 1] (state 1)
-        } else {
-          states[i] = 2 + anc_matrix(i, 0); // [0, 1] (state 2) or [1, 0] (state 3)
-        }
-      }
-    } else  {
-      for(int i = 0; i < anc_matrix.nrow(); ++i) {
-        Rcpp::Rcout << i << " " << anc_matrix(i, 0) << " " << anc_matrix(i, 1) << "\n"; force_output();
-        if (i > 0) distances.push_back(loc[i] - loc[i - 1]);
-        if (anc_matrix(i, 0) == anc_matrix(i, 1)) {
-          if (i > states.size()) {
-            Rcpp::stop("i > states.size()");
-            }
-          states[i] = anc_matrix(i, 0);
-        }
-      }
-    }
-  }*/
 
   chromosome(const Rcpp::NumericVector& anc_matrix,
              const Rcpp::NumericVector& loc,
@@ -76,10 +40,7 @@ struct chromosome {
              bool p,
              bool verb) : phased(p), verbose(verb) {
 
- //   Rcpp::Rcout << "we are in the chromosome constructor\n"; force_output();
-
     if (anc_matrix.size() != loc.size()) {
-      Rcpp::Rcout << anc_matrix.size() << " " << loc.size() << "\n";
       Rcpp::stop("anc_matrix.nrow != loc.size()");
     }
 
@@ -96,14 +57,12 @@ struct chromosome {
       }
     } else {
       for(size_t i = 0; i < anc_matrix.size(); ++i) {
-     //   Rcpp::Rcout << i << " " << anc_matrix[i][0] << " " << anc_matrix[i][1] << "\n"; force_output();
 
         if (i > 0) {
           distances.push_back(loc[i] - loc[i - 1]);
 
           if (loc[i] - loc[i - 1] < 0) {
-            Rcpp::Rcout << i << " " << loc[i] << " " << loc[i - 1] << "\n";
-            Rcpp::stop("no negative distances allowed");
+             Rcpp::stop("no negative distances allowed");
           }
         }
 
