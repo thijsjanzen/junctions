@@ -86,7 +86,7 @@ struct chromosome {
     states = std::vector<size_t>(loc.size(), 2);
 
     if (phased) {
-      for(int i = 0; i < loc.size(); ++i) {
+      for(size_t i = 0; i < loc.size(); ++i) {
         if (i > 0) distances.push_back(loc[i] - loc[i - 1]);
         if (anc_matrix[i][0] == anc_matrix[i][1]) {
           states[i] = anc_matrix[i][0];     // [0, 0] (state 0) or [1, 1] (state 1)
@@ -95,7 +95,7 @@ struct chromosome {
         }
       }
     } else {
-      for(int i = 0; i < anc_matrix.size(); ++i) {
+      for(size_t i = 0; i < anc_matrix.size(); ++i) {
      //   Rcpp::Rcout << i << " " << anc_matrix[i][0] << " " << anc_matrix[i][1] << "\n"; force_output();
 
         if (i > 0) {
@@ -103,7 +103,6 @@ struct chromosome {
 
           if (loc[i] - loc[i - 1] < 0) {
             Rcpp::Rcout << i << " " << loc[i] << " " << loc[i - 1] << "\n";
-            force_output();
             Rcpp::stop("no negative distances allowed");
           }
         }
@@ -207,7 +206,7 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
 try {
 
   if (verbose) {
-    Rcpp::Rcout << "welcome to estimate_time_cpp\n"; force_output();
+    Rcpp::Rcout << "welcome to estimate_time_cpp\n";
   }
 
   detail::num_threads = num_threads;
@@ -218,7 +217,7 @@ try {
 
 
   if (verbose) {
-    Rcpp::Rcout << "starting create chromosomes\n"; force_output();
+    Rcpp::Rcout << "starting create chromosomes\n";
   }
   std::vector< chromosome > chromosomes = create_chromosomes(local_anc_matrix,
                                                              locations,
@@ -226,7 +225,7 @@ try {
                                                              verbose);
 
   if (verbose) {
-    Rcpp::Rcout << "chromosomes read from data\n"; force_output();
+    Rcpp::Rcout << "chromosomes read from data\n";
   }
 
   nlopt_f_data optim_data(chromosomes, pop_size, freq_ancestor_1);
@@ -248,7 +247,7 @@ try {
   //Rcpp::Rcout << minf << "\n";
   //
   if (verbose) {
-    Rcpp::Rcout << "starting optimisation\n"; force_output();
+    Rcpp::Rcout << "starting optimisation\n";
   }
 
   auto nloptresult = nlopt_optimize(opt, &(x[0]), &minf);
@@ -258,7 +257,7 @@ try {
   }
 
   if (verbose) {
-    Rcpp::Rcout << "done optimisation\n"; force_output();
+    Rcpp::Rcout << "done optimisation\n";
   }
 
   nlopt_destroy(opt);
@@ -296,7 +295,7 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                                              verbose);
 
   std::vector< double > ll(chromosomes.size());
-  for (int i = 0; i < chromosomes.size(); ++i) {
+  for (size_t i = 0; i < chromosomes.size(); ++i) {
     ll[i] = chromosomes[i].calculate_likelihood(t, pop_size, freq_ancestor_1);
   }
 
