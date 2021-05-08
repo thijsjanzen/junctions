@@ -1,6 +1,6 @@
 context("explicit")
 test_that("explicit, use", {
-
+  skip_on_ci()
   marker_vec <- sort(runif(10000, 0, 1))
 
   max_gen <- 3
