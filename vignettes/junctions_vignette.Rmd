@@ -12,7 +12,6 @@ vignette: >
   
   ```{r setup, include=FALSE}
 library(junctions)
-library(Rcpp)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -55,12 +54,12 @@ c <- 1 # number of recombinations per meiosis
 # we first ignore the effect of imposing randomly distributed markers
 number_of_markers <- -1
 
-v <- sim_inf_chrom(pop_size,
-                   h_0,
-                   maximum_time,
-                   c,
-                   number_of_markers,
-                   42)
+v <- sim_inf_chrom(pop_size = pop_size,
+                   freq_ancestor_1 = h_0,
+                   total_runtime = maximum_time,
+                   morgan = c,
+                   markers = number_of_markers,
+                   seed = 42)
 
 plot(v$avgJunctions,
      type = "l",
@@ -77,12 +76,12 @@ predictions, we will need to average over a number of replicates.
 number_replicates <- 10
 v <- c();
 for (r in 1:number_replicates) {
-  v2 <- sim_inf_chrom(pop_size,
-                      h_0,
-                      maximum_time,
-                      c,
-                      number_of_markers,
-                      seed = sample(1e9, 1))
+  v2 <- sim_inf_chrom(pop_size = pop_size,
+                      freq_ancestor_1 = h_0,
+                      total_runtime = maximum_time,
+                      morgan = c,
+                      markers = number_of_markers,
+                      seed = r)
   v <- rbind(v, as.numeric(v2$avgJunctions))
 }
 v <- colMeans(v) #mean across replicates
@@ -124,11 +123,11 @@ c <- 1 # number of recombinations per meiosis
 number_of_markers <- 1000 # 1000 markers
 
 #single example run
-v <- sim_inf_chrom(pop_size,
-                   h_0,
-                   maximum_time,
-                   c,
-                   number_of_markers,
+v <- sim_inf_chrom(pop_size = pop_size,
+                   freq_ancestor_1 = h_0,
+                   total_runtime = maximum_time,
+                   morgan = c,
+                   markers = number_of_markers,
                    seed = 42)
 plot(v$avgJunctions,
      type = "l",
@@ -149,12 +148,12 @@ mean dynamics:
 mean_junctions <- c()
 detected_junctions <- c()
 for (r in 1:number_replicates) {
-  v2 <- sim_inf_chrom(pop_size,
-                      h_0,
-                      maximum_time,
-                      c,
-                      number_of_markers,
-                      seed = sample(1e9, 1))
+  v2 <- sim_inf_chrom(pop_size = pop_size,
+                      freq_ancestor_1 =  h_0,
+                      total_runtime = maximum_time,
+                      morgan = c,
+                      markers = number_of_markers,
+                      seed = r + 42)
   mean_junctions <- rbind(mean_junctions,
                           as.numeric(v2$avgJunctions))
   detected_junctions <- rbind(detected_junctions,
@@ -242,8 +241,13 @@ To facilitate comparison with empirical data, we might again want to take the
 mean of a number of replicates:
 ```{r, repl_sim_fin}
 v <- c();
-for (r in 1:number_replicates) {
-  v2 <- sim_fin_chrom(n, h_0, maximum_time, c, sample(1e9, 1), r)
+for (repl in 1:number_replicates) {
+  v2 <- sim_fin_chrom(pop_size = n, 
+                      freq_ancestor_1 = h_0, 
+                      total_runtime = maximum_time, 
+                      morgan = c, 
+                      seed = repl, 
+                      R = r)
   v <- rbind(v, as.numeric(v2$avgJunctions))
 }
 v <- colMeans(v)
@@ -292,7 +296,7 @@ Now, imagine that we had only measured J, and wanted to calculate the time
 the number of equidistant elements R, the initial heterozygosity H_0 and the 
 number of crossovers during meiosis C as arguments:
 ```{r}
-time_estim <- estimate_time(J = J,
+time_estim <- estimate_time(J = num_j,
                             N = 100,
                             R = 1000,
                             H_0 = 0.5,

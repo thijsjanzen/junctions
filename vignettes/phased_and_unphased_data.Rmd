@@ -50,6 +50,7 @@ well). Simulation output already contains this information and we can use this
 to infer the time since admixture:
 
 ```{r, infer unphased admixture time}
+focal_data <- subset(simulated_data, simulated_data$time == 100)
 admixture_time <- estimate_time_diploid(ancestry_information =
                                           cbind(1,
                                                 1,
