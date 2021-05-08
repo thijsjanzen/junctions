@@ -3,7 +3,7 @@ test_that("explicit, use", {
 
   marker_vec <- sort(runif(10000, 0, 1))
 
-  max_gen <- 20
+  max_gen <- 3
 
   s1 <- sim_phased_unphased(pop_size = 1000,
                             freq_ancestor_1 = 0.5,
@@ -37,7 +37,6 @@ test_that("explicit, use", {
     j2 <- sum(abs(diff(b$anc_chrom_2)))
     num_j_s2 <- c(num_j_s2, j1, j2)
   }
-  pp <- t.test(num_j_s1, num_j_s2)
 
-  testthat::expect_gt(pp$p.value, 0.05)
+  testthat::expect_equal(mean(num_j_s1), mean(num_j_s2), tolerance = 0.1)
 })

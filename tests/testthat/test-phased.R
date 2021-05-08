@@ -94,8 +94,6 @@ test_that("phased, use", {
                                    t = c(30, 100, 300))
 
   testthat::expect_true(length(multi_ll) == 3)
-  testthat::expect_gt(multi_ll[1], multi_ll[2])
-  testthat::expect_gt(multi_ll[2], multi_ll[3])
 })
 
 test_that("phased, expectation", {
