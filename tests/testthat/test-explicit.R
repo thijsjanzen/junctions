@@ -40,3 +40,20 @@ test_that("explicit, use", {
 
   testthat::expect_equal(mean(num_j_s1), mean(num_j_s2), tolerance = 0.1)
 })
+
+test_that("explicit, use2", {
+  marker_vec <- sort(runif(10000, 0, 1))
+
+  max_gen <- 3
+  s2 <- sim_phased_unphased(pop_size = 1000,
+                            freq_ancestor_1 = 0.5,
+                            total_runtime = max_gen,
+                            markers = marker_vec,
+                            time_points = max_gen,
+                            num_indiv_sampled = 10,
+                            use_explicit = TRUE)
+
+  testthat::expect_equal(length(unique(s2$individual)), 10)
+  testthat::expect_equal(max(s2$time), 3)
+  testthat::expect_true(all.equal(unique(s2$location), marker_vec))
+})
