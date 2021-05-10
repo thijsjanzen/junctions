@@ -242,11 +242,11 @@ mean of a number of replicates:
 ```{r, repl_sim_fin}
 v <- c();
 for (repl in 1:number_replicates) {
-  v2 <- sim_fin_chrom(pop_size = n, 
-                      freq_ancestor_1 = h_0, 
-                      total_runtime = maximum_time, 
-                      morgan = c, 
-                      seed = repl, 
+  v2 <- sim_fin_chrom(pop_size = n,
+                      freq_ancestor_1 = h_0,
+                      total_runtime = maximum_time,
+                      morgan = c,
+                      seed = repl,
                       R = r)
   v <- rbind(v, as.numeric(v2$avgJunctions))
 }
