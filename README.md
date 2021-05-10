@@ -22,7 +22,7 @@ Janzen, T., Miró Pina, V. (2020) Estimating the time since admixture from phase
 
 
 ## Updates
-Version 2.0 : merged many functions with similar functionality, added vignette that provides overview of all functionality.
+Version 2.0 : merged many functions with similar functionality, added vignette that provides overview of all functionality. <br />
 Version 1.9 : added c++ versions of the unphased and phased likelihoods. <br />
 Version 1.8 : added multithreading using the TBB library. <br />
 Version 1.7 : Further improved the recombination function following Hanno Hildenbrandt's suggestions <br />
