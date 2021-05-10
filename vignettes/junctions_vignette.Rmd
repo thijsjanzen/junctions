@@ -74,7 +74,7 @@ predictions, we will need to average over a number of replicates.
 
 ```{r, repl_sim_inf}
 number_replicates <- 10
-v <- c();
+v <- c()
 for (r in 1:number_replicates) {
   v2 <- sim_inf_chrom(pop_size = pop_size,
                       freq_ancestor_1 = h_0,
@@ -240,7 +240,7 @@ plot(v$avgJunctions, type = "l",
 To facilitate comparison with empirical data, we might again want to take the 
 mean of a number of replicates:
 ```{r, repl_sim_fin}
-v <- c();
+v <- c()
 for (repl in 1:number_replicates) {
   v2 <- sim_fin_chrom(pop_size = n,
                       freq_ancestor_1 = h_0,
@@ -360,7 +360,7 @@ abline(v = calculate_mat(N = 100,
                          C = 1),
        lty = 2)
 
-par(new = T)
+par(new = TRUE)
 v <- time_error(t = 0:(maximum_time - 1), #to avoid an error at t = maxT
                 N = 100,
                 R = 1000,
