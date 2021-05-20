@@ -55,5 +55,9 @@ test_that("explicit, use2", {
 
   testthat::expect_equal(length(unique(s2$individual)), 10)
   testthat::expect_equal(max(s2$time), 3)
-  testthat::expect_true(all.equal(unique(s2$location), marker_vec))
+
+  s1 <- sort(unique(s2$location))
+  s2 <- marker_vec
+  s3 <- mean(s1 - s2)
+  testthat::expect_lt(s3, 1e-3)
 })
