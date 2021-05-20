@@ -18,6 +18,11 @@ get_num_markers <- function(markers) {
       return(markers)
     }
   } else {
+
+    if (max(markers) != 1) {
+      markers <- markers / max(markers)
+    }
+
     return(markers)
   }
 }

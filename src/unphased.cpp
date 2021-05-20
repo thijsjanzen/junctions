@@ -17,7 +17,7 @@ int get_seed();
 void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>& pop,
                 int popSize,
-                int numRecombinations,
+                double numRecombinations,
                 int num_threads) {
 
   tbb::task_scheduler_init _tbb((num_threads > 0) ? num_threads : tbb::task_scheduler_init::automatic);
