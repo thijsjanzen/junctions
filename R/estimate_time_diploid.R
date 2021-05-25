@@ -5,10 +5,13 @@
 #' of individual, column 2) indicator of chromosome, 3) location of marker in
 #' Morgan, 4) ancestry at chromosome 5) ancestry at chromosome 2.
 #' @param analysis_type how should the data be broken down? there are multiple
-#' options: "all" - each chromosome is analysed separately, "individuals" - time
-#' is jointly inferred for all chromosomes belonging to the same individual,
-#' "chromosomes" - time is jointly inferred for all individuals with the same
-#' chromosome.
+#' options: "individuals" - time is inferred for each individual separately,
+#' grouping all chromosomes together that belong to the same individual.
+#' "chromosomes" - time is inferred for each chromosome separately, grouping
+#' chromosomes together belonging from separate individuals. "separate" - time
+#' is inferred for each chromosome from each individual separately, "all" - time
+#' is inferred jointly for all chromosomes and individuals, grouping all
+#' chromosomes and individuals together.
 #' @param phased is the data phased?
 #' @param pop_size population size
 #' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
@@ -31,7 +34,7 @@ estimate_time_diploid <- function(ancestry_information,
                                   num_threads = 1,
                                   verbose = FALSE) {
 
-  if (!(analysis_type %in% c("all", "individuals", "chromosomes"))) {
+  if (!(analysis_type %in% c("all", "individuals", "chromosomes", "separate"))) {
     stop("analysis type not known,
          did you perhaps spell individual instead of individuals?")
   }
@@ -41,8 +44,8 @@ estimate_time_diploid <- function(ancestry_information,
   }
 
   time_estimates <- c()
-  if (analysis_type == "all") {
-    time_estimates <- estimate_time_all(ancestry_information,
+  if (analysis_type == "separate") {
+    time_estimates <- estimate_time_separate(ancestry_information,
                                         pop_size,
                                         freq_ancestor_1,
                                         lower_lim,
@@ -70,6 +73,16 @@ estimate_time_diploid <- function(ancestry_information,
                                                 verbose,
                                                 phased,
                                                 num_threads)
+  }
+  if (analysis_type == "all") {
+    time_estimates <- estimate_time_all(ancestry_information,
+                                        pop_size,
+                                        freq_ancestor_1,
+                                        lower_lim,
+                                        upper_lim,
+                                        verbose,
+                                        phased,
+                                        num_threads)
   }
 
 
@@ -142,7 +155,7 @@ estimate_time_chromosomes <- function(ancestry_information,
 
 
 #' @keywords internal
-estimate_time_all <- function(ancestry_information,
+estimate_time_separate <- function(ancestry_information,
                               pop_size,
                               freq_ancestor_1,
                               lower_lim,
@@ -181,3 +194,47 @@ estimate_time_all <- function(ancestry_information,
                                 "time", "loglikelihood")
   return(time_estimates)
 }
+
+#' @keywords internal
+estimate_time_all <- function(ancestry_information,
+                              pop_size,
+                              freq_ancestor_1,
+                              lower_lim,
+                              upper_lim,
+                              verbose,
+                              phased,
+                              num_threads) {
+  time_estimates <- c()
+
+  # indiv, chrom, pos, anc1, anc2
+
+  cnt <- max(unique(ancestry_information[, 2])) + 1
+  for (indiv in unique(ancestry_information[, 1])) {
+    indices <- which(ancestry_information[, 1] == indiv)
+    b <- ancestry_information[indices, ]
+    chroms <- unique(b[, 2])
+    chroms2 <- cnt + chroms
+    cnt <- cnt + length(chroms2)
+    for (i in 1:length(chroms)) {
+      local_indices <- which(ancestry_information[indices, 2] == chroms[i])
+      ancestry_information[local_indices, 2] <- chroms2[i]
+    }
+  }
+
+
+  result <- estimate_time_cpp(local_anc_matrix =
+                                as.matrix(ancestry_information[, c(2, 4, 5)]),
+                              locations = ancestry_information[, 3],
+                              pop_size = pop_size,
+                              freq_ancestor_1 = freq_ancestor_1,
+                              lower_lim = lower_lim,
+                              upper_lim = upper_lim,
+                              verbose = verbose,
+                              phased = phased,
+                              num_threads = num_threads)
+  time_estimates <- rbind(time_estimates, c(indiv,
+                                            result$time, result$likelihood))
+  colnames(time_estimates) <- c("individual", "time", "loglikelihood")
+  return(time_estimates)
+}
+

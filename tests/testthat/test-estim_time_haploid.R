@@ -97,7 +97,7 @@ test_that("estimate_time_diploid, use", {
                                                            vx$location,
                                                            vx$anc_chrom_1,
                                                            vx$anc_chrom_2),
-                              analysis_type = "all",
+                              analysis_type = "separate",
                               pop_size = 1000,
                               freq_ancestor_1 = 0.5)
 

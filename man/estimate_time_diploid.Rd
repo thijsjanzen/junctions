@@ -22,10 +22,13 @@ of individual, column 2) indicator of chromosome, 3) location of marker in
 Morgan, 4) ancestry at chromosome 5) ancestry at chromosome 2.}
 
 \item{analysis_type}{how should the data be broken down? there are multiple
-options: "all" - each chromosome is analysed separately, "individuals" - time
-is jointly inferred for all chromosomes belonging to the same individual,
-"chromosomes" - time is jointly inferred for all individuals with the same
-chromosome.}
+options: "individuals" - time is inferred for each individual separately,
+grouping all chromosomes together that belong to the same individual.
+"chromosomes" - time is inferred for each chromosome separately, grouping
+chromosomes together belonging from separate individuals. "separate" - time
+is inferred for each chromosome from each individual separately, "all" - time
+is inferred jointly for all chromosomes and individuals, grouping all
+chromosomes and individuals together.}
 
 \item{phased}{is the data phased?}
 
