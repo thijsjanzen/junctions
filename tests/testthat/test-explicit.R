@@ -5,7 +5,7 @@ test_that("explicit, use", {
 
   max_gen <- 3
 
-  s1 <- sim_phased_unphased(pop_size = 1000,
+  s1 <- sim_phased_unphased(pop_size = 10000,
                             freq_ancestor_1 = 0.5,
                             total_runtime = max_gen,
                             markers = marker_vec,
@@ -13,7 +13,7 @@ test_that("explicit, use", {
                             num_indiv_sampled = 100,
                             use_explicit = FALSE)
 
-  s2 <- sim_phased_unphased(pop_size = 1000,
+  s2 <- sim_phased_unphased(pop_size = 10000,
                             freq_ancestor_1 = 0.5,
                             total_runtime = max_gen,
                             markers = marker_vec,
