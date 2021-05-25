@@ -38,7 +38,7 @@ test_that("explicit, use", {
     num_j_s2 <- c(num_j_s2, j1, j2)
   }
 
-  testthat::expect_equal(mean(num_j_s1), mean(num_j_s2), tolerance = 0.1)
+  testthat::expect_equal(mean(num_j_s1), mean(num_j_s2), tolerance = 0.3)
 })
 
 test_that("explicit, use2", {
