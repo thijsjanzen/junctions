@@ -1,12 +1,12 @@
 # junctions <img src="pics/junctions_sticker3.png" align="right" width="180" />
 Individual based simulations of hybridizing populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes. Both simulations and mathematical equations are based on Janzen et al. (2018) and Janzen and Miro Pina (2020).
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/junctions)](https://cran.r-project.org/package=junctions)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/junctions)](https://cran.r-project.org/package=junctions)
-[![](http://cranlogs.r-pkg.org/badges/junctions)](https://cran.r-project.org/package=junctions)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/junctions)](https://cran.r-project.org/package=junctions)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/junctions)](https://cran.r-project.org/package=junctions)
+[![](https://cranlogs.r-pkg.org/badges/junctions)](https://cran.r-project.org/package=junctions)
 [![R-CMD-check](https://github.com/thijsjanzen/junctions/workflows/R-CMD-check/badge.svg)](https://github.com/thijsjanzen/junctions/actions)
 
-Branch|[![AppVeyor logo](pics/AppVeyor.png)](https://www.appveyor.com)|[![Codecov logo](pics/Codecov.png)](https://codecov.io)
+Branch|[![AppVeyor logo](pics/AppVeyor.png)]|[![Codecov logo](pics/Codecov.png)]
 ---|---|---
 master|[![Build status](https://ci.appveyor.com/api/projects/status/rt9856tv3pi87sms?svg=true)](https://ci.appveyor.com/project/thijsjanzen/junctions)|[![codecov.io](https://codecov.io/gh/thijsjanzen/junctions/branch/master/graph/badge.svg)](https://codecov.io/gh/thijsjanzen/junctions)
 

@@ -54,23 +54,6 @@ simulated_pop <- sim_phased_unphased(pop_size = 1000,
                                      time_points = seq(0, 100, by = 10))
 ```
 
-### Explicit simulations
-Under the hood, the simulation simulates the process of accumulating 
-junctions over time, and superimposes the used molecular markers at the time
-points provided by the user. If the total run time and the population size are 
-large, this may require a large amount of memory. Indeed, if the number of 
-superimposed markers is relatively small, instead the user might want to only 
-model ancestry at the markers provided:
-```{r phased unphased simulation explicit}
-simulated_pop_explicit <- sim_phased_unphased(pop_size = 1000,
-                                     freq_ancestor_1 = 0.5,
-                                     total_runtime = 100,
-                                     size_in_morgan = 1,
-                                     markers = sort(runif(n = 10000, 0, 1)),
-                                     time_points = seq(1, 100, by = 10),
-                                     use_explicit = TRUE)
-```
-
 ### Mathematical simulations
 In Janzen et al. 2018, two separate scenario's were explored: either using a 
 finite or an infinite chromosome, where finite or infinite was referring to the 

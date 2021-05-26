@@ -19,8 +19,6 @@
 #' @param record_true_junctions keep track of the true number of junctions?
 #' @param num_indiv_sampled the number of individuals sampled at each time point
 #' to be genotyped
-#' @param use_explicit if TRUE, only ancestry at the markers is simulated. If
-#' FALSE, all junctions are simulated.
 #' @param coverage fraction of markers that can be succesfully phased
 #' @param error_rate fraction of markers that are erroneously
 #' phased (e.g. swapped)
@@ -44,7 +42,6 @@ sim_phased_unphased <- function(pop_size = 100,
                                 verbose = FALSE,
                                 record_true_junctions = FALSE,
                                 num_indiv_sampled = 10,
-                                use_explicit = FALSE,
                                 coverage = 1,
                                 error_rate = 0) {
 
@@ -52,35 +49,16 @@ sim_phased_unphased <- function(pop_size = 100,
 
   markers <- get_num_markers(markers)
 
-  output <- c()
-  if (use_explicit == FALSE) {
-    output <- sim_phased_unphased_cpp(pop_size,
-                                        freq_ancestor_1,
-                                        total_runtime,
-                                        size_in_morgan,
-                                        markers,
-                                        time_points,
-                                        verbose,
-                                        record_true_junctions,
-                                        num_indiv_sampled,
-                                        num_threads)
-  } else {
-
-    if (record_true_junctions) {
-      warning("can not record true junctions when simulating explicitly")
-    }
-
-    output <- sim_phased_unphased_explicit_cpp(pop_size,
-                                      freq_ancestor_1,
-                                      total_runtime,
-                                      size_in_morgan,
-                                      markers,
-                                      time_points,
-                                      verbose,
-                                      record_true_junctions,
-                                      num_indiv_sampled,
-                                      num_threads)
-  }
+  output <- sim_phased_unphased_cpp(pop_size,
+                                    freq_ancestor_1,
+                                    total_runtime,
+                                    size_in_morgan,
+                                    markers,
+                                    time_points,
+                                    verbose,
+                                    record_true_junctions,
+                                    num_indiv_sampled,
+                                    num_threads)
 
   if (coverage != 1 || error_rate != 0) {
     phasing_result <- apply_phasing_error(output, coverage, error_rate)
@@ -91,14 +69,14 @@ sim_phased_unphased <- function(pop_size = 100,
     colnames(output$results) <- c("time", "individual", "location",
                                   "anc_chrom_1", "anc_chrom_2")
 
-    if (!record_true_junctions || use_explicit)
+    if (!record_true_junctions)
       return(tibble::as_tibble(output$results))
 
     if (record_true_junctions) {
       colnames(output$true_results) <- c("time",
-                                        "individual",
-                                        "junctions_chrom_1",
-                                        "junctions_chrom_2")
+                                         "individual",
+                                         "junctions_chrom_1",
+                                         "junctions_chrom_2")
       output <- list("results" = tibble::as_tibble(output$results),
                      "true_results" = tibble::as_tibble(output$true_results))
       return(output)
