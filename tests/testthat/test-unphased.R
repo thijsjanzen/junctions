@@ -106,9 +106,9 @@ test_that("unphased, time points", {
 
 test_that("unphased, junctions", {
   testthat::skip_on_os("solaris")
-  N <- 1000 # nolint
-  R <- 1000 # nolint
-  t <- 100
+  N <- 10000 # nolint
+  R <- 10000 # nolint
+  t <- 10
   H_0 <- 0.5 # nolint
   C <- 1     # nolint
 
@@ -119,13 +119,13 @@ test_that("unphased, junctions", {
                               size_in_morgan = C,
                               markers = R,
                               time_points = t,
-                              num_indiv_sampled = 20,
+                              num_indiv_sampled = 100,
                               record_true_junctions = TRUE,
                               verbose = TRUE)
   )
 
   num_j_true <- mean(c(vx$true_results$junctions_chrom_1,
-                     vx$true_results$junctions_chrom_2))
+                       vx$true_results$junctions_chrom_2))
   vx <- vx$results
 
   num_j <- c()
