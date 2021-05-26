@@ -2,7 +2,6 @@ context("explicit")
 test_that("explicit, use", {
   testthat::skip_on_os("solaris")
   testthat::skip("for now, this doesn't work properly as expected")
-  message("explicit")
   marker_vec <- sort(runif(10000, 0, 1))
 
   max_gen <- 3
@@ -45,7 +44,6 @@ test_that("explicit, use", {
 
 test_that("explicit, use2", {
   testthat::skip_on_os("solaris")
-  message("explicit2")
   marker_vec <- sort(runif(10000, 0, 1))
 
   max_gen <- 3

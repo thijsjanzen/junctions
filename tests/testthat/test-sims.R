@@ -1,7 +1,6 @@
 context("simulations")
 
 test_that("finite chromosome", {
-  message("fin_chrom")
   num_markers <- 100 #chromosome size
   pop_size <- 100 # population size
   H_0 <- 0.5 # nolint
@@ -28,7 +27,6 @@ test_that("finite chromosome", {
 })
 
 test_that("infinite chromosome", {
-  message("inf_chrom")
   pop_size <- 50 #population size
   H_0 <- 0.5 # nolint
   C <- 1 # nolint

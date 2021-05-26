@@ -1,7 +1,6 @@
 context("phased")
 test_that("phased, use", {
   testthat::skip_on_os("solaris")
-  message("phased")
   vx <- sim_phased_unphased(pop_size = 100,
                             freq_ancestor_1 = 0.5,
                             total_runtime = 120,
@@ -99,7 +98,6 @@ test_that("phased, use", {
 
 test_that("phased, expectation", {
   testthat::skip_on_os("solaris")
-  message("phased2")
   vx <- sim_phased_unphased(pop_size = 10000,
                             freq_ancestor_1 = 0.5,
                             total_runtime = 100,
