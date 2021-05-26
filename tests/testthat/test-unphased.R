@@ -1,5 +1,6 @@
 context("unphased")
 test_that("unphased, use", {
+  testthat::skip_on_os("solaris")
   population_size <- 100
   max_t <- 110
   vx <- sim_phased_unphased(pop_size = population_size,
@@ -78,6 +79,7 @@ test_that("unphased, use", {
 })
 
 test_that("unphased, time points", {
+  testthat::skip_on_os("solaris")
   population_size <- 100
   max_t <- 10
   vx <- sim_phased_unphased(pop_size = population_size,
@@ -103,7 +105,7 @@ test_that("unphased, time points", {
 })
 
 test_that("unphased, junctions", {
-
+  testthat::skip_on_os("solaris")
   N <- 1000 # nolint
   R <- 1000 # nolint
   t <- 100

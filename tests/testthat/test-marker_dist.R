@@ -1,5 +1,6 @@
 context("marker_distribution")
 test_that("markers, use", {
+  testthat::skip_on_os("solaris")
 
   num_markers <- 1000
   e_j <- number_of_junctions(R = num_markers,
@@ -55,6 +56,7 @@ test_that("markers, abuse", {
 })
 
 test_that("marker dist", {
+  testthat::skip_on_os("solaris")
   vx <- sim_phased_unphased(total_runtime = 2,
                             markers = 10,
                             num_indiv_sampled = 1,

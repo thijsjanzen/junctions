@@ -10,14 +10,14 @@ Authors@R:
 Description: Individual based simulations of hybridizing populations,
     where the accumulation of junctions is tracked. Furthermore,
     mathematical equations are provided to verify simulation outcomes.
-    Both simulations and mathematical equations are based on Janzen et al.
-    (2018, <doi:10.1101/058107>) and Janzen & Miro Pina (2020,
+    Both simulations and mathematical equations are based on Janzen
+    (2018, <doi:10.1101/058107>) and Janzen (2020,
     <doi:10.1101/2020.09.10.292441>).
 License: GPL (>= 2)
 URL: https//github.com/thijsjanzen/junctions
 BugReports: https://github.com/thijsjanzen/junctions/issues
 Depends: 
-    RcppParallel
+    RcppParallel (>= 5.0.0)
 Imports: 
     nloptr,
     Rcpp,

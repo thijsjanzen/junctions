@@ -123,21 +123,17 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
 
     if (add_chrom) {
       current_chrom = local_anc_matrix(i, 0);
-   //   Rcpp::Rcout << "creating new chrom\n"; force_output();
       chromosome new_chrom(chrom_matrix, positions, phased, verbose);
-   //   Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
       output.push_back(new_chrom);
       chrom_matrix.clear();
       positions.clear();
     }
     std::vector<int> add = {static_cast<int>(local_anc_matrix(i, 1)),
                             static_cast<int>(local_anc_matrix(i, 2))};
-   // Rcpp::Rcout << i << " " << add[0] << " " << add[1] << "\n";
     chrom_matrix.push_back(add);
     positions.push_back(locations[i]);
   }
   chromosome new_chrom(chrom_matrix, positions, phased, verbose);
- // Rcpp::Rcout << current_chrom << " " << new_chrom.distances.size() << "\n"; force_output();
   output.push_back(new_chrom);
 
   return output;
@@ -194,10 +190,7 @@ try {
 
   nlopt_set_xtol_rel(opt, 1e-1);
   std::vector<double> x = {10};
-  //double * filler;
-  double minf; // = objective(1, &x[0], filler, &optim_data);
-  //Rcpp::Rcout << minf << "\n";
-  //
+  double minf;
   if (verbose) {
     Rcpp::Rcout << "starting optimisation\n";
   }
@@ -539,26 +532,33 @@ double chromosome::calculate_likelihood(double t,
                         states[1], t, pop_size, freq_ancestor_1, false,
                         phased);
 
+  if (detail::num_threads == 1) {
+    for (size_t i = 0; i < distances.size(); ++i) {
 
-  tbb::task_scheduler_init _tbb((detail::num_threads > 0) ? detail::num_threads : tbb::task_scheduler_init::automatic);
-
-  tbb::parallel_for(
-    tbb::blocked_range<unsigned>(1, distances.size()),
-    [&](const tbb::blocked_range<unsigned>& r) {
-      for (unsigned i = r.begin(); i < r.end(); ++i) {
-
-        double di = distances[i];
-        double l = states[i];
-        double r = states[i + 1];
-        ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
-                        phased);
-      }
+      double di = distances[i];
+      double l = states[i];
+      double r = states[i + 1];
+      ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
+                      phased);
     }
-  );
+  } else {
+
+    tbb::task_scheduler_init _tbb((detail::num_threads > 0) ? detail::num_threads : tbb::task_scheduler_init::automatic);
+
+    tbb::parallel_for(
+      tbb::blocked_range<unsigned>(1, distances.size()),
+      [&](const tbb::blocked_range<unsigned>& r) {
+        for (unsigned i = r.begin(); i < r.end(); ++i) {
+
+          double di = distances[i];
+          double l = states[i];
+          double r = states[i + 1];
+          ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
+                          phased);
+        }
+      }
+    );
+  }
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
-  //if (verbose) {
-  //  Rcpp::Rcout << t << " " << pop_size << " " << answer << "\n";
-//  }
   return(answer);
 }
-
