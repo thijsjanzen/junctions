@@ -5,7 +5,7 @@ simulate_backcrossing_cpp <- function(pop_size, freq_ancestor_1, total_runtime, 
     .Call('_junctions_simulate_backcrossing_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed)
 }
 
-estimate_time_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, phased, num_threads = -1L) {
+estimate_time_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, phased, num_threads = 1L) {
     .Call('_junctions_estimate_time_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, phased, num_threads)
 }
 

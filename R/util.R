@@ -64,4 +64,26 @@ apply_phasing_error <- function(output,
 
   return(list("true_data" = true_data,  "phased_data" = phased_data))
 }
+
+check_time_points <- function(time_points, max_time) {
+
+  within_range <- time_points <= max_time
+  time_points <- time_points[within_range]
+  if (length(time_points) < 1) {
+    warning("all chosen time points were past the simulation time,
+             chosen to only measure at the last time step")
+    time_points <- max_time
+  }
+
+  if (length(time_points) == 1) {
+    if (time_points[[1]] == -1) {
+      time_points <- seq(1, max_time, by = 1)
+    }
+  }
+  return(time_points)
+
+}
+
+
+
 # nolint end

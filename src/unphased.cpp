@@ -106,9 +106,8 @@ Output simulation_phased_nonphased(int popSize,
 
 //  Rcout << "starting simulation\n"; force_output();
 
-  for (int t = 0; t <= maxTime; ++t) {
+  for (size_t t = 0; t <= maxTime; ++t) {
     if (is_in_time_points(t, time_points)) {
-   //   Rcout << "update_unphased\n"; force_output();
       O.update_unphased(Pop, t, record_true_junctions, numRecombinations,
                         num_indiv_sampled);
     }

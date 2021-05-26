@@ -48,21 +48,7 @@ sim_phased_unphased <- function(pop_size = 100,
                                 coverage = 1,
                                 error_rate = 0) {
 
-  within_range <- which(time_points <= total_runtime)
-  time_points <- time_points[within_range]
-  if (length(time_points) < 1) {
-    warning("all chosen time points were past the simulation time,
-             chosen to only measure at the last time step")
-    time_points <- total_runtime
-  }
-
-  if (length(time_points) == 1) {
-    if (time_points == -1) {
-      time_points <- seq(0, total_runtime, by = 1)
-    }
-  }
-
-
+  time_points <- check_time_points(time_points, total_runtime)
 
   markers <- get_num_markers(markers)
 

@@ -1,6 +1,7 @@
 context("equations")
 
 test_that("calc_K", {
+  message("calc_K")
   v1 <- junctions::calc_k(R = 10)
   testthat::expect_equal(v1, 5)
 
@@ -13,7 +14,7 @@ test_that("calc_K", {
 })
 
 test_that("calculate_J and error", {
-
+  message("calculate_J")
   max_time <- 200
   junc <- junctions::number_of_junctions(N = 100, R = 1000,
                                       H_0 = 0.5, C = 1, max_time)

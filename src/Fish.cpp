@@ -347,8 +347,11 @@ Fish_inf& Fish_inf::operator=(const Fish_inf& other) {
 
 bool is_in_time_points(int t,
                        const Rcpp::NumericVector& time_points) {
-    for (auto it = time_points.begin(); it != time_points.end(); ++it) {
-        if((*it) == t) return true;
+
+    for (auto i : time_points) {
+        int comp = static_cast<int>(i);
+        if (comp == t) return true;
     }
+
     return false;
 }

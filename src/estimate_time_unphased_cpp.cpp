@@ -14,7 +14,7 @@
 
 
 namespace detail {
-int num_threads = -1;
+int num_threads = 1;
 }
 
 struct chromosome {
@@ -150,7 +150,7 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                              int upper_lim,
                              bool verbose,
                              bool phased,
-                             int num_threads = -1) {
+                             int num_threads = 1) {
 try {
 
   if (verbose) {
