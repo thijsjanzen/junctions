@@ -77,7 +77,7 @@ check_time_points <- function(time_points, max_time) {
 
   if (length(time_points) == 1) {
     if (time_points[[1]] == -1) {
-      time_points <- seq(1, max_time, by = 1)
+      time_points <- seq(0, max_time, by = 1)
     }
   }
   return(time_points)
