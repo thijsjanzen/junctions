@@ -36,16 +36,6 @@ test_that("estimate_time_haploid, use", {
 
   testthat::expect_length(ll, length(focal_t))
 
-  # check boundaries:
-  testthat::expect_warning(
-    estimate_time_haploid(cbind(vx$individual,
-                                vx$location,
-                                vx$anc_chrom_1),
-                          N = 1000,
-                          freq_ancestor_1 = 0.5,
-                          upper_lim = 10)
-  )
-
   testthat::expect_output(
     estimate_time_haploid(cbind(vx$individual,
                                 vx$location,
