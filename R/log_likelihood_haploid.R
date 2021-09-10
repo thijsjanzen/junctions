@@ -1,3 +1,36 @@
+#' @keywords internal
+calc_ll_haploid_di <- function(info_vector, N, freq_ancestor_1, t) { # nolint
+  di <- info_vector[[1]]
+  left <- info_vector[[2]]
+  right <- info_vector[[3]]
+
+  H_0 <- 2 * freq_ancestor_1 * (1 - freq_ancestor_1) # nolint
+
+  a1 <- H_0 * 2 * N / (2 * N + 1 / di) # nolint
+  a2 <- 1 - (1 - di - 1 / (2 * N)) ^ t
+  prob <- a1 * a2
+
+  if (left == right) {
+    prob <- 1 - prob
+  }
+
+  return(log(prob))
+}
+
+#' @keywords internal
+calc_ll_haploid <- function(chrom_matrix,
+                            N, # nolint
+                            freq_ancestor_1,
+                            t) {
+  di <- c(diff(chrom_matrix[, 2]))
+  to_analyze <- cbind(di,
+                      chrom_matrix[1:(length(chrom_matrix[, 1]) - 1), 3],
+                      chrom_matrix[2:length(chrom_matrix[, 1]), 3])
+
+  ll <- apply(to_analyze, 1, calc_ll_haploid_di, N, freq_ancestor_1, t)
+  return(sum(ll))
+}
+
 #' log likelihood of the time since admixture for a haploid genome
 #' @description log likelihood of the time since admixture for a set of single
 #' chromosomes (for ex. in Yeast).
