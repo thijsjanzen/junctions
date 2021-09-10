@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // simulate_backcrossing_cpp
 List simulate_backcrossing_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, int number_of_markers, NumericVector time_points, int seed);
 RcppExport SEXP _junctions_simulate_backcrossing_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP number_of_markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP) {
@@ -56,6 +61,23 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
     rcpp_result_gen = Rcpp::wrap(loglikelihood_unphased_cpp(local_anc_matrix, locations, pop_size, freq_ancestor_1, t, phased, verbose, num_threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// estimate_time_haploid_cpp
+Rcpp::List estimate_time_haploid_cpp(const Rcpp::NumericMatrix& local_anc_matrix, int pop_size, double freq_ancestor_1, int lower_lim, int upper_lim, bool verbose, int num_threads);
+RcppExport SEXP _junctions_estimate_time_haploid_cpp(SEXP local_anc_matrixSEXP, SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP lower_limSEXP, SEXP upper_limSEXP, SEXP verboseSEXP, SEXP num_threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type local_anc_matrix(local_anc_matrixSEXP);
+    Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
+    Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
+    Rcpp::traits::input_parameter< int >::type lower_lim(lower_limSEXP);
+    Rcpp::traits::input_parameter< int >::type upper_lim(upper_limSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(estimate_time_haploid_cpp(local_anc_matrix, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -116,6 +138,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 7},
     {"_junctions_estimate_time_cpp", (DL_FUNC) &_junctions_estimate_time_cpp, 9},
     {"_junctions_loglikelihood_unphased_cpp", (DL_FUNC) &_junctions_loglikelihood_unphased_cpp, 8},
+    {"_junctions_estimate_time_haploid_cpp", (DL_FUNC) &_junctions_estimate_time_haploid_cpp, 7},
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
     {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 10},

@@ -1,36 +1,3 @@
-#' @keywords internal
-calc_ll_haploid_di <- function(info_vector, N, freq_ancestor_1, t) { # nolint
-  di <- info_vector[[1]]
-  left <- info_vector[[2]]
-  right <- info_vector[[3]]
-
-  H_0 <- 2 * freq_ancestor_1 * (1 - freq_ancestor_1) # nolint
-
-  a1 <- H_0 * 2 * N / (2 * N + 1 / di) # nolint
-  a2 <- 1 - (1 - di - 1 / (2 * N)) ^ t
-  prob <- a1 * a2
-
-  if (left == right) {
-    prob <- 1 - prob
-  }
-
-  return(log(prob))
-}
-
-#' @keywords internal
-calc_ll_haploid <- function(chrom_matrix,
-                             N, # nolint
-                             freq_ancestor_1,
-                             t) {
-  di <- c(diff(chrom_matrix[, 2]))
-  to_analyze <- cbind(di,
-                      chrom_matrix[1:(length(chrom_matrix[, 1]) - 1), 3],
-                      chrom_matrix[2:length(chrom_matrix[, 1]), 3])
-
-  ll <- apply(to_analyze, 1, calc_ll_haploid_di, N, freq_ancestor_1, t)
-  return(sum(ll))
-}
-
 #' estimate time using likelihood for a single chromosome
 #' @description Estimate the time since the onset of hybridization, for a
 #' haploid genome
@@ -43,6 +10,7 @@ calc_ll_haploid <- function(chrom_matrix,
 #' @param upper_lim upper limit of the optimization algorithm. If set too large,
 #' recent admixture events can be overlooked - best to set as low as possible.
 #' @param verbose return verbose output
+#' @param use_cpp use cpp version
 #' @return The number of generations passed since the onset of hybridization
 #' @export
 estimate_time_haploid <- function(ancestry_matrix,
@@ -50,7 +18,8 @@ estimate_time_haploid <- function(ancestry_matrix,
                                   freq_ancestor_1 = 0.5,
                                   lower_lim = 2,
                                   upper_lim = 1000,
-                                  verbose = FALSE) {
+                                  verbose = FALSE,
+                                  use_cpp = FALSE) {
 
   if (!is.matrix(ancestry_matrix)) {
     ancestry_matrix <- as.matrix(ancestry_matrix)
@@ -59,22 +28,14 @@ estimate_time_haploid <- function(ancestry_matrix,
   chrom <- unique(ancestry_matrix[, 1])
   num_chrom <- length(chrom)
 
-  calc_joint_ll <- function(t) {
-    ll <- rep(0, num_chrom)
-    for (i in seq_along(chrom)) {
-      focal_chrom <- subset(ancestry_matrix, ancestry_matrix[, 1] == chrom[i])
-      ll[i] <- calc_ll_haploid(focal_chrom, N, freq_ancestor_1, t)
-    }
-    if (verbose) cat(t, -sum(ll), "\n")
-    return(-sum(ll))
-  }
+  fitted <- estimate_time_haploid_cpp(ancestry_matrix,
+                                          N,
+                                          freq_ancestor_1,
+                                          lower_lim,
+                                          upper_lim,
+                                          verbose,
+                                          use_cpp)
 
-  fitted <- stats::optimize(calc_joint_ll, interval = c(lower_lim, upper_lim))
-  if (fitted$minimum >= 0.9 * upper_lim) {
-    warning("estimated time is close to the upper limit of time inference\n",
-            "consider adjusting the upper limit to improve accuracy\n")
-  }
-
-  return(list(time = fitted$minimum,
-              loglikelihood = -fitted$objective))
+  return(list(time = fitted$time,
+                loglikelihood = fitted$likelihood))
 }

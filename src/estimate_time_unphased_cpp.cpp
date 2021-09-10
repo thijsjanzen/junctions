@@ -4,6 +4,9 @@
 #include <cmath>
 #include <iostream>
 
+#include <chrono>
+#include <thread>
+
 #include <Rcpp.h>
 #include <nloptrAPI.h>
 
@@ -76,30 +79,61 @@ struct chromosome {
                               double freq_ancestor_1) const;
 };
 
-struct nlopt_f_data {
+struct haploid_chromosome {
+  std::vector< size_t > states;
+  std::vector< double > distances;
 
-  nlopt_f_data(const std::vector< chromosome >& c,
-               int pop_size,
-               double freq_anc) : chromosomes(c), N(pop_size), p(freq_anc) {
+  haploid_chromosome(const std::vector<size_t>& s,
+                     const std::vector<double>& loc) :
+    states(s) {
+    distances = std::vector<double>(loc.size() - 1);
+    for(int i = 1; i < loc.size(); ++i) {
+      distances[i - 1] = loc[i] - loc[i - 1];
+    }
   }
 
-  const std::vector< chromosome > chromosomes;
-  const int N;
-  const double p;
+  double calculate_likelihood(double t,
+                              int pop_size,
+                              double H_0) const;
 };
 
-double objective(unsigned int n, const double* x, double*, void* func_data)
-{
-  auto psd = reinterpret_cast<nlopt_f_data*>(func_data);
-  std::vector<double> ll(psd->chromosomes.size());
-  for(size_t i = 0; i < psd->chromosomes.size(); ++i) {
-    ll[i] = psd->chromosomes[i].calculate_likelihood(x[0], psd->N, psd->p);
+struct haploid_chromosome_set {
+  std::vector< haploid_chromosome > chromosomes;
+
+  double calculate_likelihood(double t,
+                              int pop_size,
+                              double H_0) const;
+};
+
+
+haploid_chromosome_set create_haploid_chromosomes(const Rcpp::NumericMatrix& local_anc_matrix) {
+  haploid_chromosome_set output;
+  int current_chrom = local_anc_matrix(0, 0);
+
+  std::vector< size_t > states;
+  std::vector< double > positions;
+
+  for(int i = 0; i < local_anc_matrix.nrow(); ++i) {
+    bool add_chrom = false;
+    if (local_anc_matrix(i, 0) != current_chrom) add_chrom = true;
+    if (i > 0) {
+      if (local_anc_matrix(i, 1) < local_anc_matrix(i - 1, 1)) add_chrom = true;
+    }
+
+    if (add_chrom) {
+      current_chrom = local_anc_matrix(i, 0);
+      haploid_chromosome new_chrom(states, positions);
+      output.chromosomes.push_back(new_chrom);
+      states.clear();
+      positions.clear();
+    }
+    states.push_back(local_anc_matrix(i, 2));
+    positions.push_back(local_anc_matrix(i, 1));
   }
-  auto sum_ll = -std::accumulate(ll.begin(), ll.end(), 0.0);
-  if (psd->chromosomes.begin()->verbose) {
-    Rcpp::Rcout << x[0] << " " << -sum_ll << "\n";
-  }
-  return sum_ll;
+  haploid_chromosome new_chrom(states, positions);
+  output.chromosomes.push_back(new_chrom);
+
+  return output;
 }
 
 std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_anc_matrix,
@@ -139,6 +173,32 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
   return output;
 }
 
+
+struct nlopt_f_data {
+
+  nlopt_f_data(const std::vector< chromosome >& c,
+               int pop_size,
+               double freq_anc) : chromosomes(c), N(pop_size), p(freq_anc) {
+  }
+
+  const std::vector< chromosome > chromosomes;
+  const int N;
+  const double p;
+};
+
+double objective(unsigned int n, const double* x, double*, void* func_data)
+{
+  auto psd = reinterpret_cast<nlopt_f_data*>(func_data);
+  std::vector<double> ll(psd->chromosomes.size());
+  for(size_t i = 0; i < psd->chromosomes.size(); ++i) {
+    ll[i] = psd->chromosomes[i].calculate_likelihood(x[0], psd->N, psd->p);
+  }
+  auto sum_ll = -std::accumulate(ll.begin(), ll.end(), 0.0);
+  if (psd->chromosomes.begin()->verbose) {
+    Rcpp::Rcout << x[0] << " " << -sum_ll << "\n";
+  }
+  return sum_ll;
+}
 
 
 // [[Rcpp::export]]
@@ -463,6 +523,30 @@ double get_prob_from_matrix_phased_cpp(int left,
   return prob;
 }
 
+double calc_ll_haploid(double di,
+                       size_t left,
+                       size_t right,
+                       double t,
+                       int pop_size,
+                       double H_0) {
+
+  double a1 = H_0 * 2.0 * pop_size / (2.0 * pop_size + 1.0 / di); // nolint
+
+  double ax = (1.0 - di - 1.0 / (2.0 * pop_size));
+
+  double a2 = 1.0 - pow(ax, t);
+
+  double prob = a1 * a2;
+
+  if (left == right) {
+    prob = 1 - prob;
+  }
+
+  return(log(prob));
+}
+
+
+
 double calc_ll(double di,
                double l,
                double r,
@@ -533,7 +617,7 @@ double chromosome::calculate_likelihood(double t,
                         phased);
 
   if (detail::num_threads == 1) {
-    for (size_t i = 0; i < distances.size(); ++i) {
+    for (size_t i = 1; i < distances.size(); ++i) {
 
       double di = distances[i];
       double l = states[i];
@@ -561,4 +645,170 @@ double chromosome::calculate_likelihood(double t,
   }
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
   return(answer);
+}
+
+
+double haploid_chromosome::calculate_likelihood(double t,
+                                                int pop_size,
+                                                double H_0) const {
+
+  if (t < 1) {
+    Rcpp::Rcout << "t < 1\n";
+    return(-1e20);
+  }
+  if (pop_size < 2) {
+    Rcpp::Rcout << "pop_size < 2\n";
+    return(-1e20);
+  }
+  if (H_0 >= 1) {
+    Rcpp::Rcout << "H_0 >= 1\n";
+    return(-1e20);
+  }
+  if (H_0 <= 0) {
+    Rcpp::Rcout << "H_0 <= 0\n";
+    return(-1e20);
+  }
+
+  std::vector< double> ll(distances.size());
+
+  for (size_t i = 0; i < distances.size(); ++i) {
+    double di = distances[i];
+    double l = states[i];
+    double r = states[i + 1];
+    ll[i] = calc_ll_haploid(di, l, r, t, pop_size, H_0);
+  }
+  double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
+  return(answer);
+}
+
+double haploid_chromosome_set::calculate_likelihood(double t,
+                                                    int pop_size,
+                                                    double H_0) const {
+
+  std::vector < double > ll(chromosomes.size());
+  if (detail::num_threads == 1) {
+    for (int i = 0; i < chromosomes.size(); ++i) {
+      ll[i] = chromosomes[i].calculate_likelihood(t, pop_size, H_0);
+    }
+  } else {
+    tbb::task_scheduler_init _tbb((detail::num_threads > 0) ? detail::num_threads : tbb::task_scheduler_init::automatic);
+
+    tbb::parallel_for(
+      tbb::blocked_range<unsigned>(1, chromosomes.size()),
+      [&](const tbb::blocked_range<unsigned>& r) {
+        for (unsigned i = r.begin(); i < r.end(); ++i) {
+          ll[i] = chromosomes[i].calculate_likelihood(t, pop_size, H_0);
+        }
+      });
+  }
+  double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
+  return(-answer);
+}
+
+
+struct nlopt_f_data_haploid {
+
+  nlopt_f_data_haploid(const haploid_chromosome_set& c,
+               int pop_size,
+               double H_0) : chromosomes(c), N(pop_size), h_0(H_0) {
+  }
+
+  const haploid_chromosome_set chromosomes;
+  const int N;
+  const double h_0;
+};
+
+double objective_haploid(unsigned int n, const double* x, double*, void* func_data)
+{
+  auto psd = reinterpret_cast<nlopt_f_data_haploid*>(func_data);
+
+  return psd->chromosomes.calculate_likelihood(x[0], psd->N, psd->h_0);
+}
+
+void force_output() {
+  //  std::this_thread::sleep_for(std::chrono::nanoseconds(100));
+  std::this_thread::sleep_for(std::chrono::milliseconds(300));
+  R_FlushConsole();
+  R_ProcessEvents();
+  R_CheckUserInterrupt();
+}
+// [[Rcpp::export]]
+Rcpp::List estimate_time_haploid_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
+                                     int pop_size,
+                                     double freq_ancestor_1,
+                                     int lower_lim,
+                                     int upper_lim,
+                                     bool verbose,
+                                     int num_threads = 1) {
+  try {
+
+    if (verbose) {
+      Rcpp::Rcout << "welcome to estimate_time_cpp\n";
+      force_output();
+    }
+
+    detail::num_threads = num_threads;
+
+    if (local_anc_matrix.ncol() != 3) {
+      Rcpp::stop("local ancestry matrix has to have 3 columns: 1) chromosome, 2) location, 3) ancestry");
+    }
+
+    if (verbose) {
+      Rcpp::Rcout << "starting create chromosomes\n";
+      force_output();
+    }
+    haploid_chromosome_set haploid_chromosomes = create_haploid_chromosomes(local_anc_matrix);
+
+    if (verbose) {
+      Rcpp::Rcout << "chromosomes read from data\n";
+      force_output();
+    }
+
+    double H_0 = 2 * freq_ancestor_1 * (1 - freq_ancestor_1);
+
+    nlopt_f_data_haploid optim_data(haploid_chromosomes,
+                                    pop_size, H_0);
+
+    nlopt_opt opt = nlopt_create(NLOPT_LN_SBPLX, static_cast<unsigned int>(1));
+
+    double llim[1] = {static_cast<double>(lower_lim)};
+    double ulim[1] = {static_cast<double>(upper_lim)};
+
+    nlopt_set_lower_bounds(opt, llim);
+    nlopt_set_upper_bounds(opt, ulim);
+
+    nlopt_set_min_objective(opt, objective_haploid, &optim_data);
+
+    nlopt_set_xtol_rel(opt, 1e-1);
+    std::vector<double> x = {10};
+    double minf;
+    if (verbose) {
+      Rcpp::Rcout << "starting optimisation\n";
+      force_output();
+    }
+
+    auto nloptresult = nlopt_optimize(opt, &(x[0]), &minf);
+
+    if (nloptresult < 0) {
+      Rcpp::Rcout << "failure to optimize!\n";
+      force_output();
+    }
+
+    if (verbose) {
+      Rcpp::Rcout << "done optimisation\n";
+      force_output();
+    }
+
+    nlopt_destroy(opt);
+
+    std::vector<double> output = {x[0], minf};
+
+    return Rcpp::List::create(Rcpp::Named("time") = x[0],
+                              Rcpp::Named("likelihood") = -1 * minf);
+  } catch(std::exception &ex) {
+    forward_exception_to_r(ex);
+  } catch(...) {
+    ::Rf_error("c++ exception (unknown reason)");
+  }
+  return NA_REAL;
 }

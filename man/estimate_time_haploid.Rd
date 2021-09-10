@@ -10,7 +10,8 @@ estimate_time_haploid(
   freq_ancestor_1 = 0.5,
   lower_lim = 2,
   upper_lim = 1000,
-  verbose = FALSE
+  verbose = FALSE,
+  use_cpp = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ expected admixture time is relatively ancient}
 recent admixture events can be overlooked - best to set as low as possible.}
 
 \item{verbose}{return verbose output}
+
+\item{use_cpp}{use cpp version}
 }
 \value{
 The number of generations passed since the onset of hybridization

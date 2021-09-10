@@ -13,6 +13,10 @@ loglikelihood_unphased_cpp <- function(local_anc_matrix, locations, pop_size, fr
     .Call('_junctions_loglikelihood_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, t, phased, verbose, num_threads)
 }
 
+estimate_time_haploid_cpp <- function(local_anc_matrix, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads = 1L) {
+    .Call('_junctions_estimate_time_haploid_cpp', PACKAGE = 'junctions', local_anc_matrix, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, num_threads)
+}
+
 sim_fin_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, seed, R) {
     .Call('_junctions_sim_fin_chrom', PACKAGE = 'junctions', pop_size, freq_ancestor_1, run_time, size_in_Morgan, seed, R)
 }
