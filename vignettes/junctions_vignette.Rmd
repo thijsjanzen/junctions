@@ -7,10 +7,10 @@ vignette: >
   %\VignetteIndexEntry{junctions}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  ---
+---
   
   
-  ```{r setup, include=FALSE}
+```{r setup, include=FALSE}
 library(junctions)
 knitr::opts_chunk$set(echo = TRUE)
 ```

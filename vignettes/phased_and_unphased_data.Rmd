@@ -7,10 +7,10 @@ vignette: >
   %\VignetteIndexEntry{phasing}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  ---
+---
   
   
-  ```{r setup, include=FALSE}
+```{r setup, include=FALSE}
 library(junctions)
 library(Rcpp)
 knitr::opts_chunk$set(fig.width = 7, echo = TRUE)

@@ -11,6 +11,7 @@
 \details{
   This package provides individual based simulations in order to simulate the accumulation of junctions over time, both for chromosomes with a finite and an infinite number of recombination sites. Furthermore, the package provides mathematical tools to verify the outcomes of the individual based simulations.
 
+  Update version 2.0.2 : simplified some tests \cr
   Update version 2.0 : merged many functions with similar functionality, added vignette that provides overview of all functionality. \cr
 
   Update version 1.9 : added c++ versions of the unphased and phased likelihoods. \cr
