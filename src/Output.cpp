@@ -145,6 +145,45 @@ void Output::update_unphased(const std::vector< Fish_inf >& Pop,
     return;
 }
 
+void Output::update_unphased(const std::vector< Fish_multi >& Pop,
+                             size_t t,
+                             bool record_true_junctions,
+                             std::vector<double> morgan,
+                             size_t num_indiv) {
+
+  for(unsigned int i = 0; i < num_indiv; ++i) {
+
+    for (size_t chrom = 0; chrom < morgan.size(); ++chrom) {
+      std::vector<int> chrom1 = detect_ancestry(Pop[i].genome1[chrom], markers_multi[chrom]);
+      std::vector<int> chrom2 = detect_ancestry(Pop[i].genome2[chrom], markers_multi[chrom]);
+
+      for(unsigned int j = 0; j < markers.size(); ++j) {
+        std::vector<double> to_add(6); // = {t, i, markers[j], chrom1[j], chrom2[j]};
+        to_add[0] = t;
+        to_add[1] = i; //individual
+        to_add[2] = markers[j] * morgan[chrom];
+        to_add[3] = chrom1[j];
+        to_add[4] = chrom2[j];
+        to_add[5] = chrom;
+        results_multi.push_back(to_add);
+      }
+
+      if(record_true_junctions) {
+        int true_junct_chrom_1  = (int)Pop[i].genome1[chrom].size() - 2; //exclude the ends
+        int true_junct_chrom_2  = (int)Pop[i].genome2[chrom].size() - 2; //exclude the ends
+        std::vector< double > to_add_true(5);
+        to_add_true[0] = t;
+        to_add_true[1] = i;
+        to_add_true[2] = true_junct_chrom_1;
+        to_add_true[3] = true_junct_chrom_2;
+        to_add_true[4] = chrom;
+        true_results_multi.push_back(to_add_true);
+      }
+    }
+  }
+  return;
+}
+
 
 int detect_junctions(const Fish_inf& indiv,
                      const std::vector<double> &markers,
@@ -207,28 +246,5 @@ void Output::detect_junctions_backcross(const std::vector< Fish_inf > &Pop,
     average_detected_junctions = 1.0 * average_detected_junctions / (2 * Pop.size()); //diploid
     avg_detected_Junctions.push_back(average_detected_junctions);
     avg_hetero.push_back(avg_heterozygosity / Pop.size());
-    return;
-}
-
-void Output::update_unphased(const std::vector< Fish_explicit >& Pop,
-                             size_t t,
-                             bool record_true_junctions,
-                             double morgan,
-                             size_t num_indiv) {
-
-    for(unsigned int i = 0; i < num_indiv; ++i) {
-  //      std::vector<int> chrom1 = detect_ancestry(Pop[i].chromosome1, markers);
-//        std::vector<int> chrom2 = detect_ancestry(Pop[i].chromosome2, markers);
-
-        for(unsigned int j = 0; j < markers.size(); ++j) {
-            std::vector<double> to_add(5); // = {t, i, markers[j], chrom1[j], chrom2[j]};
-            to_add[0] = t;
-            to_add[1] = i; //individual
-            to_add[2] = markers[j] * morgan;
-            to_add[3] = Pop[i].chromosome1[j];
-            to_add[4] = Pop[i].chromosome2[j];
-            results.push_back(to_add);
-        }
-    }
     return;
 }

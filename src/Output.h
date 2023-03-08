@@ -30,6 +30,11 @@ struct Output {
     std::vector< std::vector< double > > results;
     std::vector< std::vector< double > > true_results;
 
+    std::vector< std::vector< double > > results_multi;
+    std::vector< std::vector< double > > true_results_multi;
+    std::vector< std::vector< double > > markers_multi;
+
+
     void update_inf(const std::vector< Fish_inf >& Pop);
     void update_fin(const std::vector< Fish_fin >& Pop);
 
@@ -39,11 +44,11 @@ struct Output {
                          double morgan,
                          size_t num_indiv);
 
-    void update_unphased(const std::vector< Fish_explicit >& Pop,
-                                 size_t t,
-                                 bool record_true_junctions,
-                                 double morgan,
-                                 size_t num_indiv);
+    void update_unphased(const std::vector< Fish_multi >& Pop,
+                         size_t t,
+                         bool record_true_junctions,
+                         std::vector< double > morgan,
+                         size_t num_indiv);
 
 
     void detectNumJunctions(const std::vector<Fish_inf> &Pop,

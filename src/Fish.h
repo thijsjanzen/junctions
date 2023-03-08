@@ -45,63 +45,36 @@ struct Fish_fin  {
     Fish_fin(const bool initLoc, const int genomeSize);
 };
 
-struct Fish_explicit {
-    std::vector< int > chromosome1;
-    std::vector< int > chromosome2;
 
-    Fish_explicit()
-    {}
+struct Fish_multi {
+    std::vector< std::vector< junction > > genome1;
+    std::vector< std::vector< junction > > genome2;
 
-    Fish_explicit(const std::vector< int >& c1,
-                  const std::vector< int >& c2) :
-        chromosome1(c1), chromosome2(c2) {
-    }
+    Fish_multi() {}
 
-    Fish_explicit(int allele, size_t num_markers) {
-        chromosome1 = std::vector<int>(num_markers, allele);
-        chromosome2 = chromosome1;
-    }
+    Fish_multi(const int initLoc, int num_chrom) {
+        std::vector< junction > chromosome;
+        junction left = junction(0.0, initLoc);
+        junction right = junction(1, -1);
+        chromosome.push_back( left  );
+        chromosome.push_back( right );
 
-    std::vector< int > gamete(double morgan,
-                              rnd_t& rndgen,
-                              const emp_genome& emp_gen) const {
 
-        std::vector<size_t> recom_pos = emp_gen.recompos(morgan,
-                                                         rndgen);
-
-        if (recom_pos.size() == 1) {
-            if(rndgen.random_number(2)) {
-                return chromosome1;
-            }
-            return chromosome2;
+        for (int i = 0; i < num_chrom; ++i) {
+            genome1.push_back(chromosome);
+            genome2.push_back(chromosome);
         }
-
-        std::vector < std::vector<int>::const_iterator > iters = {chromosome1.begin(),
-                                                                  chromosome2.begin()};
-        std::vector< int > recombined_chromosome;
-        int index = rndgen.random_number(2);
-        size_t prev_start = 0;
-
-        for(size_t i = 0; i < recom_pos.size(); ++i) {
-            auto start = iters[index] + prev_start;
-            auto end   = iters[index] + recom_pos[i];
-
-            prev_start = recom_pos[i];
-            recombined_chromosome.insert(recombined_chromosome.end(), start, end);
-            index = 1 - index;
-        }
-
-        return recombined_chromosome;
     }
 };
-
-
 
 Fish_fin mate_fin(const Fish_fin& A, const Fish_fin& B,
                   double numRecombinations, rnd_t& rndgen);
 
 Fish_inf mate_inf(const Fish_inf& A, const Fish_inf& B,
                   double numRecombinations, rnd_t& rndgen);
+
+Fish_multi mate_multi(const Fish_multi& A, const Fish_multi& N,
+                      std::vector<double> numRecombinations, rnd_t& rndgen);
 
 long double getRecomPos();
 int getRecomPos(int L, rnd_t& rndgen);

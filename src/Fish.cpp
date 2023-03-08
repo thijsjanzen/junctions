@@ -168,6 +168,64 @@ Fish_inf mate_inf(const Fish_inf& A,
     return offspring;
 }
 
+Fish_multi mate_multi(const Fish_multi& A,
+                      const Fish_multi& B,
+                      std::vector<double> numRecombinations,
+                      rnd_t& rndgen)
+{
+    Fish_multi offspring;
+
+    //first the father chromosome
+
+    for (size_t chrom = 0; chrom < numRecombinations.size(); ++chrom) {
+
+        int event = rndgen.random_number(2);
+        switch(event) {
+            case 0:  {
+                Recombine_inf(offspring.genome1[chrom],
+                              A.genome1[chrom],
+                              A.genome2[chrom],
+                              numRecombinations[chrom],
+                              rndgen);
+                break;
+            }
+            case 1: {
+                Recombine_inf(offspring.genome1[chrom],
+                              A.genome2[chrom],
+                              A.genome1[chrom],
+                              numRecombinations[chrom],
+                              rndgen);
+                break;
+            }
+        }
+
+        //then the mother chromosome
+        event = rndgen.random_number(2);
+        switch(event) {
+        case 0:  {
+            Recombine_inf(offspring.genome2[chrom],
+                          B.genome1[chrom],
+                          B.genome2[chrom],
+                          numRecombinations[chrom],
+                          rndgen);
+            break;
+        }
+        case 1: {
+            Recombine_inf(offspring.genome2[chrom],
+                          B.genome2[chrom],
+                          B.genome1[chrom],
+                          numRecombinations[chrom],
+                          rndgen);
+            break;
+        }
+        }
+    }
+
+    return offspring;
+}
+
+
+
 void Recombine_fin(std::vector<bool>* offspring,
                    std::vector<bool> chromosome1,
                    std::vector<bool> chromosome2,

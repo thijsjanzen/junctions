@@ -11,6 +11,9 @@
 
 #include <random>
 #include <vector>
+#include <thread>
+#include <chrono>
+#include <functional>
 
 struct rnd_t {
   std::mt19937 rndgen_;
@@ -110,6 +113,13 @@ struct emp_genome {
     return indices;
   }
 };
+
+inline int get_seed() {
+  const auto tt = static_cast<int64_t>(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+  auto tid = std::this_thread::get_id();
+  const uint64_t e3{ std::hash<std::remove_const_t<decltype(tid)>>()(tid) };
+  return static_cast<int>(tt + e3);
+}
 
 
 #endif /* random_functions_hpp */

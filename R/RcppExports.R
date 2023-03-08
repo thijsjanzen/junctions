@@ -21,6 +21,10 @@ sim_inf_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, m
     .Call('_junctions_sim_inf_chrom', PACKAGE = 'junctions', pop_size, freq_ancestor_1, run_time, size_in_Morgan, markers, seed)
 }
 
+sim_phased_unphased_multi_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled, num_threads) {
+    .Call('_junctions_sim_phased_unphased_multi_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled, num_threads)
+}
+
 sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled, num_threads) {
     .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled, num_threads)
 }

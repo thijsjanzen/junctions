@@ -28,6 +28,44 @@ get_num_markers <- function(markers) {
 }
 
 #' @keywords internal
+get_num_markers_chrom <- function(markers, morgan) {
+  num_chrom <- length(morgan)
+  if (length(markers) == 1) {
+    num_markers <- abs(markers[1])
+
+    if (markers[1] < 0) { # evenly spaced markers
+      di = 1.0 / (num_markers);
+      local_markers <- seq(di, 1 - di, length.out = num_markers)
+
+      markers <- matrix(nrow = num_chrom, ncol = num_markers)
+      for (i in seq_len(num_chrom)) {
+        markers[i, ] <- local_markers
+      }
+      return(markers)
+    } else {
+
+      markers <- matrix(nrow = num_chrom, ncol = num_markers)
+      for (i in seq_len(num_chrom)) {
+
+        local_markers <- sort(stats::runif(n = num_markers, min = 0, max = 1))
+        local_markers <- unique(local_markers)
+        markers[i, ] <- local_markers
+      }
+      return(markers)
+    }
+  } else {
+    for (i in seq_len(num_chrom)) {
+
+      if (max(markers[i, ]) != 1) {
+        markers[i, ] <- markers[i, ] / max(markers[i, ])
+      }
+    }
+
+    return(markers)
+  }
+}
+
+#' @keywords internal
 apply_phasing_error <- function(output,
                                 coverage,
                                 error_rate) {

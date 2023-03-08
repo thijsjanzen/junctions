@@ -4,15 +4,11 @@
 #include "Fish.h"
 #include "random_functions.h"
 
-#include <thread>
-#include <chrono>
-#include <functional>
+
 
 #include <RcppParallel.h>
 #include <Rcpp.h>
 using namespace Rcpp;
-
-int get_seed();
 
 void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>& pop,
@@ -185,9 +181,3 @@ List sim_phased_unphased_cpp(int pop_size,
   return List::create(Named("results") = output_matrix);
 }
 
-int get_seed() {
-  const auto tt = static_cast<int64_t>(std::chrono::high_resolution_clock::now().time_since_epoch().count());
-  auto tid = std::this_thread::get_id();
-  const uint64_t e3{ std::hash<std::remove_const_t<decltype(tid)>>()(tid) };
-  return static_cast<int>(tt + e3);
-}

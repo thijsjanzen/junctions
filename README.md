@@ -8,7 +8,7 @@ Individual based simulations of hybridizing populations, where the accumulation 
 
 Branch|[![AppVeyor logo](pics/AppVeyor.png)]|[![Codecov logo](pics/Codecov.png)]
 ---|---|---
-master|[![Build status](https://ci.appveyor.com/api/projects/status/rt9856tv3pi87sms?svg=true)](https://ci.appveyor.com/project/thijsjanzen/junctions)|[![codecov.io](https://codecov.io/gh/thijsjanzen/junctions/branch/master/graph/badge.svg)](https://codecov.io/gh/thijsjanzen/junctions)
+master|[![Build status](https://ci.appveyor.com/api/projects/status/rt9856tv3pi87sms?svg=true)](https://ci.appveyor.com/project/thijsjanzen/junctions)|[![codecov.io](https://codecov.io/gh/thijsjanzen/junctions/branch/master/graph/badge.svg)](https://app.codecov.io/gh/thijsjanzen/junctions)
 
 
 ## references
