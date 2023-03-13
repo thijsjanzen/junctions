@@ -97,7 +97,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // sim_phased_unphased_multi_cpp
-List sim_phased_unphased_multi_cpp(int pop_size, double freq_ancestor_1, int total_runtime, std::vector<double> size_in_morgan, NumericMatrix markers, NumericVector time_points, bool verbose, bool record_true_junctions, int num_indiv_sampled, int num_threads);
+List sim_phased_unphased_multi_cpp(int pop_size, double freq_ancestor_1, int total_runtime, std::vector<double> size_in_morgan, const Rcpp::NumericMatrix& markers, const Rcpp::NumericVector& time_points, bool verbose, bool record_true_junctions, int num_indiv_sampled, int num_threads);
 RcppExport SEXP _junctions_sim_phased_unphased_multi_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP time_pointsSEXP, SEXP verboseSEXP, SEXP record_true_junctionsSEXP, SEXP num_indiv_sampledSEXP, SEXP num_threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -106,8 +106,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
     Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< std::vector<double> >::type size_in_morgan(size_in_morganSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type markers(markersSEXP);
-    Rcpp::traits::input_parameter< NumericVector >::type time_points(time_pointsSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type markers(markersSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type time_points(time_pointsSEXP);
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< bool >::type record_true_junctions(record_true_junctionsSEXP);
     Rcpp::traits::input_parameter< int >::type num_indiv_sampled(num_indiv_sampledSEXP);

@@ -114,9 +114,9 @@ void Recombine_inf(        std::vector<junction>& offspring,
     return;
 }
 
-Fish_inf mate_inf(const Fish_inf& A,
+Fish_inf mate(const Fish_inf& A,
                   const Fish_inf& B,
-                  double numRecombinations,
+                  const std::vector<double>& numRecombinations,
                   rnd_t& rndgen)
 {
     Fish_inf offspring;
@@ -130,7 +130,7 @@ Fish_inf mate_inf(const Fish_inf& A,
             Recombine_inf(offspring.chromosome1,
                           A.chromosome1,
                           A.chromosome2,
-                          numRecombinations,
+                          numRecombinations[0],
                           rndgen);
             break;
         }
@@ -138,7 +138,7 @@ Fish_inf mate_inf(const Fish_inf& A,
             Recombine_inf(offspring.chromosome1,
                           A.chromosome2,
                           A.chromosome1,
-                          numRecombinations,
+                          numRecombinations[0],
                           rndgen);
             break;
         }
@@ -151,7 +151,7 @@ Fish_inf mate_inf(const Fish_inf& A,
             Recombine_inf(offspring.chromosome2,
                           B.chromosome1,
                           B.chromosome2,
-                          numRecombinations,
+                          numRecombinations[0],
                           rndgen);
             break;
         }
@@ -159,7 +159,7 @@ Fish_inf mate_inf(const Fish_inf& A,
             Recombine_inf(offspring.chromosome2,
                           B.chromosome2,
                           B.chromosome1,
-                          numRecombinations,
+                          numRecombinations[0],
                           rndgen);
             break;
         }
@@ -168,12 +168,12 @@ Fish_inf mate_inf(const Fish_inf& A,
     return offspring;
 }
 
-Fish_multi mate_multi(const Fish_multi& A,
-                      const Fish_multi& B,
-                      std::vector<double> numRecombinations,
-                      rnd_t& rndgen)
+Fish_multi mate(const Fish_multi& A,
+                const Fish_multi& B,
+                const std::vector<double>& numRecombinations,
+                rnd_t& rndgen)
 {
-    Fish_multi offspring;
+    Fish_multi offspring(numRecombinations.size()); // default values, to set up default chromosomes.
 
     //first the father chromosome
 

@@ -148,35 +148,37 @@ void Output::update_unphased(const std::vector< Fish_inf >& Pop,
 void Output::update_unphased(const std::vector< Fish_multi >& Pop,
                              size_t t,
                              bool record_true_junctions,
-                             std::vector<double> morgan,
+                             const std::vector<double>& morgan,
                              size_t num_indiv) {
 
-  for(unsigned int i = 0; i < num_indiv; ++i) {
+  for(size_t i = 0; i < num_indiv; ++i) {
 
     for (size_t chrom = 0; chrom < morgan.size(); ++chrom) {
+
       std::vector<int> chrom1 = detect_ancestry(Pop[i].genome1[chrom], markers_multi[chrom]);
       std::vector<int> chrom2 = detect_ancestry(Pop[i].genome2[chrom], markers_multi[chrom]);
 
-      for(unsigned int j = 0; j < markers.size(); ++j) {
-        std::vector<double> to_add(6); // = {t, i, markers[j], chrom1[j], chrom2[j]};
-        to_add[0] = t;
-        to_add[1] = i; //individual
-        to_add[2] = markers[j] * morgan[chrom];
-        to_add[3] = chrom1[j];
-        to_add[4] = chrom2[j];
-        to_add[5] = chrom;
+      for(size_t j = 0; j < chrom1.size(); ++j) {
+        std::vector<double> to_add = {static_cast<double>(t),
+                                      static_cast<double>(i),
+                                      markers_multi[chrom][j] * morgan[chrom],
+                                      static_cast<double>(chrom1[j]),
+                                      static_cast<double>(chrom2[j]),
+                                      static_cast<double>(chrom)};
         results_multi.push_back(to_add);
       }
 
       if(record_true_junctions) {
-        int true_junct_chrom_1  = (int)Pop[i].genome1[chrom].size() - 2; //exclude the ends
-        int true_junct_chrom_2  = (int)Pop[i].genome2[chrom].size() - 2; //exclude the ends
-        std::vector< double > to_add_true(5);
-        to_add_true[0] = t;
-        to_add_true[1] = i;
-        to_add_true[2] = true_junct_chrom_1;
-        to_add_true[3] = true_junct_chrom_2;
-        to_add_true[4] = chrom;
+        int true_junct_chrom_1  = static_cast<int>(Pop[i].genome1[chrom].size()) - 2; //exclude the ends
+        int true_junct_chrom_2  = static_cast<int>(Pop[i].genome2[chrom].size()) - 2; //exclude the ends
+
+        auto test = Pop[i].genome1[chrom];
+
+        std::vector< double > to_add_true = {static_cast<double>(t),
+                                             static_cast<double>(i),
+                                             static_cast<double>(true_junct_chrom_1),
+                                             static_cast<double>(true_junct_chrom_2),
+                                             static_cast<double>(chrom)};
         true_results_multi.push_back(to_add_true);
       }
     }

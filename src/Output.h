@@ -47,7 +47,7 @@ struct Output {
     void update_unphased(const std::vector< Fish_multi >& Pop,
                          size_t t,
                          bool record_true_junctions,
-                         std::vector< double > morgan,
+                         const std::vector< double >& morgan,
                          size_t num_indiv);
 
 
@@ -55,7 +55,7 @@ struct Output {
                             const std::vector<double> &markers);
 
     void detect_junctions_backcross(const std::vector< Fish_inf > &Pop,
-                                      const std::vector<double> &markers);
+                                    const std::vector<double> &markers);
 };
 
 #endif /* Output_hpp */

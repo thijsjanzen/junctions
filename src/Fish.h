@@ -24,10 +24,12 @@ struct junction {
     junction(const junction& other);
 };
 
+using chrom = std::vector<junction>;
+
 
 struct Fish_inf {
-    std::vector< junction > chromosome1;
-    std::vector< junction > chromosome2;
+    chrom chromosome1;
+    chrom chromosome2;
 
     Fish_inf();
     Fish_inf(int initLoc);
@@ -46,40 +48,51 @@ struct Fish_fin  {
 };
 
 
-struct Fish_multi {
-    std::vector< std::vector< junction > > genome1;
-    std::vector< std::vector< junction > > genome2;
 
-    Fish_multi() {}
+struct Fish_multi {
+    std::vector< chrom > genome1;
+    std::vector< chrom > genome2;
 
     Fish_multi(const int initLoc, int num_chrom) {
-        std::vector< junction > chromosome;
         junction left = junction(0.0, initLoc);
         junction right = junction(1, -1);
-        chromosome.push_back( left  );
-        chromosome.push_back( right );
+        chrom local_chrom = {left ,right};
 
+        //genome1 = std::vector< chrom >(num_chrom, local_chrom);
+        //genome2 = genome1;
 
-        for (int i = 0; i < num_chrom; ++i) {
-            genome1.push_back(chromosome);
-            genome2.push_back(chromosome);
+        for (size_t i = 0; i < num_chrom; ++i) {
+            genome1.push_back(local_chrom);
+            genome2.push_back(local_chrom);
         }
+    }
+
+    Fish_multi(int num_chrom) {
+        genome1 = std::vector< chrom >(num_chrom);
+        genome2 = std::vector< chrom >(num_chrom);
+    }
+
+    Fish_multi(const Fish_multi& other) {
+        genome1 = other.genome1;
+        genome2 = other.genome2;
     }
 };
 
 Fish_fin mate_fin(const Fish_fin& A, const Fish_fin& B,
                   double numRecombinations, rnd_t& rndgen);
 
-Fish_inf mate_inf(const Fish_inf& A, const Fish_inf& B,
-                  double numRecombinations, rnd_t& rndgen);
+Fish_inf mate(const Fish_inf& A, const Fish_inf& B,
+                  const std::vector<double>& numRecombinations, rnd_t& rndgen);
 
-Fish_multi mate_multi(const Fish_multi& A, const Fish_multi& N,
-                      std::vector<double> numRecombinations, rnd_t& rndgen);
+Fish_multi mate(const Fish_multi& A, const Fish_multi& N,
+                const std::vector<double>& numRecombinations, rnd_t& rndgen);
 
 long double getRecomPos();
 int getRecomPos(int L, rnd_t& rndgen);
 
 bool is_in_time_points(int t,
                        const Rcpp::NumericVector& time_points);
+
+
 
 #endif /* Fish_hpp */

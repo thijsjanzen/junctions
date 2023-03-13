@@ -49,7 +49,7 @@ Output doSimulation_inf(int popSize,
             p2 = parent1;
         }
 
-        Pop.push_back(mate_inf(p1,p2, numRecombinations, rndgen));
+        Pop.push_back(mate(p1, p2, {numRecombinations}, rndgen));
     }
 
     int updateFreq = maxTime / 20;
@@ -65,9 +65,9 @@ Output doSimulation_inf(int popSize,
             int index1 = rndgen.random_number(popSize);
             int index2 = rndgen.random_number(popSize);
 
-            newGeneration[i] = mate_inf(Pop[index1],
+            newGeneration[i] = mate(Pop[index1],
                                         Pop[index2],
-                                           numRecombinations,
+                                           {numRecombinations},
                                            rndgen);
         }
 

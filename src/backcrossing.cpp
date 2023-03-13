@@ -38,20 +38,8 @@ Output doSimulation_backcrossing(int population_size,
     Fish_inf focal_parent1 = parent1;
     Fish_inf focal_parent2 = parent2;
 
-    /*
-    if(uniform() < freq_ancestor_1) {
-      focal_parent1 = parent1;
-    } else {
-      focal_parent1 = parent2;
-    }
-    if(uniform() < freq_ancestor_1) {
-      focal_parent2 = parent1;
-    } else {
-      focal_parent2 = parent2;
-    }*/
-
-    Pop.push_back(mate_inf(focal_parent1, focal_parent2,
-                           size_in_morgan, rndgen));
+    Pop.push_back(mate(focal_parent1, focal_parent2,
+                           {size_in_morgan}, rndgen));
   }
 
   // because we initialize with F1, we start at t = 1
@@ -68,8 +56,8 @@ Output doSimulation_backcrossing(int population_size,
     for(int i = 0; i < population_size; ++i)  {
       int index1 = rndgen.random_number(population_size);
 
-      Fish_inf kid = mate_inf(Pop[index1], back_cross_parent,
-                              size_in_morgan, rndgen);
+      Fish_inf kid = mate(Pop[index1], back_cross_parent,
+                          {size_in_morgan}, rndgen);
 
       next_generation.push_back(kid);
     }
