@@ -1,3 +1,13 @@
+// Copyright 2018 - 2024 Thijs Janzen
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
 //  random_functions.hpp
 //
@@ -13,19 +23,19 @@
 #include <vector>
 
 struct rnd_t {
-  std::mt19937 rndgen_;
+  std::mt19937_64 rndgen_;
 
   rnd_t() {
     std::random_device rd;
-    rndgen_ = std::mt19937(rd());
+    rndgen_ = std::mt19937_64(rd());
   }
 
   rnd_t(unsigned int seed) {
-    rndgen_ = std::mt19937(seed);
+    rndgen_ = std::mt19937_64(seed);
   }
 
   void set_seed(unsigned int s) {
-    rndgen_ = std::mt19937(s);
+    rndgen_ = std::mt19937_64(s);
   }
 
   std::uniform_real_distribution<> unif_dist =
