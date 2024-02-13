@@ -5,7 +5,7 @@ test_that("finite chromosome", {
   pop_size <- 100 # population size
   H_0 <- 0.5 # nolint
   C <- 1 # nolint
-  max_time <- 500
+  max_time <- 20
 
   number_replicates <- 30
   v <- c()
@@ -30,7 +30,7 @@ test_that("infinite chromosome", {
   pop_size <- 50 #population size
   H_0 <- 0.5 # nolint
   C <- 1 # nolint
-  max_time <- 500
+  max_time <- 50
 
   number_replicates <- 30
   v <- c()

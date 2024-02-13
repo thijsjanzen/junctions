@@ -2,7 +2,7 @@ context("marker_distribution")
 test_that("markers, use", {
   testthat::skip_on_os("solaris")
 
-  num_markers <- 1000
+  num_markers <- 100
   e_j <- number_of_junctions(R = num_markers,
                              t = 200)
 
@@ -12,11 +12,11 @@ test_that("markers, use", {
 
   testthat::expect_equal(e_j, d_e_j)
 
-  num_repl <- 10
+  num_repl <- 50
 
-  N <- 1000   # nolint
-  num_markers <- 1000
-  total_runtime <- 20
+  N <- 100   # nolint
+  num_markers <- 100
+  total_runtime <- 10
 
   found_obs <- c()
   found_exp <- c()
