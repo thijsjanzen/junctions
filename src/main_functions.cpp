@@ -58,7 +58,7 @@ Output doSimulation_inf(int popSize,
             p2 = parent1;
         }
 
-        Pop.push_back(mate_inf(p1,p2, numRecombinations, rndgen));
+        Pop.push_back(mate_inf(p1, p2, numRecombinations, rndgen));
     }
 
     int updateFreq = maxTime / 20;
@@ -109,7 +109,7 @@ Output doSimulation_fin(int popSize,
             p2 = parent1;
         }
 
-        Pop.push_back(mate_fin(p1,p2, numRecombinations, rndgen));
+        Pop.push_back(mate_fin(p1, p2, numRecombinations, rndgen));
     }
 
     int updateFreq = maxTime / 20;
@@ -143,7 +143,6 @@ Rcpp::List sim_fin_chrom(int pop_size,
                          double size_in_Morgan,
                          int seed,
                          int R) {
-
   rnd_t rndgen(seed);
 
   Output O = doSimulation_fin(pop_size,
@@ -172,7 +171,10 @@ Rcpp::List sim_inf_chrom(int pop_size,
                                 markers,
                                 rndgen);
 
-    return Rcpp::List::create(Rcpp::Named("avgJunctions") = O.avgJunctions,
-                              Rcpp::Named("detectedJunctions") = O.avg_detected_Junctions,
-                              Rcpp::Named("markers") = O.markers);
+    return Rcpp::List::create(Rcpp::Named("avgJunctions") =
+                                O.avgJunctions,
+                              Rcpp::Named("detectedJunctions") =
+                                O.avg_detected_Junctions,
+                              Rcpp::Named("markers") =
+                                O.markers);
 }

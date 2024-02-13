@@ -22,8 +22,6 @@
 #include <chrono>
 #include <functional>
 
-
-
 #include <RcppParallel.h>
 #include <Rcpp.h>
 

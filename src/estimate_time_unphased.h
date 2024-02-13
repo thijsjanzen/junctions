@@ -29,7 +29,7 @@ class SqMx {
   SqMx() { }
 
  public:
-   explicit SqMx(const Ax &_a) {   // constructor with pre-defined array
+  explicit SqMx(const Ax &_a) {   // constructor with pre-defined array
     for (int r = 0; r < MSize; r++)
       for (int c = 0; c < MSize; c++)
         a[r][c] = _a[r][c];

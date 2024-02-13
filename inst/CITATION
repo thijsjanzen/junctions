@@ -5,7 +5,7 @@ bibentry(bibtype = "Article",
          year = 2018,
          volume = 72,
          number = 4,
-         pages = 735-750,
+         pages = "735-750",
          doi = "10.1111/evo.13436",
          header = "To cite junctions in a publication please use:",
-         textVersion = "Janzen, Thijs, Arne W. Nolte, and Arne Traulsen. The breakdown of genomic ancestry blocks in hybrid lineages given a finite number of recombination sites. Evolution 72.4 (2018): 735-750. https://doi.org/10.1111/evo.13436", footer = "As the junctions package is continually evolving you may also want to cite its version number (found with 'library(help = junctions)' or 'packageVersion(\"junctions\")').")
+         textVersion = "Janzen, Thijs, Arne W. Nolte, and Arne Traulsen. The breakdown of genomic ancestry blocks in hybrid lineages given a finite number of recombination sites. Evolution 72.4 (2018): 735-750. https://doi.org/10.1111/evo.13436")
