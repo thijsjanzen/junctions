@@ -22,6 +22,7 @@ log_likelihood_diploid <- function(local_anc_matrix,
   local_anc_matrix <- as.matrix(local_anc_matrix)
   locations <- local_anc_matrix[, 2]
   local_anc <- local_anc_matrix[, c(1, 3, 4)]
+  RcppParallel::setThreadOptions(num_threads)
 
   calc_ll <- function(params) {
     loglikelihood_unphased_cpp(local_anc_matrix = local_anc,

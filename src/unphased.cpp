@@ -8,6 +8,8 @@
 #include <chrono>
 #include <functional>
 
+#include "util.h"
+
 #include <RcppParallel.h>
 #include <Rcpp.h>
 using namespace Rcpp;
@@ -32,16 +34,8 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
     }
   } else {
 
+  set_num_threads();
 
-
-
-  tbb::task_scheduler_init _tbb((num_threads > 0) ? num_threads : tbb::task_scheduler_init::automatic);
-/*  auto nt = num_threads;
-  if (num_threads < 0) {
-    nt = tbb::task_scheduler_init::default_num_threads();
-  }
-  tbb::global_control gc(tbb::global_control::max_allowed_parallelism, nt);
-*/
   rnd_t rndgen;
 
   tbb::parallel_for(

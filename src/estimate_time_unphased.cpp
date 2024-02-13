@@ -9,8 +9,9 @@
 
 #include <RcppParallel.h>
 
-#include "estimate_time_unphased_cpp.h"
+#include "estimate_time_unphased.h"
 #include "Output.h"
+#include "util.h"
 
 
 namespace detail {
@@ -543,7 +544,7 @@ double chromosome::calculate_likelihood(double t,
     }
   } else {
 
-    tbb::task_scheduler_init _tbb((detail::num_threads > 0) ? detail::num_threads : tbb::task_scheduler_init::automatic);
+    set_num_threads();
 
     tbb::parallel_for(
       tbb::blocked_range<unsigned>(1, distances.size()),

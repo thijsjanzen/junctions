@@ -43,6 +43,8 @@ estimate_time_diploid <- function(ancestry_information,
     ancestry_information <- as.matrix(ancestry_information)
   }
 
+  RcppParallel::setThreadOptions(num_threads)
+
   time_estimates <- c()
   if (analysis_type == "separate") {
     time_estimates <- estimate_time_separate(ancestry_information,

@@ -45,6 +45,8 @@ sim_phased_unphased <- function(pop_size = 100,
                                 coverage = 1,
                                 error_rate = 0) {
 
+  RcppParallel::setThreadOptions(num_threads)
+
   time_points <- check_time_points(time_points, total_runtime)
 
   markers <- get_num_markers(markers)
