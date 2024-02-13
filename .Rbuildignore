@@ -2,3 +2,16 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^\.github$
+
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.gitignore
+^\.RData
+^\.Rhistory
+
+^.vscode
+^.DS_Store
+
+^\.pics
+^\.test\.R$
+
