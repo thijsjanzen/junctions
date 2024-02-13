@@ -12,3 +12,9 @@
 *.tmp
 *.txt
 *.pdf
+.vscode/.env
+.vscode/c_cpp_properties.json
+.vscode/genenv.R
+.vscode/launch.json
+.vscode/tasks.json
+test.r
