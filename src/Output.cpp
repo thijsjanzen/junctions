@@ -120,7 +120,7 @@ void Output::update_unphased(const std::vector< Fish_inf >& Pop,
         std::vector<int> chrom1 = detect_ancestry(Pop[i].chromosome1, markers);
         std::vector<int> chrom2 = detect_ancestry(Pop[i].chromosome2, markers);
         for (size_t j = 0; j < markers.size(); ++j) {
-            std::vector<double> to_add(5);   // = {t, i, markers[j], chrom1[j], chrom2[j]};
+            std::vector<double> to_add(5);
             to_add[0] = t;
             to_add[1] = i;   // individual
             to_add[2] = markers[j] * morgan;
@@ -155,7 +155,7 @@ int detect_junctions(const Fish_inf& indiv,
         // 1 = heterozygous
         // 2 = homozygous parent 1
 
-        if (chrom1[i] != chrom2[i]) { // heterozygous, e.g. 0/1 or 1/0
+        if (chrom1[i] != chrom2[i]) {   //  heterozygous, e.g. 0/1 or 1/0
             genotypes[i] = 1;
         } else {
             if (chrom1[i] == 0) {  // homozygous 0 : 0/0
@@ -198,7 +198,7 @@ void Output::detect_junctions_backcross(const std::vector< Fish_inf > &Pop,
     junction_dist.push_back(J);
 
     average_detected_junctions =
-             1.0 * average_detected_junctions / (2 * Pop.size()); //diploid
+             1.0 * average_detected_junctions / (2 * Pop.size());   //  diploid
     avg_detected_Junctions.push_back(average_detected_junctions);
     avg_hetero.push_back(avg_heterozygosity / Pop.size());
     return;
@@ -213,7 +213,7 @@ void Output::update_unphased(const std::vector< Fish_explicit >& Pop,
         for (unsigned int j = 0; j < markers.size(); ++j) {
             std::vector<double> to_add(5);
             to_add[0] = t;
-            to_add[1] = i; //individual
+            to_add[1] = i;   //  individual
             to_add[2] = markers[j] * morgan;
             to_add[3] = Pop[i].chromosome1[j];
             to_add[4] = Pop[i].chromosome2[j];

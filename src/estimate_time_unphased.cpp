@@ -50,7 +50,6 @@ struct chromosome {
              const std::vector<double>& loc,
              bool p,
              bool verb) : phased(p), verbose(verb) {
-
     if (anc_matrix.size() != loc.size()) {
       Rcpp::stop("anc_matrix.nrow != loc.size()");
     }
@@ -58,12 +57,14 @@ struct chromosome {
     states = std::vector<size_t>(loc.size(), 2);
 
     if (phased) {
-      for(size_t i = 0; i < loc.size(); ++i) {
+      for (size_t i = 0; i < loc.size(); ++i) {
         if (i > 0) distances.push_back(loc[i] - loc[i - 1]);
         if (anc_matrix[i][0] == anc_matrix[i][1]) {
-          states[i] = anc_matrix[i][0];  // [0, 0] (state 0) or [1, 1] (state 1)
+          // [0, 0] (state 0) or [1, 1] (state 1)
+          states[i] = anc_matrix[i][0];
         } else {
-          states[i] = 2 + anc_matrix[i][0];  // [9, 1] (state 2) or [1, 0] (state 3)
+          // [9, 1] (state 2) or [1, 0] (state 3)
+          states[i] = 2 + anc_matrix[i][0];
         }
       }
     } else {
@@ -87,7 +88,6 @@ struct chromosome {
 };
 
 struct nlopt_f_data {
-
   nlopt_f_data(const std::vector< chromosome >& c,
                int pop_size,
                double freq_anc) : chromosomes(c), N(pop_size), p(freq_anc) {
@@ -114,10 +114,11 @@ double objective(unsigned int n,
   return sum_ll;
 }
 
-std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_anc_matrix,
-                                             const Rcpp::NumericVector& locations,
-                                             bool phased,
-                                             bool verbose) {
+std::vector< chromosome > create_chromosomes(
+    const Rcpp::NumericMatrix& local_anc_matrix,
+    const Rcpp::NumericVector& locations,
+    bool phased,
+    bool verbose) {
   std::vector< chromosome > output;
   int current_chrom = local_anc_matrix(0, 0);
 
@@ -269,7 +270,7 @@ std::vector< double > single_state_cpp(int t, int N, double d) {
     {0, 0, 0, 1 - 1.0 / (2*N) - d, d, 1.0 / (2*N), 0},
     {0, 0, 0, 2 * 1.0 / (2*N), 1 - 3 * 1.0 / (2*N), 0, 1.0 / (2*N)},
     {0, 0, 0, 0, 0, 1.0 - d, d},
-    {0 ,0, 0, 0, 0, 1.0 / (2*N),  1 - 1.0 / (2*N)}};
+    {0, 0, 0, 0, 0, 1.0 / (2*N),  1 - 1.0 / (2*N)}};
 
   SqMx<7, double> m(trans_matrix);
   SqMx<7, double> m2 = m ^ t;
@@ -288,7 +289,7 @@ double get_prob_from_matrix_unphased_cpp(int left,
   // right = marker on the right hand side [1 = PP, 2 = QQ, 3 = PQ or QP]
   // p = frequency ancestor 1
   // P = states vector P_t^i
-  left++; // to conform to R notation. code below is a close copy of R code
+  left++;   // to conform to R notation. code below is a close copy of R code
   right++;
 
   double q  = 1 - p;
@@ -361,7 +362,7 @@ double get_prob_from_matrix_phased_cpp(int left,
   // p = frequency ancestor 1
   // P = states vector P_t^i
 
-  left++; // to conform to R notation. code below is a close copy of R code
+  left++;   // to conform to R notation. code below is a close copy of R code
   right++;
 
   double q  = 1 - p;
@@ -400,7 +401,6 @@ double get_prob_from_matrix_phased_cpp(int left,
       P[6]);
   }
   if (left == 2 && right == 2) {
-
     double q_sq = q * q;
     prob =  (q_sq) * (P[0] + P[3] + P[6]) +
       (q_sq * q) * (P[1] + P[4]) +
@@ -486,7 +486,7 @@ double calc_ll(double di,
 
   std::vector<  double > probs(num_dim);
   double sum_prob = 0.0;
-  for(int i = 0; i < num_dim; ++i) {
+  for (int i = 0; i < num_dim; ++i) {
     if (phased) {
       probs[i] = get_prob_from_matrix_phased_cpp(l,
                                                  i,
@@ -512,22 +512,21 @@ double calc_ll(double di,
 double chromosome::calculate_likelihood(double t,
                                         int pop_size,
                                         double freq_ancestor_1) const {
-
   if (t < 1) {
     Rcpp::Rcout << "t < 1\n";
-    return(-1e20);
+    throw "t < 1";
   }
   if (pop_size < 2) {
     Rcpp::Rcout << "pop_size < 2\n";
-    return(-1e20);
+    throw "pop_size < 2";
   }
   if (freq_ancestor_1 >= 1) {
     Rcpp::Rcout << "p >= 1\n";
-    return(-1e20);
+    throw "p >= 1";
   }
   if (freq_ancestor_1 <= 0) {
     Rcpp::Rcout << "p <= 0\n";
-    return(-1e20);
+    throw "p <= 0";
   }
 
   std::vector< double> ll(distances.size());
@@ -538,7 +537,6 @@ double chromosome::calculate_likelihood(double t,
 
   if (detail::num_threads == 1) {
     for (size_t i = 0; i < distances.size(); ++i) {
-
       double di = distances[i];
       double l = states[i];
       double r = states[i + 1];
@@ -546,22 +544,19 @@ double chromosome::calculate_likelihood(double t,
                       phased);
     }
   } else {
-
     set_num_threads();
 
     tbb::parallel_for(
       tbb::blocked_range<unsigned>(1, distances.size()),
       [&](const tbb::blocked_range<unsigned>& r) {
         for (unsigned i = r.begin(); i < r.end(); ++i) {
-
           double di = distances[i];
           double l = states[i];
           double r = states[i + 1];
           ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
                           phased);
         }
-      }
-    );
+      });
   }
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
   return(answer);

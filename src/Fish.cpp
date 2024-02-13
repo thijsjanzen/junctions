@@ -65,7 +65,8 @@ std::vector<junction> recombine_new(
         auto it = std::lower_bound(g1->cbegin(), g1->cend(), left_pos, less);
         auto last = std::lower_bound(it, g1->cend(), right_pos, less);
         // [g1.first, it) : part of the genome *before* left_pos.
-        // [it, last) : part of the genome *after or equal to* left_pos but *before* right_pos.
+        // [it, last)     : part of the genome *after or equal to*
+        //                  left_pos but *before* right_pos.
         auto g1_val = value_at(g1->cbegin(), it);
         if (g1_val != go_val) {
             if (it == last || it->pos != left_pos) {
@@ -125,7 +126,7 @@ Fish_inf mate_inf(const Fish_inf& A,
                   rnd_t& rndgen) {
     Fish_inf offspring;
     offspring.chromosome1.clear();
-    offspring.chromosome2.clear();     //just to be sure.
+    offspring.chromosome2.clear();     // just to be sure.
 
     //  first the father chromosome
     int event = rndgen.random_number(2);
@@ -289,7 +290,7 @@ junction::junction(const junction& other) {
     right = other.right;
 }
 
-Fish_inf::Fish_inf(){
+Fish_inf::Fish_inf() {
 }
 
 Fish_inf::Fish_inf(int initLoc)    {

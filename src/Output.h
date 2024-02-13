@@ -22,10 +22,6 @@
 #include "Fish.h"
 #include <vector>
 
-#include <chrono>
-#include <thread>
-
-
 struct Output {
     std::vector<double> avgJunctions;
     std::vector<double> avg_detected_Junctions;

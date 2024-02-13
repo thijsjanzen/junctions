@@ -46,7 +46,6 @@ Output doSimulation_backcrossing(int population_size,
   // in principle these are all identical, so this is a bit inefficient coding,
   // but shouldn't cost much time anyway.
   for (int i = 0; i < population_size; ++i) {
-
     Fish_inf focal_parent1 = parent1;
     Fish_inf focal_parent2 = parent2;
 
@@ -104,10 +103,15 @@ Rcpp::List simulate_backcrossing_cpp(int pop_size,
                                        time_points,
                                        rndgen);
 
-  return Rcpp::List::create(Rcpp::Named("average_junctions") = O.avgJunctions,
-                            Rcpp::Named("detected_junctions") = O.avg_detected_Junctions,
-                            Rcpp::Named("markers") = O.markers,
-                            Rcpp::Named("junction_distribution") = O.junction_dist,
-                            Rcpp::Named("average_heterozygosity") = O.avg_hetero);
+  return Rcpp::List::create(Rcpp::Named("average_junctions") =
+                              O.avgJunctions,
+                            Rcpp::Named("detected_junctions") =
+                              O.avg_detected_Junctions,
+                            Rcpp::Named("markers") =
+                              O.markers,
+                            Rcpp::Named("junction_distribution") =
+                              O.junction_dist,
+                            Rcpp::Named("average_heterozygosity") =
+                              O.avg_hetero);
 }
 

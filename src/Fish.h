@@ -39,7 +39,7 @@ struct Fish_inf {
     std::vector< junction > chromosome2;
 
     Fish_inf();
-    Fish_inf(int initLoc);
+    explicit Fish_inf(int initLoc);
     Fish_inf(const Fish_inf& other);
     Fish_inf(Fish_inf&& other);
     Fish_inf& operator=(Fish_inf&& other);
@@ -83,8 +83,8 @@ struct Fish_explicit {
             return chromosome2;
         }
 
-        std::vector < std::vector<int>::const_iterator > iters = {chromosome1.begin(),
-                                                                  chromosome2.begin()};
+        std::vector < std::vector<int>::const_iterator > iters =
+                                    {chromosome1.begin(), chromosome2.begin()};
         std::vector< int > recombined_chromosome;
         int index = rndgen.random_number(2);
         size_t prev_start = 0;
@@ -94,7 +94,8 @@ struct Fish_explicit {
             auto end   = iters[index] + recom_pos[i];
 
             prev_start = recom_pos[i];
-            recombined_chromosome.insert(recombined_chromosome.end(), start, end);
+            recombined_chromosome.insert(recombined_chromosome.end(),
+                                         start, end);
             index = 1 - index;
         }
 

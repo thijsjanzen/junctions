@@ -29,7 +29,7 @@ class SqMx {
   SqMx() { }
 
  public:
-  SqMx(const Ax &_a) {   // constructor with pre-defined array
+   explicit SqMx(const Ax &_a) {   // constructor with pre-defined array
     for (int r = 0; r < MSize; r++)
       for (int c = 0; c < MSize; c++)
         a[r][c] = _a[r][c];
@@ -43,7 +43,7 @@ class SqMx {
     return m;
   }
 
-  friend std::ostream &operator<<(std::ostream& os, const Mx &p) { // ugly print
+  friend std::ostream &operator<<(std::ostream& os, const Mx &p) {
     for (int i = 0; i < MSize; i++) {
       for (int j = 0; j < MSize; j++)
         os << p.a[i][j] << ',';
