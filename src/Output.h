@@ -16,8 +16,7 @@
 //
 //
 
-#ifndef Output_hpp
-#define Output_hpp
+#pragma once
 
 #include <stdio.h>
 #include "Fish.h"
@@ -62,5 +61,3 @@ struct Output {
     void detect_junctions_backcross(const std::vector< Fish_inf > &Pop,
                                       const std::vector<double> &markers);
 };
-
-#endif /* Output_hpp */

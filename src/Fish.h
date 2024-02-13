@@ -16,8 +16,7 @@
 //
 //
 
-#ifndef Fish_hpp
-#define Fish_hpp
+#pragma once
 
 #include <stdio.h>
 #include <vector>
@@ -75,12 +74,10 @@ struct Fish_explicit {
     std::vector< int > gamete(double morgan,
                               rnd_t& rndgen,
                               const emp_genome& emp_gen) const {
-
         std::vector<size_t> recom_pos = emp_gen.recompos(morgan,
                                                          rndgen);
-
         if (recom_pos.size() == 1) {
-            if(rndgen.random_number(2)) {
+            if (rndgen.random_number(2)) {
                 return chromosome1;
             }
             return chromosome2;
@@ -92,7 +89,7 @@ struct Fish_explicit {
         int index = rndgen.random_number(2);
         size_t prev_start = 0;
 
-        for(size_t i = 0; i < recom_pos.size(); ++i) {
+        for (size_t i = 0; i < recom_pos.size(); ++i) {
             auto start = iters[index] + prev_start;
             auto end   = iters[index] + recom_pos[i];
 
@@ -118,5 +115,3 @@ int getRecomPos(int L, rnd_t& rndgen);
 
 bool is_in_time_points(int t,
                        const Rcpp::NumericVector& time_points);
-
-#endif /* Fish_hpp */

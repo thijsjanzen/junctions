@@ -34,7 +34,8 @@ estimate_time_diploid <- function(ancestry_information,
                                   num_threads = 1,
                                   verbose = FALSE) {
 
-  if (!(analysis_type %in% c("all", "individuals", "chromosomes", "separate"))) {
+  if (!(analysis_type %in%
+         c("all", "individuals", "chromosomes", "separate"))) {
     stop("analysis type not known,
          did you perhaps spell individual instead of individuals?")
   }
@@ -158,13 +159,13 @@ estimate_time_chromosomes <- function(ancestry_information,
 
 #' @keywords internal
 estimate_time_separate <- function(ancestry_information,
-                              pop_size,
-                              freq_ancestor_1,
-                              lower_lim,
-                              upper_lim,
-                              verbose,
-                              phased,
-                              num_threads) {
+                                   pop_size,
+                                   freq_ancestor_1,
+                                   lower_lim,
+                                   upper_lim,
+                                   verbose,
+                                   phased,
+                                   num_threads) {
   time_estimates <- c()
   for (indiv in unique(ancestry_information[, 1])) {
     focal_anc_data <- subset(ancestry_information,
@@ -239,4 +240,3 @@ estimate_time_all <- function(ancestry_information,
   colnames(time_estimates) <- c("individual", "time", "loglikelihood")
   return(time_estimates)
 }
-

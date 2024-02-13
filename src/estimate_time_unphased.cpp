@@ -40,9 +40,8 @@ struct chromosome {
              const Rcpp::NumericVector& loc,
              bool p,
              bool verb) : phased(p), verbose(verb) {
-
     states = std::vector<size_t>(anc_matrix.begin(), anc_matrix.end());
-    for(int i = 0; i < loc.size(); ++i) {
+    for (int i = 0; i < loc.size(); ++i) {
       if (i > 0) distances.push_back(loc[i] - loc[i - 1]);
     }
   }
@@ -62,17 +61,15 @@ struct chromosome {
       for(size_t i = 0; i < loc.size(); ++i) {
         if (i > 0) distances.push_back(loc[i] - loc[i - 1]);
         if (anc_matrix[i][0] == anc_matrix[i][1]) {
-          states[i] = anc_matrix[i][0];     // [0, 0] (state 0) or [1, 1] (state 1)
+          states[i] = anc_matrix[i][0];  // [0, 0] (state 0) or [1, 1] (state 1)
         } else {
-          states[i] = 2 + anc_matrix[i][0] ; // [9, 1] (state 2) or [1, 0] (state 3)
+          states[i] = 2 + anc_matrix[i][0];  // [9, 1] (state 2) or [1, 0] (state 3)
         }
       }
     } else {
-      for(size_t i = 0; i < anc_matrix.size(); ++i) {
-
+      for (size_t i = 0; i < anc_matrix.size(); ++i) {
         if (i > 0) {
           distances.push_back(loc[i] - loc[i - 1]);
-
           if (loc[i] - loc[i - 1] < 0) {
              Rcpp::stop("no negative distances allowed");
           }
@@ -101,11 +98,13 @@ struct nlopt_f_data {
   const double p;
 };
 
-double objective(unsigned int n, const double* x, double*, void* func_data)
-{
+double objective(unsigned int n,
+                 const double* x,
+                 double*,
+                 void* func_data) {
   auto psd = reinterpret_cast<nlopt_f_data*>(func_data);
   std::vector<double> ll(psd->chromosomes.size());
-  for(size_t i = 0; i < psd->chromosomes.size(); ++i) {
+  for (size_t i = 0; i < psd->chromosomes.size(); ++i) {
     ll[i] = psd->chromosomes[i].calculate_likelihood(x[0], psd->N, psd->p);
   }
   auto sum_ll = -std::accumulate(ll.begin(), ll.end(), 0.0);
@@ -119,15 +118,14 @@ std::vector< chromosome > create_chromosomes(const Rcpp::NumericMatrix& local_an
                                              const Rcpp::NumericVector& locations,
                                              bool phased,
                                              bool verbose) {
-
   std::vector< chromosome > output;
   int current_chrom = local_anc_matrix(0, 0);
 
   std::vector< std::vector< int > > chrom_matrix;
 
- std::vector<double> positions;
+  std::vector<double> positions;
 
-  for(int i = 0; i < local_anc_matrix.nrow(); ++i) {
+  for (int i = 0; i < local_anc_matrix.nrow(); ++i) {
     bool add_chrom = false;
     if (local_anc_matrix(i, 0) != current_chrom) add_chrom = true;
     if (i > 0) {
@@ -165,7 +163,6 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                              bool phased,
                              int num_threads = 1) {
 try {
-
   if (verbose) {
     Rcpp::Rcout << "welcome to estimate_time_cpp\n";
   }
@@ -175,7 +172,6 @@ try {
   if (local_anc_matrix.ncol() != 3) {
     Rcpp::stop("local ancestry matrix has to have 3 columns");
   }
-
 
   if (verbose) {
     Rcpp::Rcout << "starting create chromosomes\n";
@@ -241,7 +237,6 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   bool phased,
                                   bool verbose = false,
                                   int num_threads = 1) {
-
   detail::num_threads = num_threads;
   if (local_anc_matrix.ncol() != 3) {
     Rcpp::stop("local ancestry matrix has to have 3 columns");
@@ -261,14 +256,12 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
 }
 
 std::vector< double > single_state_cpp(int t, int N, double d) {
-
   // I verified this with the synonymous R code, and it generates
   // the correct answer.
   // the cpp version is about 6 times faster:
   //                                            expr    min      lq     mean  median      uq     max neval cld
   // single_state(t = 100, N = 1000, d = 1e-05) 19.094 20.4415 22.72457 21.1695 21.9395 104.379   100   b
   // single_state_cpp(t = 100, N = 1000, d = 1e-05)  3.236  3.7970  4.32687  4.0560  4.3925  14.303   100  a
-
   double trans_matrix[7][7] =
     {{1.0 - 1.0 / (2*N) - 2 * d , 2 * d, 0, 0, 0, 1.0 / (2*N), 0},
     {1.0 / (2*N), 1 - 3 * 1.0 / (2*N) - d, d, 2 * 1.0 / (2*N), 0, 0, 0},
@@ -277,7 +270,6 @@ std::vector< double > single_state_cpp(int t, int N, double d) {
     {0, 0, 0, 2 * 1.0 / (2*N), 1 - 3 * 1.0 / (2*N), 0, 1.0 / (2*N)},
     {0, 0, 0, 0, 0, 1.0 - d, d},
     {0 ,0, 0, 0, 0, 1.0 / (2*N),  1 - 1.0 / (2*N)}};
-
 
   SqMx<7, double> m(trans_matrix);
   SqMx<7, double> m2 = m ^ t;
@@ -296,7 +288,6 @@ double get_prob_from_matrix_unphased_cpp(int left,
   // right = marker on the right hand side [1 = PP, 2 = QQ, 3 = PQ or QP]
   // p = frequency ancestor 1
   // P = states vector P_t^i
-
   left++; // to conform to R notation. code below is a close copy of R code
   right++;
 

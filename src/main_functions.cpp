@@ -21,21 +21,20 @@
 #include "random_functions.h"
 
 #include <Rcpp.h>
-using namespace Rcpp;
 
 Output doSimulation_inf(int popSize,
-                    double initRatio,
-                    int maxTime,
-                    double numRecombinations,
-                    int numberOfMarkers,
-                    rnd_t& rndgen)    {
+                        double initRatio,
+                        int maxTime,
+                        double numRecombinations,
+                        int numberOfMarkers,
+                        rnd_t& rndgen)    {
     Output O;
     std::vector<Fish_inf> Pop;
     std::vector<double> markers;
-    if(numberOfMarkers > 0) {
-        for(int i = 0; i < numberOfMarkers; ) {
+    if (numberOfMarkers > 0) {
+        for (int i = 0; i < numberOfMarkers; ) {
             double pos = rndgen.uniform();
-            if(pos > 0 && pos < 1.0) {
+            if (pos > 0 && pos < 1.0) {
                 ++i;
                 markers.push_back(pos);
             }
@@ -48,14 +47,14 @@ Output doSimulation_inf(int popSize,
     Fish_inf parent1 = Fish_inf(0);
     Fish_inf parent2 = Fish_inf(1);
 
-    for(int i = 0; i < popSize; ++i) {
+    for (int i = 0; i < popSize; ++i) {
         Fish_inf p1 = parent2;
         Fish_inf p2 = parent2;
 
-        if(rndgen.uniform() < initRatio) {
+        if (rndgen.uniform() < initRatio) {
             p1 = parent1;
         }
-        if(rndgen.uniform() < initRatio) {
+        if (rndgen.uniform() < initRatio) {
             p2 = parent1;
         }
 
@@ -63,15 +62,15 @@ Output doSimulation_inf(int popSize,
     }
 
     int updateFreq = maxTime / 20;
-    if(updateFreq < 1) updateFreq = 1;
+    if (updateFreq < 1) updateFreq = 1;
 
-    for(int t = 0; t < maxTime; ++t) {
+    for (int t = 0; t < maxTime; ++t) {
         O.update_inf(Pop);
-        if(numberOfMarkers > 0) O.detectNumJunctions(Pop, markers);
+        if (numberOfMarkers > 0) O.detectNumJunctions(Pop, markers);
 
         std::vector<Fish_inf> newGeneration(popSize);
 
-        for(int i = 0; i < popSize; ++i)  {
+        for (int i = 0; i < popSize; ++i)  {
             int index1 = rndgen.random_number(popSize);
             int index2 = rndgen.random_number(popSize);
 
@@ -99,14 +98,14 @@ Output doSimulation_fin(int popSize,
     Fish_fin parent1 = Fish_fin(0, genomeSize);
     Fish_fin parent2 = Fish_fin(1, genomeSize);
 
-    for(int i = 0; i < popSize; ++i) {
+    for (int i = 0; i < popSize; ++i) {
         Fish_fin p1 = parent2;
         Fish_fin p2 = parent2;
 
-        if(rndgen.uniform() < initRatio) {
+        if (rndgen.uniform() < initRatio) {
             p1 = parent1;
         }
-        if(rndgen.uniform() < initRatio) {
+        if (rndgen.uniform() < initRatio) {
             p2 = parent1;
         }
 
@@ -114,14 +113,13 @@ Output doSimulation_fin(int popSize,
     }
 
     int updateFreq = maxTime / 20;
-    if(updateFreq < 1) updateFreq = 1;
+    if (updateFreq < 1) updateFreq = 1;
 
-    for(int t = 0; t <= maxTime; ++t) {
+    for (int t = 0; t <= maxTime; ++t) {
         O.update_fin(Pop);
         std::vector<Fish_fin> newGeneration(popSize);
 
-        for(int i = 0; i < popSize; ++i)
-        {
+        for (int i = 0; i < popSize; ++i) {
             int index1 = rndgen.random_number(popSize);
             int index2 = rndgen.random_number(popSize);
 
@@ -139,12 +137,12 @@ Output doSimulation_fin(int popSize,
 }
 
 // [[Rcpp::export]]
-List sim_fin_chrom(int pop_size,
-                   double freq_ancestor_1,
-                   int run_time,
-                   double size_in_Morgan,
-                   int seed,
-                   int R) {
+Rcpp::List sim_fin_chrom(int pop_size,
+                         double freq_ancestor_1,
+                         int run_time,
+                         double size_in_Morgan,
+                         int seed,
+                         int R) {
 
   rnd_t rndgen(seed);
 
@@ -155,17 +153,17 @@ List sim_fin_chrom(int pop_size,
                               size_in_Morgan,
                               rndgen);
 
-  return List::create(Named("avgJunctions") = O.avgJunctions);
+  return Rcpp::List::create(Rcpp::Named("avgJunctions") = O.avgJunctions);
 }
 
 // [[Rcpp::export]]
-List sim_inf_chrom(int pop_size,
-                   double freq_ancestor_1,
-                   int run_time,
-                   double size_in_Morgan,
-                   int markers,
-                   int seed) {
-  rnd_t rndgen(seed);
+Rcpp::List sim_inf_chrom(int pop_size,
+                         double freq_ancestor_1,
+                         int run_time,
+                         double size_in_Morgan,
+                         int markers,
+                         int seed) {
+    rnd_t rndgen(seed);
 
     Output O = doSimulation_inf(pop_size,
                                 freq_ancestor_1,
@@ -174,7 +172,7 @@ List sim_inf_chrom(int pop_size,
                                 markers,
                                 rndgen);
 
-    return List::create(Named("avgJunctions") = O.avgJunctions,
-                        Named("detectedJunctions") = O.avg_detected_Junctions,
-                        Named("markers") = O.markers);
+    return Rcpp::List::create(Rcpp::Named("avgJunctions") = O.avgJunctions,
+                              Rcpp::Named("detectedJunctions") = O.avg_detected_Junctions,
+                              Rcpp::Named("markers") = O.markers);
 }
