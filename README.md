@@ -1,5 +1,5 @@
 # junctions <img src="pics/junctions_sticker3.png" align="right" width="180" />
-Individual based simulations of hybridizing populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes. Both simulations and mathematical equations are based on Janzen et al. (2018) and Janzen and Miro Pina (2020).
+Individual based simulations of hybridizing populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes. Both simulations and mathematical equations are based on Janzen et al. (2018) and Janzen and Miro Pina (2022).
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/junctions)](https://cran.r-project.org/package=junctions)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/junctions)](https://cran.r-project.org/package=junctions)
@@ -8,7 +8,7 @@ Individual based simulations of hybridizing populations, where the accumulation 
 
 Branch|[![AppVeyor logo](pics/AppVeyor.png)]|[![Codecov logo](pics/Codecov.png)]
 ---|---|---
-master|[![Build status](https://ci.appveyor.com/api/projects/status/rt9856tv3pi87sms?svg=true)](https://ci.appveyor.com/project/thijsjanzen/junctions)|[![codecov.io](https://codecov.io/gh/thijsjanzen/junctions/branch/master/graph/badge.svg)](https://codecov.io/gh/thijsjanzen/junctions)
+master|[![Build status](https://ci.appveyor.com/api/projects/status/rt9856tv3pi87sms?svg=true)](https://ci.appveyor.com/project/thijsjanzen/junctions)|[![codecov.io](https://codecov.io/gh/thijsjanzen/junctions/branch/master/graph/badge.svg)](https://app.codecov.io/gh/thijsjanzen/junctions)
 
 
 ## references
@@ -16,7 +16,7 @@ Janzen, T. , Nolte, A. W. and Traulsen, A. (2018), The breakdown of genomic ance
 
 Lavretsky, P., Janzen, T. and McCracken, KG.  (2019) Identifying hybrids & the genomics of hybridization: Mallards & American black ducks of Eastern North America. Ecology and Evolution 9: 3470-3490. https://doi.org/10.1002/ece3.4981
 
-Janzen, T., Miró Pina, V. (2020) Estimating the time since admixture from phased and unphased molecular data. bioRxiv 2020.09.10.292441; doi: https://doi.org/10.1101/2020.09.10.292441
+Janzen, T., Miró Pina, V. (2020) Estimating the time since admixture from phased and unphased molecular data. Molecular Ecology Resources 22.3 (2022): 908-926. https://doi.org/10.1111/1755-0998.13519 
 
 
 ## Updates

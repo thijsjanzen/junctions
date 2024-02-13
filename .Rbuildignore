@@ -1,6 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
+^.travis.yml$
 ^\.github$
 
 ^.*\.Rproj$
@@ -11,7 +11,7 @@
 
 ^.vscode
 ^.DS_Store
-
-^\.pics
-^\.test\.R$
-
+^pics
+^test.R
+^.appveyor.yml
+^.lintr
