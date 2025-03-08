@@ -113,7 +113,7 @@ plot(backcross_result$average_junctions,
 ## Inferring the time since admixture
 
 ### Junction based methods
-Across Janzen et al. 2018 and Janzen & Miró Pina 2020, several equations have 
+Across Janzen et al. 2018 and Janzen & Miró Pina 2022, several equations have 
 been proposed to infer the time since admixture, depending on the data available. 
 Firstly, following equation 14 in Janzen et al. 2018, one can calculate the time 
 since admixture based on the number of junctions detected in one chromosome, 

@@ -14,7 +14,6 @@
 #' recent admixture events can be overlooked - best to set as low as possible.
 #' @return The number of generations passed since the onset of hybridization
 #' @examples
-#' cat("example estimate time one chrom")
 #' markers <- seq(from = 0, to = 1, length.out = 100)
 #' J <- number_of_junctions_markers(N = 100, H_0 = 0.5, t = 200,
 #' marker_distribution = markers)
