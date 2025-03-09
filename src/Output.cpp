@@ -16,8 +16,10 @@
 //
 //
 
-#include "Output.h"
+
+#include "Output.h" // NOLINT [build/include_subdir]
 #include "Rcpp.h"
+#include <vector>
 
 void Output::update_inf(const std::vector<Fish_inf>& Pop) {
     double averageNumJunctions = 0;

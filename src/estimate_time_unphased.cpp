@@ -21,9 +21,9 @@
 
 #include <RcppParallel.h>
 
-#include "estimate_time_unphased.h"
-#include "Output.h"
-#include "util.h"
+#include "estimate_time_unphased.h" // NOLINT [build/include_subdir]
+#include "Output.h"                 // NOLINT [build/include_subdir]
+#include "util.h"                   // NOLINT [build/include_subdir]
 
 
 namespace detail {
