@@ -18,12 +18,12 @@
 //
 
 #include <utility>
+#include <vector>
+#include <algorithm>
 
 #include "Fish.h"                           // NOLINT [build/include_subdir]
 #include "random_functions.h"               // NOLINT [build/include_subdir]
 
-#include <vector>
-#include <algorithm>
 #include <Rcpp.h>
 
 int getRecomPos(int L,

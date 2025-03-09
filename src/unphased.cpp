@@ -56,8 +56,8 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
           int index2 = rndgen2.random_number(popSize);
           while (index2 == index1) index2 = rndgen2.random_number(popSize);
 
-          (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
-                            &rndgen2);
+          (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2],
+                               numRecombinations, &rndgen2);
         }
       });
   }

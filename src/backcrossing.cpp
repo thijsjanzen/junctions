@@ -12,9 +12,11 @@
 
 
 #include <stdio.h>
-#include "Output.h"
-#include "Fish.h"
-#include "random_functions.h"
+#include <vector>
+
+#include "Output.h"             // NOLINT [build/include_subdir]
+#include "Fish.h"               // NOLINT [build/include_subdir]
+#include "random_functions.h"   // NOLINT [build/include_subdir]
 
 #include <Rcpp.h>
 
