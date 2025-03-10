@@ -106,11 +106,11 @@ struct emp_genome {
   }
 
   std::vector< size_t > recompos(double morgan,
-                                 rnd_t& rndgen) const {
-    size_t num_break_points = rndgen.poisson(morgan);
+                                 rnd_t* rndgen) const {
+    size_t num_break_points = rndgen->poisson(morgan);
     std::vector< size_t > indices;
     for (size_t i = 0; i < num_break_points; ++i) {
-      auto found_index = index_from_cdf(rndgen.uniform());
+      auto found_index = index_from_cdf(rndgen->uniform());
       if (found_index > 0) {
         indices.push_back(found_index);
       }

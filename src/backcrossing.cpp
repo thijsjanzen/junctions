@@ -12,9 +12,11 @@
 
 
 #include <stdio.h>
-#include "Output.h"
-#include "Fish.h"
-#include "random_functions.h"
+#include <vector>
+
+#include "Output.h"             // NOLINT [build/include_subdir]
+#include "Fish.h"               // NOLINT [build/include_subdir]
+#include "random_functions.h"   // NOLINT [build/include_subdir]
 
 #include <Rcpp.h>
 
@@ -24,7 +26,7 @@ Output doSimulation_backcrossing(int population_size,
                                  double size_in_morgan,
                                  int number_of_markers,
                                  const Rcpp::NumericVector& time_points,
-                                 rnd_t& rndgen)    {
+                                 rnd_t* rndgen)    {
   // declaration of data holders
   Output O;
   std::vector< Fish_inf > Pop;
@@ -32,7 +34,7 @@ Output doSimulation_backcrossing(int population_size,
 
   // generate random markers if necessary
   if (number_of_markers > 0) {
-    markers = rndgen.generate_random_markers(number_of_markers);
+    markers = rndgen->generate_random_markers(number_of_markers);
   }
   O.markers = markers;
 
@@ -65,7 +67,7 @@ Output doSimulation_backcrossing(int population_size,
     std::vector< Fish_inf > next_generation;
 
     for (int i = 0; i < population_size; ++i)  {
-      int index1 = rndgen.random_number(population_size);
+      int index1 = rndgen->random_number(population_size);
 
       Fish_inf kid = mate_inf(Pop[index1], back_cross_parent,
                               size_in_morgan, rndgen);
@@ -101,7 +103,7 @@ Rcpp::List simulate_backcrossing_cpp(int pop_size,
                                        size_in_morgan,
                                        number_of_markers,
                                        time_points,
-                                       rndgen);
+                                       &rndgen);
 
   return Rcpp::List::create(Rcpp::Named("average_junctions") =
                               O.avgJunctions,

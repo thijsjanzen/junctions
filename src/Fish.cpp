@@ -18,6 +18,8 @@
 //
 
 #include <utility>
+#include <vector>
+#include <algorithm>
 
 #include "Fish.h"                           // NOLINT [build/include_subdir]
 #include "random_functions.h"               // NOLINT [build/include_subdir]
@@ -25,12 +27,12 @@
 #include <Rcpp.h>
 
 int getRecomPos(int L,
-                rnd_t& rnd) {
+                rnd_t* rnd) {
     int pos = -100;
-    int index = rnd.random_number(L);
+    int index = rnd->random_number(L);
     // exclude the ends of the chromosome
     while (index == 0 || index == L) {
-        index = rnd.random_number(L);
+        index = rnd->random_number(L);
     }
     pos = index;
 
@@ -85,10 +87,10 @@ std::vector<junction> recombine_new(
 }
 
 std::vector<double> generate_recomPos(size_t number_of_recombinations,
-                                      rnd_t& rndgen) {
+                                      rnd_t* rndgen) {
     std::vector<double> recomPos(number_of_recombinations, 0);
     for (size_t i = 0; i < number_of_recombinations; ++i) {
-        recomPos[i] = rndgen.uniform();
+        recomPos[i] = rndgen->uniform();
     }
     std::sort(recomPos.begin(), recomPos.end());
     if (recomPos.size() != number_of_recombinations) {
@@ -99,22 +101,22 @@ std::vector<double> generate_recomPos(size_t number_of_recombinations,
     return recomPos;
 }
 
-void Recombine_inf(      std::vector<junction>& offspring,
+void Recombine_inf(std::vector<junction>* offspring,
                    const std::vector<junction>& chromosome1,
                    const std::vector<junction>& chromosome2,
                    double MORGAN,
-                   rnd_t& rndgen)  {
-    int numRecombinations = rndgen.poisson(MORGAN);
+                   rnd_t* rndgen)  {
+    int numRecombinations = rndgen->poisson(MORGAN);
 
     if (numRecombinations == 0) {
-        offspring.insert(offspring.end(),
+        offspring->insert(offspring->end(),
                          chromosome1.begin(),
                          chromosome1.end());
         return;
     }
     std::vector<double> recomPos = generate_recomPos(numRecombinations,
                                                      rndgen);
-    offspring = recombine_new(chromosome1,
+    *offspring = recombine_new(chromosome1,
                               chromosome2,
                               recomPos);
     return;
@@ -123,16 +125,16 @@ void Recombine_inf(      std::vector<junction>& offspring,
 Fish_inf mate_inf(const Fish_inf& A,
                   const Fish_inf& B,
                   double numRecombinations,
-                  rnd_t& rndgen) {
+                  rnd_t* rndgen) {
     Fish_inf offspring;
     offspring.chromosome1.clear();
     offspring.chromosome2.clear();     // just to be sure.
 
     //  first the father chromosome
-    int event = rndgen.random_number(2);
+    int event = rndgen->random_number(2);
     switch (event) {
         case 0:  {
-            Recombine_inf(offspring.chromosome1,
+            Recombine_inf(&offspring.chromosome1,
                           A.chromosome1,
                           A.chromosome2,
                           numRecombinations,
@@ -140,7 +142,7 @@ Fish_inf mate_inf(const Fish_inf& A,
             break;
         }
         case 1: {
-            Recombine_inf(offspring.chromosome1,
+            Recombine_inf(&offspring.chromosome1,
                           A.chromosome2,
                           A.chromosome1,
                           numRecombinations,
@@ -150,10 +152,10 @@ Fish_inf mate_inf(const Fish_inf& A,
     }
 
     //  then the mother chromosome
-    event = rndgen.random_number(2);
+    event = rndgen->random_number(2);
     switch (event) {
         case 0:  {
-            Recombine_inf(offspring.chromosome2,
+            Recombine_inf(&offspring.chromosome2,
                           B.chromosome1,
                           B.chromosome2,
                           numRecombinations,
@@ -161,7 +163,7 @@ Fish_inf mate_inf(const Fish_inf& A,
             break;
         }
         case 1: {
-            Recombine_inf(offspring.chromosome2,
+            Recombine_inf(&offspring.chromosome2,
                           B.chromosome2,
                           B.chromosome1,
                           numRecombinations,
@@ -177,8 +179,8 @@ void Recombine_fin(std::vector<bool>* offspring,
                    std::vector<bool> chromosome1,
                    std::vector<bool> chromosome2,
                    double numberRecombinations,
-                   rnd_t& rndgen)  {
-    numberRecombinations = rndgen.poisson(numberRecombinations);
+                   rnd_t* rndgen)  {
+    numberRecombinations = rndgen->poisson(numberRecombinations);
 
     // if there are not recombinations, preliminary exit
     if (numberRecombinations == 0) {
@@ -243,14 +245,14 @@ void Recombine_fin(std::vector<bool>* offspring,
 Fish_fin mate_fin(const Fish_fin& A,
                   const Fish_fin& B,
                   double numberRecombinations,
-                  rnd_t& rndgen) {
+                  rnd_t* rndgen) {
     Fish_fin offspring;
     offspring.chromosome1.clear();
     offspring.chromosome2.clear();  // just to be sure.
 
     // random order or in other words,
     // we randomly select 1 of 2 produced chromosomes during recombination
-    if (rndgen.uniform() < 0.5) {
+    if (rndgen->uniform() < 0.5) {
         Recombine_fin(&offspring.chromosome1,
                       A.chromosome1, A.chromosome2,
                       numberRecombinations,
@@ -262,7 +264,7 @@ Fish_fin mate_fin(const Fish_fin& A,
                       rndgen);
     }
 
-    if (rndgen.uniform() < 0.5) {
+    if (rndgen->uniform() < 0.5) {
         Recombine_fin(&offspring.chromosome2,
                       B.chromosome1, B.chromosome2,
                       numberRecombinations,

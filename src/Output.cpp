@@ -16,8 +16,10 @@
 //
 //
 
-#include "Output.h"
+
+#include "Output.h" // NOLINT [build/include_subdir]
 #include "Rcpp.h"
+#include <vector>
 
 void Output::update_inf(const std::vector<Fish_inf>& Pop) {
     double averageNumJunctions = 0;
@@ -143,7 +145,7 @@ void Output::update_unphased(const std::vector< Fish_inf >& Pop,
 
 int detect_junctions(const Fish_inf& indiv,
                      const std::vector<double> &markers,
-                     double& avg_heterozygosity) {
+                     double* avg_heterozygosity) {
     // we need to find if at specific markers,
     // they are homozygous or heterozygous
     std::vector<bool> chrom1 = detectJunctions(indiv.chromosome1, markers);
@@ -178,7 +180,7 @@ int detect_junctions(const Fish_inf& indiv,
         }
         if (genotypes[i] == 1) number_heterozygous++;
     }
-    avg_heterozygosity += 1.0 * number_heterozygous / markers.size();
+    *avg_heterozygosity += 1.0 * number_heterozygous / markers.size();
 
     return number_of_junctions;
 }
@@ -191,7 +193,7 @@ void Output::detect_junctions_backcross(const std::vector< Fish_inf > &Pop,
     std::vector<int> J;
     double avg_heterozygosity = 0.0;
     for (const auto& i : Pop) {
-        int dJ = detect_junctions(i, markers, avg_heterozygosity);
+        int dJ = detect_junctions(i, markers, &avg_heterozygosity);
         average_detected_junctions += dJ;
         J.push_back(dJ);
     }

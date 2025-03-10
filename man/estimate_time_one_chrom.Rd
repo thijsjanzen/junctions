@@ -39,7 +39,6 @@ Estimate the time since the onset of hybridization, following
 equation 1 in Janzen et al. unpublished
 }
 \examples{
-cat("example estimate time one chrom")
 markers <- seq(from = 0, to = 1, length.out = 100)
 J <- number_of_junctions_markers(N = 100, H_0 = 0.5, t = 200,
 marker_distribution = markers)

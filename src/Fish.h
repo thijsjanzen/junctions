@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <vector>
 #include <algorithm>
-#include "random_functions.h"
+#include "random_functions.h"   // NOLINT [build/include_subdir]
 #include <Rcpp.h>
 
 struct junction {
@@ -72,12 +72,12 @@ struct Fish_explicit {
     }
 
     std::vector< int > gamete(double morgan,
-                              rnd_t& rndgen,
+                              rnd_t* rndgen,
                               const emp_genome& emp_gen) const {
         std::vector<size_t> recom_pos = emp_gen.recompos(morgan,
                                                          rndgen);
         if (recom_pos.size() == 1) {
-            if (rndgen.random_number(2)) {
+            if (rndgen->random_number(2)) {
                 return chromosome1;
             }
             return chromosome2;
@@ -86,7 +86,7 @@ struct Fish_explicit {
         std::vector < std::vector<int>::const_iterator > iters =
                                     {chromosome1.begin(), chromosome2.begin()};
         std::vector< int > recombined_chromosome;
-        int index = rndgen.random_number(2);
+        int index = rndgen->random_number(2);
         size_t prev_start = 0;
 
         for (size_t i = 0; i < recom_pos.size(); ++i) {
@@ -106,13 +106,13 @@ struct Fish_explicit {
 
 
 Fish_fin mate_fin(const Fish_fin& A, const Fish_fin& B,
-                  double numRecombinations, rnd_t& rndgen);
+                  double numRecombinations, rnd_t* rndgen);
 
 Fish_inf mate_inf(const Fish_inf& A, const Fish_inf& B,
-                  double numRecombinations, rnd_t& rndgen);
+                  double numRecombinations, rnd_t* rndgen);
 
 long double getRecomPos();
-int getRecomPos(int L, rnd_t& rndgen);
+int getRecomPos(int L, rnd_t* rndgen);
 
 bool is_in_time_points(int t,
                        const Rcpp::NumericVector& time_points);

@@ -10,17 +10,17 @@
 // GNU General Public License for more details.
 //
 
-
-#include "Output.h"
-#include "Fish.h"
-#include "random_functions.h"
-#include "util.h"
-
 #include <stdio.h>
 #include <vector>
 #include <thread>
 #include <chrono>
 #include <functional>
+
+#include "Output.h"            // NOLINT [build/include_subdir]
+#include "Fish.h"              // NOLINT [build/include_subdir]
+#include "random_functions.h"  // NOLINT [build/include_subdir]
+#include "util.h"              // NOLINT [build/include_subdir]
+
 
 #include <RcppParallel.h>
 #include <Rcpp.h>
@@ -28,7 +28,7 @@
 int get_seed();
 
 void update_pop(const std::vector<Fish_inf>& old_pop,
-                std::vector<Fish_inf>& pop,
+                std::vector<Fish_inf>* pop,
                 int popSize,
                 double numRecombinations,
                 int num_threads) {
@@ -39,8 +39,8 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
       int index2 = rndgen.random_number(popSize);
       while (index2 == index1) index2 = rndgen.random_number(popSize);
 
-      pop[i] = mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
-                        rndgen);
+      (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
+                        &rndgen);
     }
   } else {
     set_num_threads();
@@ -56,8 +56,8 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
           int index2 = rndgen2.random_number(popSize);
           while (index2 == index1) index2 = rndgen2.random_number(popSize);
 
-          pop[i] = mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
-                            rndgen2);
+          (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2],
+                               numRecombinations, &rndgen2);
         }
       });
   }
@@ -73,7 +73,7 @@ Output simulation_phased_nonphased(int popSize,
                                    bool record_true_junctions,
                                    int num_indiv_sampled,
                                    int num_threads,
-                                   rnd_t& rndgen)    {
+                                   rnd_t* rndgen)    {
   Output O;
   std::vector< Fish_inf > Pop(popSize);
 
@@ -86,10 +86,10 @@ Output simulation_phased_nonphased(int popSize,
     Fish_inf p1 = parent2;
     Fish_inf p2 = parent2;
 
-    if (rndgen.uniform() < initRatio) {
+    if (rndgen->uniform() < initRatio) {
       p1 = parent1;
     }
-    if (rndgen.uniform() < initRatio) {
+    if (rndgen->uniform() < initRatio) {
       p2 = parent1;
     }
 
@@ -109,7 +109,7 @@ Output simulation_phased_nonphased(int popSize,
 
     std::vector< Fish_inf > newGeneration(popSize);
 
-    update_pop(Pop, newGeneration, popSize, numRecombinations, num_threads);
+    update_pop(Pop, &newGeneration, popSize, numRecombinations, num_threads);
 
     Pop.swap(newGeneration);
 
@@ -147,7 +147,7 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                                          record_true_junctions,
                                          num_indiv_sampled,
                                          num_threads,
-                                         rndgen);
+                                         &rndgen);
   int num_rows = O.results.size();
   int num_cols = O.results[0].size();
 

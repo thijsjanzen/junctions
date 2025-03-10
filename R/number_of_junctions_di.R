@@ -10,7 +10,7 @@
 #' @param di Distance between two markers in Morgan
 #' @return Estimated number of junctions at time t
 #' @examples
-#' number_of_junctions_di(N = 100, H_0 = 0.5, t = 1000, di = 0.01)+
+#' number_of_junctions_di(N = 100, H_0 = 0.5, t = 1000, di = 0.01)
 #' @export
 number_of_junctions_di <- function(N = Inf,        # nolint
                                    H_0 = 0.5,      # nolint

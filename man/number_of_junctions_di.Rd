@@ -26,5 +26,5 @@ Calculate the expected number of junctions after t generations,
  two markers.
 }
 \examples{
-number_of_junctions_di(N = 100, H_0 = 0.5, t = 1000, di = 0.01)+
+number_of_junctions_di(N = 100, H_0 = 0.5, t = 1000, di = 0.01)
 }

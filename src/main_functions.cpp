@@ -16,9 +16,11 @@
 //
 //
 #include <stdio.h>
-#include "Output.h"
-#include "Fish.h"
-#include "random_functions.h"
+#include <algorithm>
+#include <vector>
+#include "Output.h"                       // NOLINT [build/include_subdir]
+#include "Fish.h"                         // NOLINT [build/include_subdir]
+#include "random_functions.h"             // NOLINT [build/include_subdir]
 
 #include <Rcpp.h>
 
@@ -27,13 +29,13 @@ Output doSimulation_inf(int popSize,
                         int maxTime,
                         double numRecombinations,
                         int numberOfMarkers,
-                        rnd_t& rndgen)    {
+                        rnd_t* rndgen)    {
     Output O;
     std::vector<Fish_inf> Pop;
     std::vector<double> markers;
     if (numberOfMarkers > 0) {
         for (int i = 0; i < numberOfMarkers; ) {
-            double pos = rndgen.uniform();
+            double pos = rndgen->uniform();
             if (pos > 0 && pos < 1.0) {
                 ++i;
                 markers.push_back(pos);
@@ -51,10 +53,10 @@ Output doSimulation_inf(int popSize,
         Fish_inf p1 = parent2;
         Fish_inf p2 = parent2;
 
-        if (rndgen.uniform() < initRatio) {
+        if (rndgen->uniform() < initRatio) {
             p1 = parent1;
         }
-        if (rndgen.uniform() < initRatio) {
+        if (rndgen->uniform() < initRatio) {
             p2 = parent1;
         }
 
@@ -71,8 +73,8 @@ Output doSimulation_inf(int popSize,
         std::vector<Fish_inf> newGeneration(popSize);
 
         for (int i = 0; i < popSize; ++i)  {
-            int index1 = rndgen.random_number(popSize);
-            int index2 = rndgen.random_number(popSize);
+            int index1 = rndgen->random_number(popSize);
+            int index2 = rndgen->random_number(popSize);
 
             newGeneration[i] = mate_inf(Pop[index1],
                                         Pop[index2],
@@ -91,7 +93,7 @@ Output doSimulation_fin(int popSize,
                         double initRatio,
                         int maxTime,
                         double numRecombinations,
-                        rnd_t& rndgen)    {
+                        rnd_t* rndgen)    {
     Output O;
     std::vector<Fish_fin> Pop;
 
@@ -102,10 +104,10 @@ Output doSimulation_fin(int popSize,
         Fish_fin p1 = parent2;
         Fish_fin p2 = parent2;
 
-        if (rndgen.uniform() < initRatio) {
+        if (rndgen->uniform() < initRatio) {
             p1 = parent1;
         }
-        if (rndgen.uniform() < initRatio) {
+        if (rndgen->uniform() < initRatio) {
             p2 = parent1;
         }
 
@@ -120,8 +122,8 @@ Output doSimulation_fin(int popSize,
         std::vector<Fish_fin> newGeneration(popSize);
 
         for (int i = 0; i < popSize; ++i) {
-            int index1 = rndgen.random_number(popSize);
-            int index2 = rndgen.random_number(popSize);
+            int index1 = rndgen->random_number(popSize);
+            int index2 = rndgen->random_number(popSize);
 
             newGeneration[i] = mate_fin(Pop[index1],
                                         Pop[index2],
@@ -150,7 +152,7 @@ Rcpp::List sim_fin_chrom(int pop_size,
                               freq_ancestor_1,
                               run_time,
                               size_in_Morgan,
-                              rndgen);
+                              &rndgen);
 
   return Rcpp::List::create(Rcpp::Named("avgJunctions") = O.avgJunctions);
 }
@@ -169,7 +171,7 @@ Rcpp::List sim_inf_chrom(int pop_size,
                                 run_time,
                                 size_in_Morgan,
                                 markers,
-                                rndgen);
+                                &rndgen);
 
     return Rcpp::List::create(Rcpp::Named("avgJunctions") =
                                 O.avgJunctions,

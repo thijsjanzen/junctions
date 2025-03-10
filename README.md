@@ -16,10 +16,11 @@ Janzen, T. , Nolte, A. W. and Traulsen, A. (2018), The breakdown of genomic ance
 
 Lavretsky, P., Janzen, T. and McCracken, KG.  (2019) Identifying hybrids & the genomics of hybridization: Mallards & American black ducks of Eastern North America. Ecology and Evolution 9: 3470-3490. https://doi.org/10.1002/ece3.4981
 
-Janzen, T., Miró Pina, V. (2020) Estimating the time since admixture from phased and unphased molecular data. Molecular Ecology Resources 22.3 (2022): 908-926. https://doi.org/10.1111/1755-0998.13519 
+Janzen, T., & Miró Pina, V. (2022). Estimating the time since admixture from phased and unphased molecular data. Molecular Ecology Resources, 22, 908–926. https://doi.org/10.1111/1755-0998.13519 
 
 
 ## Updates
+Version 2.0.1: Fixed typo in one of the examples
 Version 2.0 : merged many functions with similar functionality, added vignette that provides overview of all functionality. <br />
 Version 1.9 : added c++ versions of the unphased and phased likelihoods. <br />
 Version 1.8 : added multithreading using the TBB library. <br />

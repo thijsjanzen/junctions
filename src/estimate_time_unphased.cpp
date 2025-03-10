@@ -21,9 +21,9 @@
 
 #include <RcppParallel.h>
 
-#include "estimate_time_unphased.h"
-#include "Output.h"
-#include "util.h"
+#include "estimate_time_unphased.h" // NOLINT [build/include_subdir]
+#include "Output.h"                 // NOLINT [build/include_subdir]
+#include "util.h"                   // NOLINT [build/include_subdir]
 
 
 namespace detail {
@@ -260,9 +260,9 @@ std::vector< double > single_state_cpp(int t, int N, double d) {
   // I verified this with the synonymous R code, and it generates
   // the correct answer.
   // the cpp version is about 6 times faster:
-  //                                            expr    min      lq     mean  median      uq     max neval cld
-  // single_state(t = 100, N = 1000, d = 1e-05) 19.094 20.4415 22.72457 21.1695 21.9395 104.379   100   b
-  // single_state_cpp(t = 100, N = 1000, d = 1e-05)  3.236  3.7970  4.32687  4.0560  4.3925  14.303   100  a
+  //                                            expr    min      lq     mean  median      uq     max neval cld // NOLINT
+  // single_state(t = 100, N = 1000, d = 1e-05) 19.094 20.4415 22.72457 21.1695 21.9395 104.379   100   b      // NOLINT
+  // single_state_cpp(t = 100, N = 1000, d = 1e-05)  3.236  3.7970  4.32687  4.0560  4.3925  14.303   100  a   // NOLINT
   double trans_matrix[7][7] =
     {{1.0 - 1.0 / (2*N) - 2 * d , 2 * d, 0, 0, 0, 1.0 / (2*N), 0},
     {1.0 / (2*N), 1 - 3 * 1.0 / (2*N) - d, d, 2 * 1.0 / (2*N), 0, 0, 0},

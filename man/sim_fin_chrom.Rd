@@ -36,7 +36,6 @@ Individual based simulation of the accumulation of junctions
 for a chromosome with regularly distributed markers.
 }
 \examples{
-cat("example sim_fin_chrom")
 sim_fin_chrom(pop_size = 100, freq_ancestor_1 = 0.5,
                    total_runtime = 10, morgan = 1, seed = 42,
                    R = 100)

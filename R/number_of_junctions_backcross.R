@@ -7,7 +7,6 @@
 #' @param t Time since admixture
 #' @return Estimated number of junctions at time t
 #' @examples
-#' cat("example number of junctions backcross")
 #' jt <-  number_of_junctions_backcross(H_0 = 0.1, C = 1, t = 5)
 #' @export
 number_of_junctions_backcross <- function(H_0 = 0.5,    # nolint

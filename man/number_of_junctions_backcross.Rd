@@ -22,6 +22,5 @@ Calculate the expected number of junctions after t
 generations, in a backcrossing mating scheme.
 }
 \examples{
-cat("example number of junctions backcross")
 jt <-  number_of_junctions_backcross(H_0 = 0.1, C = 1, t = 5)
 }

@@ -10,7 +10,6 @@
 #' chromosome)
 #' @return The number of generations passed since the onset of hybridization
 #' @examples
-#' cat("example calculate time")
 #' J <- number_of_junctions(N = 100, R = 1000, H_0 = 0.5, C = 1, t = 200)
 #' estimate_time(J = J, N = 100, R = 1000, H_0 = 0.5, C = 1)
 #' # should be 200 again
