@@ -32,35 +32,24 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 int popSize,
                 double numRecombinations,
                 int num_threads) {
-  if (num_threads == 1) {
-    rnd_t rndgen;
-    for (size_t i = 0; i < popSize; ++i) {
-      int index1 = rndgen.random_number(popSize);
-      int index2 = rndgen.random_number(popSize);
-      while (index2 == index1) index2 = rndgen.random_number(popSize);
+  set_num_threads();
 
-      (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2], numRecombinations,
-                        &rndgen);
-    }
-  } else {
-    set_num_threads();
+  tbb::parallel_for(
+    tbb::blocked_range<unsigned>(0, popSize),
+    [&](const tbb::blocked_range<unsigned>& r) {
+      thread_local int seed = get_seed();
+      thread_local rnd_t rndgen2(seed);
 
-    tbb::parallel_for(
-      tbb::blocked_range<unsigned>(0, popSize),
-      [&](const tbb::blocked_range<unsigned>& r) {
-        thread_local int seed = get_seed();
-        thread_local rnd_t rndgen2(seed);
+      for (unsigned i = r.begin(); i < r.end(); ++i) {
+        int index1 = rndgen2.random_number(popSize);
+        int index2 = rndgen2.random_number(popSize);
+        while (index2 == index1) index2 = rndgen2.random_number(popSize);
 
-        for (unsigned i = r.begin(); i < r.end(); ++i) {
-          int index1 = rndgen2.random_number(popSize);
-          int index2 = rndgen2.random_number(popSize);
-          while (index2 == index1) index2 = rndgen2.random_number(popSize);
+        (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2],
+         numRecombinations, &rndgen2);
+      }
+    });
 
-          (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2],
-                               numRecombinations, &rndgen2);
-        }
-      });
-  }
 }
 
 Output simulation_phased_nonphased(int popSize,

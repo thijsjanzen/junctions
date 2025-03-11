@@ -205,22 +205,3 @@ void Output::detect_junctions_backcross(const std::vector< Fish_inf > &Pop,
     avg_hetero.push_back(avg_heterozygosity / Pop.size());
     return;
 }
-
-void Output::update_unphased(const std::vector< Fish_explicit >& Pop,
-                             size_t t,
-                             bool record_true_junctions,
-                             double morgan,
-                             size_t num_indiv) {
-    for (size_t i = 0; i < num_indiv; ++i) {
-        for (unsigned int j = 0; j < markers.size(); ++j) {
-            std::vector<double> to_add(5);
-            to_add[0] = t;
-            to_add[1] = i;   //  individual
-            to_add[2] = markers[j] * morgan;
-            to_add[3] = Pop[i].chromosome1[j];
-            to_add[4] = Pop[i].chromosome2[j];
-            results.push_back(to_add);
-        }
-    }
-    return;
-}
