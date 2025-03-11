@@ -103,7 +103,16 @@ test_that("estimate_time_diploid, use", {
                               pop_size = 1000,
                               freq_ancestor_1 = 0.5)
 
-  # chromosomes and "all" is equal in this case,
+  t4 <- estimate_time_diploid(ancestry_information = cbind(indiv,
+                                                           vx$individual,
+                                                           vx$location,
+                                                           vx$anc_chrom_1,
+                                                           vx$anc_chrom_2),
+                              analysis_type = "all",
+                              pop_size = 1000,
+                              freq_ancestor_1 = 0.5)
+
+  # chromosomes and "separate" is equal in this case,
   # because we did not add multiple individuals
   testthat::expect_equal(t2$loglikelihood, t3$loglikelihood)
   testthat::expect_equal(t2$time, t3$time)
@@ -113,6 +122,9 @@ test_that("estimate_time_diploid, use", {
   testthat::expect_equal(length(t3$time), 5)
   # 2 individuals:
   testthat::expect_equal(length(t1$time), 2)
+
+  # 1 time estimate for all
+  testthat::expect_equal(length(t4$time), 1)
 
 
   # test verbose output:
