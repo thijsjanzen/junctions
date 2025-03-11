@@ -207,7 +207,7 @@ estimate_time_all <- function(ancestry_information,
     chroms <- unique(b[, 2])
     chroms2 <- cnt + chroms
     cnt <- cnt + length(chroms2)
-    for (i in 1:length(chroms)) {
+    for (i in seq_along(chroms)) {
       local_indices <- which(ancestry_information[indices, 2] == chroms[i])
       ancestry_information[local_indices, 2] <- chroms2[i]
     }

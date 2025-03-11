@@ -40,7 +40,7 @@ apply_phasing_error <- function(output,
   markers <- unique(true_data$location)
   selected_markers <- sort(sample(markers,
                                   size = coverage * length(markers),
-                                  replace = F))
+                                  replace = FALSE))
 
   phased_data <- true_data[true_data$location %in% selected_markers, ]
 
@@ -53,7 +53,7 @@ apply_phasing_error <- function(output,
 
     to_flip <- sample(focal_indices,
                       size = sample_size,
-                      replace = F)
+                      replace = FALSE)
 
     if (length(to_flip) > 0) {
       temp <- phased_data$anc_chrom_1[to_flip]
@@ -81,9 +81,6 @@ check_time_points <- function(time_points, max_time) {
     }
   }
   return(time_points)
-
 }
-
-
 
 # nolint end

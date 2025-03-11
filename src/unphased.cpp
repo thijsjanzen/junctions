@@ -31,7 +31,6 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>* pop,
                 int popSize,
                 double numRecombinations) {
-
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
     [&](const tbb::blocked_range<unsigned>& r) {
