@@ -54,8 +54,7 @@ estimate_time_diploid <- function(ancestry_information,
                                         lower_lim,
                                         upper_lim,
                                         verbose,
-                                        phased,
-                                        num_threads)
+                                        phased)
   }
   if (analysis_type == "individuals") {
     time_estimates <- estimate_time_individuals(ancestry_information,
@@ -64,8 +63,7 @@ estimate_time_diploid <- function(ancestry_information,
                                                 lower_lim,
                                                 upper_lim,
                                                 verbose,
-                                                phased,
-                                                num_threads)
+                                                phased)
   }
   if (analysis_type == "chromosomes") {
     time_estimates <- estimate_time_chromosomes(ancestry_information,
@@ -74,8 +72,7 @@ estimate_time_diploid <- function(ancestry_information,
                                                 lower_lim,
                                                 upper_lim,
                                                 verbose,
-                                                phased,
-                                                num_threads)
+                                                phased)
   }
   if (analysis_type == "all") {
     time_estimates <- estimate_time_all(ancestry_information,
@@ -84,8 +81,7 @@ estimate_time_diploid <- function(ancestry_information,
                                         lower_lim,
                                         upper_lim,
                                         verbose,
-                                        phased,
-                                        num_threads)
+                                        phased)
   }
 
 
@@ -100,8 +96,7 @@ estimate_time_individuals <- function(ancestry_information,
                                       lower_lim,
                                       upper_lim,
                                       verbose,
-                                      phased,
-                                      num_threads) {
+                                      phased) {
   time_estimates <- c()
   for (indiv in unique(ancestry_information[, 1])) {
     local_anc_data <- subset(ancestry_information,
@@ -115,8 +110,7 @@ estimate_time_individuals <- function(ancestry_information,
                                 lower_lim = lower_lim,
                                 upper_lim = upper_lim,
                                 verbose = verbose,
-                                phased = phased,
-                                num_threads = num_threads)
+                                phased = phased)
     time_estimates <- rbind(time_estimates, c(indiv,
                                               result$time, result$likelihood))
   }
@@ -132,8 +126,7 @@ estimate_time_chromosomes <- function(ancestry_information,
                                       lower_lim,
                                       upper_lim,
                                       verbose,
-                                      phased,
-                                      num_threads) {
+                                      phased) {
   time_estimates <- c()
   for (chrom in unique(ancestry_information[, 2])) {
     local_anc_data <- subset(ancestry_information,
@@ -147,8 +140,7 @@ estimate_time_chromosomes <- function(ancestry_information,
                                 lower_lim = lower_lim,
                                 upper_lim = upper_lim,
                                 verbose = verbose,
-                                phased = phased,
-                                num_threads = num_threads)
+                                phased = phased)
     time_estimates <- rbind(time_estimates, c(chrom,
                                               result$time, result$likelihood))
   }
@@ -164,8 +156,7 @@ estimate_time_separate <- function(ancestry_information,
                                    lower_lim,
                                    upper_lim,
                                    verbose,
-                                   phased,
-                                   num_threads) {
+                                   phased) {
   time_estimates <- c()
   for (indiv in unique(ancestry_information[, 1])) {
     focal_anc_data <- subset(ancestry_information,
@@ -185,8 +176,7 @@ estimate_time_separate <- function(ancestry_information,
                                     lower_lim = lower_lim,
                                     upper_lim = upper_lim,
                                     verbose = verbose,
-                                    phased = phased,
-                                    num_threads = num_threads)
+                                    phased = phased)
         time_estimates <- rbind(time_estimates, c(indiv, chrom,
                                                   result$time,
                                                   result$likelihood))
@@ -205,8 +195,7 @@ estimate_time_all <- function(ancestry_information,
                               lower_lim,
                               upper_lim,
                               verbose,
-                              phased,
-                              num_threads) {
+                              phased) {
   time_estimates <- c()
 
   # indiv, chrom, pos, anc1, anc2
@@ -233,8 +222,7 @@ estimate_time_all <- function(ancestry_information,
                               lower_lim = lower_lim,
                               upper_lim = upper_lim,
                               verbose = verbose,
-                              phased = phased,
-                              num_threads = num_threads)
+                              phased = phased)
   time_estimates <- rbind(time_estimates, c(indiv,
                                             result$time, result$likelihood))
   colnames(time_estimates) <- c("individual", "time", "loglikelihood")

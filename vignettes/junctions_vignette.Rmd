@@ -1,5 +1,5 @@
 ---
-title: "junctions Vignette"
+title: "Junctions Vignette"
 author: "Thijs Janzen"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -15,7 +15,7 @@ library(junctions)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# junctions vignette
+# Junctions vignette
 In this vignette we will take you through the different functions provided in 
 the R package 'junctions', and show how the functions interrelate to each other.
 In the package junctions we have bundled functions and simulation code to study 

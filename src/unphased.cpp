@@ -30,9 +30,7 @@ int get_seed();
 void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>* pop,
                 int popSize,
-                double numRecombinations,
-                int num_threads) {
-  set_num_threads();
+                double numRecombinations) {
 
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
@@ -60,8 +58,8 @@ Output simulation_phased_nonphased(int popSize,
                                    bool verbose,
                                    bool record_true_junctions,
                                    int num_indiv_sampled,
-                                   int num_threads,
                                    rnd_t* rndgen)    {
+  set_num_threads();
   Output O;
   std::vector< Fish_inf > Pop(popSize);
 
@@ -97,7 +95,7 @@ Output simulation_phased_nonphased(int popSize,
 
     std::vector< Fish_inf > newGeneration(popSize);
 
-    update_pop(Pop, &newGeneration, popSize, numRecombinations, num_threads);
+    update_pop(Pop, &newGeneration, popSize, numRecombinations);
 
     Pop.swap(newGeneration);
 
@@ -121,8 +119,7 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                                    Rcpp::NumericVector time_points,
                                    bool verbose,
                                    bool record_true_junctions,
-                                   int num_indiv_sampled,
-                                   int num_threads) {
+                                   int num_indiv_sampled) {
   rnd_t rndgen;
   std::vector< double > marker_dist(markers.begin(), markers.end());
   Output O = simulation_phased_nonphased(pop_size,
@@ -134,7 +131,6 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                                          verbose,
                                          record_true_junctions,
                                          num_indiv_sampled,
-                                         num_threads,
                                          &rndgen);
   int num_rows = O.results.size();
   int num_cols = O.results[0].size();

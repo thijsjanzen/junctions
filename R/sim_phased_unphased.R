@@ -59,8 +59,7 @@ sim_phased_unphased <- function(pop_size = 100,
                                     time_points,
                                     verbose,
                                     record_true_junctions,
-                                    num_indiv_sampled,
-                                    num_threads)
+                                    num_indiv_sampled)
 
   if (coverage != 1 || error_rate != 0) {
     phasing_result <- apply_phasing_error(output, coverage, error_rate)
