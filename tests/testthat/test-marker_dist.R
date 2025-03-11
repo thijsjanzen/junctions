@@ -79,4 +79,7 @@ test_that("marker dist", {
   a <- get_num_markers(-9)
   b <- diff(a)
   testthat::expect_true(all.equal(diff_loc, b))
+
+  e <- get_num_markers(1:5)
+  testthat::expect_equal(length(e), 5)
 })

@@ -234,9 +234,8 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   double freq_ancestor_1,
                                   double t,
                                   bool phased,
-                                  bool verbose = false,
-                                  int num_threads = 1) {
-  detail::num_threads = num_threads;
+                                  bool verbose = false) {
+  set_num_threads();
   if (local_anc_matrix.ncol() != 3) {
     Rcpp::stop("local ancestry matrix has to have 3 columns");
   }
