@@ -49,7 +49,6 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
          numRecombinations, &rndgen2);
       }
     });
-
 }
 
 Output simulation_phased_nonphased(int popSize,

@@ -151,8 +151,6 @@ std::vector< chromosome > create_chromosomes(
   return output;
 }
 
-
-
 // [[Rcpp::export]]
 Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                              const Rcpp::NumericVector& locations,
@@ -513,20 +511,16 @@ double chromosome::calculate_likelihood(double t,
                                         int pop_size,
                                         double freq_ancestor_1) const {
   if (t < 1) {
-    Rcpp::Rcout << "t < 1\n";
-    throw "t < 1";
+    Rcpp::stop("t < 1");
   }
   if (pop_size < 2) {
-    Rcpp::Rcout << "pop_size < 2\n";
-    throw "pop_size < 2";
+    Rcpp::stop("pop_size < 2");
   }
   if (freq_ancestor_1 >= 1) {
-    Rcpp::Rcout << "p >= 1\n";
-    throw "p >= 1";
+    Rcpp::stop("p >= 1");
   }
   if (freq_ancestor_1 <= 0) {
-    Rcpp::Rcout << "p <= 0\n";
-    throw "p <= 0";
+    Rcpp::stop("p <= 0");
   }
 
   std::vector< double> ll(distances.size());
@@ -535,29 +529,20 @@ double chromosome::calculate_likelihood(double t,
                         states[1], t, pop_size, freq_ancestor_1, false,
                         phased);
 
-  if (detail::num_threads == 1) {
-    for (size_t i = 0; i < distances.size(); ++i) {
-      double di = distances[i];
-      double l = states[i];
-      double r = states[i + 1];
-      ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
-                      phased);
-    }
-  } else {
-    set_num_threads();
+  set_num_threads();
 
-    tbb::parallel_for(
-      tbb::blocked_range<unsigned>(1, distances.size()),
-      [&](const tbb::blocked_range<unsigned>& r) {
-        for (unsigned i = r.begin(); i < r.end(); ++i) {
-          double di = distances[i];
-          double l = states[i];
-          double r = states[i + 1];
-          ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
-                          phased);
-        }
-      });
-  }
+  tbb::parallel_for(
+    tbb::blocked_range<unsigned>(1, distances.size()),
+    [&](const tbb::blocked_range<unsigned>& r) {
+      for (unsigned i = r.begin(); i < r.end(); ++i) {
+        double di = distances[i];
+        double l = states[i];
+        double r = states[i + 1];
+        ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
+                        phased);
+      }
+    });
+
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
   return(answer);
 }

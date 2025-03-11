@@ -7,7 +7,8 @@ test_that("one chrom, use", {
   vx <- sim_phased_unphased(pop_size = population_size,
                             total_runtime = run_time,
                             markers = 1000,
-                            time_points = run_time)
+                            time_points = run_time,
+                            num_indiv_sampled = 5)
 
   found <- c()
 
@@ -41,7 +42,8 @@ test_that("one chrom, use", {
   vx <- sim_phased_unphased(pop_size = population_size,
                             total_runtime = run_time,
                             markers = 1000,
-                            time_points = run_time)
+                            time_points = run_time,
+                            num_indiv_sampled = 2)
   focal_data <- subset(vx, vx$time == run_time & vx$individual == 0)
   testthat::expect_warning(
     estimate_time_one_chrom(J = sum(abs(diff(focal_data$anc_chrom_2))),

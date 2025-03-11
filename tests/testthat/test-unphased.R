@@ -103,6 +103,68 @@ test_that("unphased, time points", {
   testthat::expect_equal(length(unique(vx$time)), 1)
 })
 
+test_that("unphased, abuse", {
+  population_size <- 100
+  max_t <- 110
+  vx <- sim_phased_unphased(pop_size = population_size,
+                            freq_ancestor_1 = 0.5,
+                            total_runtime = max_t,
+                            size_in_morgan = 1,
+                            markers = 1000,
+                            time_points = c(50, 100))
+
+  local_data <- subset(vx, vx$individual == 0 &
+                         vx$time == 100)
+
+  testthat::expect_error(
+  ll_100 <- log_likelihood_diploid(cbind(1,
+                                         local_data$location,
+                                         local_data$anc_chrom_1,
+                                         local_data$anc_chrom_2),
+                                   pop_size = 1,
+                                   freq_ancestor_1 = 0.5,
+                                   t = 100,
+                                   phased = FALSE),
+  "pop_size < 2"
+  )
+
+  testthat::expect_error(
+    ll_100 <- log_likelihood_diploid(cbind(1,
+                                           local_data$location,
+                                           local_data$anc_chrom_1,
+                                           local_data$anc_chrom_2),
+                                     pop_size = population_size,
+                                     freq_ancestor_1 = 0.0,
+                                     t = 100,
+                                     phased = FALSE),
+    "p <= 0"
+  )
+
+  testthat::expect_error(
+    ll_100 <- log_likelihood_diploid(cbind(1,
+                                           local_data$location,
+                                           local_data$anc_chrom_1,
+                                           local_data$anc_chrom_2),
+                                     pop_size = population_size,
+                                     freq_ancestor_1 = 1.0,
+                                     t = 100,
+                                     phased = FALSE),
+    "p >= 1"
+  )
+
+  testthat::expect_error(
+    ll_100 <- log_likelihood_diploid(cbind(1,
+                                           local_data$location,
+                                           local_data$anc_chrom_1,
+                                           local_data$anc_chrom_2),
+                                     pop_size = population_size,
+                                     freq_ancestor_1 = 0.5,
+                                     t = 0,
+                                     phased = FALSE),
+    "t < 1"
+  )
+})
+
 test_that("unphased, junctions", {
   testthat::skip_on_os("solaris")
   N <- 10000 # nolint
