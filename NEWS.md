@@ -6,6 +6,7 @@ mathematical tools to verify the outcomes of the individual based simulations.
 ### version 2.1.1
 - fixed typo in one of the examples
 - cleaned up cpp code to comply with linting guidelines
+- improved code coverage in tests
 
 ### version 2.1.0
 - updated tbb::task_scheduler_init to tbb::global_control 

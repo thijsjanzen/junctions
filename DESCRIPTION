@@ -14,7 +14,7 @@ Description: Individual based simulations of hybridizing populations,
     (2018, <doi:10.1101/058107>) and Janzen (2022,
     <doi:10.1111/1755-0998.13519>).
 License: GPL (>= 2)
-URL: https//github.com/thijsjanzen/junctions
+URL: https://github.com/thijsjanzen/junctions
 BugReports: https://github.com/thijsjanzen/junctions/issues
 Depends: 
     RcppParallel (>= 5.0.0)

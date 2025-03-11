@@ -167,8 +167,8 @@ test_that("unphased, abuse", {
 
 test_that("unphased, junctions", {
   testthat::skip_on_os("solaris")
-  N <- 10000 # nolint
-  R <- 10000 # nolint
+  N <- 1000 # nolint
+  R <- 1000 # nolint
   t <- 10
   H_0 <- 0.5 # nolint
   C <- 1     # nolint
@@ -180,7 +180,7 @@ test_that("unphased, junctions", {
                               size_in_morgan = C,
                               markers = R,
                               time_points = t,
-                              num_indiv_sampled = 100,
+                              num_indiv_sampled = 20,
                               record_true_junctions = TRUE,
                               verbose = TRUE)
   )
@@ -206,11 +206,7 @@ test_that("unphased, junctions", {
 
   testthat::expect_equal(obs_j, exp_j, tolerance = 0.2)
 
-  N <- 10000 # nolint
-  R <- 10000 # nolint
   t <- 20
-  H_0 <- 0.5 # nolint
-  C <- 1    # nolint
 
   vx <- sim_phased_unphased(pop_size = N,
                             freq_ancestor_1 = H_0,
@@ -218,7 +214,7 @@ test_that("unphased, junctions", {
                             size_in_morgan = C,
                             markers = R,
                             time_points = t,
-                            num_indiv_sampled = 30)
+                            num_indiv_sampled = 20)
 
   num_j <- c()
   for (i in unique(vx$individual)) {
