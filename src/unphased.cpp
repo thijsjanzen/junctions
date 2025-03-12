@@ -30,22 +30,38 @@ int get_seed();
 void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>* pop,
                 int popSize,
-                double numRecombinations) {
-  tbb::parallel_for(
-    tbb::blocked_range<unsigned>(0, popSize),
-    [&](const tbb::blocked_range<unsigned>& r) {
-      thread_local int seed = get_seed();
-      thread_local rnd_t rndgen2(seed);
+                double numRecombinations,
+                size_t num_threads) {
+  if (num_threads == 1) {
+    rnd_t rndgen;
+    for (size_t i = 0; i < popSize; ++i) {
+      int index1 = rndgen.random_number(popSize);
+      int index2 = rndgen.random_number(popSize);
+      while (index2 == index1) index2 = rndgen.random_number(popSize);
 
-      for (unsigned i = r.begin(); i < r.end(); ++i) {
-        int index1 = rndgen2.random_number(popSize);
-        int index2 = rndgen2.random_number(popSize);
-        while (index2 == index1) index2 = rndgen2.random_number(popSize);
+      (*pop)[i] = mate_inf(old_pop[index1],
+                           old_pop[index2],
+                           numRecombinations,
+                           &rndgen);
+    }
+  } else {
+    set_num_threads();
+    tbb::parallel_for(
+      tbb::blocked_range<unsigned>(0, popSize),
+      [&](const tbb::blocked_range<unsigned>& r) {
+        thread_local int seed = get_seed();
+        thread_local rnd_t rndgen2(seed);
 
-        (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2],
-         numRecombinations, &rndgen2);
-      }
-    });
+        for (unsigned i = r.begin(); i < r.end(); ++i) {
+          int index1 = rndgen2.random_number(popSize);
+          int index2 = rndgen2.random_number(popSize);
+          while (index2 == index1) index2 = rndgen2.random_number(popSize);
+
+          (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2],
+           numRecombinations, &rndgen2);
+        }
+      });
+  }
 }
 
 Output simulation_phased_nonphased(int popSize,
@@ -57,8 +73,8 @@ Output simulation_phased_nonphased(int popSize,
                                    bool verbose,
                                    bool record_true_junctions,
                                    int num_indiv_sampled,
-                                   rnd_t* rndgen)    {
-  set_num_threads();
+                                   rnd_t* rndgen,
+                                   size_t num_threads)    {
   Output O;
   std::vector< Fish_inf > Pop(popSize);
 
@@ -94,7 +110,7 @@ Output simulation_phased_nonphased(int popSize,
 
     std::vector< Fish_inf > newGeneration(popSize);
 
-    update_pop(Pop, &newGeneration, popSize, numRecombinations);
+    update_pop(Pop, &newGeneration, popSize, numRecombinations, num_threads);
 
     Pop.swap(newGeneration);
 
@@ -118,7 +134,8 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                                    Rcpp::NumericVector time_points,
                                    bool verbose,
                                    bool record_true_junctions,
-                                   int num_indiv_sampled) {
+                                   int num_indiv_sampled,
+                                   size_t num_threads) {
   rnd_t rndgen;
   std::vector< double > marker_dist(markers.begin(), markers.end());
   Output O = simulation_phased_nonphased(pop_size,
@@ -130,7 +147,8 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                                          verbose,
                                          record_true_junctions,
                                          num_indiv_sampled,
-                                         &rndgen);
+                                         &rndgen,
+                                         num_threads);
   int num_rows = O.results.size();
   int num_cols = O.results[0].size();
 

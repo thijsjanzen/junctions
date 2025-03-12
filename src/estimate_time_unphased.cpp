@@ -234,7 +234,8 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   double freq_ancestor_1,
                                   double t,
                                   bool phased,
-                                  bool verbose = false) {
+                                  bool verbose = false,
+                                  size_t num_threads = 1) {
   set_num_threads();
   if (local_anc_matrix.ncol() != 3) {
     Rcpp::stop("local ancestry matrix has to have 3 columns");
@@ -528,19 +529,30 @@ double chromosome::calculate_likelihood(double t,
                         states[1], t, pop_size, freq_ancestor_1, false,
                         phased);
 
-  set_num_threads();
+  if (detail::num_threads == 1) {
+    for (size_t i = 0; i < distances.size(); ++i) {
+      double di = distances[i];
+      double l = states[i];
+      double r = states[i + 1];
+      ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
+                      phased);
+    }
+  } else {
 
-  tbb::parallel_for(
-    tbb::blocked_range<unsigned>(1, distances.size()),
-    [&](const tbb::blocked_range<unsigned>& r) {
-      for (unsigned i = r.begin(); i < r.end(); ++i) {
-        double di = distances[i];
-        double l = states[i];
-        double r = states[i + 1];
-        ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
-                        phased);
-      }
-    });
+    set_num_threads();
+
+    tbb::parallel_for(
+      tbb::blocked_range<unsigned>(1, distances.size()),
+      [&](const tbb::blocked_range<unsigned>& r) {
+        for (unsigned i = r.begin(); i < r.end(); ++i) {
+          double di = distances[i];
+          double l = states[i];
+          double r = states[i + 1];
+          ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
+                          phased);
+        }
+      });
+  }
 
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
   return(answer);

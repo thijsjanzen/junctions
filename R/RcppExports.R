@@ -9,8 +9,8 @@ estimate_time_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancest
     .Call('_junctions_estimate_time_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, lower_lim, upper_lim, verbose, phased, num_threads)
 }
 
-loglikelihood_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, t, phased, verbose = FALSE) {
-    .Call('_junctions_loglikelihood_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, t, phased, verbose)
+loglikelihood_unphased_cpp <- function(local_anc_matrix, locations, pop_size, freq_ancestor_1, t, phased, verbose = FALSE, num_threads = 1L) {
+    .Call('_junctions_loglikelihood_unphased_cpp', PACKAGE = 'junctions', local_anc_matrix, locations, pop_size, freq_ancestor_1, t, phased, verbose, num_threads)
 }
 
 sim_fin_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, seed, R) {
@@ -21,7 +21,7 @@ sim_inf_chrom <- function(pop_size, freq_ancestor_1, run_time, size_in_Morgan, m
     .Call('_junctions_sim_inf_chrom', PACKAGE = 'junctions', pop_size, freq_ancestor_1, run_time, size_in_Morgan, markers, seed)
 }
 
-sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled) {
-    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled)
+sim_phased_unphased_cpp <- function(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled, num_threads) {
+    .Call('_junctions_sim_phased_unphased_cpp', PACKAGE = 'junctions', pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled, num_threads)
 }
 
