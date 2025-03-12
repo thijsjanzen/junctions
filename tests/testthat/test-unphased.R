@@ -180,7 +180,7 @@ test_that("unphased, junctions", {
                               size_in_morgan = C,
                               markers = R,
                               time_points = t,
-                              num_indiv_sampled = 20,
+                              num_indiv_sampled = 30,
                               record_true_junctions = TRUE,
                               verbose = TRUE)
   )
@@ -214,7 +214,7 @@ test_that("unphased, junctions", {
                             size_in_morgan = C,
                             markers = R,
                             time_points = t,
-                            num_indiv_sampled = 20)
+                            num_indiv_sampled = 30)
 
   num_j <- c()
   for (i in unique(vx$individual)) {

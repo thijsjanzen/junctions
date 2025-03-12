@@ -538,9 +538,7 @@ double chromosome::calculate_likelihood(double t,
                       phased);
     }
   } else {
-
     set_num_threads();
-
     tbb::parallel_for(
       tbb::blocked_range<unsigned>(1, distances.size()),
       [&](const tbb::blocked_range<unsigned>& r) {
