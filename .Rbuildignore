@@ -15,3 +15,6 @@
 ^test.R
 ^.appveyor.yml
 ^.lintr
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

@@ -20,6 +20,8 @@ Janzen, T., & Miró Pina, V. (2022). Estimating the time since admixture from ph
 
 
 ## Updates
+
+Version 2.1.2: Added Github website <br />
 Version 2.1.1: Fixed typo in one of the examples <br />
 Version 2.1 : updated tbb multithreading code, sped up tests, added NEWS file <br />
 Version 2.0 : merged many functions with similar functionality, added vignette that provides overview of all functionality. <br />
