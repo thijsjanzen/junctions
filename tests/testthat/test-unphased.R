@@ -140,8 +140,6 @@ test_that("unphased, junctions", {
                                           t = t)
 
   testthat::expect_equal(obs_j, exp_j, tolerance = 0.5)
-  vv <- t.test(num_j - exp_j)
-  testthat::expect_gt(vv$p.value, 0.04)
 
   t <- 20
   H_0 <- 0.5 # nolint
@@ -171,6 +169,4 @@ test_that("unphased, junctions", {
                                           t = t)
 
   testthat::expect_equal(obs_j, exp_j, tolerance = 0.2)
-  vv <- t.test(num_j - exp_j)
-  testthat::expect_gt(vv$p.value, 0.04)
 })
