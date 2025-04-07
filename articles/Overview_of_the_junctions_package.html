@@ -221,10 +221,10 @@ of the time, and the associated likelihood.</p>
 <span>                      N <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>                      freq_ancestor_1 <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $time</span></span>
-<span><span class="co">## [1] 89.8088</span></span>
+<span><span class="co">## [1] 103.9181</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $loglikelihood</span></span>
-<span><span class="co">## [1] -1517.002</span></span></code></pre>
+<span><span class="co">## [1] -1676.553</span></span></code></pre>
 <p>If instead, you have diploid ancestry data, you can make use of the
 function . The function can calculate the ancestry assuming either that
 the data is phased, or unphased. Below, we take the same data, and add
@@ -268,13 +268,13 @@ individual.</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  88.6        -<span style="color: #BB0000; text-decoration: underline;">2</span><span style="color: #BB0000;">974.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  101.        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">303.</span></span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">t_unphased</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  87.4        -<span style="color: #BB0000; text-decoration: underline;">2</span><span style="color: #BB0000;">641.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  99.4        -<span style="color: #BB0000; text-decoration: underline;">2</span><span style="color: #BB0000;">906.</span></span></span></code></pre>
 <p>We thus find that in this specific case, the time estimate using
 unphased data is slightly more accurate that the phased case, although
 they are both close.</p>
