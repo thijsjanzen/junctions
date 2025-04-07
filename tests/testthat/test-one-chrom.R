@@ -1,6 +1,5 @@
 context("one_chromosome")
 test_that("one chrom, use", {
-  testthat::skip_on_os("solaris")
   population_size <- 10000
   run_time <- 10
 

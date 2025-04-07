@@ -1,6 +1,5 @@
 context("phased_with_error")
 test_that("phased, use", {
-  testthat::skip_on_os("solaris")
   vx <- sim_phased_unphased(pop_size = 100,
                               freq_ancestor_1 = 0.5,
                               total_runtime = 21,

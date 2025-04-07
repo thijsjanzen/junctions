@@ -1,6 +1,5 @@
 context("estimate_time_haploid")
 test_that("estimate_time_haploid, use", {
-  testthat::skip_on_os("solaris")
   sim_time <- 100
   vx <- sim_phased_unphased(total_runtime = sim_time,
                             time_points = sim_time,
@@ -67,7 +66,6 @@ test_that("estimate_time_haploid, use", {
 })
 
 test_that("estimate_time_diploid, use", {
-  testthat::skip_on_os("solaris")
   sim_time <- 100
   vx <- sim_phased_unphased(total_runtime = sim_time,
                             time_points = sim_time,
