@@ -26,16 +26,16 @@ simulated_data
     ## # A tibble: 10,000 × 5
     ##     time individual location anc_chrom_1 anc_chrom_2
     ##    <dbl>      <dbl>    <dbl>       <dbl>       <dbl>
-    ##  1   100          0 0.000104           0           1
-    ##  2   100          0 0.00165            0           1
-    ##  3   100          0 0.00248            0           1
-    ##  4   100          0 0.00402            0           1
-    ##  5   100          0 0.00450            0           1
-    ##  6   100          0 0.00721            0           1
-    ##  7   100          0 0.00740            0           1
-    ##  8   100          0 0.00751            0           1
-    ##  9   100          0 0.00866            0           1
-    ## 10   100          0 0.0109             0           1
+    ##  1   100          0 0.000104           1           0
+    ##  2   100          0 0.00165            1           0
+    ##  3   100          0 0.00248            1           0
+    ##  4   100          0 0.00402            1           0
+    ##  5   100          0 0.00450            1           0
+    ##  6   100          0 0.00721            1           0
+    ##  7   100          0 0.00740            1           0
+    ##  8   100          0 0.00751            1           0
+    ##  9   100          0 0.00866            1           0
+    ## 10   100          0 0.0109             1           0
     ## # ℹ 9,990 more rows
 
 This returns a tibble with the following columns: time, individual,
@@ -71,7 +71,7 @@ admixture_time
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  102.        -2913.
+    ## 1          1  110.        -3021.
 
 Which returns two answers: the estimate (“minimum”) and the
 -loglikelihood (“objective”)
@@ -101,7 +101,7 @@ admixture_time_phased
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  104.        -3261.
+    ## 1          1  107.        -3366.
 
 Which yields a very similar time estimate.
 
@@ -130,12 +130,12 @@ found
 ```
 
     ##       [,1]     [,2]      [,3]
-    ## [1,] 1e+02 103.5625 -3288.068
-    ## [2,] 1e+03 103.5625 -3261.327
-    ## [3,] 1e+04 100.5625 -3290.292
-    ## [4,] 1e+05  99.4375 -3295.290
-    ## [5,] 1e+06  99.4375 -3295.842
-    ## [6,] 1e+07  99.4375 -3295.898
+    ## [1,] 1e+02 103.5625 -3477.667
+    ## [2,] 1e+03 106.5625 -3366.307
+    ## [3,] 1e+04 103.5625 -3371.463
+    ## [4,] 1e+05 103.5625 -3372.692
+    ## [5,] 1e+06 103.5625 -3372.829
+    ## [6,] 1e+07 103.5625 -3372.843
 
 ``` r
 plot(found[, 2] ~ found[, 1], log = "x",
@@ -209,7 +209,7 @@ simulated_data$true_data
     ## # A tibble: 10,000 × 5
     ##     time individual location anc_chrom_1 anc_chrom_2
     ##    <dbl>      <dbl>    <dbl>       <dbl>       <dbl>
-    ##  1   100          0 0.000958           0           1
+    ##  1   100          0 0.000958           0           0
     ##  2   100          0 0.00240            0           0
     ##  3   100          0 0.00249            0           0
     ##  4   100          0 0.00408            0           0
@@ -228,7 +228,7 @@ simulated_data$phased_data
     ## # A tibble: 10,000 × 5
     ##     time individual location anc_chrom_1 anc_chrom_2
     ##    <dbl>      <dbl>    <dbl>       <dbl>       <dbl>
-    ##  1   100          0 0.000958           0           1
+    ##  1   100          0 0.000958           0           0
     ##  2   100          0 0.00240            0           0
     ##  3   100          0 0.00249            0           0
     ##  4   100          0 0.00408            0           0
@@ -284,7 +284,7 @@ admixture_time_true
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  81.4         -295.
+    ## 1          1  102.         -322.
 
 ``` r
 admixture_time_error
@@ -293,7 +293,7 @@ admixture_time_error
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  104.         -350.
+    ## 1          1  113.         -350.
 
 Thus, we find that when using data with phasing error, a considerably
 higher age is estimated, which is due to the introduction of “fake”

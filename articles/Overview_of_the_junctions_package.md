@@ -162,10 +162,10 @@ estimate_time_haploid(ancestry_matrix = ancestry_matrix,
 ```
 
     ## $time
-    ## [1] 104.428
+    ## [1] 99.44416
     ## 
     ## $loglikelihood
-    ## [1] -1664.632
+    ## [1] -1639.423
 
 If instead, you have diploid ancestry data, you can make use of the
 function . The function can calculate the ancestry assuming either that
@@ -213,7 +213,7 @@ t_phased
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  97.6        -3189.
+    ## 1          1  104.        -3346.
 
 ``` r
 t_unphased
@@ -222,7 +222,7 @@ t_unphased
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  99.4        -2855.
+    ## 1          1  105.        -2994.
 
 We thus find that in this specific case, the time estimate using
 unphased data is slightly more accurate that the phased case, although
