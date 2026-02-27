@@ -1,0 +1,62 @@
+# Estimate the time since the onset of hybridization, using the observed number of junctions, taking into account the distribution of markers on a single chromosome
+
+Estimate the time since the onset of hybridization, following equation 1
+in Janzen et al. unpublished
+
+## Usage
+
+``` r
+estimate_time_one_chrom(
+  J = NA,
+  N = Inf,
+  H_0 = 0.5,
+  marker_distribution = NA,
+  lower_lim = 2,
+  upper_lim = 1000
+)
+```
+
+## Arguments
+
+- J:
+
+  The observed number of junctions
+
+- N:
+
+  Population Size
+
+- H_0:
+
+  Frequency of heterozygosity at t = 0
+
+- marker_distribution:
+
+  A vector containing the position of all markers in Morgan.
+
+- lower_lim:
+
+  lower limit of the optimization algorithm. Increase if the expected
+  admixture time is relatively ancient
+
+- upper_lim:
+
+  upper limit of the optimization algorithm. If set too large, recent
+  admixture events can be overlooked - best to set as low as possible.
+
+## Value
+
+The number of generations passed since the onset of hybridization
+
+## Examples
+
+``` r
+markers <- seq(from = 0, to = 1, length.out = 100)
+J <- number_of_junctions_markers(N = 100, H_0 = 0.5, t = 200,
+marker_distribution = markers)
+estimate_time_one_chrom(J = J,
+                        N = 100,
+                        H_0 = 0.5,
+                        marker_distribution = markers) #should be 200 again
+#> [1] 200
+```

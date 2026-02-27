@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Thijs
 Janzen</h4>
             
-            <h4 data-toc-skip class="date">2025-04-07</h4>
+            <h4 data-toc-skip class="date">2026-02-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/thijsjanzen/junctions/blob/master/vignettes/junctions_vignette.Rmd" class="external-link"><code>vignettes/junctions_vignette.Rmd</code></a></small>
       <div class="d-none name"><code>junctions_vignette.Rmd</code></div>
@@ -125,7 +125,7 @@ demonstrate use, we choose some simple parameters:</p>
 <span>     xlab <span class="op">=</span> <span class="st">"Generations"</span>,</span>
 <span>     ylab <span class="op">=</span> <span class="st">"Number of Junctions"</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Example Infinite Chromosome"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="junctions_vignette_files/figure-html/single_sim_inf-1.png" width="672">
+<p><img src="junctions_vignette_files/figure-html/single_sim_inf-1.png" class="r-plt" alt="" width="672">
 Given stochastic junction accumulation, we observe that the number of
 junctions, although over time increasing, performs a relatively
 stochastic walk. If we are to compare the accumulation of junctions with
@@ -160,7 +160,7 @@ al. 2017)</p>
 <span><span class="va">t</span> <span class="op">&lt;-</span> <span class="fl">0</span><span class="op">:</span><span class="va">maximum_time</span></span>
 <span><span class="va">predicted</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/number_of_junctions.html">number_of_junctions</a></span><span class="op">(</span>N <span class="op">=</span> <span class="va">pop_size</span>, H_0 <span class="op">=</span> <span class="va">h_0</span>, C <span class="op">=</span> <span class="va">c</span>, t <span class="op">=</span> <span class="va">t</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">predicted</span> <span class="op">~</span> <span class="va">t</span>, col <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="junctions_vignette_files/figure-html/plot_sim_inf-1.png" width="672">
+<p><img src="junctions_vignette_files/figure-html/plot_sim_inf-1.png" class="r-plt" alt="" width="672">
 We see that the simulations do not exactly match our prediction, but
 this can be improved by increasing the number of replicates (which we
 haven’t done here, as this would dramatically increase runtime).</p>
@@ -201,7 +201,7 @@ markers.</p>
 <span>       <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Real number"</span>, <span class="st">"Number detected"</span><span class="op">)</span>,</span>
 <span>       lty <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="junctions_vignette_files/figure-html/single_sim_random-1.png" width="672"></p>
+<p><img src="junctions_vignette_files/figure-html/single_sim_random-1.png" class="r-plt" alt="" width="672"></p>
 <p>We can repeat this analysis again for a number of replicates to
 acquire mean dynamics:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -259,7 +259,7 @@ junctions instead.</p>
 <span>       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"blue"</span>,</span>
 <span>               <span class="st">"black"</span>, <span class="st">"blue"</span><span class="op">)</span>,</span>
 <span>       lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
-<p><img src="junctions_vignette_files/figure-html/plot_sim_random-1.png" width="672"></p>
+<p><img src="junctions_vignette_files/figure-html/plot_sim_random-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 </div>
 <div class="section level3">
@@ -297,7 +297,7 @@ and we can obtain a single run as follows:</p>
 <span>     xlab <span class="op">=</span> <span class="st">"Generations"</span>,</span>
 <span>     ylab <span class="op">=</span> <span class="st">"Number of Junctions"</span>,</span>
 <span>     main <span class="op">=</span> <span class="st">"Example Finite Chromosome"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="junctions_vignette_files/figure-html/single_sim_fin-1.png" width="672"></p>
+<p><img src="junctions_vignette_files/figure-html/single_sim_fin-1.png" class="r-plt" alt="" width="672"></p>
 <p>To facilitate comparison with empirical data, we might again want to
 take the mean of a number of replicates:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -332,7 +332,7 @@ mathematical predictions again:</p>
 <span>       pch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">16</span>, <span class="cn">NA</span><span class="op">)</span>,</span>
 <span>       lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"blue"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="junctions_vignette_files/figure-html/plot_sim_fin-1.png" width="672"></p>
+<p><img src="junctions_vignette_files/figure-html/plot_sim_fin-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="other-equations-available">Other equations available<a class="anchor" aria-label="anchor" href="#other-equations-available"></a>
@@ -711,7 +711,7 @@ junctions, and the error in the estimate in a joint plot.</p>
 <span>       <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Number of junctions"</span>, <span class="st">"Relative Error"</span>, <span class="st">"t_MAX"</span><span class="op">)</span>,</span>
 <span>       lty <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>       col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"black"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="junctions_vignette_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
+<p><img src="junctions_vignette_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="672"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -725,7 +725,7 @@ junctions, and the error in the estimate in a joint plot.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
