@@ -2,7 +2,7 @@
 
 This package provides individual based simulations in order to simulate the accumulation of junctions over time, both for chromosomes with a finite and an infinite number of recombination sites. Furthermore, the package provides mathematical tools to verify the outcomes of the individual based simulations.
 
-### version 2.1.2
+### version 2.1.3.1
 - replaced Rf_error with Rcpp::stop()
 
 ## version 2.1.1
