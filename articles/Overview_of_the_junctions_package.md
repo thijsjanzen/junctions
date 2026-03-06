@@ -1,6 +1,17 @@
-# Overview_of_the_junctions_package
+# 
 
-## Overview of the junctions package
+|                                            |
+|--------------------------------------------|
+| title: “Overview_of_the_junctions_package” |
+| author: “Thijs Janzen”                     |
+| date: “5/6/2021”                           |
+| output: rmarkdown::html_vignette           |
+| vignette: \>                               |
+| %                                          |
+| %                                          |
+| %                                          |
+
+\# Overview of the junctions package
 
 The junctions package has since it’s creation in 2018 been updated with
 a range of extended functionality, spawning many associated functions.
@@ -8,7 +19,7 @@ This vignette is aimed at providing a clear overview of the several
 functions available, and displaying how you can potentially use these
 functions.
 
-### Simulation functions
+\## Simulation functions
 
 Because many of the other functions rely on input data, we will first
 explore functions that simulate such data. These functions simulate the
@@ -20,26 +31,25 @@ the distribution. The location of the crossovers is drawn from a uniform
 distribution across the chromosome. In all simulations, only one pair of
 chromosomes per individual is simulated.
 
-#### Phased and unphased simulations
-
-These are the most recent additions to the package, where the user can
-simulate the process of junction accumulation, and the detection of
-ancestry at a given set of markers. These simulations are designed to
-reflect the type of data one might get upon sequencing individuals.
-Simulations aimed more at matching analytical results can be found later
-on. The data is returned in long data format, and the user can, if
-required, superimpose phasing inaccuracy or reduced marker coverage.
+\### Phased and unphased simulations These are the most recent additions
+to the package, where the user can simulate the process of junction
+accumulation, and the detection of ancestry at a given set of markers.
+These simulations are designed to reflect the type of data one might get
+upon sequencing individuals. Simulations aimed more at matching
+analytical results can be found later on. The data is returned in long
+data format, and the user can, if required, superimpose phasing
+inaccuracy or reduced marker coverage.
 
 ``` r
-simulated_pop <- sim_phased_unphased(pop_size = 1000,
-                                     freq_ancestor_1 = 0.5,
-                                     total_runtime = 100,
-                                     size_in_morgan = 1,
-                                     markers = sort(runif(n = 1000, 0, 1)),
-                                     time_points = seq(0, 100, by = 10))
+  simulated_pop <- junctions::sim_phased_unphased(pop_size = 1000,
+freq_ancestor_1 = 0.5,
+total_runtime = 100,
+size_in_morgan = 1,
+markers = sort(runif(n = 1000, 0, 1)),
+time_points = seq(0, 100, by = 10))
 ```
 
-#### Mathematical simulations
+### Mathematical simulations
 
 In Janzen et al. 2018, two separate scenario’s were explored: either
 using a finite or an infinite chromosome, where finite or infinite was
@@ -54,17 +64,17 @@ junctions, and the number of detected junctions (given markers, only for
 the infinite chromosome), but not the actual local ancestry.
 
 ``` r
-junctions_fin_chrom <- sim_fin_chrom(pop_size = 1000,
-                                     freq_ancestor_1 = 0.5,
-                                     total_runtime = 200,
-                                     morgan = 1,
-                                     R = 100) # the number of crossover sites
+junctions_fin_chrom <- junctions::sim_fin_chrom(pop_size = 1000,
+                                                freq_ancestor_1 = 0.5,
+                                                total_runtime = 200,
+                                                morgan = 1,
+                                                R = 100) # the number of crossover sites
 
-junctions_inf_chrom <- sim_inf_chrom(pop_size = 1000,
-                                     freq_ancestor_1 = 0.5,
-                                     total_runtime = 200,
-                                     morgan = 1,
-                                     markers = 100)
+junctions_inf_chrom <- junctions::sim_inf_chrom(pop_size = 1000,
+                                                freq_ancestor_1 = 0.5,
+                                                total_runtime = 200,
+                                                morgan = 1,
+                                                markers = 100)
 
 plot(junctions_inf_chrom$avgJunctions,
      type = "l", lwd = 2,
@@ -80,7 +90,7 @@ legend("topleft", legend = c("Finite chromosome", "Infinite chromosome",
 
 ![](Overview_of_the_junctions_package_files/figure-html/sim%20fin%20chrom-1.png)
 
-#### Backcrossing
+### Backcrossing
 
 Lastly, one additional function is available, where instead of random
 mating, the individuals cross back with one of the parents, as used in
@@ -88,11 +98,11 @@ Lavretsky et al. 2019. This function also focuses mainly on the average
 number of junctions and not on the distribution of local ancestry
 
 ``` r
-backcross_result <- sim_backcrossing(population_size = 1000,
-                                     freq_ancestor_1 = 0.5,
-                                     total_runtime = 20,
-                                     size_in_morgan = 1,
-                                     number_of_markers = 100)
+backcross_result <- junctions::sim_backcrossing(population_size = 1000,
+                                                freq_ancestor_1 = 0.5,
+                                                total_runtime = 20,
+                                                size_in_morgan = 1,
+                                                number_of_markers = 100)
 
 plot(backcross_result$average_junctions,
      type = "l", lwd = 2,
@@ -103,9 +113,9 @@ plot(backcross_result$average_junctions,
 
 ![](Overview_of_the_junctions_package_files/figure-html/backcrossing-1.png)
 
-### Inferring the time since admixture
+## Inferring the time since admixture
 
-#### Junction based methods
+### Junction based methods
 
 Across Janzen et al. 2018 and Janzen & Miró Pina 2022, several equations
 have been proposed to infer the time since admixture, depending on the
@@ -115,7 +125,7 @@ junctions detected in one chromosome, given a number of regularly spaced
 markers:
 
 ``` r
-estimate_time(J = 10, N = 1000, R = 1000, H_0 = 0.5, C = 1)
+junctions::estimate_time(J = 10, N = 1000, R = 1000, H_0 = 0.5, C = 1)
 ```
 
     ## [1] 20.2909
@@ -127,13 +137,13 @@ calculating the expected number of junctions in a single chromosome,
 given the distribution of markers across the chromosome.
 
 ``` r
-estimate_time_one_chrom(J = 10, N = 1000, H_0 = 0.5,
-                        marker_distribution = sort(runif(n = 1000, 0, 1)))
+junctions::estimate_time_one_chrom(J = 10, N = 1000, H_0 = 0.5,
+                                   marker_distribution = sort(runif(n = 1000, 0, 1)))
 ```
 
     ## [1] 20.5195
 
-#### Local ancestry based methods
+### Local ancestry based methods
 
 Mathematically, the total number of junctions is very tractable, however
 this discards all the ancestry data collected at the respective markers.
@@ -156,16 +166,16 @@ associated likelihood.
 ancestry_data <- subset(simulated_pop, simulated_pop$time == 100)
 ancestry_matrix <- dplyr::select(ancestry_data, c(individual,
                                                   location, anc_chrom_1))
-estimate_time_haploid(ancestry_matrix = ancestry_matrix,
-                      N = 1000,
-                      freq_ancestor_1 = 0.5)
+junctions::estimate_time_haploid(ancestry_matrix = ancestry_matrix,
+                                 N = 1000,
+                                 freq_ancestor_1 = 0.5)
 ```
 
     ## $time
-    ## [1] 99.44416
+    ## [1] 89.17958
     ## 
     ## $loglikelihood
-    ## [1] -1639.423
+    ## [1] -1533.159
 
 If instead, you have diploid ancestry data, you can make use of the
 function . The function can calculate the ancestry assuming either that
@@ -195,17 +205,17 @@ ancestry_matrix <- dplyr::select(ancestry_data, c(individual,
 ancestry_matrix <- cbind(rep(1, length(ancestry_matrix$individual)),
                          ancestry_matrix)
 
-t_phased <- estimate_time_diploid(ancestry_information = ancestry_matrix,
-                                  analysis_type = "individuals",
-                                  phased = TRUE,
-                                  pop_size = 1000,
-                                  freq_ancestor_1 = 0.5)
+t_phased <- junctions::estimate_time_diploid(ancestry_information = ancestry_matrix,
+                                             analysis_type = "individuals",
+                                             phased = TRUE,
+                                             pop_size = 1000,
+                                             freq_ancestor_1 = 0.5)
 
-t_unphased <- estimate_time_diploid(ancestry_information = ancestry_matrix,
-                                    analysis_type = "individuals",
-                                    phased = FALSE,
-                                    pop_size = 1000,
-                                    freq_ancestor_1 = 0.5)
+t_unphased <- junctions::estimate_time_diploid(ancestry_information = ancestry_matrix,
+                                               analysis_type = "individuals",
+                                               phased = FALSE,
+                                               pop_size = 1000,
+                                               freq_ancestor_1 = 0.5)
 
 t_phased
 ```
@@ -213,7 +223,7 @@ t_phased
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  104.        -3346.
+    ## 1          1  94.6        -3177.
 
 ``` r
 t_unphased
@@ -222,13 +232,13 @@ t_unphased
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  105.        -2994.
+    ## 1          1  94.6        -2820.
 
 We thus find that in this specific case, the time estimate using
 unphased data is slightly more accurate that the phased case, although
 they are both close.
 
-### Likelihood functions
+## Likelihood functions
 
 If we would like to investigate the likelihood profile around the
 maximum, for instance to assess how accurate our estimate is, we can do
@@ -239,22 +249,22 @@ ancestry_matrix <- dplyr::select(ancestry_data, c(individual, location,
                                                   anc_chrom_1, anc_chrom_2))
 
 time_points <- 80:120
-ll_phased <- log_likelihood_diploid(ancestry_matrix,
-                                    pop_size = 1000,
-                                    freq_ancestor_1 = 0.5,
-                                    t = time_points,
-                                    phased = TRUE)
-ll_unphased <- log_likelihood_diploid(ancestry_matrix,
-                                      pop_size = 1000,
-                                      freq_ancestor_1 = 0.5,
-                                      t = time_points,
-                                      phased = FALSE)
+ll_phased <- junctions::log_likelihood_diploid(ancestry_matrix,
+                                               pop_size = 1000,
+                                               freq_ancestor_1 = 0.5,
+                                               t = time_points,
+                                               phased = TRUE)
+ll_unphased <- junctions::log_likelihood_diploid(ancestry_matrix,
+                                                 pop_size = 1000,
+                                                 freq_ancestor_1 = 0.5,
+                                                 t = time_points,
+                                                 phased = FALSE)
 
 to_plot <- tibble::tibble(time_points, ll_phased, ll_unphased)
 to_plot %>%
   tidyr::gather(key = "phasing", value = "loglikelihood", -time_points) %>%
   ggplot2::ggplot(
-      ggplot2::aes(x = time_points, y = loglikelihood, col = phasing)) +
+    ggplot2::aes(x = time_points, y = loglikelihood, col = phasing)) +
   ggplot2::geom_line()
 ```
 
@@ -267,10 +277,10 @@ likelihood of observing the ancestry in one chromosome:
 ancestry_matrix <- dplyr::select(ancestry_data, c(individual, location,
                                                   anc_chrom_1))
 
-ll_haploid <- log_likelihood_haploid(ancestry_matrix,
-                                     N = 1000,
-                                     freq_ancestor_1 = 0.5,
-                                     t = time_points)
+ll_haploid <- junctions::log_likelihood_haploid(ancestry_matrix,
+                                                N = 1000,
+                                                freq_ancestor_1 = 0.5,
+                                                t = time_points)
 plot(ll_haploid ~ time_points, type = "l",
      xlab = "Time since admixture",
      ylab = "Loglikelihood")
@@ -278,14 +288,14 @@ plot(ll_haploid ~ time_points, type = "l",
 
 ![](Overview_of_the_junctions_package_files/figure-html/likelihood%20haploid-1.png)
 
-### Expected number of junctions
+## Expected number of junctions
 
 Mathematically, one can calculate the expected number of junctions. The
 first equation covered here covers the derivations obtained in Janzen et
 al. 2018:
 
 ``` r
-number_of_junctions(N = 100, R = 100, H_0 = 0.5, C = 1, t = 1000)
+junctions::number_of_junctions(N = 100, R = 100, H_0 = 0.5, C = 1, t = 1000)
 ```
 
     ## [1] 33.33332
@@ -296,8 +306,8 @@ is equal. This is rarely the case in empirical data, and a better
 version is provided by the function :
 
 ``` r
-number_of_junctions_markers(N = 100, H_0 = 0.5, t = 1000,
-                            marker_distribution = sort(runif(100, 0, 1)))
+junctions::number_of_junctions_markers(N = 100, H_0 = 0.5, t = 1000,
+                                       marker_distribution = sort(runif(100, 0, 1)))
 ```
 
     ## [1] 27.16975
@@ -307,7 +317,7 @@ between two markers, given an amount of recombination (in Morgan)
 between these two markers:
 
 ``` r
-number_of_junctions_di(N = 100, H_0 = 0.5, t = 1000, di = 1e-5)
+junctions::number_of_junctions_di(N = 100, H_0 = 0.5, t = 1000, di = 1e-5)
 ```
 
     ## [1] 0.0009914297
@@ -317,12 +327,12 @@ of junctions after a number of generations, in a backcrossing mating
 scheme.
 
 ``` r
-number_of_junctions_backcross(H_0 = 0.5, C = 1, t = 10)
+junctions::number_of_junctions_backcross(H_0 = 0.5, C = 1, t = 10)
 ```
 
     ## [1] 0.009765625
 
-### Mathematical expressions
+## Mathematical expressions
 
 Following Janzen et al. 2018, there are a number of equations that might
 be useful. Firstly, there is an equation to calculate the upper limit of
@@ -330,7 +340,7 @@ junctions that can be packed in a chromosome, given the number of
 (regularly spaced) markers:
 
 ``` r
-calc_k(N = 1000, R = 1000, H_0 = 0.5, C = 1)
+junctions::calc_k(N = 1000, R = 1000, H_0 = 0.5, C = 1)
 ```
 
     ## [1] 333.3333
@@ -341,7 +351,7 @@ calculate the upper limit of age inference, coined ‘Maximum Accurate
 Time’, following equation 15 in Janzen et al. 2018:
 
 ``` r
-calculate_mat(N = 1000, R = 1000, H_0 = 0.5, C = 1)
+junctions::calculate_mat(N = 1000, R = 1000, H_0 = 0.5, C = 1)
 ```
 
     ## [1] 3869.857
@@ -352,7 +362,7 @@ to infer one junction less (or more), following Equations 3 & 4 in the
 Supplementary information of Janzen et al. 2018.
 
 ``` r
-time_error(t = 30, N = 1000, R = 1000, H_0 = 0.5, C = 1)
+junctions::time_error(t = 30, N = 1000, R = 1000, H_0 = 0.5, C = 1)
 ```
 
     ## [1] 0.0697948

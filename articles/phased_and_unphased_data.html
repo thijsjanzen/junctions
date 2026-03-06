@@ -33,8 +33,8 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/junctions_vignette.html">Junctions Vignette</a></li>
-    <li><a class="dropdown-item" href="../articles/Overview_of_the_junctions_package.html">Overview_of_the_junctions_package</a></li>
+<li><a class="dropdown-item" href="../articles/junctions_vignette.html">Junctions</a></li>
+    <li><a class="dropdown-item" href="../articles/Overview_of_the_junctions_package.html">UNKNOWN TITLE</a></li>
     <li><a class="dropdown-item" href="../articles/phased_and_unphased_data.html">Phased and unphased data</a></li>
   </ul>
 </li>
@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Thijs
 Janzen</h4>
             
-            <h4 data-toc-skip class="date">2026-02-27</h4>
+            <h4 data-toc-skip class="date">2026-03-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/thijsjanzen/junctions/blob/master/vignettes/phased_and_unphased_data.Rmd" class="external-link"><code>vignettes/phased_and_unphased_data.Rmd</code></a></small>
       <div class="d-none name"><code>phased_and_unphased_data.Rmd</code></div>
@@ -84,27 +84,27 @@ results.</p>
 <p>To have some example data, we will first simulate some artificial
 data. We can do so as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">simulated_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sim_phased_unphased.html">sim_phased_unphased</a></span><span class="op">(</span>pop_size <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>                                      freq_ancestor_1 <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>                                      total_runtime <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>                                      size_in_morgan <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                                      time_points <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>                                      markers <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">simulated_data</span> <span class="op">&lt;-</span> <span class="fu">junctions</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_phased_unphased.html">sim_phased_unphased</a></span><span class="op">(</span>pop_size <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                                                 freq_ancestor_1 <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>                                                 total_runtime <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>                                                 size_in_morgan <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                                                 time_points <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>                                                 markers <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">simulated_data</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10,000 × 5</span></span></span>
 <span><span class="co">##     time individual location anc_chrom_1 anc_chrom_2</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">104</span>           1           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.001<span style="text-decoration: underline;">65</span>            1           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">48</span>            1           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">02</span>            1           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.004<span style="text-decoration: underline;">50</span>            1           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">21</span>            1           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.007<span style="text-decoration: underline;">40</span>            1           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   100          0 0.007<span style="text-decoration: underline;">51</span>            1           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   100          0 0.008<span style="text-decoration: underline;">66</span>            1           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>   100          0 0.010<span style="text-decoration: underline;">9</span>             1           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">104</span>           1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.001<span style="text-decoration: underline;">65</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">48</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">02</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.004<span style="text-decoration: underline;">50</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">21</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.007<span style="text-decoration: underline;">40</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   100          0 0.007<span style="text-decoration: underline;">51</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   100          0 0.008<span style="text-decoration: underline;">66</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   100          0 0.010<span style="text-decoration: underline;">9</span>             1           1</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 9,990 more rows</span></span></span></code></pre>
 <p>This returns a tibble with the following columns: time, individual,
 location, anc_chrom_1 and anc_chrom_2. This contains ancestry on both
@@ -124,7 +124,7 @@ contains this information and we can use this to infer the time since
 admixture:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">focal_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">simulated_data</span>, <span class="va">simulated_data</span><span class="op">$</span><span class="va">time</span> <span class="op">==</span> <span class="fl">100</span><span class="op">)</span></span>
-<span><span class="va">admixture_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span>ancestry_information <span class="op">=</span></span>
+<span><span class="va">admixture_time</span> <span class="op">&lt;-</span> <span class="fu">junctions</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span>ancestry_information <span class="op">=</span></span>
 <span>                                          <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">1</span>,</span>
 <span>                                                <span class="fl">1</span>,</span>
 <span>                                                <span class="va">focal_data</span><span class="op">$</span><span class="va">location</span>,</span>
@@ -137,7 +137,7 @@ admixture:</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  110.        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">021.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  102.        -<span style="color: #BB0000; text-decoration: underline;">2</span><span style="color: #BB0000;">955.</span></span></span></code></pre>
 <p>Which returns two answers: the estimate (“minimum”) and the
 -loglikelihood (“objective”)</p>
 <p>Because the raw data is already phased (this comes easily with
@@ -150,7 +150,7 @@ obtain:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">morgan_locations</span> <span class="op">&lt;-</span> <span class="va">focal_data</span><span class="op">$</span><span class="va">location</span></span>
 <span><span class="va">phased_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">focal_data</span><span class="op">$</span><span class="va">anc_chrom_1</span>, <span class="va">focal_data</span><span class="op">$</span><span class="va">anc_chrom_2</span><span class="op">)</span></span>
-<span><span class="va">admixture_time_phased</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span>ancestry_information <span class="op">=</span></span>
+<span><span class="va">admixture_time_phased</span> <span class="op">&lt;-</span> <span class="fu">junctions</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span>ancestry_information <span class="op">=</span></span>
 <span>                                                 <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">1</span>,</span>
 <span>                                                       <span class="fl">1</span>,</span>
 <span>                                                       <span class="va">morgan_locations</span>,</span>
@@ -163,7 +163,7 @@ obtain:</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  107.        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">366.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  104.        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">343.</span></span></span></code></pre>
 <p>Which yields a very similar time estimate.</p>
 </div>
 <div class="section level2">
@@ -176,7 +176,8 @@ varying this systematically:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">found</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">N</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1000</span>, <span class="fl">10000</span>, <span class="fl">100000</span>, <span class="fl">1e6</span>, <span class="fl">1e7</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">admixture_time_phased</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span>ancestry_information <span class="op">=</span></span>
+<span>  <span class="va">admixture_time_phased</span> <span class="op">&lt;-</span> <span class="fu">junctions</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span></span>
+<span>                                              ancestry_information <span class="op">=</span></span>
 <span>                                                 <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">1</span>,</span>
 <span>                                                       <span class="fl">1</span>,</span>
 <span>                                                       <span class="va">morgan_locations</span>,</span>
@@ -189,12 +190,12 @@ varying this systematically:</p>
 <span><span class="op">}</span></span>
 <span><span class="va">found</span></span></code></pre></div>
 <pre><code><span><span class="co">##       [,1]     [,2]      [,3]</span></span>
-<span><span class="co">## [1,] 1e+02 103.5625 -3477.667</span></span>
-<span><span class="co">## [2,] 1e+03 106.5625 -3366.307</span></span>
-<span><span class="co">## [3,] 1e+04 103.5625 -3371.463</span></span>
-<span><span class="co">## [4,] 1e+05 103.5625 -3372.692</span></span>
-<span><span class="co">## [5,] 1e+06 103.5625 -3372.829</span></span>
-<span><span class="co">## [6,] 1e+07 103.5625 -3372.843</span></span></code></pre>
+<span><span class="co">## [1,] 1e+02  98.3125 -3444.975</span></span>
+<span><span class="co">## [2,] 1e+03 103.5625 -3343.446</span></span>
+<span><span class="co">## [3,] 1e+04 101.3125 -3352.774</span></span>
+<span><span class="co">## [4,] 1e+05 100.5625 -3356.085</span></span>
+<span><span class="co">## [5,] 1e+06 100.5625 -3356.744</span></span>
+<span><span class="co">## [6,] 1e+07 100.5625 -3356.824</span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">found</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">~</span> <span class="va">found</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, log <span class="op">=</span> <span class="st">"x"</span>,</span>
 <span>     xlab <span class="op">=</span> <span class="st">"Population Size"</span>,</span>
@@ -243,44 +244,44 @@ probability m, the recording is swapped and appears as ancestry of 1 on
 chromosome 1 and ancestry of 0 on chromosome 2. To simulate such data,
 we can use the junctions package:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">simulated_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sim_phased_unphased.html">sim_phased_unphased</a></span><span class="op">(</span>pop_size <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>                                        freq_ancestor_1 <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>                                        total_runtime <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>                                        size_in_morgan <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>                                        time_points <span class="op">=</span> <span class="fl">100</span>,</span>
-<span>                                        markers <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>                                        error_rate <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">simulated_data</span> <span class="op">&lt;-</span> <span class="fu">junctions</span><span class="fu">::</span><span class="fu"><a href="../reference/sim_phased_unphased.html">sim_phased_unphased</a></span><span class="op">(</span>pop_size <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                                                 freq_ancestor_1 <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>                                                 total_runtime <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>                                                 size_in_morgan <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                                                 time_points <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>                                                 markers <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>                                                 error_rate <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">simulated_data</span><span class="op">$</span><span class="va">true_data</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10,000 × 5</span></span></span>
 <span><span class="co">##     time individual location anc_chrom_1 anc_chrom_2</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">958</span>           0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.002<span style="text-decoration: underline;">40</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">49</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">08</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.006<span style="text-decoration: underline;">29</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">07</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.008<span style="text-decoration: underline;">42</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   100          0 0.008<span style="text-decoration: underline;">51</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   100          0 0.008<span style="text-decoration: underline;">76</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>   100          0 0.009<span style="text-decoration: underline;">08</span>            0           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">958</span>           1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.002<span style="text-decoration: underline;">40</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">49</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">08</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.006<span style="text-decoration: underline;">29</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">07</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.008<span style="text-decoration: underline;">42</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   100          0 0.008<span style="text-decoration: underline;">51</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   100          0 0.008<span style="text-decoration: underline;">76</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   100          0 0.009<span style="text-decoration: underline;">08</span>            1           1</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 9,990 more rows</span></span></span></code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">simulated_data</span><span class="op">$</span><span class="va">phased_data</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10,000 × 5</span></span></span>
 <span><span class="co">##     time individual location anc_chrom_1 anc_chrom_2</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">958</span>           0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.002<span style="text-decoration: underline;">40</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">49</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">08</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.006<span style="text-decoration: underline;">29</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">07</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.008<span style="text-decoration: underline;">42</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   100          0 0.008<span style="text-decoration: underline;">51</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   100          0 0.008<span style="text-decoration: underline;">76</span>            0           0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>   100          0 0.009<span style="text-decoration: underline;">08</span>            0           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">958</span>           1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.002<span style="text-decoration: underline;">40</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">49</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">08</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.006<span style="text-decoration: underline;">29</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">07</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.008<span style="text-decoration: underline;">42</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   100          0 0.008<span style="text-decoration: underline;">51</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   100          0 0.008<span style="text-decoration: underline;">76</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   100          0 0.009<span style="text-decoration: underline;">08</span>            1           1</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 9,990 more rows</span></span></span></code></pre>
 <p>Now, the function returns the true data, and the phased data. We can
 use either to infer the time since admixture (100 generations) and see
@@ -294,7 +295,7 @@ what error is induced:</p>
 <span></span>
 <span><span class="va">true_loc</span>  <span class="op">&lt;-</span> <span class="va">focal_true_data</span><span class="op">$</span><span class="va">location</span></span>
 <span></span>
-<span><span class="va">admixture_time_true</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span>ancestry_information  <span class="op">=</span></span>
+<span><span class="va">admixture_time_true</span> <span class="op">&lt;-</span> <span class="fu">junctions</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span>ancestry_information  <span class="op">=</span></span>
 <span>                                               <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">1</span>,</span>
 <span>                                                     <span class="fl">1</span>,</span>
 <span>                                                     <span class="va">true_loc</span>,</span>
@@ -311,7 +312,7 @@ what error is induced:</p>
 <span><span class="va">phased_loc</span>  <span class="op">&lt;-</span> <span class="va">focal_phased_data</span><span class="op">$</span><span class="va">location</span></span>
 <span></span>
 <span></span>
-<span><span class="va">admixture_time_error</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span>ancestry_information <span class="op">=</span></span>
+<span><span class="va">admixture_time_error</span> <span class="op">&lt;-</span> <span class="fu">junctions</span><span class="fu">::</span><span class="fu"><a href="../reference/estimate_time_diploid.html">estimate_time_diploid</a></span><span class="op">(</span>ancestry_information <span class="op">=</span></span>
 <span>                                               <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fl">1</span>,</span>
 <span>                                                     <span class="fl">1</span>,</span>
 <span>                                                     <span class="va">phased_loc</span>,</span>
@@ -323,13 +324,13 @@ what error is induced:</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  102.         -<span style="color: #BB0000;">322.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  111.         -<span style="color: #BB0000;">354.</span></span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">admixture_time_error</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  113.         -<span style="color: #BB0000;">350.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  122.         -<span style="color: #BB0000;">387.</span></span></span></code></pre>
 <p>Thus, we find that when using data with phasing error, a considerably
 higher age is estimated, which is due to the introduction of “fake”
 junctions as a result of incorrect phasing.</p>

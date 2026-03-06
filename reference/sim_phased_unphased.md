@@ -14,12 +14,12 @@ sim_phased_unphased(
   size_in_morgan = 1,
   markers = 100,
   time_points = -1,
-  num_threads = 1,
   verbose = FALSE,
   record_true_junctions = FALSE,
   num_indiv_sampled = 10,
   coverage = 1,
-  error_rate = 0
+  error_rate = 0,
+  num_threads = 1
 )
 ```
 
@@ -55,10 +55,6 @@ sim_phased_unphased(
   be returned at the end of the simulation. If left at -1, ancestry is
   recorded at every generation (computationally heavy).
 
-- num_threads:
-
-  default is 1. -1 takes all available threads.
-
 - verbose:
 
   displays a progress bar
@@ -78,6 +74,10 @@ sim_phased_unphased(
 - error_rate:
 
   fraction of markers that are erroneously phased (e.g. swapped)
+
+- num_threads:
+
+  default is 1. -1 takes all available threads.
 
 ## Value
 

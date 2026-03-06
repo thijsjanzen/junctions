@@ -13,12 +13,12 @@ To have some example data, we will first simulate some artificial data.
 We can do so as follows:
 
 ``` r
-simulated_data <- sim_phased_unphased(pop_size = 1000,
-                                      freq_ancestor_1 = 0.5,
-                                      total_runtime = 100,
-                                      size_in_morgan = 1,
-                                      time_points = 100,
-                                      markers = 1000)
+simulated_data <- junctions::sim_phased_unphased(pop_size = 1000,
+                                                 freq_ancestor_1 = 0.5,
+                                                 total_runtime = 100,
+                                                 size_in_morgan = 1,
+                                                 time_points = 100,
+                                                 markers = 1000)
 
 simulated_data
 ```
@@ -26,16 +26,16 @@ simulated_data
     ## # A tibble: 10,000 × 5
     ##     time individual location anc_chrom_1 anc_chrom_2
     ##    <dbl>      <dbl>    <dbl>       <dbl>       <dbl>
-    ##  1   100          0 0.000104           1           0
-    ##  2   100          0 0.00165            1           0
-    ##  3   100          0 0.00248            1           0
-    ##  4   100          0 0.00402            1           0
-    ##  5   100          0 0.00450            1           0
-    ##  6   100          0 0.00721            1           0
-    ##  7   100          0 0.00740            1           0
-    ##  8   100          0 0.00751            1           0
-    ##  9   100          0 0.00866            1           0
-    ## 10   100          0 0.0109             1           0
+    ##  1   100          0 0.000104           1           1
+    ##  2   100          0 0.00165            1           1
+    ##  3   100          0 0.00248            1           1
+    ##  4   100          0 0.00402            1           1
+    ##  5   100          0 0.00450            1           1
+    ##  6   100          0 0.00721            1           1
+    ##  7   100          0 0.00740            1           1
+    ##  8   100          0 0.00751            1           1
+    ##  9   100          0 0.00866            1           1
+    ## 10   100          0 0.0109             1           1
     ## # ℹ 9,990 more rows
 
 This returns a tibble with the following columns: time, individual,
@@ -56,7 +56,7 @@ admixture:
 
 ``` r
 focal_data <- subset(simulated_data, simulated_data$time == 100)
-admixture_time <- estimate_time_diploid(ancestry_information =
+admixture_time <- junctions::estimate_time_diploid(ancestry_information =
                                           cbind(1,
                                                 1,
                                                 focal_data$location,
@@ -71,7 +71,7 @@ admixture_time
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  110.        -3021.
+    ## 1          1  102.        -2955.
 
 Which returns two answers: the estimate (“minimum”) and the
 -loglikelihood (“objective”)
@@ -86,7 +86,7 @@ locations in Morgan. Using again the simulated data, we obtain:
 ``` r
 morgan_locations <- focal_data$location
 phased_data <- cbind(focal_data$anc_chrom_1, focal_data$anc_chrom_2)
-admixture_time_phased <- estimate_time_diploid(ancestry_information =
+admixture_time_phased <- junctions::estimate_time_diploid(ancestry_information =
                                                  cbind(1,
                                                        1,
                                                        morgan_locations,
@@ -101,7 +101,7 @@ admixture_time_phased
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  107.        -3366.
+    ## 1          1  104.        -3343.
 
 Which yields a very similar time estimate.
 
@@ -115,7 +115,8 @@ this systematically:
 ``` r
 found <- c()
 for (N in c(100, 1000, 10000, 100000, 1e6, 1e7)) {
-  admixture_time_phased <- estimate_time_diploid(ancestry_information =
+  admixture_time_phased <- junctions::estimate_time_diploid(
+                                              ancestry_information =
                                                  cbind(1,
                                                        1,
                                                        morgan_locations,
@@ -130,12 +131,12 @@ found
 ```
 
     ##       [,1]     [,2]      [,3]
-    ## [1,] 1e+02 103.5625 -3477.667
-    ## [2,] 1e+03 106.5625 -3366.307
-    ## [3,] 1e+04 103.5625 -3371.463
-    ## [4,] 1e+05 103.5625 -3372.692
-    ## [5,] 1e+06 103.5625 -3372.829
-    ## [6,] 1e+07 103.5625 -3372.843
+    ## [1,] 1e+02  98.3125 -3444.975
+    ## [2,] 1e+03 103.5625 -3343.446
+    ## [3,] 1e+04 101.3125 -3352.774
+    ## [4,] 1e+05 100.5625 -3356.085
+    ## [5,] 1e+06 100.5625 -3356.744
+    ## [6,] 1e+07 100.5625 -3356.824
 
 ``` r
 plot(found[, 2] ~ found[, 1], log = "x",
@@ -195,13 +196,13 @@ on chromosome 2. To simulate such data, we can use the junctions
 package:
 
 ``` r
-simulated_data <- sim_phased_unphased(pop_size = 1000,
-                                        freq_ancestor_1 = 0.5,
-                                        total_runtime = 100,
-                                        size_in_morgan = 1,
-                                        time_points = 100,
-                                        markers = 1000,
-                                        error_rate = 0.01)
+simulated_data <- junctions::sim_phased_unphased(pop_size = 1000,
+                                                 freq_ancestor_1 = 0.5,
+                                                 total_runtime = 100,
+                                                 size_in_morgan = 1,
+                                                 time_points = 100,
+                                                 markers = 1000,
+                                                 error_rate = 0.01)
 
 simulated_data$true_data
 ```
@@ -209,16 +210,16 @@ simulated_data$true_data
     ## # A tibble: 10,000 × 5
     ##     time individual location anc_chrom_1 anc_chrom_2
     ##    <dbl>      <dbl>    <dbl>       <dbl>       <dbl>
-    ##  1   100          0 0.000958           0           0
-    ##  2   100          0 0.00240            0           0
-    ##  3   100          0 0.00249            0           0
-    ##  4   100          0 0.00408            0           0
-    ##  5   100          0 0.00629            0           0
-    ##  6   100          0 0.00707            0           0
-    ##  7   100          0 0.00842            0           0
-    ##  8   100          0 0.00851            0           0
-    ##  9   100          0 0.00876            0           0
-    ## 10   100          0 0.00908            0           0
+    ##  1   100          0 0.000958           1           1
+    ##  2   100          0 0.00240            1           1
+    ##  3   100          0 0.00249            1           1
+    ##  4   100          0 0.00408            1           1
+    ##  5   100          0 0.00629            1           1
+    ##  6   100          0 0.00707            1           1
+    ##  7   100          0 0.00842            1           1
+    ##  8   100          0 0.00851            1           1
+    ##  9   100          0 0.00876            1           1
+    ## 10   100          0 0.00908            1           1
     ## # ℹ 9,990 more rows
 
 ``` r
@@ -228,16 +229,16 @@ simulated_data$phased_data
     ## # A tibble: 10,000 × 5
     ##     time individual location anc_chrom_1 anc_chrom_2
     ##    <dbl>      <dbl>    <dbl>       <dbl>       <dbl>
-    ##  1   100          0 0.000958           0           0
-    ##  2   100          0 0.00240            0           0
-    ##  3   100          0 0.00249            0           0
-    ##  4   100          0 0.00408            0           0
-    ##  5   100          0 0.00629            0           0
-    ##  6   100          0 0.00707            0           0
-    ##  7   100          0 0.00842            0           0
-    ##  8   100          0 0.00851            0           0
-    ##  9   100          0 0.00876            0           0
-    ## 10   100          0 0.00908            0           0
+    ##  1   100          0 0.000958           1           1
+    ##  2   100          0 0.00240            1           1
+    ##  3   100          0 0.00249            1           1
+    ##  4   100          0 0.00408            1           1
+    ##  5   100          0 0.00629            1           1
+    ##  6   100          0 0.00707            1           1
+    ##  7   100          0 0.00842            1           1
+    ##  8   100          0 0.00851            1           1
+    ##  9   100          0 0.00876            1           1
+    ## 10   100          0 0.00908            1           1
     ## # ℹ 9,990 more rows
 
 Now, the function returns the true data, and the phased data. We can use
@@ -253,7 +254,7 @@ true_data <- cbind(focal_true_data$anc_chrom_1,
 
 true_loc  <- focal_true_data$location
 
-admixture_time_true <- estimate_time_diploid(ancestry_information  =
+admixture_time_true <- junctions::estimate_time_diploid(ancestry_information  =
                                                cbind(1,
                                                      1,
                                                      true_loc,
@@ -270,7 +271,7 @@ phased_data <- cbind(focal_phased_data$anc_chrom_1,
 phased_loc  <- focal_phased_data$location
 
 
-admixture_time_error <- estimate_time_diploid(ancestry_information =
+admixture_time_error <- junctions::estimate_time_diploid(ancestry_information =
                                                cbind(1,
                                                      1,
                                                      phased_loc,
@@ -284,7 +285,7 @@ admixture_time_true
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  102.         -322.
+    ## 1          1  111.         -354.
 
 ``` r
 admixture_time_error
@@ -293,7 +294,7 @@ admixture_time_error
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  113.         -350.
+    ## 1          1  122.         -387.
 
 Thus, we find that when using data with phasing error, a considerably
 higher age is estimated, which is due to the introduction of “fake”

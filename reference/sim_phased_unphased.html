@@ -22,8 +22,8 @@ randomly sampled individuals per generations is returned."></head><body>
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/junctions_vignette.html">Junctions Vignette</a></li>
-    <li><a class="dropdown-item" href="../articles/Overview_of_the_junctions_package.html">Overview_of_the_junctions_package</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/junctions_vignette.html">Junctions</a></li>
+    <li><a class="dropdown-item" href="../articles/Overview_of_the_junctions_package.html">UNKNOWN TITLE</a></li>
     <li><a class="dropdown-item" href="../articles/phased_and_unphased_data.html">Phased and unphased data</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -58,12 +58,12 @@ randomly sampled individuals per generations is returned.</p>
 <span>  size_in_morgan <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  markers <span class="op">=</span> <span class="fl">100</span>,</span>
 <span>  time_points <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
-<span>  num_threads <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  record_true_junctions <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  num_indiv_sampled <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  coverage <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  error_rate <span class="op">=</span> <span class="fl">0</span></span>
+<span>  error_rate <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  num_threads <span class="op">=</span> <span class="fl">1</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -101,10 +101,6 @@ recorded to be returned at the end of the simulation. If left at -1,
 ancestry is recorded at every generation (computationally heavy).</p></dd>
 
 
-<dt id="arg-num-threads">num_threads<a class="anchor" aria-label="anchor" href="#arg-num-threads"></a></dt>
-<dd><p>default is 1. -1 takes all available threads.</p></dd>
-
-
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>displays a progress bar</p></dd>
 
@@ -125,6 +121,10 @@ to be genotyped</p></dd>
 <dt id="arg-error-rate">error_rate<a class="anchor" aria-label="anchor" href="#arg-error-rate"></a></dt>
 <dd><p>fraction of markers that are erroneously
 phased (e.g. swapped)</p></dd>
+
+
+<dt id="arg-num-threads">num_threads<a class="anchor" aria-label="anchor" href="#arg-num-threads"></a></dt>
+<dd><p>default is 1. -1 takes all available threads.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -1,4 +1,4 @@
-# Junctions Vignette
+# Junctions
 
 ## Junctions vignette
 
