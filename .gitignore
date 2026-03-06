@@ -20,3 +20,5 @@
 test.r
 .vscode/settings.json
 docs
+.RData
+.Rhistory
