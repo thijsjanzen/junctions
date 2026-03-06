@@ -38,12 +38,12 @@ sim_phased_unphased <- function(pop_size = 100,
                                 size_in_morgan = 1,
                                 markers = 100,
                                 time_points = -1,
-                                num_threads = 1,
                                 verbose = FALSE,
                                 record_true_junctions = FALSE,
                                 num_indiv_sampled = 10,
                                 coverage = 1,
-                                error_rate = 0) {
+                                error_rate = 0,
+                                num_threads = 1) {
 
   RcppParallel::setThreadOptions(num_threads)
 

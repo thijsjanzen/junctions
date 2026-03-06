@@ -11,12 +11,12 @@ sim_phased_unphased(
   size_in_morgan = 1,
   markers = 100,
   time_points = -1,
-  num_threads = 1,
   verbose = FALSE,
   record_true_junctions = FALSE,
   num_indiv_sampled = 10,
   coverage = 1,
-  error_rate = 0
+  error_rate = 0,
+  num_threads = 1
 )
 }
 \arguments{
@@ -38,8 +38,6 @@ a vector is provided, that vector is used.}
 recorded to be returned at the end of the simulation. If left at -1,
 ancestry is recorded at every generation (computationally heavy).}
 
-\item{num_threads}{default is 1. -1 takes all available threads.}
-
 \item{verbose}{displays a progress bar}
 
 \item{record_true_junctions}{keep track of the true number of junctions?}
@@ -51,6 +49,8 @@ to be genotyped}
 
 \item{error_rate}{fraction of markers that are erroneously
 phased (e.g. swapped)}
+
+\item{num_threads}{default is 1. -1 takes all available threads.}
 }
 \value{
 a tibble with five columns: [time, individual, marker location,
