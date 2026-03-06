@@ -4,6 +4,7 @@ This package provides individual based simulations in order to simulate the accu
 
 ### version 2.1.3.1
 - replaced Rf_error with Rcpp::stop()
+- Added optional support for TBB (e.g. also support for machines that don't have TBB installed, such as musl based linux)
 
 ## version 2.1.1
 
