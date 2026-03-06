@@ -45,7 +45,7 @@ vignette: >
   format, and the user can, if required, superimpose phasing inaccuracy or reduced
   marker coverage. 
   
-  ```{r phased unphased simulation}
+```{r phased unphased simulation}
   simulated_pop <- junctions::sim_phased_unphased(pop_size = 1000,
 freq_ancestor_1 = 0.5,
 total_runtime = 100,
