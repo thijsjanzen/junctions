@@ -44,8 +44,6 @@ estimate_time_diploid <- function(ancestry_information,
     ancestry_information <- as.matrix(ancestry_information)
   }
 
-  RcppParallel::setThreadOptions(num_threads)
-
   time_estimates <- c()
   if (analysis_type == "separate") {
     time_estimates <- estimate_time_separate(ancestry_information,
@@ -103,6 +101,8 @@ estimate_time_individuals <- function(ancestry_information,
                                       phased,
                                       num_threads) {
   time_estimates <- c()
+  RcppParallel::setThreadOptions(num_threads)
+
   for (indiv in unique(ancestry_information[, 1])) {
     local_anc_data <- subset(ancestry_information,
                              ancestry_information[, 1] == indiv)
@@ -115,8 +115,7 @@ estimate_time_individuals <- function(ancestry_information,
                                 lower_lim = lower_lim,
                                 upper_lim = upper_lim,
                                 verbose = verbose,
-                                phased = phased,
-                                num_threads = num_threads)
+                                phased = phased)
     time_estimates <- rbind(time_estimates, c(indiv,
                                               result$time, result$likelihood))
   }
@@ -134,6 +133,7 @@ estimate_time_chromosomes <- function(ancestry_information,
                                       verbose,
                                       phased,
                                       num_threads) {
+  RcppParallel::setThreadOptions(num_threads)
   time_estimates <- c()
   for (chrom in unique(ancestry_information[, 2])) {
     local_anc_data <- subset(ancestry_information,
@@ -147,8 +147,7 @@ estimate_time_chromosomes <- function(ancestry_information,
                                 lower_lim = lower_lim,
                                 upper_lim = upper_lim,
                                 verbose = verbose,
-                                phased = phased,
-                                num_threads = num_threads)
+                                phased = phased)
     time_estimates <- rbind(time_estimates, c(chrom,
                                               result$time, result$likelihood))
   }
@@ -166,6 +165,7 @@ estimate_time_separate <- function(ancestry_information,
                                    verbose,
                                    phased,
                                    num_threads) {
+  RcppParallel::setThreadOptions(num_threads)
   time_estimates <- c()
   for (indiv in unique(ancestry_information[, 1])) {
     focal_anc_data <- subset(ancestry_information,
@@ -185,8 +185,7 @@ estimate_time_separate <- function(ancestry_information,
                                     lower_lim = lower_lim,
                                     upper_lim = upper_lim,
                                     verbose = verbose,
-                                    phased = phased,
-                                    num_threads = num_threads)
+                                    phased = phased)
         time_estimates <- rbind(time_estimates, c(indiv, chrom,
                                                   result$time,
                                                   result$likelihood))
@@ -208,7 +207,7 @@ estimate_time_all <- function(ancestry_information,
                               phased,
                               num_threads) {
   time_estimates <- c()
-
+  RcppParallel::setThreadOptions(num_threads)
   # indiv, chrom, pos, anc1, anc2
 
   cnt <- max(unique(ancestry_information[, 2])) + 1
@@ -233,8 +232,7 @@ estimate_time_all <- function(ancestry_information,
                               lower_lim = lower_lim,
                               upper_lim = upper_lim,
                               verbose = verbose,
-                              phased = phased,
-                              num_threads = num_threads)
+                              phased = phased)
   time_estimates <- rbind(time_estimates, c(indiv,
                                             result$time, result$likelihood))
   colnames(time_estimates) <- c("individual", "time", "loglikelihood")

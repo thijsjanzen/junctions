@@ -30,8 +30,7 @@ log_likelihood_diploid <- function(local_anc_matrix,
                                pop_size = pop_size,
                                freq_ancestor_1 = freq_ancestor_1,
                                t = params[[1]],
-                               phased = phased,
-                               num_threads = num_threads)
+                               phased = phased)
   }
 
   if (length(t) == 1) {

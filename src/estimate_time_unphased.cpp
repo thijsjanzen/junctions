@@ -16,6 +16,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "tbb_stub.h"
+
 #include <Rcpp.h>
 #include <nloptrAPI.h>
 
@@ -23,12 +25,6 @@
 
 #include "estimate_time_unphased.h" // NOLINT [build/include_subdir]
 #include "Output.h"                 // NOLINT [build/include_subdir]
-#include "util.h"                   // NOLINT [build/include_subdir]
-
-
-namespace detail {
-int num_threads = 1;
-}
 
 struct chromosome {
   std::vector< size_t > states;
@@ -159,14 +155,11 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                              int lower_lim,
                              int upper_lim,
                              bool verbose,
-                             bool phased,
-                             int num_threads = 1) {
+                             bool phased) {
 try {
   if (verbose) {
     Rcpp::Rcout << "welcome to estimate_time_cpp\n";
   }
-
-  detail::num_threads = num_threads;
 
   if (local_anc_matrix.ncol() != 3) {
     Rcpp::stop("local ancestry matrix has to have 3 columns");
@@ -234,9 +227,10 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   double freq_ancestor_1,
                                   double t,
                                   bool phased,
-                                  bool verbose = false,
-                                  size_t num_threads = 1) {
-  set_num_threads();
+                                  bool verbose = false) {
+  auto num_threads = get_rcpp_num_threads();
+  auto global_control = tbb::global_control(tbb::global_control::max_allowed_parallelism, num_threads);
+
   if (local_anc_matrix.ncol() != 3) {
     Rcpp::stop("local ancestry matrix has to have 3 columns");
   }
@@ -529,28 +523,21 @@ double chromosome::calculate_likelihood(double t,
                         states[1], t, pop_size, freq_ancestor_1, false,
                         phased);
 
-  if (detail::num_threads == 1) {
-    for (size_t i = 0; i < distances.size(); ++i) {
-      double di = distances[i];
-      double l = states[i];
-      double r = states[i + 1];
-      ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
-                      phased);
-    }
-  } else {
-    set_num_threads();
-    tbb::parallel_for(
-      tbb::blocked_range<unsigned>(1, distances.size()),
-      [&](const tbb::blocked_range<unsigned>& r) {
-        for (unsigned i = r.begin(); i < r.end(); ++i) {
-          double di = distances[i];
-          double l = states[i];
-          double r = states[i + 1];
-          ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
-                          phased);
-        }
-      });
-  }
+  auto num_threads = get_rcpp_num_threads();
+  auto global_control = tbb::global_control(tbb::global_control::max_allowed_parallelism, num_threads);
+
+  tbb::parallel_for(
+    tbb::blocked_range<unsigned>(1, distances.size()),
+    [&](const tbb::blocked_range<unsigned>& r) {
+      for (unsigned i = r.begin(); i < r.end(); ++i) {
+        double di = distances[i];
+        double l = states[i];
+        double r = states[i + 1];
+        ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
+                        phased);
+      }
+    });
+
 
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
   return(answer);
