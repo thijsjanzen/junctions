@@ -21,8 +21,6 @@
 #include "Output.h"            // NOLINT [build/include_subdir]
 #include "Fish.h"              // NOLINT [build/include_subdir]
 #include "random_functions.h"  // NOLINT [build/include_subdir]
-#include "util.h"              // NOLINT [build/include_subdir]
-
 
 #include <RcppParallel.h>
 #include <Rcpp.h>
