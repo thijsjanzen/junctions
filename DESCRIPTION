@@ -1,7 +1,7 @@
 Type: Package
 Package: junctions
 Title: The Breakdown of Genomic Ancestry Blocks in Hybrid Lineages
-Version: 2.1.3.1
+Version: 2.1.4
 Authors@R: 
     person(given = "Thijs",
            family = "Janzen",
