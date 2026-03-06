@@ -172,10 +172,10 @@ junctions::estimate_time_haploid(ancestry_matrix = ancestry_matrix,
 ```
 
     ## $time
-    ## [1] 89.17958
+    ## [1] 105.83
     ## 
     ## $loglikelihood
-    ## [1] -1533.159
+    ## [1] -1652.315
 
 If instead, you have diploid ancestry data, you can make use of the
 function . The function can calculate the ancestry assuming either that
@@ -223,7 +223,7 @@ t_phased
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  94.6        -3177.
+    ## 1          1  107.        -3357.
 
 ``` r
 t_unphased
@@ -232,7 +232,7 @@ t_unphased
     ## # A tibble: 1 × 3
     ##   individual  time loglikelihood
     ##        <dbl> <dbl>         <dbl>
-    ## 1          1  94.6        -2820.
+    ## 1          1  105.        -2960.
 
 We thus find that in this specific case, the time estimate using
 unphased data is slightly more accurate that the phased case, although

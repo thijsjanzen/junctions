@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">junctions</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,16 +95,16 @@ data. We can do so as follows:</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10,000 × 5</span></span></span>
 <span><span class="co">##     time individual location anc_chrom_1 anc_chrom_2</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">104</span>           1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.001<span style="text-decoration: underline;">65</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">48</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">02</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.004<span style="text-decoration: underline;">50</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">21</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.007<span style="text-decoration: underline;">40</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   100          0 0.007<span style="text-decoration: underline;">51</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   100          0 0.008<span style="text-decoration: underline;">66</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">10</span>   100          0 0.010<span style="text-decoration: underline;">9</span>             1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">104</span>           1           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.001<span style="text-decoration: underline;">65</span>            1           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">48</span>            1           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">02</span>            1           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.004<span style="text-decoration: underline;">50</span>            1           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">21</span>            1           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.007<span style="text-decoration: underline;">40</span>            0           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   100          0 0.007<span style="text-decoration: underline;">51</span>            0           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   100          0 0.008<span style="text-decoration: underline;">66</span>            0           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   100          0 0.010<span style="text-decoration: underline;">9</span>             0           0</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 9,990 more rows</span></span></span></code></pre>
 <p>This returns a tibble with the following columns: time, individual,
 location, anc_chrom_1 and anc_chrom_2. This contains ancestry on both
@@ -137,7 +137,7 @@ admixture:</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  102.        -<span style="color: #BB0000; text-decoration: underline;">2</span><span style="color: #BB0000;">955.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  102.        -<span style="color: #BB0000; text-decoration: underline;">2</span><span style="color: #BB0000;">984.</span></span></span></code></pre>
 <p>Which returns two answers: the estimate (“minimum”) and the
 -loglikelihood (“objective”)</p>
 <p>Because the raw data is already phased (this comes easily with
@@ -163,7 +163,7 @@ obtain:</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  104.        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">343.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  104.        -<span style="color: #BB0000; text-decoration: underline;">3</span><span style="color: #BB0000;">351.</span></span></span></code></pre>
 <p>Which yields a very similar time estimate.</p>
 </div>
 <div class="section level2">
@@ -190,12 +190,12 @@ varying this systematically:</p>
 <span><span class="op">}</span></span>
 <span><span class="va">found</span></span></code></pre></div>
 <pre><code><span><span class="co">##       [,1]     [,2]      [,3]</span></span>
-<span><span class="co">## [1,] 1e+02  98.3125 -3444.975</span></span>
-<span><span class="co">## [2,] 1e+03 103.5625 -3343.446</span></span>
-<span><span class="co">## [3,] 1e+04 101.3125 -3352.774</span></span>
-<span><span class="co">## [4,] 1e+05 100.5625 -3356.085</span></span>
-<span><span class="co">## [5,] 1e+06 100.5625 -3356.744</span></span>
-<span><span class="co">## [6,] 1e+07 100.5625 -3356.824</span></span></code></pre>
+<span><span class="co">## [1,] 1e+02 101.6875 -3440.973</span></span>
+<span><span class="co">## [2,] 1e+03 103.5625 -3350.685</span></span>
+<span><span class="co">## [3,] 1e+04 100.5625 -3360.650</span></span>
+<span><span class="co">## [4,] 1e+05  99.4375 -3362.679</span></span>
+<span><span class="co">## [5,] 1e+06  99.4375 -3362.903</span></span>
+<span><span class="co">## [6,] 1e+07  99.4375 -3362.925</span></span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">found</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">~</span> <span class="va">found</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, log <span class="op">=</span> <span class="st">"x"</span>,</span>
 <span>     xlab <span class="op">=</span> <span class="st">"Population Size"</span>,</span>
@@ -256,10 +256,10 @@ we can use the junctions package:</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10,000 × 5</span></span></span>
 <span><span class="co">##     time individual location anc_chrom_1 anc_chrom_2</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">958</span>           1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.002<span style="text-decoration: underline;">40</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">49</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">08</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">958</span>           0           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.002<span style="text-decoration: underline;">40</span>            0           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">49</span>            0           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">08</span>            0           1</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.006<span style="text-decoration: underline;">29</span>            1           1</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">07</span>            1           1</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.008<span style="text-decoration: underline;">42</span>            1           1</span></span>
@@ -272,10 +272,10 @@ we can use the junctions package:</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 10,000 × 5</span></span></span>
 <span><span class="co">##     time individual location anc_chrom_1 anc_chrom_2</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">958</span>           1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.002<span style="text-decoration: underline;">40</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">49</span>            1           1</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">08</span>            1           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   100          0 0.000<span style="text-decoration: underline;">958</span>           0           0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   100          0 0.002<span style="text-decoration: underline;">40</span>            0           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   100          0 0.002<span style="text-decoration: underline;">49</span>            0           1</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   100          0 0.004<span style="text-decoration: underline;">08</span>            0           1</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   100          0 0.006<span style="text-decoration: underline;">29</span>            1           1</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   100          0 0.007<span style="text-decoration: underline;">07</span>            1           1</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   100          0 0.008<span style="text-decoration: underline;">42</span>            1           1</span></span>
@@ -324,13 +324,13 @@ what error is induced:</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  111.         -<span style="color: #BB0000;">354.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  113.         -<span style="color: #BB0000;">345.</span></span></span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">admixture_time_error</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
 <span><span class="co">##   individual  time loglikelihood</span></span>
 <span><span class="co">##        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  122.         -<span style="color: #BB0000;">387.</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span>          1  120.         -<span style="color: #BB0000;">359.</span></span></span></code></pre>
 <p>Thus, we find that when using data with phasing error, a considerably
 higher age is estimated, which is due to the introduction of “fake”
 junctions as a result of incorrect phasing.</p>
