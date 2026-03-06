@@ -31,10 +31,6 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>* pop,
                 int popSize,
                 double numRecombinations) {
-  auto num_threads = get_rcpp_num_threads();
-  auto global_control =
-    tbb::global_control(tbb::global_control::max_allowed_parallelism,
-                        num_threads);
 
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),
@@ -123,6 +119,11 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                                    bool verbose,
                                    bool record_true_junctions,
                                    int num_indiv_sampled) {
+  auto num_threads = get_rcpp_num_threads();
+  auto global_control =
+    tbb::global_control(tbb::global_control::max_allowed_parallelism,
+                        num_threads);
+
   rnd_t rndgen;
   std::vector< double > marker_dist(markers.begin(), markers.end());
   Output O = simulation_phased_nonphased(pop_size,
