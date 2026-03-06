@@ -13,6 +13,7 @@
 #include <cstdlib>
 #include <Rcpp.h>
 #include <RcppParallel.h>   // pull RCPP_PARALLEL_USE_TBB
+#include <utility>
 
 
 #if RCPP_PARALLEL_USE_TBB == 0
@@ -27,11 +28,11 @@ namespace task_arena {
 
 constexpr size_t automatic = size_t(-1);
 
-} // namespace task_arena
+}  // namespace task_arena
 
 
 class global_control {
-public:
+ public:
   enum parameter {
     max_allowed_parallelism,
     thread_stack_size,
@@ -39,7 +40,7 @@ public:
   };
 
   global_control(parameter /*p*/, size_t /*value*/) {}
-  ~global_control() {};
+  ~global_control() {}
   static size_t active_value(parameter /*param*/);  // undefined
 };
 
@@ -48,7 +49,7 @@ template<typename T>
 class blocked_range {
   T begin_;
   T end_;
-public:
+ public:
   blocked_range(T begin, T end) : begin_(begin), end_(end) {}
   T begin() const { return begin_; }
   T end() const { return end_; }
@@ -56,7 +57,8 @@ public:
 
 
 template<typename InputIterator, typename Body>
-inline void parallel_for_each( InputIterator first, InputIterator last, Body&& body ) {
+inline void parallel_for_each(InputIterator first, InputIterator last,
+                              Body&& body ) {
   std::for_each(first, last, std::forward<Body>(body));
 }
 
@@ -83,7 +85,7 @@ inline void parallel_for(blocked_range<T> b, const Func f) {
 
 
 
-} // namespace tbb
+}  // namespace tbb
 
 
 // function name is lying.

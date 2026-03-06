@@ -33,9 +33,10 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>* pop,
                 int popSize,
                 double numRecombinations) {
-
   auto num_threads = get_rcpp_num_threads();
-  auto global_control = tbb::global_control(tbb::global_control::max_allowed_parallelism, num_threads);
+  auto global_control =
+    tbb::global_control(tbb::global_control::max_allowed_parallelism,
+                        num_threads);
 
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(0, popSize),

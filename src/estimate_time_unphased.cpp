@@ -16,7 +16,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "tbb_stub.h"
+#include "tbb_stub.h"                // NOLINT [build/include_subdir]
 
 #include <Rcpp.h>
 #include <nloptrAPI.h>
@@ -229,7 +229,9 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   bool phased,
                                   bool verbose = false) {
   auto num_threads = get_rcpp_num_threads();
-  auto global_control = tbb::global_control(tbb::global_control::max_allowed_parallelism, num_threads);
+  auto global_control =
+    tbb::global_control(tbb::global_control::max_allowed_parallelism,
+                        num_threads);
 
   if (local_anc_matrix.ncol() != 3) {
     Rcpp::stop("local ancestry matrix has to have 3 columns");
@@ -524,7 +526,9 @@ double chromosome::calculate_likelihood(double t,
                         phased);
 
   auto num_threads = get_rcpp_num_threads();
-  auto global_control = tbb::global_control(tbb::global_control::max_allowed_parallelism, num_threads);
+  auto global_control =
+    tbb::global_control(tbb::global_control::max_allowed_parallelism,
+                        num_threads);
 
   tbb::parallel_for(
     tbb::blocked_range<unsigned>(1, distances.size()),
