@@ -28,7 +28,7 @@ calc_k <- function(N = Inf,   # nolint
     K <- H_0 * C * 2 * N   # nolint
   }
 
-  if (is.infinite(N) & is.infinite(R)) {
+  if (is.infinite(N) && is.infinite(R)) {
     K <- Inf    # nolint
   }
   return(K)

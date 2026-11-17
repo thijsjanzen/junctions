@@ -16,6 +16,8 @@
 #include <cmath>
 #include <iostream>
 
+#include <stdexcept>
+
 #include "tbb_stub.h"                // NOLINT [build/include_subdir]
 
 #include <Rcpp.h>
@@ -47,7 +49,7 @@ struct chromosome {
              bool p,
              bool verb) : phased(p), verbose(verb) {
     if (anc_matrix.size() != loc.size()) {
-      Rcpp::stop("anc_matrix.nrow != loc.size()");
+      throw std::runtime_error("anc_matrix.nrow != loc.size()");
     }
 
     states = std::vector<size_t>(loc.size(), 2);
@@ -68,7 +70,7 @@ struct chromosome {
         if (i > 0) {
           distances.push_back(loc[i] - loc[i - 1]);
           if (loc[i] - loc[i - 1] < 0) {
-             Rcpp::stop("no negative distances allowed");
+             throw std::runtime_error("no negative distances allowed");
           }
         }
 
@@ -156,13 +158,12 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                              int upper_lim,
                              bool verbose,
                              bool phased) {
-try {
   if (verbose) {
     Rcpp::Rcout << "welcome to estimate_time_cpp\n";
   }
 
   if (local_anc_matrix.ncol() != 3) {
-    Rcpp::stop("local ancestry matrix has to have 3 columns");
+    throw std::runtime_error("local ancestry matrix has to have 3 columns");
   }
 
   if (verbose) {
@@ -190,7 +191,8 @@ try {
   nlopt_set_min_objective(opt, objective, &optim_data);
 
   nlopt_set_xtol_rel(opt, 1e-1);
-  std::vector<double> x = {0.2 * (lower_lim + upper_lim)};
+  // we initialize a bit closer to 0, as often this makes more sense
+  std::vector<double> x = {lower_lim + 0.2 * (upper_lim - lower_lim)};
   double minf;
   if (verbose) {
     Rcpp::Rcout << "starting optimisation\n";
@@ -199,7 +201,7 @@ try {
   auto nloptresult = nlopt_optimize(opt, &(x[0]), &minf);
 
   if (nloptresult < 0) {
-    Rcpp::Rcout << "failure to optimize!\n";
+    throw std::runtime_error("failure to optimize!\n");
   }
 
   if (verbose) {
@@ -212,12 +214,6 @@ try {
 
   return Rcpp::List::create(Rcpp::Named("time") = x[0],
                             Rcpp::Named("likelihood") = -1 * minf);
-} catch(std::exception &ex) {
-  forward_exception_to_r(ex);
-} catch(...) {
-  Rcpp::stop("c++ exception (unknown reason)");
-}
-return NA_REAL;
 }
 
 // [[Rcpp::export]]
@@ -228,14 +224,13 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   double t,
                                   bool phased,
                                   bool verbose = false) {
-try {
   auto num_threads = get_rcpp_num_threads();
   auto global_control =
     tbb::global_control(tbb::global_control::max_allowed_parallelism,
                         num_threads);
 
   if (local_anc_matrix.ncol() != 3) {
-    throw "local ancestry matrix has to have 3 columns";
+    throw std::runtime_error("local ancestry matrix has to have 3 columns");
   }
 
   std::vector< chromosome > chromosomes = create_chromosomes(local_anc_matrix,
@@ -249,13 +244,6 @@ try {
   }
 
   return std::accumulate(ll.begin(), ll.end(), 0.0);
-
-} catch(std::exception &ex) {
-  forward_exception_to_r(ex);
-} catch(...) {
-  Rcpp::stop("c++ exception (unknown reason)");
-}
- return NA_REAL;
 }
 
 std::vector< double > single_state_cpp(int t, int N, double d) {
@@ -514,16 +502,16 @@ double chromosome::calculate_likelihood(double t,
                                         int pop_size,
                                         double freq_ancestor_1) const {
   if (t < 1) {
-    throw "t < 1";
+    throw std::runtime_error("t < 1");
   }
   if (pop_size < 2) {
-    throw"pop_size < 2";
+    throw std::runtime_error("pop_size < 2");
   }
   if (freq_ancestor_1 >= 1) {
-    throw "p >= 1";
+    throw std::runtime_error("p >= 1");
   }
   if (freq_ancestor_1 <= 0) {
-    throw "p <= 0";
+    throw std::runtime_error("p <= 0");
   }
 
   std::vector< double> ll(distances.size());

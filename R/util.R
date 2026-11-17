@@ -51,11 +51,7 @@ apply_phasing_error <- function(output,
                                  n = 1,
                                  prob = error_rate)
 
-    to_flip <- focal_indices
-    if (length(focal_indices) > 1)
-      to_flip <- sample(focal_indices,
-                      size = sample_size,
-                      replace = FALSE)
+    to_flip <- focal_indices[sample.int(length(focal_indices), sample_size)]
 
     if (length(to_flip) > 0) {
       temp <- phased_data$anc_chrom_1[to_flip]

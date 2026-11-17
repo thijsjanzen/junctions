@@ -1,6 +1,7 @@
 #' Function to simulate data using a back crossing scheme
 #' @description Individual based simulation of the accumulation of junctions,
 #' under a back crossing scheme
+#' @param freq_ancestor_1 deprecated
 #' @param population_size Population size
 #' @param total_runtime Number of generations to simulate
 #' @param size_in_morgan Mean number of crossovers per meiosis (e.g. size in
@@ -24,6 +25,7 @@
 #'                        time_points = 1:5)
 #' @export
 sim_backcrossing <- function(population_size = 100,
+                             freq_ancestor_1 = NULL,
                              total_runtime = 5,
                              size_in_morgan = 1,
                              number_of_markers = 100,
@@ -33,6 +35,9 @@ sim_backcrossing <- function(population_size = 100,
     if (time_points == -1) {
       time_points <- seq(0, total_runtime, by = 1)
     }
+  }
+  if (!is.null(freq_ancestor_1)) {
+    stop("Frequency of ancestor 1 is deprecated")
   }
 
   output <- simulate_backcrossing_cpp(population_size,

@@ -19,7 +19,7 @@ number_of_junctions <- function(N = Inf,      # nolint
                                 C = 1,        # nolint
                                 t = 100) {
 
-  if (is.infinite(N) & is.infinite(R)) {
+  if (is.infinite(N) && is.infinite(R)) {
     # If both N and R are infinite, R gives
     # numerical problems using equation 12
     # to calculate K, so instead we use
