@@ -2,7 +2,6 @@
 #' @description Individual based simulation of the accumulation of junctions,
 #' under a back crossing scheme
 #' @param population_size Population size
-#' @param freq_ancestor_1 Frequency of ancestor 1 at t = 0
 #' @param total_runtime Number of generations to simulate
 #' @param size_in_morgan Mean number of crossovers per meiosis (e.g. size in
 #' Morgan of the chromosome)
@@ -25,7 +24,6 @@
 #'                        time_points = 1:5)
 #' @export
 sim_backcrossing <- function(population_size = 100,
-                             freq_ancestor_1 = 0.5,
                              total_runtime = 5,
                              size_in_morgan = 1,
                              number_of_markers = 100,
@@ -38,7 +36,6 @@ sim_backcrossing <- function(population_size = 100,
   }
 
   output <- simulate_backcrossing_cpp(population_size,
-                                      freq_ancestor_1,
                                       total_runtime,
                                       size_in_morgan,
                                       number_of_markers,

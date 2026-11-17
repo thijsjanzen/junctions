@@ -190,7 +190,7 @@ try {
   nlopt_set_min_objective(opt, objective, &optim_data);
 
   nlopt_set_xtol_rel(opt, 1e-1);
-  std::vector<double> x = {10};
+  std::vector<double> x = {0.2 * (lower_lim + upper_lim)};
   double minf;
   if (verbose) {
     Rcpp::Rcout << "starting optimisation\n";

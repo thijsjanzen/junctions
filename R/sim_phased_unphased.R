@@ -45,6 +45,10 @@ sim_phased_unphased <- function(pop_size = 100,
                                 error_rate = 0,
                                 num_threads = 1) {
 
+  if (pop_size < 2) stop("Need at least two individuals to do simulation")
+  if (num_indiv_sampled > pop_size) stop("Number of individuals sampled can
+                                         not exceed population size")
+
   RcppParallel::setThreadOptions(num_threads)
 
   time_points <- check_time_points(time_points, total_runtime)

@@ -21,7 +21,6 @@
 #include <Rcpp.h>
 
 Output doSimulation_backcrossing(int population_size,
-                                 double freq_ancestor_1,
                                  int total_runtime,
                                  double size_in_morgan,
                                  int number_of_markers,
@@ -88,7 +87,6 @@ Output doSimulation_backcrossing(int population_size,
 
 // [[Rcpp::export]]
 Rcpp::List simulate_backcrossing_cpp(int pop_size,
-                               double freq_ancestor_1,
                                int total_runtime,
                                double size_in_morgan,
                                int number_of_markers,
@@ -98,7 +96,6 @@ Rcpp::List simulate_backcrossing_cpp(int pop_size,
   rndgen.set_seed(seed);
 
   Output O = doSimulation_backcrossing(pop_size,
-                                       freq_ancestor_1,
                                        total_runtime,
                                        size_in_morgan,
                                        number_of_markers,
