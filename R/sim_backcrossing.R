@@ -39,6 +39,9 @@ sim_backcrossing <- function(population_size = 100,
   if (!is.null(freq_ancestor_1)) {
     stop("Frequency of ancestor 1 is deprecated")
   }
+  if (number_of_markers < 1) {
+    stop("number_of_markers has to be >= 1")
+  }
 
   output <- simulate_backcrossing_cpp(population_size,
                                       total_runtime,

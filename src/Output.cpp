@@ -171,6 +171,7 @@ int detect_junctions(const Fish_inf& indiv,
     int number_of_junctions = 0;
     int number_heterozygous = 0;
 
+    if (markers.empty()) return 0;
     // zero entry is not included in the loop
     if (genotypes[0] == 1) number_heterozygous++;
 

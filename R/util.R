@@ -65,6 +65,13 @@ apply_phasing_error <- function(output,
 
 check_time_points <- function(time_points, max_time) {
 
+  if (length(time_points) == 1 && time_points == -1) {
+    return(seq(0, max_time, by = 1))
+  }
+  if (any(time_points < 0 | time_points != round(time_points))) {
+    stop("time_points must be non-negative whole numbers (or -1 for all)")
+  }
+
   within_range <- time_points <= max_time
   time_points <- time_points[within_range]
   if (length(time_points) < 1) {
