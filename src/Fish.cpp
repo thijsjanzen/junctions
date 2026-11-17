@@ -194,11 +194,6 @@ void Recombine_fin(std::vector<bool>* offspring,
     // store L, so we avoid repeated calls of the function .size()
     int L = static_cast<int>(chromosome1.size());
 
-    if (numberRecombinations > L - 1) {
-        numberRecombinations = L - 1;
-    }
-
-
     while (recomPos.size() < numberRecombinations) {
         int pos = getRecomPos(L, rndgen);
         recomPos.push_back(pos);

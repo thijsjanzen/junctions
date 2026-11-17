@@ -30,7 +30,7 @@ number_of_junctions_markers <- function(N = Inf,       # nolint
   if (length(marker_distribution) < 2) {
     stop("not provided a vector containing sufficient marker locations")
   }
-  marker_distribution <- sort(marker_distribution)
+
   number_of_junctions <- 0
   for (i in 2:length(marker_distribution)) {
     di <- marker_distribution[i] - marker_distribution[i - 1]

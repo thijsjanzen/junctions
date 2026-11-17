@@ -43,16 +43,7 @@ sim_phased_unphased <- function(pop_size = 100,
                                 record_true_junctions = FALSE,
                                 num_indiv_sampled = 10,
                                 coverage = 1,
-                                error_rate = 0,
-                                seed = 42) {
-
-  if (pop_size == 1) {
-    stop("Population has to be larger than 1 individual")
-  }
-  if (num_indiv_sampled > pop_size) {
-    num_indiv_sampled = pop_size
-    warning("Number of individuals sampled is capped at population size")
-  }
+                                error_rate = 0) {
 
   RcppParallel::setThreadOptions(num_threads)
 
@@ -69,8 +60,7 @@ sim_phased_unphased <- function(pop_size = 100,
                                     verbose,
                                     record_true_junctions,
                                     num_indiv_sampled,
-                                    num_threads,
-                                    seed)
+                                    num_threads)
 
   if (coverage != 1 || error_rate != 0) {
     phasing_result <- apply_phasing_error(output, coverage, error_rate)

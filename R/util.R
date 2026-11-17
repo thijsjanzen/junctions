@@ -18,7 +18,7 @@ get_num_markers <- function(markers) {
       return(markers)
     }
   } else {
-    markers <- sort(markers)
+
     if (max(markers) != 1) {
       markers <- markers / max(markers)
     }

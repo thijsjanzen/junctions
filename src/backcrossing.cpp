@@ -21,6 +21,7 @@
 #include <Rcpp.h>
 
 Output doSimulation_backcrossing(int population_size,
+                                 double freq_ancestor_1,
                                  int total_runtime,
                                  double size_in_morgan,
                                  int number_of_markers,
@@ -48,7 +49,7 @@ Output doSimulation_backcrossing(int population_size,
   // but shouldn't cost much time anyway.
   for (int i = 0; i < population_size; ++i) {
     Fish_inf focal_parent1 = parent1;
-    Fish_inf focal_parent2 = parent1;
+    Fish_inf focal_parent2 = parent2;
 
     Pop.push_back(mate_inf(focal_parent1, focal_parent2,
                            size_in_morgan, rndgen));
@@ -87,6 +88,7 @@ Output doSimulation_backcrossing(int population_size,
 
 // [[Rcpp::export]]
 Rcpp::List simulate_backcrossing_cpp(int pop_size,
+                               double freq_ancestor_1,
                                int total_runtime,
                                double size_in_morgan,
                                int number_of_markers,
@@ -96,6 +98,7 @@ Rcpp::List simulate_backcrossing_cpp(int pop_size,
   rndgen.set_seed(seed);
 
   Output O = doSimulation_backcrossing(pop_size,
+                                       freq_ancestor_1,
                                        total_runtime,
                                        size_in_morgan,
                                        number_of_markers,

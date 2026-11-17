@@ -16,8 +16,7 @@ sim_phased_unphased(
   record_true_junctions = FALSE,
   num_indiv_sampled = 10,
   coverage = 1,
-  error_rate = 0,
-  seed = 42
+  error_rate = 0
 )
 }
 \arguments{
