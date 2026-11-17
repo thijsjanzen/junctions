@@ -51,7 +51,9 @@ apply_phasing_error <- function(output,
                                  n = 1,
                                  prob = error_rate)
 
-    to_flip <- sample(focal_indices,
+    to_flip <- focal_indices
+    if (length(focal_indices) > 1)
+      to_flip <- sample(focal_indices,
                       size = sample_size,
                       replace = FALSE)
 

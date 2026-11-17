@@ -21,6 +21,7 @@
 #include <random>
 #include <vector>
 #include <algorithm>
+#include <numeric>
 
 struct rnd_t {
   std::mt19937_64 rndgen_;
@@ -73,11 +74,13 @@ struct emp_genome {
 
   emp_genome(const emp_genome& other) {
     cdf_ = other.cdf_;
+    pos = other.pos;
   }
 
   emp_genome& operator=(const emp_genome& other) {
     if (this != &other) {
       cdf_ = other.cdf_;
+      pos = other.pos;
     }
     return *this;
   }

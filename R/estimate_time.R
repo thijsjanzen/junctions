@@ -23,13 +23,16 @@ estimate_time <- function(J = NA,          # nolint
     stop("ERROR! did you forget to provide J?\n")
   }
 
-  if (is.infinite(N) && is.infinite(R)) {
+  if (is.infinite(N) & is.infinite(R)) {
     # following equation 1
     t <- J / (H_0 * C)
     return(t)
   }
 
   K <- junctions::calc_k(N, R, H_0, C)    # nolint
+
+  if (J >= K) warning("NA value generated because the number of junctions is
+                      higher than the expected maximum for this chromosome")
 
   u <- 1 - 1 / (2 * N) - C / R
 

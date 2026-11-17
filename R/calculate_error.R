@@ -31,12 +31,15 @@ time_error <- function(t = NA,
 
     u <- 1 - 1 / (2 * N) - C / R
 
+    if (u ^ x < 1 / K) warning("time too small to calculate error")
+
     error <- log(u ^ x - 1 / K) / (log(u) * x) - 1
     # the flag relative determines whether we want the error
     # relative to K, or in absolute generations (relative = FALSE)
     if (relative) return(error)
     if (!relative) return(x * error)
   }
+
 
   output <- c()
   for (i in seq_along(t)) {

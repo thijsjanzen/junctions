@@ -228,13 +228,14 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   double t,
                                   bool phased,
                                   bool verbose = false) {
+try {
   auto num_threads = get_rcpp_num_threads();
   auto global_control =
     tbb::global_control(tbb::global_control::max_allowed_parallelism,
                         num_threads);
 
   if (local_anc_matrix.ncol() != 3) {
-    Rcpp::stop("local ancestry matrix has to have 3 columns");
+    throw "local ancestry matrix has to have 3 columns";
   }
 
   std::vector< chromosome > chromosomes = create_chromosomes(local_anc_matrix,
@@ -248,6 +249,13 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
   }
 
   return std::accumulate(ll.begin(), ll.end(), 0.0);
+
+} catch(std::exception &ex) {
+  forward_exception_to_r(ex);
+} catch(...) {
+  Rcpp::stop("c++ exception (unknown reason)");
+}
+ return NA_REAL;
 }
 
 std::vector< double > single_state_cpp(int t, int N, double d) {
@@ -470,8 +478,7 @@ double calc_ll(double di,
                bool condition,
                bool phased) {
   if (di < 0) {
-    Rcpp::Rcout << "di < 0\n";
-    return(-1e20);
+    throw "di < 0";
   }
 
   std::vector<  double > seven_states = single_state_cpp(t, pop_size, di);
@@ -507,16 +514,16 @@ double chromosome::calculate_likelihood(double t,
                                         int pop_size,
                                         double freq_ancestor_1) const {
   if (t < 1) {
-    Rcpp::stop("t < 1");
+    throw "t < 1";
   }
   if (pop_size < 2) {
-    Rcpp::stop("pop_size < 2");
+    throw"pop_size < 2";
   }
   if (freq_ancestor_1 >= 1) {
-    Rcpp::stop("p >= 1");
+    throw "p >= 1";
   }
   if (freq_ancestor_1 <= 0) {
-    Rcpp::stop("p <= 0");
+    throw "p <= 0";
   }
 
   std::vector< double> ll(distances.size());

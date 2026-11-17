@@ -28,13 +28,11 @@
 
 int getRecomPos(int L,
                 rnd_t* rnd) {
-    int pos = -100;
-    int index = rnd->random_number(L);
+    int pos = rnd->random_number(L);
     // exclude the ends of the chromosome
-    while (index == 0 || index == L) {
-        index = rnd->random_number(L);
+    while (pos == 0) {
+        pos = rnd->random_number(L);
     }
-    pos = index;
 
     return pos;
 }
@@ -284,6 +282,8 @@ Fish_fin mate_fin(const Fish_fin& A,
 /////////////////////////////////////////////
 
 junction::junction() {
+    pos = 0.0;
+    right = 0;
 }
 
 junction::junction(double loc, int A) : pos(loc), right(A) {
@@ -315,32 +315,6 @@ Fish_fin::Fish_fin(const bool initLoc, const int genomeSize) {
     chromosome2.clear();
     chromosome1.resize(genomeSize, initLoc);
     chromosome2.resize(genomeSize, initLoc);
-}
-
-Fish_inf::Fish_inf(Fish_inf&& other) {
-    chromosome1 = other.chromosome1;
-    chromosome2 = other.chromosome2;
-}
-
-Fish_inf& Fish_inf::operator=(Fish_inf&& other) {
-    if (this != &other) {
-        chromosome1 = other.chromosome1;
-        chromosome2 = other.chromosome2;
-    }
-    return *this;
-}
-
-Fish_inf::Fish_inf(const Fish_inf& other) {
-    chromosome1 = other.chromosome1;
-    chromosome2 = other.chromosome2;
-}
-
-Fish_inf& Fish_inf::operator=(const Fish_inf& other) {
-    if (this != &other) {
-        chromosome1 = other.chromosome1;
-        chromosome2 = other.chromosome2;
-    }
-    return *this;
 }
 
 

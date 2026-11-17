@@ -65,10 +65,10 @@ std::vector<bool> detectJunctions(const std::vector<junction>& G,
     size_t j = 0;
     for (size_t i = 0; i < markers.size(); ++i) {
         double focalPos = markers[i];
-        for (; j <= (G.size() - 1); ++j) {
+        for (; j < (G.size() - 1); ++j) {
             double left = G[j].pos;
             double right = G[j + 1].pos;
-            if (left <= focalPos && right >= focalPos) {
+            if (left <= focalPos && right > focalPos) {
                 output[i] = static_cast<bool>(G[j].right);
                 break;
             }
@@ -99,10 +99,10 @@ std::vector<int> detect_ancestry(const std::vector< junction >& G,
     int j = 0;
     for (int i = 0; i < static_cast<int>(markers.size()); ++i) {
         double focalPos = markers[i];
-        for (; j <= (G.size() - 1); ++j) {
+        for (; j < (G.size() - 1); ++j) {
             double left = G[j].pos;
             double right = G[j + 1].pos;
-            if (left <= focalPos && right >= focalPos) {
+            if (left <= focalPos && right > focalPos) {
                 output[i] = static_cast<int>(G[j].right);
                 break;
             }
