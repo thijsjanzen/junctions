@@ -11,19 +11,18 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // simulate_backcrossing_cpp
-Rcpp::List simulate_backcrossing_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, int number_of_markers, Rcpp::NumericVector time_points, int seed);
-RcppExport SEXP _junctions_simulate_backcrossing_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP number_of_markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP) {
+Rcpp::List simulate_backcrossing_cpp(int pop_size, int total_runtime, double size_in_morgan, int number_of_markers, Rcpp::NumericVector time_points, int seed);
+RcppExport SEXP _junctions_simulate_backcrossing_cpp(SEXP pop_sizeSEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP number_of_markersSEXP, SEXP time_pointsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type pop_size(pop_sizeSEXP);
-    Rcpp::traits::input_parameter< double >::type freq_ancestor_1(freq_ancestor_1SEXP);
     Rcpp::traits::input_parameter< int >::type total_runtime(total_runtimeSEXP);
     Rcpp::traits::input_parameter< double >::type size_in_morgan(size_in_morganSEXP);
     Rcpp::traits::input_parameter< int >::type number_of_markers(number_of_markersSEXP);
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type time_points(time_pointsSEXP);
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(simulate_backcrossing_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, number_of_markers, time_points, seed));
+    rcpp_result_gen = Rcpp::wrap(simulate_backcrossing_cpp(pop_size, total_runtime, size_in_morgan, number_of_markers, time_points, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -97,8 +96,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // sim_phased_unphased_cpp
-Rcpp::List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, Rcpp::NumericVector markers, Rcpp::NumericVector time_points, bool verbose, bool record_true_junctions, int num_indiv_sampled, int num_threads);
-RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP time_pointsSEXP, SEXP verboseSEXP, SEXP record_true_junctionsSEXP, SEXP num_indiv_sampledSEXP, SEXP num_threadsSEXP) {
+Rcpp::List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, Rcpp::NumericVector markers, Rcpp::NumericVector time_points, bool verbose, bool record_true_junctions, int num_indiv_sampled, size_t num_threads, int seed);
+RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP time_pointsSEXP, SEXP verboseSEXP, SEXP record_true_junctionsSEXP, SEXP num_indiv_sampledSEXP, SEXP num_threadsSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -111,19 +110,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< bool >::type record_true_junctions(record_true_junctionsSEXP);
     Rcpp::traits::input_parameter< int >::type num_indiv_sampled(num_indiv_sampledSEXP);
-    Rcpp::traits::input_parameter< int >::type num_threads(num_threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled, num_threads));
+    Rcpp::traits::input_parameter< size_t >::type num_threads(num_threadsSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled, num_threads, seed));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 7},
+    {"_junctions_simulate_backcrossing_cpp", (DL_FUNC) &_junctions_simulate_backcrossing_cpp, 6},
     {"_junctions_estimate_time_cpp", (DL_FUNC) &_junctions_estimate_time_cpp, 9},
     {"_junctions_loglikelihood_unphased_cpp", (DL_FUNC) &_junctions_loglikelihood_unphased_cpp, 8},
     {"_junctions_sim_fin_chrom", (DL_FUNC) &_junctions_sim_fin_chrom, 6},
     {"_junctions_sim_inf_chrom", (DL_FUNC) &_junctions_sim_inf_chrom, 6},
-    {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 10},
+    {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 11},
     {NULL, NULL, 0}
 };
 
