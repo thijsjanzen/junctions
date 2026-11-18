@@ -4,54 +4,54 @@ author: "Thijs Janzen"
 date: "5/6/2021"
 output: rmarkdown::html_vignette
 vignette: >
-%\VignetteIndexEntry{Overview_of_the_junctions_package}
+  %\VignetteIndexEntry{Overview_of_the_junctions_package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  ---
+---
   
-  ```{r setup, include=FALSE}
-  knitr::opts_chunk$set(fig.width = 7, fig.height = 7, echo = TRUE)
-  library(junctions)
-  require(tidyr)
-  require(dplyr)
-  require(ggplot2)
-  require(magrittr)
-  ```
-  
-  # Overview of the junctions package
-  
-  The junctions package has since it's creation in 2018 been updated with a range
-  of extended functionality, spawning many associated functions. This vignette is
-  aimed at providing a clear overview of the several functions available, and 
-  displaying how you can potentially use these functions.
-  
-  ## Simulation functions
-  
-  Because many of the other functions rely on input data, we will first explore 
-  functions that simulate such data. These functions simulate the accumulation of 
-  junctions in a Wright-Fisher model, with random mating, fixed population size, 
-  non-overlapping generations and recombination modeled with the mean number of 
-  crossovers drawn from a Poisson distribution with the size in Morgan of the 
-  chromosome as the mean of the distribution. The location of the crossovers is 
-  drawn from a uniform distribution across the chromosome. In all simulations, 
-  only one pair of chromosomes per individual is simulated.
-  
-  ### Phased and unphased simulations
-  These are the most recent additions to the package, where the user can simulate
-  the process of junction accumulation, and the detection of ancestry at a given 
-  set of markers. These simulations are designed to reflect the type of data one 
-  might get upon sequencing individuals. Simulations aimed more at matching 
-  analytical results can be found later on. The data is returned in long data 
-  format, and the user can, if required, superimpose phasing inaccuracy or reduced
-  marker coverage. 
-  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.width = 7, fig.height = 7, echo = TRUE)
+library(junctions)
+require(tidyr)
+require(dplyr)
+require(ggplot2)
+require(magrittr)
+```
+
+# Overview of the junctions package
+
+The junctions package has since it's creation in 2018 been updated with a range
+of extended functionality, spawning many associated functions. This vignette is
+aimed at providing a clear overview of the several functions available, and 
+displaying how you can potentially use these functions.
+
+## Simulation functions
+
+Because many of the other functions rely on input data, we will first explore 
+functions that simulate such data. These functions simulate the accumulation of 
+junctions in a Wright-Fisher model, with random mating, fixed population size, 
+non-overlapping generations and recombination modeled with the mean number of 
+crossovers drawn from a Poisson distribution with the size in Morgan of the 
+chromosome as the mean of the distribution. The location of the crossovers is 
+drawn from a uniform distribution across the chromosome. In all simulations, 
+only one pair of chromosomes per individual is simulated.
+
+### Phased and unphased simulations
+These are the most recent additions to the package, where the user can simulate
+the process of junction accumulation, and the detection of ancestry at a given 
+set of markers. These simulations are designed to reflect the type of data one 
+might get upon sequencing individuals. Simulations aimed more at matching 
+analytical results can be found later on. The data is returned in long data 
+format, and the user can, if required, superimpose phasing inaccuracy or reduced
+marker coverage. 
+
 ```{r phased unphased simulation}
-  simulated_pop <- junctions::sim_phased_unphased(pop_size = 1000,
-freq_ancestor_1 = 0.5,
-total_runtime = 100,
-size_in_morgan = 1,
-markers = sort(runif(n = 1000, 0, 1)),
-time_points = seq(0, 100, by = 10))
+simulated_pop <- junctions::sim_phased_unphased(pop_size = 1000,
+                                                freq_ancestor_1 = 0.5,
+                                                total_runtime = 100,
+                                                size_in_morgan = 1,
+                                                markers = sort(runif(n = 1000, 0, 1)),
+                                                time_points = seq(0, 100, by = 10))
 ```
 
 ### Mathematical simulations

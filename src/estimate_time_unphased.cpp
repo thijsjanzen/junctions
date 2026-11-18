@@ -215,7 +215,8 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
 
   nlopt_set_min_objective(opt, objective, &optim_data);
 
-  nlopt_set_xtol_rel(opt, 1e-1);
+  nlopt_set_xtol_abs1(opt, 0.5);
+
   // we initialize a bit closer to 0, as often this makes more sense
   std::vector<double> x = {lower_lim + 0.2 * (upper_lim - lower_lim)};
   double minf;

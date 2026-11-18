@@ -98,7 +98,7 @@ systematically:
 
 ```{r, infer time pop size}
 found <- c()
-for (N in c(100, 1000, 10000, 100000, 1e6, 1e7)) {
+for (N in 10^seq(1, 7, length.out = 20)) {
   admixture_time_phased <- junctions::estimate_time_diploid(
                                               ancestry_information =
                                                  cbind(1,
@@ -112,10 +112,13 @@ for (N in c(100, 1000, 10000, 100000, 1e6, 1e7)) {
                           admixture_time_phased$loglikelihood[[1]]))
 }
 found
-plot(found[, 2] ~ found[, 1], log = "x",
+plot(found[, 2] ~ found[, 1], log = "x", type = "l",
+     #ylim = c(90, 110),
      xlab = "Population Size",
      ylab = "Admixture Time")
-plot((-1 * found[, 3]) ~ found[, 1], log = "x",
+points(found[, 2] ~ found[, 1])
+
+plot((found[, 3]) ~ found[, 1], log = "x", type = "l",
      xlab = "Population Size",
      ylab = "Log Likelihood")
 ```
