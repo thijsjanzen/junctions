@@ -23,6 +23,10 @@
 #' @param num_threads num_threads, default is all threads. 5 threads is
 #' recommended.
 #' @param verbose display intermediate output? Default = FALSE
+#' @return a tibble with the estimated time and its log likelihood. Depending
+#' on analysis_type, columns identifying the individual and/or chromosome are
+#' included, using the identifiers from the input. For analysis_type "all" only
+#' time and loglikelihood are returned.
 #' @export
 estimate_time_diploid <- function(ancestry_information,
                                   analysis_type = "individuals",
@@ -34,207 +38,73 @@ estimate_time_diploid <- function(ancestry_information,
                                   num_threads = 1,
                                   verbose = FALSE) {
 
-  if (!(analysis_type %in%
-         c("all", "individuals", "chromosomes", "separate"))) {
-    stop("analysis type not known,
-         did you perhaps spell individual instead of individuals?")
+  if (length(analysis_type) != 1 ||
+      !(analysis_type %in% c("all", "individuals", "chromosomes", "separate"))) {
+    stop("analysis_type must be one of \"all\", \"individuals\", ",
+         "\"chromosomes\" or \"separate\"")
+  }
+  if (lower_lim >= upper_lim) {
+    stop("lower_lim has to be smaller than upper_lim")
   }
 
-  if (!is.matrix(ancestry_information)) {
-    ancestry_information <- as.matrix(ancestry_information)
+  input <- prepare_diploid_input(ancestry_information)
+  m <- input$data
+  RcppParallel::setThreadOptions(num_threads)
+
+  # rows of m are sorted by individual, chromosome and position.
+  # group_col is passed to C++ as the chromosome identifier: C++ starts a new
+  # chromosome whenever this value changes.
+  fit <- function(rows, group_col) {
+    local_anc_data <- m[rows, , drop = FALSE]
+    estimate_time_cpp(local_anc_matrix =
+                        cbind(group_col[rows], local_anc_data[, 4:5,
+                                                              drop = FALSE]),
+                      locations = local_anc_data[, 3],
+                      pop_size = pop_size,
+                      freq_ancestor_1 = freq_ancestor_1,
+                      lower_lim = lower_lim,
+                      upper_lim = upper_lim,
+                      verbose = verbose,
+                      phased = phased)
   }
 
-  time_estimates <- c()
-  if (analysis_type == "separate") {
-    time_estimates <- estimate_time_separate(ancestry_information,
-                                        pop_size,
-                                        freq_ancestor_1,
-                                        lower_lim,
-                                        upper_lim,
-                                        verbose,
-                                        phased,
-                                        num_threads)
-  }
-  if (analysis_type == "individuals") {
-    time_estimates <- estimate_time_individuals(ancestry_information,
-                                                pop_size,
-                                                freq_ancestor_1,
-                                                lower_lim,
-                                                upper_lim,
-                                                verbose,
-                                                phased,
-                                                num_threads)
-  }
-  if (analysis_type == "chromosomes") {
-    time_estimates <- estimate_time_chromosomes(ancestry_information,
-                                                pop_size,
-                                                freq_ancestor_1,
-                                                lower_lim,
-                                                upper_lim,
-                                                verbose,
-                                                phased,
-                                                num_threads)
-  }
+  indiv_code <- m[, 1]
+  chrom_code <- m[, 2]
+  # unique id for each chromosome of each individual
+  chrom_id <- cumsum(c(TRUE, diff(indiv_code) != 0 | diff(chrom_code) != 0))
+
   if (analysis_type == "all") {
-    time_estimates <- estimate_time_all(ancestry_information,
-                                        pop_size,
-                                        freq_ancestor_1,
-                                        lower_lim,
-                                        upper_lim,
-                                        verbose,
-                                        phased,
-                                        num_threads)
+    result <- fit(seq_len(nrow(m)), chrom_id)
+    return(tibble::tibble(time = result$time,
+                          loglikelihood = result$likelihood))
   }
 
+  if (analysis_type == "individuals") {
+    groups <- unique(indiv_code)
+    results <- lapply(groups, function(i) fit(which(indiv_code == i),
+                                              chrom_id))
+    output <- tibble::tibble(individual = input$indiv_levels[groups])
+  }
 
-  output <- tibble::as_tibble(time_estimates)
+  if (analysis_type == "chromosomes") {
+    groups <- sort(unique(chrom_code))
+    results <- lapply(groups, function(i) fit(which(chrom_code == i),
+                                              chrom_id))
+    output <- tibble::tibble(chromosome = input$chrom_levels[groups])
+  }
+
+  if (analysis_type == "separate") {
+    groups <- unique(chrom_id)
+    results <- lapply(groups, function(i) fit(which(chrom_id == i),
+                                              chrom_id))
+    first_row <- match(groups, chrom_id)
+    output <- tibble::tibble(
+      individual = input$indiv_levels[indiv_code[first_row]],
+      chromosome = input$chrom_levels[chrom_code[first_row]])
+  }
+
+  output$time <- vapply(results, function(r) r$time, numeric(1))
+  output$loglikelihood <- vapply(results, function(r) r$likelihood,
+                                 numeric(1))
   return(output)
-}
-
-#' @keywords internal
-estimate_time_individuals <- function(ancestry_information,
-                                      pop_size,
-                                      freq_ancestor_1,
-                                      lower_lim,
-                                      upper_lim,
-                                      verbose,
-                                      phased,
-                                      num_threads) {
-  time_estimates <- c()
-  RcppParallel::setThreadOptions(num_threads)
-
-  for (indiv in unique(ancestry_information[, 1])) {
-    local_anc_data <- subset(ancestry_information,
-                             ancestry_information[, 1] == indiv)
-
-    result <- estimate_time_cpp(local_anc_matrix =
-                                  as.matrix(local_anc_data[, c(2, 4, 5)]),
-                                locations = local_anc_data[, 3],
-                                pop_size = pop_size,
-                                freq_ancestor_1 = freq_ancestor_1,
-                                lower_lim = lower_lim,
-                                upper_lim = upper_lim,
-                                verbose = verbose,
-                                phased = phased)
-    time_estimates <- rbind(time_estimates, c(indiv,
-                                              result$time, result$likelihood))
-  }
-  colnames(time_estimates) <- c("individual", "time", "loglikelihood")
-  return(time_estimates)
-}
-
-
-#' @keywords internal
-estimate_time_chromosomes <- function(ancestry_information,
-                                      pop_size,
-                                      freq_ancestor_1,
-                                      lower_lim,
-                                      upper_lim,
-                                      verbose,
-                                      phased,
-                                      num_threads) {
-  RcppParallel::setThreadOptions(num_threads)
-  time_estimates <- c()
-  for (chrom in unique(ancestry_information[, 2])) {
-    local_anc_data <- subset(ancestry_information,
-                             ancestry_information[, 2] == chrom)
-
-    result <- estimate_time_cpp(local_anc_matrix =
-                                  as.matrix(local_anc_data[, c(1, 4, 5)]),
-                                locations = local_anc_data[, 3],
-                                pop_size = pop_size,
-                                freq_ancestor_1 = freq_ancestor_1,
-                                lower_lim = lower_lim,
-                                upper_lim = upper_lim,
-                                verbose = verbose,
-                                phased = phased)
-    time_estimates <- rbind(time_estimates, c(chrom,
-                                              result$time, result$likelihood))
-  }
-  colnames(time_estimates) <- c("chromosome", "time", "loglikelihood")
-  return(time_estimates)
-}
-
-
-#' @keywords internal
-estimate_time_separate <- function(ancestry_information,
-                                   pop_size,
-                                   freq_ancestor_1,
-                                   lower_lim,
-                                   upper_lim,
-                                   verbose,
-                                   phased,
-                                   num_threads) {
-  RcppParallel::setThreadOptions(num_threads)
-  time_estimates <- c()
-  for (indiv in unique(ancestry_information[, 1])) {
-    focal_anc_data <- subset(ancestry_information,
-                             ancestry_information[, 1] == indiv)
-    for (chrom in unique(focal_anc_data[, 2])) {
-      local_anc_data <- subset(focal_anc_data,
-                               focal_anc_data[, 2] == chrom)
-
-      # could still be empty.
-      if (length(local_anc_data[, 1]) > 0) {
-
-        result <- estimate_time_cpp(local_anc_matrix =
-                                      as.matrix(local_anc_data[, c(2, 4, 5)]),
-                                    locations = local_anc_data[, 3],
-                                    pop_size = pop_size,
-                                    freq_ancestor_1 = freq_ancestor_1,
-                                    lower_lim = lower_lim,
-                                    upper_lim = upper_lim,
-                                    verbose = verbose,
-                                    phased = phased)
-        time_estimates <- rbind(time_estimates, c(indiv, chrom,
-                                                  result$time,
-                                                  result$likelihood))
-      }
-    }
-  }
-  colnames(time_estimates) <- c("individual", "chromosome",
-                                "time", "loglikelihood")
-  return(time_estimates)
-}
-
-#' @keywords internal
-estimate_time_all <- function(ancestry_information,
-                              pop_size,
-                              freq_ancestor_1,
-                              lower_lim,
-                              upper_lim,
-                              verbose,
-                              phased,
-                              num_threads) {
-  time_estimates <- c()
-  RcppParallel::setThreadOptions(num_threads)
-  # indiv, chrom, pos, anc1, anc2
-
-  cnt <- max(unique(ancestry_information[, 2])) + 1
-  for (indiv in unique(ancestry_information[, 1])) {
-    indices <- which(ancestry_information[, 1] == indiv)
-    b <- ancestry_information[indices, ]
-    chroms <- unique(b[, 2])
-    chroms2 <- cnt + chroms
-    cnt <- cnt + length(chroms2)
-    for (i in seq_along(chroms)) {
-      local_indices <- which(ancestry_information[indices, 2] == chroms[i])
-      ancestry_information[local_indices, 2] <- chroms2[i]
-    }
-  }
-
-
-  result <- estimate_time_cpp(local_anc_matrix =
-                                as.matrix(ancestry_information[, c(2, 4, 5)]),
-                              locations = ancestry_information[, 3],
-                              pop_size = pop_size,
-                              freq_ancestor_1 = freq_ancestor_1,
-                              lower_lim = lower_lim,
-                              upper_lim = upper_lim,
-                              verbose = verbose,
-                              phased = phased)
-  time_estimates <- rbind(time_estimates, c(indiv,
-                                            result$time, result$likelihood))
-  colnames(time_estimates) <- c("individual", "time", "loglikelihood")
-  return(time_estimates)
 }

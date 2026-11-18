@@ -18,18 +18,19 @@ number_of_junctions <- function(N = Inf,      # nolint
                                 H_0 = 0.5,    # nolint
                                 C = 1,        # nolint
                                 t = 100) {
-
-  if (is.infinite(N) && is.infinite(R)) {
-    # If both N and R are infinite, R gives
-    # numerical problems using equation 12
-    # to calculate K, so instead we use
-    # equation 1
-    jt <- H_0 * C * t
-    return(jt)
-  }
+  args <- recycle_args(N, R, H_0, C, t)
+  N <- args[[1]]  # nolint
+  R <- args[[2]]  # nolint
+  H_0 <- args[[3]]  # nolint
+  C <- args[[4]]  # nolint
+  t <- args[[5]]
 
   K <- junctions::calc_k(N, R, H_0, C)   # nolint
-
   jt <- K - K * (1 - H_0 * C / K) ^ t
+
+  # If both N and R are infinite, K is infinite and equation 12
+  # gives numerical problems, so instead we use equation 1
+  both_inf <- is.infinite(N) & is.infinite(R)
+  jt[both_inf] <- H_0[both_inf] * C[both_inf] * t[both_inf]
   return(jt)
 }

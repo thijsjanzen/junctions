@@ -19,7 +19,8 @@ log_likelihood_haploid <- function(ancestry_matrix,
   if (length(t) == 1) {
     ll <- rep(0, num_chrom)
     for (i in seq_along(chrom)) {
-      focal_chrom <- subset(ancestry_matrix, ancestry_matrix[, 1] == chrom[i])
+      focal_chrom <- ancestry_matrix[ancestry_matrix[, 1] == chrom[i], ,
+                                    drop = FALSE]
       ll[i] <- calc_ll_haploid(focal_chrom, N, freq_ancestor_1, t)
     }
     return(sum(ll))
@@ -29,7 +30,8 @@ log_likelihood_haploid <- function(ancestry_matrix,
     for (i in seq_along(t)) {
       ll <- rep(0, num_chrom)
       for (c in seq_along(chrom)) {
-        focal_chrom <- subset(ancestry_matrix, ancestry_matrix[, 1] == chrom[c])
+        focal_chrom <- ancestry_matrix[ancestry_matrix[, 1] == chrom[c], ,
+                                      drop = FALSE]
         ll[c] <- calc_ll_haploid(focal_chrom, N, freq_ancestor_1, t[i])
       }
       output_ll[i] <- sum(ll)

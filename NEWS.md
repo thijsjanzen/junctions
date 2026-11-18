@@ -3,7 +3,22 @@
 This package provides individual based simulations in order to simulate the accumulation of junctions over time, both for chromosomes with a finite and an infinite number of recombination sites. Furthermore, the package provides mathematical tools to verify the outcomes of the individual based simulations.
 
 ## version 2.2.0
-- removed the argument freq_ancestor_1 from sim_backcr
+- removed the argument freq_ancestor_1 from sim_backcrossing
+- sim_phased_unphased gains a seed argument; results are reproducible
+  (also with set.seed()) independently of the number of threads
+- num_threads = -1 no longer hangs
+- fixed crashes for chromosomes with a single marker, an empty set of
+  time points and backcrossing without markers
+- fixed ancestry at a marker placed exactly at the end of the chromosome
+- user supplied marker positions are no longer rescaled, unless they exceed 1
+- estimate_time_diploid: input is validated (ancestry has to be 0/1, no NA),
+  rows are sorted, character identifiers are supported and returned, and
+  chromosomes of different individuals are never merged with
+  analysis_type = "all". For analysis_type = "all" the individual column was
+  removed from the output.
+- errors in the C++ code are passed to R with an informative message
+- number_of_junctions, calc_k, estimate_time, calculate_mat and time_error
+  are vectorised over all arguments
 
 
 ## version 2.1.4

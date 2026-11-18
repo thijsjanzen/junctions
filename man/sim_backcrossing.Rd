@@ -6,6 +6,7 @@
 \usage{
 sim_backcrossing(
   population_size = 100,
+  freq_ancestor_1 = NULL,
   total_runtime = 5,
   size_in_morgan = 1,
   number_of_markers = 100,
@@ -15,6 +16,8 @@ sim_backcrossing(
 }
 \arguments{
 \item{population_size}{Population size}
+
+\item{freq_ancestor_1}{deprecated}
 
 \item{total_runtime}{Number of generations to simulate}
 

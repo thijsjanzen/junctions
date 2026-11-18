@@ -17,7 +17,13 @@ calculate_mat <- function(N = Inf,   # nolint
                           R = Inf,   # nolint
                           H_0 = 0.5, # nolint
                           C = 1) {   # nolint
-  if (is.infinite(N) && is.infinite(R)) {
+  args <- recycle_args(N, R, H_0, C)
+  N <- args[[1]]  # nolint
+  R <- args[[2]]  # nolint
+  H_0 <- args[[3]]  # nolint
+  C <- args[[4]]  # nolint
+
+  if (any(is.infinite(N) & is.infinite(R))) {
     stop("can not estimate MAT for both N and R infinite")
   }
 

@@ -17,6 +17,9 @@
 #include <iostream>
 
 #include <stdexcept>
+#include <memory>
+#include <string>
+#include <type_traits>
 
 #include "tbb_stub.h"                // NOLINT [build/include_subdir]
 
@@ -70,7 +73,7 @@ struct chromosome {
         if (i > 0) {
           distances.push_back(loc[i] - loc[i - 1]);
           if (loc[i] - loc[i - 1] < 0) {
-             throw std::runtime_error("no negative distances allowed");
+            throw std::runtime_error("no negative distances allowed");
           }
         }
 
@@ -79,7 +82,7 @@ struct chromosome {
         }
       }
     }
-             }
+  }
   double calculate_likelihood(double t,
                               int pop_size,
                               double freq_ancestor_1) const;
@@ -91,9 +94,11 @@ struct nlopt_f_data {
                double freq_anc) : chromosomes(c), N(pop_size), p(freq_anc) {
   }
 
-  const std::vector< chromosome > chromosomes;
+  const std::vector< chromosome >& chromosomes;
   const int N;
   const double p;
+  nlopt_opt opt = nullptr;
+  std::string error;   // set when the objective fails, see objective()
 };
 
 double objective(unsigned int n,
@@ -101,15 +106,26 @@ double objective(unsigned int n,
                  double*,
                  void* func_data) {
   auto psd = reinterpret_cast<nlopt_f_data*>(func_data);
-  std::vector<double> ll(psd->chromosomes.size());
-  for (size_t i = 0; i < psd->chromosomes.size(); ++i) {
-    ll[i] = psd->chromosomes[i].calculate_likelihood(x[0], psd->N, psd->p);
+  // nlopt is C code: an exception must not propagate through it. Errors are
+  // stored, the optimisation is stopped, and the error is rethrown after
+  // nlopt_optimize returns.
+  try {
+    std::vector<double> ll(psd->chromosomes.size());
+    for (size_t i = 0; i < psd->chromosomes.size(); ++i) {
+      ll[i] = psd->chromosomes[i].calculate_likelihood(x[0], psd->N, psd->p);
+    }
+    auto sum_ll = -std::accumulate(ll.begin(), ll.end(), 0.0);
+    if (!psd->chromosomes.empty() && psd->chromosomes.front().verbose) {
+      Rcpp::Rcout << x[0] << " " << -sum_ll << "\n";
+    }
+    return sum_ll;
+  } catch (std::exception& ex) {
+    psd->error = ex.what();
+  } catch (...) {
+    psd->error = "unknown error in likelihood calculation";
   }
-  auto sum_ll = -std::accumulate(ll.begin(), ll.end(), 0.0);
-  if (psd->chromosomes.begin()->verbose) {
-    Rcpp::Rcout << x[0] << " " << -sum_ll << "\n";
-  }
-  return sum_ll;
+  nlopt_force_stop(psd->opt);
+  return HUGE_VAL;
 }
 
 std::vector< chromosome > create_chromosomes(
@@ -118,6 +134,9 @@ std::vector< chromosome > create_chromosomes(
     bool phased,
     bool verbose) {
   std::vector< chromosome > output;
+  if (local_anc_matrix.nrow() == 0) {
+    throw std::runtime_error("no ancestry data provided");
+  }
   int current_chrom = local_anc_matrix(0, 0);
 
   std::vector< std::vector< int > > chrom_matrix;
@@ -180,7 +199,13 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
 
   nlopt_f_data optim_data(chromosomes, pop_size, freq_ancestor_1);
 
-  nlopt_opt opt = nlopt_create(NLOPT_LN_SBPLX, static_cast<unsigned int>(1));
+  // unique_ptr makes sure nlopt_destroy is also called when we throw
+  std::unique_ptr<std::remove_pointer<nlopt_opt>::type,
+                  decltype(&nlopt_destroy)>
+    opt_guard(nlopt_create(NLOPT_LN_SBPLX, static_cast<unsigned int>(1)),
+              &nlopt_destroy);
+  nlopt_opt opt = opt_guard.get();
+  optim_data.opt = opt;
 
   double llim[1] = {static_cast<double>(lower_lim)};
   double ulim[1] = {static_cast<double>(upper_lim)};
@@ -200,17 +225,17 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
 
   auto nloptresult = nlopt_optimize(opt, &(x[0]), &minf);
 
+  if (!optim_data.error.empty()) {
+    throw std::runtime_error(optim_data.error);
+  }
   if (nloptresult < 0) {
-    throw std::runtime_error("failure to optimize!\n");
+    throw std::runtime_error("failure to optimize, nlopt error code " +
+                             std::to_string(nloptresult));
   }
 
   if (verbose) {
     Rcpp::Rcout << "done optimisation\n";
   }
-
-  nlopt_destroy(opt);
-
-  std::vector<double> output = {x[0], minf};
 
   return Rcpp::List::create(Rcpp::Named("time") = x[0],
                             Rcpp::Named("likelihood") = -1 * minf);
@@ -225,9 +250,6 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   bool phased,
                                   bool verbose = false) {
   auto num_threads = get_rcpp_num_threads();
-  auto global_control =
-    tbb::global_control(tbb::global_control::max_allowed_parallelism,
-                        num_threads);
 
   if (local_anc_matrix.ncol() != 3) {
     throw std::runtime_error("local ancestry matrix has to have 3 columns");
@@ -514,6 +536,9 @@ double chromosome::calculate_likelihood(double t,
     throw std::runtime_error("p <= 0");
   }
 
+  // a single marker has no neighbour, and carries no information on junctions
+  if (distances.empty()) return 0.0;
+
   std::vector< double> ll(distances.size());
   ll[0] = calc_ll(distances[0],
                   states[0],
@@ -521,22 +546,16 @@ double chromosome::calculate_likelihood(double t,
                         phased);
 
   auto num_threads = get_rcpp_num_threads();
-  auto global_control =
-    tbb::global_control(tbb::global_control::max_allowed_parallelism,
-                        num_threads);
 
-  tbb::parallel_for(
-    tbb::blocked_range<unsigned>(1, distances.size()),
-    [&](const tbb::blocked_range<unsigned>& r) {
-      for (unsigned i = r.begin(); i < r.end(); ++i) {
-        double di = distances[i];
-        double l = states[i];
-        double r = states[i + 1];
-        ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
-                        phased);
-      }
+  tbb::task_arena(num_threads).execute([&] {
+    tbb::parallel_for<int>(0, distances.size(), 1, [&](int i) {
+      double di = distances[i];
+      double l = states[i];
+      double r = states[i + 1];
+      ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
+                      phased);
     });
-
+  });
 
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);
   return(answer);

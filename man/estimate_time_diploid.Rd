@@ -48,6 +48,12 @@ recommended.}
 
 \item{verbose}{display intermediate output? Default = FALSE}
 }
+\value{
+a tibble with the estimated time and its log likelihood. Depending
+on analysis_type, columns identifying the individual and/or chromosome are
+included, using the identifiers from the input. For analysis_type "all" only
+time and loglikelihood are returned.
+}
 \description{
 Calculates the time since admixture, given unphased
 ancestry data.

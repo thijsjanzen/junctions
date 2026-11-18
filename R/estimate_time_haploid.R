@@ -22,6 +22,8 @@ calc_ll_haploid <- function(chrom_matrix,
                              N, # nolint
                              freq_ancestor_1,
                              t) {
+  # a single marker carries no information on junctions
+  if (nrow(chrom_matrix) < 2) return(0)
   di <- c(diff(chrom_matrix[, 2]))
   to_analyze <- cbind(di,
                       chrom_matrix[1:(length(chrom_matrix[, 1]) - 1), 3],
@@ -62,7 +64,8 @@ estimate_time_haploid <- function(ancestry_matrix,
   calc_joint_ll <- function(t) {
     ll <- rep(0, num_chrom)
     for (i in seq_along(chrom)) {
-      focal_chrom <- subset(ancestry_matrix, ancestry_matrix[, 1] == chrom[i])
+      focal_chrom <- ancestry_matrix[ancestry_matrix[, 1] == chrom[i], ,
+                                    drop = FALSE]
       ll[i] <- calc_ll_haploid(focal_chrom, N, freq_ancestor_1, t)
     }
     if (verbose) cat(t, -sum(ll), "\n")

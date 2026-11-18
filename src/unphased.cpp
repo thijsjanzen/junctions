@@ -12,9 +12,6 @@
 
 #include <stdio.h>
 #include <vector>
-#include <thread>
-#include <chrono>
-#include <functional>
 
 #include "tbb_stub.h"          // NOLINT [build/include_subdir]
 
@@ -25,27 +22,34 @@
 #include <RcppParallel.h>
 #include <Rcpp.h>
 
-int get_seed();
-
+// Parents and per-offspring seeds are drawn on the main thread from the
+// seeded master generator; each offspring is then produced with its own
+// generator. This makes results reproducible from the seed, independently of
+// the number of threads and of how TBB splits the work.
 void update_pop(const std::vector<Fish_inf>& old_pop,
                 std::vector<Fish_inf>* pop,
                 int popSize,
-                double numRecombinations) {
-  tbb::parallel_for(
-    tbb::blocked_range<unsigned>(0, popSize),
-    [&](const tbb::blocked_range<unsigned>& r) {
-      thread_local int seed = get_seed();
-      thread_local rnd_t rndgen2(seed);
-
-      for (unsigned i = r.begin(); i < r.end(); ++i) {
-        int index1 = rndgen2.random_number(popSize);
-        int index2 = rndgen2.random_number(popSize);
-        while (index2 == index1) index2 = rndgen2.random_number(popSize);
-
-        (*pop)[i] = mate_inf(old_pop[index1], old_pop[index2],
-         numRecombinations, &rndgen2);
-      }
-    });
+                double numRecombinations,
+                rnd_t* rndgen,
+                int num_threads) {
+  std::vector<int> parent1(popSize);
+  std::vector<int> parent2(popSize);
+  std::vector<unsigned int> seeds(popSize);
+  for (int i = 0; i < popSize; ++i) {
+    parent1[i] = rndgen->random_number(popSize);
+    parent2[i] = rndgen->random_number(popSize);
+    while (parent2[i] == parent1[i]) {
+      parent2[i] = rndgen->random_number(popSize);
+    }
+    seeds[i] = static_cast<unsigned int>(rndgen->rndgen_());
+  }
+  tbb::task_arena(num_threads).execute([&] {
+      tbb::parallel_for<int>(0, popSize, 1, [&](int i) {
+          rnd_t local_rndgen(seeds[i]);
+          (*pop)[i] = mate_inf(old_pop[parent1[i]], old_pop[parent2[i]],
+                               numRecombinations, &local_rndgen);
+      });
+  });
 }
 
 Output simulation_phased_nonphased(int popSize,
@@ -57,7 +61,8 @@ Output simulation_phased_nonphased(int popSize,
                                    bool verbose,
                                    bool record_true_junctions,
                                    int num_indiv_sampled,
-                                   rnd_t* rndgen)    {
+                                   rnd_t* rndgen,
+                                   double num_threads)    {
   Output O;
   std::vector< Fish_inf > Pop(popSize);
 
@@ -85,7 +90,7 @@ Output simulation_phased_nonphased(int popSize,
   int updateFreq = maxTime / 20;
   if (updateFreq < 1) updateFreq = 1;
 
-  for (size_t t = 0; t <= maxTime; ++t) {
+  for (int t = 0; t <= maxTime; ++t) {
     if (is_in_time_points(t, time_points)) {
       O.update_unphased(Pop, t, record_true_junctions, numRecombinations,
                         num_indiv_sampled);
@@ -93,7 +98,7 @@ Output simulation_phased_nonphased(int popSize,
 
     std::vector< Fish_inf > newGeneration(popSize);
 
-    update_pop(Pop, &newGeneration, popSize, numRecombinations);
+    update_pop(Pop, &newGeneration, popSize, numRecombinations, rndgen, num_threads);
 
     Pop.swap(newGeneration);
 
@@ -117,13 +122,11 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                                    Rcpp::NumericVector time_points,
                                    bool verbose,
                                    bool record_true_junctions,
-                                   int num_indiv_sampled) {
+                                   int num_indiv_sampled,
+                                   int seed) {
   auto num_threads = get_rcpp_num_threads();
-  auto global_control =
-    tbb::global_control(tbb::global_control::max_allowed_parallelism,
-                        num_threads);
 
-  rnd_t rndgen;
+  rnd_t rndgen(static_cast<unsigned int>(seed));
   std::vector< double > marker_dist(markers.begin(), markers.end());
   Output O = simulation_phased_nonphased(pop_size,
                                          freq_ancestor_1,
@@ -134,7 +137,12 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                                          verbose,
                                          record_true_junctions,
                                          num_indiv_sampled,
-                                         &rndgen);
+                                         &rndgen,
+                                         num_threads);
+  if (O.results.empty()) {
+    Rcpp::stop("no data recorded: none of time_points falls within "
+               "0 .. total_runtime");
+  }
   int num_rows = O.results.size();
   int num_cols = O.results[0].size();
 
@@ -145,7 +153,7 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
     }
   }
 
-  if (record_true_junctions) {
+  if (record_true_junctions && !O.true_results.empty()) {
     int num_rows_t = O.true_results.size();
     int num_cols_t = O.true_results[0].size();
     Rcpp::NumericMatrix output_matrix_true(num_rows_t, num_cols_t);
@@ -159,13 +167,4 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                               Rcpp::Named("true_results") = output_matrix_true);
   }
   return Rcpp::List::create(Rcpp::Named("results") = output_matrix);
-}
-
-int get_seed() {
-  const auto tt =
-    static_cast<int64_t>(
-      std::chrono::high_resolution_clock::now().time_since_epoch().count());
-  auto tid = std::this_thread::get_id();
-  const uint64_t e3{ std::hash<std::remove_const_t<decltype(tid)>>()(tid) };
-  return static_cast<int>(tt + e3);
 }

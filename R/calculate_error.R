@@ -18,32 +18,29 @@ time_error <- function(t = NA,
                        H_0 = 0.5,  # nolint
                        C = 1,      # nolint
                        relative = TRUE) {
+  args <- recycle_args(t, N, R, H_0, C)
+  t <- args[[1]]
+  N <- args[[2]]  # nolint
+  R <- args[[3]]  # nolint
+  H_0 <- args[[4]]  # nolint
+  C <- args[[5]]  # nolint
 
-  error_t <- function(x) {
-    if (is.na(x)) {
-      return(NA)
-    }
+  K <- junctions::calc_k(N = N, R = R, H_0 = H_0, C = C)   # nolint
+  u <- 1 - 1 / (2 * N) - C / R
 
-    K <- junctions::calc_k(N = N,      # nolint
-                           R = R,      # nolint
-                           H_0 = H_0,  # nolint
-                           C = C)      # nolint
-
-    u <- 1 - 1 / (2 * N) - C / R
-
-    if (u ^ x < 1 / K) warning("time too small to calculate error")
-
-    error <- log(u ^ x - 1 / K) / (log(u) * x) - 1
-    # the flag relative determines whether we want the error
-    # relative to K, or in absolute generations (relative = FALSE)
-    if (relative) return(error)
-    if (!relative) return(x * error)
+  # the error is only defined for t below the maximum accurate time (MAT),
+  # i.e. while u^t > 1 / K
+  beyond_mat <- !is.na(t) & u ^ t <= 1 / K
+  if (any(beyond_mat)) {
+    warning("NA returned for time points beyond the maximum accurate time ",
+            "(see calculate_mat), where the error can not be calculated")
   }
 
+  error <- suppressWarnings(log(u ^ t - 1 / K) / (log(u) * t) - 1)
+  error[beyond_mat] <- NA
 
-  output <- c()
-  for (i in seq_along(t)) {
-    output[i] <- error_t(t[i])
-  }
-  return(output)
+  # the flag relative determines whether we want the error
+  # relative to K, or in absolute generations (relative = FALSE)
+  if (relative) return(error)
+  return(t * error)
 }

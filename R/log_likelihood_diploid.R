@@ -19,31 +19,24 @@ log_likelihood_diploid <- function(local_anc_matrix,
                                   phased = FALSE,
                                   num_threads = 1) {
 
-  local_anc_matrix <- as.matrix(local_anc_matrix)
-  locations <- local_anc_matrix[, 2]
-  local_anc <- local_anc_matrix[, c(1, 3, 4)]
+  x <- as.data.frame(local_anc_matrix)
+  if (ncol(x) != 4) {
+    stop("local_anc_matrix must have four columns: chromosome, location, ",
+         "ancestry chromosome 1, ancestry chromosome 2")
+  }
+  # re-use the diploid input checks, treating all data as one individual
+  input <- prepare_diploid_input(cbind(1, x))
+  m <- input$data
+
   RcppParallel::setThreadOptions(num_threads)
 
-  calc_ll <- function(params) {
-    loglikelihood_unphased_cpp(local_anc_matrix = local_anc,
-                               locations = locations,
+  vapply(t, function(focal_t) {
+    loglikelihood_unphased_cpp(local_anc_matrix = m[, c(2, 4, 5),
+                                                    drop = FALSE],
+                               locations = m[, 3],
                                pop_size = pop_size,
                                freq_ancestor_1 = freq_ancestor_1,
-                               t = params[[1]],
+                               t = focal_t,
                                phased = phased)
-  }
-
-  if (length(t) == 1) {
-    focal_ll <- calc_ll(t)
-
-    return(focal_ll)
-  }
-
-  if (length(t) > 1) {
-    output <- c()
-    for (i in seq_along(t)) {
-      output[i] <- calc_ll(t[i])
-    }
-    return(output)
-  }
+  }, numeric(1))
 }

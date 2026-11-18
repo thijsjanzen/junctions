@@ -94,8 +94,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // sim_phased_unphased_cpp
-Rcpp::List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, Rcpp::NumericVector markers, Rcpp::NumericVector time_points, bool verbose, bool record_true_junctions, int num_indiv_sampled);
-RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP time_pointsSEXP, SEXP verboseSEXP, SEXP record_true_junctionsSEXP, SEXP num_indiv_sampledSEXP) {
+Rcpp::List sim_phased_unphased_cpp(int pop_size, double freq_ancestor_1, int total_runtime, double size_in_morgan, Rcpp::NumericVector markers, Rcpp::NumericVector time_points, bool verbose, bool record_true_junctions, int num_indiv_sampled, int seed);
+RcppExport SEXP _junctions_sim_phased_unphased_cpp(SEXP pop_sizeSEXP, SEXP freq_ancestor_1SEXP, SEXP total_runtimeSEXP, SEXP size_in_morganSEXP, SEXP markersSEXP, SEXP time_pointsSEXP, SEXP verboseSEXP, SEXP record_true_junctionsSEXP, SEXP num_indiv_sampledSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -108,7 +108,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
     Rcpp::traits::input_parameter< bool >::type record_true_junctions(record_true_junctionsSEXP);
     Rcpp::traits::input_parameter< int >::type num_indiv_sampled(num_indiv_sampledSEXP);
-    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled));
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(sim_phased_unphased_cpp(pop_size, freq_ancestor_1, total_runtime, size_in_morgan, markers, time_points, verbose, record_true_junctions, num_indiv_sampled, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -119,7 +120,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_junctions_loglikelihood_unphased_cpp", (DL_FUNC) &_junctions_loglikelihood_unphased_cpp, 7},
     {"_junctions_sim_fin_chrom_cpp", (DL_FUNC) &_junctions_sim_fin_chrom_cpp, 6},
     {"_junctions_sim_inf_chrom_cpp", (DL_FUNC) &_junctions_sim_inf_chrom_cpp, 6},
-    {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 9},
+    {"_junctions_sim_phased_unphased_cpp", (DL_FUNC) &_junctions_sim_phased_unphased_cpp, 10},
     {NULL, NULL, 0}
 };
 

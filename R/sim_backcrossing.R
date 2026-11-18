@@ -31,11 +31,9 @@ sim_backcrossing <- function(population_size = 100,
                              number_of_markers = 100,
                              seed = 6,
                              time_points = -1) {
-  if (length(time_points) == 1) {
-    if (time_points == -1) {
-      time_points <- seq(0, total_runtime, by = 1)
-    }
-  }
+  # data is recorded at the start of generations 0 .. total_runtime - 1
+  time_points <- check_time_points(time_points, total_runtime - 1)
+
   if (!is.null(freq_ancestor_1)) {
     stop("Frequency of ancestor 1 is deprecated")
   }

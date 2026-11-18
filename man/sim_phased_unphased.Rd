@@ -16,7 +16,8 @@ sim_phased_unphased(
   num_indiv_sampled = 10,
   coverage = 1,
   error_rate = 0,
-  num_threads = 1
+  num_threads = 1,
+  seed = NULL
 )
 }
 \arguments{
@@ -51,6 +52,11 @@ to be genotyped}
 phased (e.g. swapped)}
 
 \item{num_threads}{default is 1. -1 takes all available threads.}
+
+\item{seed}{seed of the random number generator. If left at NULL, a seed is
+drawn from R's random number generator, so results can be reproduced with
+\code{set.seed()}. Results are reproducible independently of the number of
+threads used.}
 }
 \value{
 a tibble with five columns: [time, individual, marker location,
