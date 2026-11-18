@@ -31,7 +31,7 @@ log_likelihood_diploid <- function(local_anc_matrix,
   RcppParallel::setThreadOptions(num_threads)
 
   vapply(t, function(focal_t) {
-    loglikelihood_unphased_cpp(local_anc_matrix = m[, c(2, 4, 5),
+    loglikelihood_unphased_cpp(local_anc_matrix = m[, c(6, 4, 5),
                                                     drop = FALSE],
                                locations = m[, 3],
                                pop_size = pop_size,

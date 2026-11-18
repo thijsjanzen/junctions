@@ -51,9 +51,8 @@ estimate_time_diploid <- function(ancestry_information,
   m <- input$data
   RcppParallel::setThreadOptions(num_threads)
 
-  # rows of m are sorted by individual, chromosome and position.
   # group_col is passed to C++ as the chromosome identifier: C++ starts a new
-  # chromosome whenever this value changes.
+  # chromosome whenever this value changes (or the location decreases).
   fit <- function(rows, group_col) {
     local_anc_data <- m[rows, , drop = FALSE]
     estimate_time_cpp(local_anc_matrix =
@@ -70,8 +69,12 @@ estimate_time_diploid <- function(ancestry_information,
 
   indiv_code <- m[, 1]
   chrom_code <- m[, 2]
-  # unique id for each chromosome of each individual
-  chrom_id <- cumsum(c(TRUE, diff(indiv_code) != 0 | diff(chrom_code) != 0))
+  # unique id for each chromosome of each individual, see
+  # prepare_diploid_input
+  chrom_id <- m[, 6]
+  # id for each individual / chromosome label combination
+  label_id <- match(paste(indiv_code, chrom_code),
+                    unique(paste(indiv_code, chrom_code)))
 
   if (analysis_type == "all") {
     result <- fit(seq_len(nrow(m)), chrom_id)
@@ -94,10 +97,10 @@ estimate_time_diploid <- function(ancestry_information,
   }
 
   if (analysis_type == "separate") {
-    groups <- unique(chrom_id)
-    results <- lapply(groups, function(i) fit(which(chrom_id == i),
+    groups <- unique(label_id)
+    results <- lapply(groups, function(i) fit(which(label_id == i),
                                               chrom_id))
-    first_row <- match(groups, chrom_id)
+    first_row <- match(groups, label_id)
     output <- tibble::tibble(
       individual = input$indiv_levels[indiv_code[first_row]],
       chromosome = input$chrom_levels[chrom_code[first_row]])

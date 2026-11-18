@@ -113,9 +113,11 @@ recycle_args <- function(...) {
 # identifiers can be of any type (numeric, character, factor); they are
 # converted to integer codes for the C++ code, and the original values are
 # returned so the output can be labelled with them.
-# Rows are sorted by individual, chromosome and position (keeping the order in
-# which individuals and chromosomes first appear), so the C++ code sees each
-# chromosome as one contiguous, increasing block.
+# Rows are kept in their input order. A new chromosome starts whenever the
+# individual or chromosome label changes, or when the location decreases. The
+# latter allows data of several chromosomes (or individuals) to be stacked
+# under a single label, as done in the vignettes. The sixth column of the
+# returned matrix holds this chromosome (segment) id.
 prepare_diploid_input <- function(ancestry_information) {
   x <- as.data.frame(ancestry_information)
   if (ncol(x) != 5) {
@@ -138,20 +140,23 @@ prepare_diploid_input <- function(ancestry_information) {
   indiv_code <- match(indiv, indiv_levels)
   chrom_code <- match(chrom, chrom_levels)
 
-  m <- cbind(indiv_code, chrom_code, pos, anc[, 1], anc[, 2])
-  m <- m[order(indiv_code, chrom_code, pos), , drop = FALSE]
+  segment <- cumsum(c(TRUE,
+                      diff(indiv_code) != 0 |
+                        diff(chrom_code) != 0 |
+                        diff(pos) < 0))
+
+  m <- cbind(indiv_code, chrom_code, pos, anc[, 1], anc[, 2], segment)
 
   # chromosomes with a single marker contain no information on junctions
-  group <- paste(m[, 1], m[, 2])
-  markers_per_chrom <- table(group)
-  single <- names(markers_per_chrom)[markers_per_chrom < 2]
+  markers_per_chrom <- tabulate(segment)
+  single <- which(markers_per_chrom < 2)
   if (length(single) == length(markers_per_chrom)) {
     stop("each chromosome needs at least two markers to estimate time")
   }
   if (length(single) > 0) {
     warning(length(single), " chromosome(s) with a single marker ",
             "carry no information on junctions and were ignored")
-    m <- m[!(group %in% single), , drop = FALSE]
+    m <- m[!(segment %in% single), , drop = FALSE]
   }
 
   colnames(m) <- NULL

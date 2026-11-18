@@ -98,7 +98,6 @@ Lavretsky et al. 2019. This function also focuses mainly on the average number
 of junctions and not on the distribution of local ancestry
 ```{r backcrossing}
 backcross_result <- junctions::sim_backcrossing(population_size = 1000,
-                                                freq_ancestor_1 = 0.5,
                                                 total_runtime = 20,
                                                 size_in_morgan = 1,
                                                 number_of_markers = 100)

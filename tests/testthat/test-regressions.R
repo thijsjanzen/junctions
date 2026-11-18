@@ -181,3 +181,26 @@ test_that("diploid log likelihood matches reference values", {
   testthat::expect_equal(ll(50, FALSE, threads = 2), ll(50, FALSE))
   testthat::expect_equal(ll(50, FALSE, threads = -1), ll(50, FALSE))
 })
+
+test_that("chromosomes stacked under one label are split on location", {
+  # as in the vignette: several individuals passed with the same individual
+  # and chromosome label; a decrease in location starts a new chromosome
+  vx <- sim_phased_unphased(pop_size = 1000, total_runtime = 50,
+                            markers = 200, time_points = 50,
+                            num_indiv_sampled = 3, seed = 3)
+  stacked <- cbind(1, 1, vx$location, vx$anc_chrom_1, vx$anc_chrom_2)
+  labelled <- cbind(vx$individual, 1, vx$location,
+                    vx$anc_chrom_1, vx$anc_chrom_2)
+
+  t_stacked <- estimate_time_diploid(stacked, analysis_type = "all")
+  t_labelled <- estimate_time_diploid(labelled, analysis_type = "all")
+  testthat::expect_true(is.finite(t_stacked$loglikelihood))
+  testthat::expect_equal(t_stacked, t_labelled)
+
+  testthat::expect_equal(
+    log_likelihood_diploid(stacked[, 2:5], pop_size = 1000, t = 50),
+    sum(vapply(unique(vx$individual), function(i) {
+      log_likelihood_diploid(labelled[labelled[, 1] == i, 2:5],
+                             pop_size = 1000, t = 50)
+    }, numeric(1))))
+})
