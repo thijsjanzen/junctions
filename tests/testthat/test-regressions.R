@@ -161,3 +161,23 @@ test_that("analytical functions are vectorised", {
                          number_of_junctions_markers(N = 100, t = 50,
                            marker_distribution = c(0.1, 0.5, 0.9)))
 })
+
+test_that("diploid log likelihood matches reference values", {
+  # reference values computed before the task_arena change; guards against
+  # e.g. the first (unconditional) marker pair being overwritten
+  m <- cbind(c(1, 1, 1, 1, 1, 2, 2, 2),
+             c(0.05, 0.1, 0.3, 0.32, 0.8, 0.1, 0.4, 0.9),
+             c(0, 0, 1, 1, 0, 1, 1, 0),
+             c(0, 1, 1, 1, 1, 0, 1, 0))
+  ll <- function(t, phased, threads = 1) {
+    log_likelihood_diploid(m, pop_size = 1000, t = t, phased = phased,
+                           num_threads = threads)
+  }
+  testthat::expect_equal(ll(5, FALSE), -8.7759337170, tolerance = 1e-8)
+  testthat::expect_equal(ll(50, FALSE), -8.3554718334, tolerance = 1e-8)
+  testthat::expect_equal(ll(5, TRUE), -10.8553752587, tolerance = 1e-8)
+  testthat::expect_equal(ll(50, TRUE), -10.4349133750, tolerance = 1e-8)
+  # same answer regardless of the number of threads
+  testthat::expect_equal(ll(50, FALSE, threads = 2), ll(50, FALSE))
+  testthat::expect_equal(ll(50, FALSE, threads = -1), ll(50, FALSE))
+})

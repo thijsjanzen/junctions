@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cstdlib>
+#include <utility>
 #include <Rcpp.h>
 #include <RcppParallel.h>   // pull RCPP_PARALLEL_USE_TBB
 
@@ -23,73 +24,58 @@
 
 namespace tbb {
 
-// namespace task_arena {
-
-//   constexpr size_t automatic = size_t(-1);
-
-// } // namespace task_arena
-
-
-class global_control {
-public:
-  enum parameter {
-    max_allowed_parallelism,
-    thread_stack_size,
-    terminate_on_exception
-  };
-
-  global_control(parameter /*p*/, size_t /*value*/) {}
-  ~global_control() {};
-  static size_t active_value(parameter /*param*/);  // undefined
-};
-
-
 template<typename InputIterator, typename Body>
-inline void parallel_for_each( InputIterator first, InputIterator last, Body&& body ) {
+inline void parallel_for_each(InputIterator first, InputIterator last,
+                              Body&& body) {
   std::for_each(first, last, std::forward<Body>(body));
 }
 
 
 template<typename Index, typename Func>
-inline void parallel_for(Index first, Index last, const Func f) {
-  for (; first != last; ++first) {
+inline void parallel_for(Index first, Index last, const Func& f) {
+  for (; first < last; ++first) {
     f(first);
   }
 }
 
 
 template<typename Index, typename Func>
-inline void parallel_for(Index first, Index last, Index step, const Func f) {
-  for (; first != last; first += step) {
+inline void parallel_for(Index first, Index last, Index step,
+                         const Func& f) {
+  for (; first < last; first += step) {
     f(first);
   }
 }
 
+
 class task_arena {
-public:
-  task_arena(size_t /* num_threads */ ) {};
-  template<typename Func> void execute(const Func& f) { f(); }
-  static const size_t automatic = size_t(-1);
+ public:
+  static const int automatic = -1;
+  explicit task_arena(int /* max_concurrency */ = automatic) {}
+  template<typename Func>
+  void execute(const Func& f) { f(); }
 };
-} // namespace tbb
+
+}  // namespace tbb
 
 
 // function name is lying.
-inline size_t get_rcpp_num_threads() {
+inline int get_rcpp_num_threads() {
   return 1;
 }
 
 
-#else  // if RCPP_PARLLEL_USE_TBB = 0
+#else  // if RCPP_PARALLEL_USE_TBB == 0
 
 
 // probably the cleanest way to retrieve RcppParallel's concurrency setting
-// set by RcppParallel::setThreadOptions(numThreads)
-inline size_t get_rcpp_num_threads() {
+// set by RcppParallel::setThreadOptions(numThreads).
+// setThreadOptions("auto") and setThreadOptions(-1) unset the variable;
+// task_arena::automatic (-1) then lets TBB use all available cores.
+inline int get_rcpp_num_threads() {
   auto* nt_env = std::getenv("RCPP_PARALLEL_NUM_THREADS");
-  return (nullptr == nt_env)
-    ? tbb::task_arena::automatic  // -1
-  : static_cast<size_t>(std::atoi(nt_env));
+  int n = (nullptr == nt_env) ? 0 : std::atoi(nt_env);
+  return n > 0 ? n : static_cast<int>(tbb::task_arena::automatic);
 }
 
 

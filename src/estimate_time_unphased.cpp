@@ -223,7 +223,13 @@ Rcpp::List estimate_time_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
     Rcpp::Rcout << "starting optimisation\n";
   }
 
-  auto nloptresult = nlopt_optimize(opt, &(x[0]), &minf);
+  // a single arena for the whole optimisation; the parallel_for in
+  // calculate_likelihood runs inside it
+  tbb::task_arena arena(get_rcpp_num_threads());
+  nlopt_result nloptresult = NLOPT_FAILURE;
+  arena.execute([&] {
+    nloptresult = nlopt_optimize(opt, &(x[0]), &minf);
+  });
 
   if (!optim_data.error.empty()) {
     throw std::runtime_error(optim_data.error);
@@ -249,8 +255,6 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                   double t,
                                   bool phased,
                                   bool verbose = false) {
-  auto num_threads = get_rcpp_num_threads();
-
   if (local_anc_matrix.ncol() != 3) {
     throw std::runtime_error("local ancestry matrix has to have 3 columns");
   }
@@ -261,9 +265,13 @@ double loglikelihood_unphased_cpp(const Rcpp::NumericMatrix& local_anc_matrix,
                                                              verbose);
 
   std::vector< double > ll(chromosomes.size());
-  for (size_t i = 0; i < chromosomes.size(); ++i) {
-    ll[i] = chromosomes[i].calculate_likelihood(t, pop_size, freq_ancestor_1);
-  }
+  tbb::task_arena arena(get_rcpp_num_threads());
+  arena.execute([&] {
+    for (size_t i = 0; i < chromosomes.size(); ++i) {
+      ll[i] = chromosomes[i].calculate_likelihood(t, pop_size,
+                                                  freq_ancestor_1);
+    }
+  });
 
   return std::accumulate(ll.begin(), ll.end(), 0.0);
 }
@@ -540,21 +548,17 @@ double chromosome::calculate_likelihood(double t,
   if (distances.empty()) return 0.0;
 
   std::vector< double> ll(distances.size());
-  ll[0] = calc_ll(distances[0],
-                  states[0],
-                        states[1], t, pop_size, freq_ancestor_1, false,
-                        phased);
+  // the first pair is unconditional, all following pairs are conditional
+  // on the state of the previous marker
+  ll[0] = calc_ll(distances[0], states[0], states[1], t, pop_size,
+                  freq_ancestor_1, false, phased);
 
-  auto num_threads = get_rcpp_num_threads();
-
-  tbb::task_arena(num_threads).execute([&] {
-    tbb::parallel_for<int>(0, distances.size(), 1, [&](int i) {
-      double di = distances[i];
-      double l = states[i];
-      double r = states[i + 1];
-      ll[i] = calc_ll(di, l, r, t, pop_size, freq_ancestor_1, true,
-                      phased);
-    });
+  // runs in the task_arena of the caller (estimate_time_cpp or
+  // loglikelihood_unphased_cpp), which sets the number of threads
+  const int n = static_cast<int>(distances.size());
+  tbb::parallel_for<int>(1, n, 1, [&](int i) {
+    ll[i] = calc_ll(distances[i], states[i], states[i + 1], t, pop_size,
+                    freq_ancestor_1, true, phased);
   });
 
   double answer = std::accumulate(ll.begin(), ll.end(), 0.0);

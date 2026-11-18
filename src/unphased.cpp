@@ -31,7 +31,7 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
                 int popSize,
                 double numRecombinations,
                 rnd_t* rndgen,
-                int num_threads) {
+                tbb::task_arena* arena) {
   std::vector<int> parent1(popSize);
   std::vector<int> parent2(popSize);
   std::vector<unsigned int> seeds(popSize);
@@ -43,12 +43,12 @@ void update_pop(const std::vector<Fish_inf>& old_pop,
     }
     seeds[i] = static_cast<unsigned int>(rndgen->rndgen_());
   }
-  tbb::task_arena(num_threads).execute([&] {
-      tbb::parallel_for<int>(0, popSize, 1, [&](int i) {
-          rnd_t local_rndgen(seeds[i]);
-          (*pop)[i] = mate_inf(old_pop[parent1[i]], old_pop[parent2[i]],
-                               numRecombinations, &local_rndgen);
-      });
+  arena->execute([&] {
+    tbb::parallel_for<int>(0, popSize, 1, [&](int i) {
+      rnd_t local_rndgen(seeds[i]);
+      (*pop)[i] = mate_inf(old_pop[parent1[i]], old_pop[parent2[i]],
+                           numRecombinations, &local_rndgen);
+    });
   });
 }
 
@@ -62,9 +62,10 @@ Output simulation_phased_nonphased(int popSize,
                                    bool record_true_junctions,
                                    int num_indiv_sampled,
                                    rnd_t* rndgen,
-                                   double num_threads)    {
+                                   int num_threads)    {
   Output O;
   std::vector< Fish_inf > Pop(popSize);
+  tbb::task_arena arena(num_threads);
 
   O.markers = markers;
 
@@ -98,7 +99,8 @@ Output simulation_phased_nonphased(int popSize,
 
     std::vector< Fish_inf > newGeneration(popSize);
 
-    update_pop(Pop, &newGeneration, popSize, numRecombinations, rndgen, num_threads);
+    update_pop(Pop, &newGeneration, popSize, numRecombinations, rndgen,
+               &arena);
 
     Pop.swap(newGeneration);
 
@@ -124,7 +126,7 @@ Rcpp::List sim_phased_unphased_cpp(int pop_size,
                                    bool record_true_junctions,
                                    int num_indiv_sampled,
                                    int seed) {
-  auto num_threads = get_rcpp_num_threads();
+  int num_threads = get_rcpp_num_threads();
 
   rnd_t rndgen(static_cast<unsigned int>(seed));
   std::vector< double > marker_dist(markers.begin(), markers.end());
