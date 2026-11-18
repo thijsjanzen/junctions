@@ -44,13 +44,6 @@ struct Output {
                          double morgan,
                          size_t num_indiv);
 
-    void update_unphased(const std::vector< Fish_explicit >& Pop,
-                                 size_t t,
-                                 bool record_true_junctions,
-                                 double morgan,
-                                 size_t num_indiv);
-
-
     void detectNumJunctions(const std::vector<Fish_inf> &Pop,
                             const std::vector<double> &markers);
 

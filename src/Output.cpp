@@ -20,6 +20,7 @@
 #include "Output.h" // NOLINT [build/include_subdir]
 #include "Rcpp.h"
 #include <vector>
+#include <algorithm>
 
 void Output::update_inf(const std::vector<Fish_inf>& Pop) {
     double averageNumJunctions = 0;
@@ -58,21 +59,26 @@ void Output::update_fin(const std::vector<Fish_fin>& Pop) {
 }
 
 
+// Ancestry at position x along a chromosome. G holds the junctions sorted
+// by position; each entry stores the ancestry to its *right*, and the last
+// entry is the end-of-chromosome sentinel at 1.0. A marker sitting exactly on
+// a junction gets the ancestry to the right of it, a marker at (or beyond) the
+// end gets the ancestry of the last segment.
+static int ancestry_at(const std::vector<junction>& G, double x) {
+    auto last = G.end() - 1;   // exclude the end sentinel
+    auto it = std::upper_bound(G.begin(), last, x,
+                               [](double v, const junction& j) {
+                                 return v < j.pos;
+                               });
+    if (it == G.begin()) return G.front().right;   // x < 0: first segment
+    return (it - 1)->right;
+}
+
 std::vector<bool> detectJunctions(const std::vector<junction>& G,
                                   const std::vector<double>& markers) {
     std::vector<bool> output(markers.size());
-
-    size_t j = 0;
     for (size_t i = 0; i < markers.size(); ++i) {
-        double focalPos = markers[i];
-        for (; j <= (G.size() - 1); ++j) {
-            double left = G[j].pos;
-            double right = G[j + 1].pos;
-            if (left <= focalPos && right >= focalPos) {
-                output[i] = static_cast<bool>(G[j].right);
-                break;
-            }
-        }
+        output[i] = static_cast<bool>(ancestry_at(G, markers[i]));
     }
     return output;
 }
@@ -96,19 +102,8 @@ void Output::detectNumJunctions(const std::vector<Fish_inf> &Pop,
 std::vector<int> detect_ancestry(const std::vector< junction >& G,
                                  const std::vector< double >& markers) {
     std::vector<int> output(markers.size());
-    int j = 0;
-    for (int i = 0; i < static_cast<int>(markers.size()); ++i) {
-        double focalPos = markers[i];
-        for (; j <= (G.size() - 1); ++j) {
-            double left = G[j].pos;
-            double right = G[j + 1].pos;
-            if (left <= focalPos && right >= focalPos) {
-                output[i] = static_cast<int>(G[j].right);
-                break;
-            }
-        }
-        j -= 5;   // just in case
-        if (j < 0) j = 0;
+    for (size_t i = 0; i < markers.size(); ++i) {
+        output[i] = ancestry_at(G, markers[i]);
     }
     return output;
 }
@@ -171,6 +166,7 @@ int detect_junctions(const Fish_inf& indiv,
     int number_of_junctions = 0;
     int number_heterozygous = 0;
 
+    if (markers.empty()) return 0;
     // zero entry is not included in the loop
     if (genotypes[0] == 1) number_heterozygous++;
 
@@ -203,24 +199,5 @@ void Output::detect_junctions_backcross(const std::vector< Fish_inf > &Pop,
              1.0 * average_detected_junctions / (2 * Pop.size());   //  diploid
     avg_detected_Junctions.push_back(average_detected_junctions);
     avg_hetero.push_back(avg_heterozygosity / Pop.size());
-    return;
-}
-
-void Output::update_unphased(const std::vector< Fish_explicit >& Pop,
-                             size_t t,
-                             bool record_true_junctions,
-                             double morgan,
-                             size_t num_indiv) {
-    for (size_t i = 0; i < num_indiv; ++i) {
-        for (unsigned int j = 0; j < markers.size(); ++j) {
-            std::vector<double> to_add(5);
-            to_add[0] = t;
-            to_add[1] = i;   //  individual
-            to_add[2] = markers[j] * morgan;
-            to_add[3] = Pop[i].chromosome1[j];
-            to_add[4] = Pop[i].chromosome2[j];
-            results.push_back(to_add);
-        }
-    }
     return;
 }

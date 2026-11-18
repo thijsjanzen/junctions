@@ -16,20 +16,19 @@ calc_k <- function(N = Inf,   # nolint
                    R = Inf,   # nolint
                    H_0 = 0.5, # nolint
                    C = 1) {   # nolint
+  args <- recycle_args(N, R, H_0, C)
+  N <- args[[1]]  # nolint
+  R <- args[[2]]  # nolint
+  H_0 <- args[[3]]  # nolint
+  C <- args[[4]]  # nolint
 
   # variable names are consistent with Janzen et al. 2018, thus nolint
   K <- H_0 * C * 2 * N * R / (2 * N * C + R)  # nolint
 
-  if (is.infinite(N)) {
-    K <- H_0 * R      # nolint
-  }
-
-  if (is.infinite(R)) {
-    K <- H_0 * C * 2 * N   # nolint
-  }
-
-  if (is.infinite(N) && is.infinite(R)) {
-    K <- Inf    # nolint
-  }
+  inf_n <- is.infinite(N)
+  inf_r <- is.infinite(R)
+  K[inf_n] <- H_0[inf_n] * R[inf_n]                    # nolint
+  K[inf_r] <- H_0[inf_r] * C[inf_r] * 2 * N[inf_r]     # nolint
+  K[inf_n & inf_r] <- Inf                              # nolint
   return(K)
 }

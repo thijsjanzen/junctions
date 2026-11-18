@@ -1,5 +1,5 @@
 # junctions <img src="pics/junctions_sticker3.png" align="right" width="180" />
-Individual based simulations of hybridizing populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes. Both simulations and mathematical equations are based on Janzen et al. (2018) and Janzen and Miro Pina (2020).
+Individual based simulations of hybridizing populations, where the accumulation of junctions is tracked. Furthermore, mathematical equations are provided to verify simulation outcomes. Both simulations and mathematical equations are based on Janzen et al. (2018) and Janzen and Miro Pina (2022).
 
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/junctions)](https://cran.r-project.org/package=junctions)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/junctions)](https://cran.r-project.org/package=junctions)
@@ -8,7 +8,7 @@ Individual based simulations of hybridizing populations, where the accumulation 
 
 Branch|[![AppVeyor logo](pics/AppVeyor.png)]|[![Codecov logo](pics/Codecov.png)]
 ---|---|---
-master|[![Build status](https://ci.appveyor.com/api/projects/status/rt9856tv3pi87sms?svg=true)](https://ci.appveyor.com/project/thijsjanzen/junctions)|[![codecov.io](https://codecov.io/gh/thijsjanzen/junctions/branch/master/graph/badge.svg)](https://codecov.io/gh/thijsjanzen/junctions)
+master|[![Build status](https://ci.appveyor.com/api/projects/status/rt9856tv3pi87sms?svg=true)](https://ci.appveyor.com/project/thijsjanzen/junctions)|[![codecov.io](https://codecov.io/gh/thijsjanzen/junctions/branch/master/graph/badge.svg)](https://app.codecov.io/gh/thijsjanzen/junctions)
 
 
 ## references
@@ -20,7 +20,10 @@ Janzen, T., & Miró Pina, V. (2022). Estimating the time since admixture from ph
 
 
 ## Updates
-Version 2.0.1: Fixed typo in one of the examples
+
+Version 2.1.2: Added Github website <br />
+Version 2.1.1: Fixed typo in one of the examples <br />
+Version 2.1 : updated tbb multithreading code, sped up tests, added NEWS file <br />
 Version 2.0 : merged many functions with similar functionality, added vignette that provides overview of all functionality. <br />
 Version 1.9 : added c++ versions of the unphased and phased likelihoods. <br />
 Version 1.8 : added multithreading using the TBB library. <br />

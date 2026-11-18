@@ -19,20 +19,30 @@ estimate_time <- function(J = NA,          # nolint
                           R = Inf,         # nolint
                           H_0 = 0.5,       # nolint
                           C = 1) {         # nolint
-  if (is.na(J)) {
-    stop("ERROR! did you forget to provide J?\n")
+  if (all(is.na(J))) {
+    stop("did you forget to provide J?")
   }
-
-  if (is.infinite(N) && is.infinite(R)) {
-    # following equation 1
-    t <- J / (H_0 * C)
-    return(t)
-  }
+  args <- recycle_args(J, N, R, H_0, C)
+  J <- args[[1]]  # nolint
+  N <- args[[2]]  # nolint
+  R <- args[[3]]  # nolint
+  H_0 <- args[[4]]  # nolint
+  C <- args[[5]]  # nolint
 
   K <- junctions::calc_k(N, R, H_0, C)    # nolint
+  both_inf <- is.infinite(N) & is.infinite(R)
+
+  too_many <- !both_inf & !is.na(J) & J >= K
+  if (any(too_many)) {
+    warning("NA value generated because the number of junctions is ",
+            "higher than the expected maximum for this chromosome")
+  }
 
   u <- 1 - 1 / (2 * N) - C / R
+  t <- suppressWarnings(log(1 - J / K) / log(u))
+  t[too_many] <- NA
 
-  t <- log(1 - J / K) / (log(u))
+  # following equation 1
+  t[both_inf] <- J[both_inf] / (H_0[both_inf] * C[both_inf])
   return(t)
 }

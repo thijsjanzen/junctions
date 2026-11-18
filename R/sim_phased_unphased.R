@@ -20,6 +20,10 @@
 #' @param num_indiv_sampled the number of individuals sampled at each time point
 #' to be genotyped
 #' @param coverage fraction of markers that can be succesfully phased
+#' @param seed seed of the random number generator. If left at NULL, a seed is
+#' drawn from R's random number generator, so results can be reproduced with
+#' \code{set.seed()}. Results are reproducible independently of the number of
+#' threads used.
 #' @param error_rate fraction of markers that are erroneously
 #' phased (e.g. swapped)
 #' @return a tibble with five columns: [time, individual, marker location,
@@ -38,18 +42,25 @@ sim_phased_unphased <- function(pop_size = 100,
                                 size_in_morgan = 1,
                                 markers = 100,
                                 time_points = -1,
-                                num_threads = 1,
                                 verbose = FALSE,
                                 record_true_junctions = FALSE,
                                 num_indiv_sampled = 10,
                                 coverage = 1,
-                                error_rate = 0) {
+                                error_rate = 0,
+                                num_threads = 1,
+                                seed = NULL) {
+
+  if (pop_size < 2) stop("Need at least two individuals to do simulation")
+  if (num_indiv_sampled > pop_size) {
+    stop("Number of individuals sampled can not exceed population size")
+  }
+  if (is.null(seed)) seed <- sample.int(.Machine$integer.max, 1)
 
   RcppParallel::setThreadOptions(num_threads)
 
   time_points <- check_time_points(time_points, total_runtime)
 
-  markers <- get_num_markers(markers)
+  markers <- with_local_seed(seed, get_num_markers(markers))
 
   output <- sim_phased_unphased_cpp(pop_size,
                                     freq_ancestor_1,
@@ -60,10 +71,13 @@ sim_phased_unphased <- function(pop_size = 100,
                                     verbose,
                                     record_true_junctions,
                                     num_indiv_sampled,
-                                    num_threads)
+                                    seed)
 
   if (coverage != 1 || error_rate != 0) {
-    phasing_result <- apply_phasing_error(output, coverage, error_rate)
+    phasing_result <- with_local_seed(seed,
+                                      apply_phasing_error(output,
+                                                          coverage,
+                                                          error_rate))
 
     return(list("true_data" = phasing_result$true_data,
                 "phased_data" = phasing_result$phased_data))

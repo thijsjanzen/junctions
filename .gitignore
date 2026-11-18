@@ -19,3 +19,6 @@
 .vscode/tasks.json
 test.r
 .vscode/settings.json
+docs
+.RData
+.Rhistory
